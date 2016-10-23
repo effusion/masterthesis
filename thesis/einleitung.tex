@@ -1,0 +1,11 @@
+\chapter{Einleitung}
+
+\section{Problemstellung}
+
+Die Applikation verwendet bereits Continuous Delivery \footnote{test text} für die Ausrollung auf Testumgebungen. Der nächste Schritt ist jetzt die Applikation mittels Continuous Deployment direkt in den Betrieb zu bringen. Das heisst, dass bei jedem Commit eines Entwicklers, welcher alle automatisierten Tests und Qualitätsüberprüfungen durchläuft, die Applikation Live geht.
+Das direkte Ausrollen einer Applikation in den Betrieb benötigt nicht nur technische, sondern auch organisatorische Anpassungen. 
+Auf der technischen Seite bedeutet dies, dass die Architektur der Applikation so ausgelegt sein muss, dass eine direkte Ausrollung in den Betrieb, möglichst unterbruchsfrei, machbar ist. Entsprechend muss ein Sicherheitsnetz aus automatisierten Tests (Unit, Integration, Load und Security) sowie Codequalitätsüberprüfungen vorhanden sein resp. aufgebaut werden, damit die Qualität sichergestellt ist. Ein weiterer Punkt ist der ganze Build Prozess welcher die Bereitstellung verschiedener Umgebungen erlaubt ohne das der Entwickler oder ein Systemadministrator manuell eingreifen muss. Dies folgt dem Ansatz von DevOps bei welchem Entwicklung und Betrieb enger zusammenarbeiten. Da die Applikation aus mehreren Teilen besteht, darunter auch ein Webinterface, muss dies entsprechend robust sein, damit der Benutzer nicht merkt, dass eine neue Version der Applikation ausgerollt wurde.
+Auf der organisatorischen Seite kommen Richtlinien, Compliance und Gesetze ins Spiel. Da die SIX mit Kreditkarten Informationen arbeitet, muss sie sich an die PCI DSS Richtlinien halten welche den Umgang, die Sicherung und den Schutz der Karteninformationen regelt. Obschon die SIX mittlerweile den DevOps \footnote{Methodik der Zusammenarbeit zwischen der Entwicklung und dem Betrieb von Software verbessert. } Ansatz verfolgt und interne Initiativen gestartet hat, sind auf Grund von Compliance Anforderungen gewisse Richtlinien vorgegeben.
+
+\section{Systemabgrenzung}
+
