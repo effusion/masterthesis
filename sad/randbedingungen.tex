@@ -2,10 +2,41 @@
 
 \section{Technische Randbedingungen}
 
-Docker, Java 8, Spring, AngularJS, Typescript
+\begin{table}[H]
+	\centering
+	\caption{Technische Rahmenbedienungen}
+	\begin{tabular}{ | p{4cm} | p{12cm} | }
+		\toprule
+		{\textbf{Technologie / Tool}} & {\textbf{Einsatzzweck}} \\
+		\midrule
+		Java 8 & Die Serverapplikation ist damit implementiert und wird deshalb wieder verwendet. \\ \hline
+		Java Script & Der Webapplikation ist damit implementiert und wird deshalb wieder verwendet. \\ \hline
+		Eclipse, Intellij & Entwicklungsumgebung für das Erstellen der Prototypen. \\ \hline
+		Spring Framework & Dient als Basisframework für den Serverteil der Applikation.  \\ \hline
+		AngularJS & Webframework für die Webapplikation. \\ \hline
+		Docker & Deployment der einzelnen Teile der Applikation als Container. \\ \hline
+		JBoss 10 & Applikations Server welcher die Laufzeitumgebung für die Applikation bereitstellt. \\ \hline
+		Apache Webserver & HTTP Server für den statischen Inhalt. \\ \hline
+		Camunda BPM & Workflow-Management-System welches die Prozesse für die Anmeldung eines neuen Händlers steuert. \\ \hline
+		RDBMS: Oracle, MySQL / NoSQL: MongoDB & Speichern der Daten. \\ \hline
+		SIX Entwicklungs Umgebung  & Verfolgen der Aufgaben, Ablage des Sourcecodes, Code Reviews, Buildserver.\\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
 \section{Organisatorische Randbedingungen}
 
-PCI DSS
+\begin{table}[H]
+	\centering
+	\caption{Organisatorische Rahmenbedienungen}
+	\begin{tabular}{ | p{4cm} | p{12cm} | }
+		\toprule
+		{\textbf{Technologie / Tool}} & {\textbf{Einsatzzweck}} \\
+		\midrule
+		PCI DDS & Richtlinien welche den Umgang mit Kreditkarten regeln \\ \hline
+		Change Management & Prozess für das Einführen von Änderungen an einer Applikation\\ 
+		\bottomrule
+	\end{tabular}
+\end{table}
 
 \section{Konventionen}
