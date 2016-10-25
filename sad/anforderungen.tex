@@ -1,3 +1,6 @@
+\newcounter{funcReq} %Functional requirement counter
+\newcounter{nonFuncReq} %Non functinal requiremet counter
+
 \chapter{Anforderungen}
 
 \section{Aktuelle Anforderungen}
@@ -13,10 +16,10 @@ Da die Applikation bereits in Betrieb ist, sind die Anforderungen von den neuen 
 		\toprule
 		{\textbf{ID}} & {\textbf{Beschreibung}} \\
 		\midrule
-		FA-1 & Die Applikation ermöglicht das Bestellen von Paymit für einen Geschäft.  \\ \hline
-		FA-2 & Es sollen mehrere Varianten auswählbar sein. \\ \hline
-		FA-3 & Features müssen einfach aktiviert und deaktiviert werden können \\ \hline
-		FA-4 & Die Applikation soll sich möglichst einfach ausrollen lassen \\
+		FA-\arabic{funcReq} \stepcounter{funcReq} & Die Applikation ermöglicht das Bestellen von Paymit für einen Geschäft.  \\ \hline
+		FA-\arabic{funcReq} \stepcounter{funcReq} & Es sollen mehrere Varianten auswählbar sein. \\ \hline
+		FA-\arabic{funcReq} \stepcounter{funcReq} & Features müssen einfach aktiviert und deaktiviert werden können \\ \hline
+		FA-\arabic{funcReq} \stepcounter{funcReq} & Die Applikation soll sich möglichst einfach ausrollen lassen \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -30,10 +33,14 @@ Da die Applikation bereits in Betrieb ist, sind die Anforderungen von den neuen 
 		\toprule
 		{\textbf{ID}} & {\textbf{Beschreibung}} \\
 		\midrule
-		FA-1 & Einfach zu bedinender Bestellvorgang. \\ \hline
-		FA-2 & Die Applikation muss mehrsprachig sein. \\ \hline
-		FA-3 & Teile welche mit Kreditkartendaten arbeiten oder auf solche Dienste zugreifen, müssen in der entsprechenden Netzwerkzone stehen. \\ \hline
-		FA-4 & todo \\
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Kunde merkt nicht wenn neue Komponenten der Applikation ausgetauscht werden. \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Verfügbarkeit der Anwendung ist 24x7 (SLA). \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Einhaltung der PCI DSS Anforderung bezüglich Umgang mit Daten resp. deren Zugriffsschutz durch Authentifizierung, Authorisierung und entsprechende Netzwerksegmentierung. \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Benutzerfreundliche Oberfläche. \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Applikation muss einfach skalierbar sein \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Anwendung muss eine hohe Ausfallsicherheit aufweisen \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Bugfixing mittels Vorwärtscommit. Anstelle von Hotfixes wird immer die ganze Applikation neu ausgerollt. \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Anwendung lässt sich voll automatisch Ausrollen. \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -50,10 +57,10 @@ Da die Applikation bereits in Betrieb ist, sind die Anforderungen von den neuen 
 		\toprule
 		{\textbf{ID}} & {\textbf{Beschreibung}} \\
 		\midrule
-		FA-1 & Die einzelnen Teile der Applikation lassen sich separat von einander deploymen \\ \hline
-		FA-2 & todo \\ \hline
-		FA-3 & todo \\ \hline
-		FA-4 & todo \\
+		FA-\arabic{funcReq} \stepcounter{funcReq} & todo \\ \hline
+		FA-\arabic{funcReq} \stepcounter{funcReq} & todo \\ \hline
+		FA-\arabic{funcReq} \stepcounter{funcReq} & todo \\ \hline
+		FA-\arabic{funcReq} \stepcounter{funcReq} & todo \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -67,10 +74,11 @@ Da die Applikation bereits in Betrieb ist, sind die Anforderungen von den neuen 
 		\toprule
 		{\textbf{ID}} & {\textbf{Beschreibung}} \\
 		\midrule
-		FA-1 & todo \\ \hline
-		FA-2 & todo \\ \hline
-		FA-3 & todo \\ \hline
-		FA-4 & todo \\
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die einzelnen Teile der Applikation lassen sich separat von einander deployment. \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & todo \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & todo \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & todo \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & todo \\
 		\bottomrule
 	\end{tabular}
 \end{table}
