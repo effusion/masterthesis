@@ -4,13 +4,59 @@
 
 \section{Ist-Zustand}
 
-Die Applikation ist aktuell seit xxx in Betrieb und wird regelmässig erweitert. 
+Die Applikation MEON ist seit x.x.x in Betrieb und wird aktuell gewartet und weiterentwickelt. Die Applikation wurde unter erleichtereten Bedienungen im Zuge von der beiden DevOps Initiativen HAKA6 und SuperSonic \footnote{text} umgesetz da gewisse Technologien zu diesem Zeitpunkt gar noch nicht produktiv betrieben wurden. Aus diesem Grund liegen auch keine formalen Requirements Dokumente vor sondern die Kommunikation und Analyse fand direkt mit dem Buisness statt.
 
-Die Applikation MEON wird aktuell mittels Continuous Delivery \footnote{Methode welches es der Entwicklung erlaubt Applikationen schnell auf nicht produktiven System auszurollen.} auf interne Testsysteme installiert. 
+\subsection{Technisch}
+
+Die Applikation wurde mit aktuellen Frameworks entwickelt. In der folgenden Tabelle sind die wichtigsten Komponenten und Ihre Funktion kurz aufgelistet.
+
+\begin{table}[H]
+	\centering
+	\caption{Technische Rahmenbedienungen}
+	\begin{tabular}{ | p{4cm} | p{12cm} | }
+		\toprule
+		{\textbf{Technologie / Tool}} & {\textbf{Einsatzzweck}} \\
+		\midrule
+		Java 8 & Die Serverapplikation ist damit implementiert und wird deshalb wieder verwendet. \\ \hline
+		Java Script & Der Webapplikation ist damit implementiert und wird deshalb wieder verwendet. \\ \hline
+		Spring Framework & Dient als Basisframework für den Serverteil der Applikation.  \\ \hline
+		AngularJS & Webframework für die Webapplikation. \\ \hline
+		Docker & Deployment der einzelnen Teile der Applikation als Container. \\ \hline
+		JBoss 10 & Applikations Server welcher die Laufzeitumgebung für die Applikation bereitstellt. \\ \hline
+		Apache Webserver & HTTP Server für den statischen Inhalt. \\ \hline
+		Camunda BPM & Workflow-Management-System welches die Prozesse für die Anmeldung eines neuen Händlers steuert. \\ \hline
+		RDBMS: Oracle, MySQL / NoSQL: MongoDB & Speichern der Daten. \\ \hline
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+Die Anwendung ist daher technologisch auf einem sehr modernen Stand. Der Einsatz der Containertechnologie Docker hat sich bewährt und wird auch in anderen Projekten eingesetzt. Ob sich der weitere Einsatz von JBoss respektive Applikationserver weiterhin notwending ist, kann zu disposition gestellt werden. Dies vor allem auch durch die teilweise unklarheit der Stossrichtung der Java Enterprise Edition. Obschon Oracle mitterweile Pläne vorgelegt hat, sind nicht alle Zweifeil über die Zukunft ausgeräumt. Da die Applikation bereits auf Spring basiert könnte hier der Schritt Richtung Spring Boot verhältnismässig ohne grossen Aufwand durchgeführt. Werden.
+
+Im folgenden Bild ist die Architektur von MEON abgebildet.
+
+\begin{center}
+	\includegraphics[scale=0.55]{meon_arch.png}
+\end{center}
+
+Die Applikation ist in einer entspricht eher einer klassischen Schichtenarchitektur wobei diese nicht auf dem gleichen System laufen sondern in separaten Containern ausgeliefert werden. Die Architektur hat sich aktuell bewährt. 
+
+\subsection{Organisatorisch}
+
+Da die SIX im Finanzbereich tätig ist, gibt es entsprechende Richtlinien und Prozesse wann, wie und ob Änderungen überhaupt in Produktion gehen dürfen. Aktuell werden die Changes im Issue Trackingsystem Jira erfasst und mit einer Release Version versehen. Durch die Anbindung an Fisheye und SVN ist jederzeit ersichtlich mit welchem Ticket welche Codeteile betroffen waren. Da das Projekt unter lockeren Bedienungen umgesetzt wurde ist ein Eintrag im ITSM System aktuell nicht Pflicht obschon das gemäss normalen Richtlinien der Fall wäre. 
+Gemss den Richtlinine müsste eine Änderung fünf Personentage vor Going live eingetragen und freigegenben sein. Die Praxis ist wie erwähnt auf die Branche der SIX zurück zu führen und hat unter genauener Betrachtung auch eher formellen Nutzen. Die Freigabe im System wir meistens von Personen gemacht welche gar nicht an der Entwicklung und Betrieb der Applikation beteiligt sind. Daher ist auch eine Beurteilung der Änderungen gar nicht möglich. Hier wäre wohl eine Kategorisierung der Applikation welche einen solchen Prozess benötigen sinnvoll um nicht unötige Prozesse für kleine nicht zwingen kritische Applikation zu forcieren.
 
 \section{Situationsanalyse}
 
-Für die Umsetzung der Masterthesis wird Scrum verwendet. Scrum ist eine Agile Vorgehensmethodik welche nur wenige Regeln vorgibt. Die Wahl fiel auf diese Methodik da sie erstens sehr schlank ist und schnelle Feedbackzyklen erlaubt wodurch die Lösung besser auf die Bedürfnisse der Stakeholder abgestimmt werden kann. Des Weiteren können Probleme und Risiken dadurch früher entdeckt werde. Scrum ist in der Abteilung, in welcher die Masterthesis gemacht wird, die Standard Methodik für Software Projekte. Dabei werden nicht nur Entwicklungs- sondern auch, Analyse-, Anforderungs- und Testaufgaben damit abgehandelt. Die Position des Product Owners wird von meinem Betreuer eingenommen. Die Sprintdauer wird auf zwei Wochen angesetzt. Da die Masterthesis eine Einzelarbeit ist, werden andere Scrum Prozesse wie Retrospektive und Planning entsprechen vereinfacht oder ganz weggelassen. Scrum bietet den Rahmen für das Erstellen eines Software Architektur Dokumentes auf der Basis von Arc42.
-Prototyping soll verwendet werden um die ausgewählten Lösungsstrategien gegenüber den Anforderungen zu verifizieren und gegebenenfalls anzupassen.  
+Die SIX befindet sich aktuell im Bezug auf Betrieb und Entwicklung von Applikationen im Wandel. Bereits erwähnte DevOps Initiativen laufen und werden von immer mehr Projekten angewendet ja sogar gelebt. In diesem Zug ist aktuell auch eine OpenShift 3 \footnote{Software welche eine Cloud Umgebung für Container bereitstellt. Als Container Technologie wird Docker verwendent. Für die Orchestration der Container, wird Kubernetes von Google verwendet.} Installation im Gange, welche die Bereitstellung neuer Applikationen mit eine Cloud Ansatz noch weiter vereifachen soll.
+Durch die Initiativen sind auch die ändert sich auch der organisatorische Aspekt. Vor allem das Change Management muss sich zur Zeit an die neuen Methoden gewöhnen und damit umgehen.
+Auch die Unternehmsarchitektur ist von der Umstellung betroffen. Diese kann aktuell jedoch nicht mit der Geschwindigkeit der neuen Methoden und eigesetzten Architekturen mithalten. 
 
-Im vergleich zu anderen Projekte sehr modern
+\section{Methoden}
+
+\subsection{Scrum}
+
+Für das Projekt Management der Masterthesis wird Scrum\footnote{Iteratives Entwicklungsverfahren welches sich auf das Agile Manifesto stützt und diesem diverse Rollen hinzufügt. } verwendet. Im Rahmen der Masterthesis wird jedoch nicht der ganze Werkzeugkasten der Methode verwendet da dies zuviel Aufwand bedeuten würde. Wichtige Teile wie das Planning werden entsprechen kurz gehalten.
+Scrum eignet sich gut für die Umsetztung der Arbeit da es impliziet einen kurzen Feedbackzyklus vorschreibt. Da es sich beim Thema für die SIX um neuland handelt und daher keine Erfahrungen vorliegen, sind kleine Iterative Schritt gut um Risiken früh zu erkennen und Anpassungen schnell umzusetzen.
+
+\subsection{Prototyping}
+Die neu enstehende Architektur soll auf ihre Tauglichkeit verifiziert werden. Da die Applikation bereits in Betrieb ist und aktuell stark erweitert wird, soll die Umsetzung mittels Prototyping geprüft werden. Hierbei werden die, aus Architektursicht kritischen, bestandteile und deren Technologien und Prinzipien getestet. Für das automatische Testing stehen bereits Mockimplemetationen zu Verfügung welche ebenfalls in der Prototypen verwendet werden kann. Dadruch kann schnell eine aussage über die Verwendbarkeit getroffen werden. 
