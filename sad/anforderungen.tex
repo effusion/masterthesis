@@ -1,34 +1,12 @@
-\newcounter{funcReq} %Functional requirement counter
 \newcounter{nonFuncReq} %Non functinal requiremet counter
 
 \chapter{Anforderungen}
 
-\section{Aktuelle Anforderungen}
-
-Da die Applikation bereits in Betrieb ist, sind die Anforderungen von den neuen getrennt.
-
-\subsection{Funktionale Anforderungen}
-
-\begin{table}[H]
-	\centering
-	\caption{Funktionale Anforderungen}
-	\begin{tabular}{ | p{2cm} | p{14cm} | }
-		\toprule
-		{\textbf{ID}} & {\textbf{Beschreibung}} \\
-		\midrule
-		FA-\arabic{funcReq} \stepcounter{funcReq} & Die Applikation ermöglicht das Bestellen von Paymit für einen Geschäft.  \\ \hline
-		FA-\arabic{funcReq} \stepcounter{funcReq} & Es sollen mehrere Varianten auswählbar sein. \\ \hline
-		FA-\arabic{funcReq} \stepcounter{funcReq} & Features müssen einfach aktiviert und deaktiviert werden können \\ \hline
-		FA-\arabic{funcReq} \stepcounter{funcReq} & Die Applikation soll sich möglichst einfach ausrollen lassen \\
-		\bottomrule
-	\end{tabular}
-\end{table}
+Alle funktionalen Anforderungen sind bereits umgesetzt. Durch die Anpassung der Architektur Richtung Continuous Deployment gibt es aktuell nur nicht funktionale Anforderungen.
 	
-\subsection{Nicht funktionale Anforderungen}
-
 \begin{table}[H]
 	\centering
-	\caption{Funktionale Anforderungen}
+	\caption{Nicht funktionale Anforderungen}
 	\begin{tabular}{ | p{2cm} | p{14cm} | }
 		\toprule
 		{\textbf{ID}} & {\textbf{Beschreibung}} \\
@@ -44,42 +22,3 @@ Da die Applikation bereits in Betrieb ist, sind die Anforderungen von den neuen 
 		\bottomrule
 	\end{tabular}
 \end{table}
-
-
-\section{Neue Anforderungen}
-
-\subsection{Funktionale Anforderungen}
-
-\begin{table}[H]
-	\centering
-	\caption{Funktionale Anforderungen}
-	\begin{tabular}{ | p{2cm} | p{14cm} | }
-		\toprule
-		{\textbf{ID}} & {\textbf{Beschreibung}} \\
-		\midrule
-		FA-\arabic{funcReq} \stepcounter{funcReq} & todo \\ \hline
-		FA-\arabic{funcReq} \stepcounter{funcReq} & todo \\ \hline
-		FA-\arabic{funcReq} \stepcounter{funcReq} & todo \\ \hline
-		FA-\arabic{funcReq} \stepcounter{funcReq} & todo \\
-		\bottomrule
-	\end{tabular}
-\end{table}
-
-\subsection{Nicht funktionale Anforderungen}
-
-\begin{table}[H]
-	\centering
-	\caption{Nicht funktionale Anforderungen}
-	\begin{tabular}{ | p{2cm} | p{14cm} | }
-		\toprule
-		{\textbf{ID}} & {\textbf{Beschreibung}} \\
-		\midrule
-		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die einzelnen Teile der Applikation lassen sich separat von einander deployment. \\ \hline
-		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & todo \\ \hline
-		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & todo \\ \hline
-		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & todo \\ \hline
-		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & todo \\
-		\bottomrule
-	\end{tabular}
-\end{table}
-

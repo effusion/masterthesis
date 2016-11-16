@@ -1,28 +1,91 @@
 \graphicspath{{./images/}}
 
+\newcounter{nonFuncReq} %Non functinal requiremet counter
+\newcounter{quatar} %Quality target counter
+
 \chapter{Einführung und Ziele}
 
 \section{Business Case}
 
 Die Applikation MEON dient der Registration neuer händler für den mobilen Bezahldienst Twint. 
 
-\begin{center}
-	\includegraphics[scale=0.55]{meon-workflow.png}
-\end{center}
-
-
 \section{Aufgabenstellung}
 
-Die die bestehende Merchant Onboarding Applikation soll eine neue Architektur entwickelt werden welche Continuous Deployment erlaubt.
+Die Architektur der Applikation MEON soll so angepasst werde dann Continuous Deployment möglich wird ohne das der Benutzer etwas davon merkt. Funktional ist die Anwendung komplett.
+
+\section{Anforderungen}
+
+Alle funktionalen Anforderungen sind bereits umgesetzt. Durch die Anpassung der Architektur Richtung Continuous Deployment gibt es aktuell nur nicht funktionale Anforderungen.
+
+\begin{table}[H]
+	\centering
+	\caption{Nicht funktionale Anforderungen}
+	\begin{tabular}{ | p{2cm} | p{14cm} | }
+		\toprule
+		{\textbf{ID}} & {\textbf{Beschreibung}} \\
+		\midrule
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Kunde merkt nicht wenn neue Komponenten der Applikation ausgetauscht werden. \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Verfügbarkeit der Anwendung ist 24x7 (SLA). \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Einhaltung der PCI DSS Anforderung bezüglich Umgang mit Daten resp. deren Zugriffsschutz durch Authentifizierung, Authorisierung und entsprechende Netzwerksegmentierung. \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Applikation muss einfach skalierbar sein \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Anwendung muss eine hohe Ausfallsicherheit aufweisen \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Bugfixing mittels Vorwärtscommit. Anstelle von Hotfixes wird immer die ganze Applikation neu ausgerollt. \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} &  \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Anwendung lässt sich voll automatisch Ausrollen. \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\subsection{Aspekte}
+
+Die wichtigstens Aspekte der Fachdomäne sind: 
+\begin{itemize}
+	\item Auswahl eines Paymit Abos
+	\item Vertragsabschluss
+\end{itemize}
+
+\subsection{Art des Systems}
+
+Bei MEON handelt es sich um ein interaktives Online system.
+
+\subsection{Nutzung des Systems}
+
+\subsection{Schnittstellen}
+
+MEON hat folgende Schnittstellen zu Umsystemen.
+\begin{itemize}
+	\item PASS: Transaktionsverarbeitungssystem.
+	\item SCS:  Verwaltung der Terminal geräte bei den Kunden.
+	\item ZEFIX: Handelsregsiteranbindung.
+\end{itemize}
+
+\subsection{Datenhaltung}
+
+\begin{itemize}
+	\item RDBMS (Presistenz)
+\end{itemize}
 
 \section{Qualitätsziele}
+
+\begin{table}[H]
+	\centering
+	\caption{Qualitätsziele}
+	\begin{tabular}{ | p{3cm} | p{13cm} | }
+		\toprule
+		{\textbf{Name}} & {\textbf{Beschreibung}} \\
+		\midrule
+		Q-\arabic{quatar} \stepcounter{quatar} & Die neue Architektur soll einfach verständlich und anwendbar sein.\\ \hline
+		Q-\arabic{quatar} \stepcounter{quatar} & Die Deployment Pipeline soll einfach wartbar sein.\\ 
+		\bottomrule
+	\end{tabular}
+\end{table}
 
 \section{Stakeholder}
 
 \begin{table}[H]
 	\centering
 	\caption{Stakeholder}
-	\begin{tabular}{ | p{2cm} | p{14cm} | }
+	\begin{tabular}{ | p{3cm} | p{13cm} | }
 		\toprule
 		{\textbf{Name}} & {\textbf{Beschreibung}} \\
 		\midrule
@@ -31,11 +94,11 @@ Die die bestehende Merchant Onboarding Applikation soll eine neue Architektur en
 		Support-Kunde & Support welcher den Kunden bei Problemen unterstützt. \\ \hline
 		Legal &  Verantwortlich für die Richtigkeit der Vertragsabschlüsse. \\ \hline
 		Risk & Sorgt für die Überprüfung der Personen und der Geschäftstätigkeiten. \\ \hline
-		Communications & Abteilung für den Vertrieb, Werbung, Design. \\ \hline
+		Marketing & Abteilung für den Vertrieb, Werbung, Design. \\ \hline
 		Betrieb & Betreibt die Webapplikation auf der Infrastruktur der SIX \\ \hline
 		Change Management & Genehmigt Änderungen an der Applikation. \\ \hline
 		Entwickler & Setzt die Anforderungen der einzelnen Stakeholder um. \\  \hline
-		Unternehmesarchitekten & Definieren firmenweite Architekturen und haben den gesamtüberblick über die Applikationslandschaf.\\ 
+		Unternehmens-architekten & Definieren firmenweite Architekturen und haben den gesamtüberblick über die Applikationslandschaf.\\ 
 		\bottomrule
 	\end{tabular}
 \end{table}
