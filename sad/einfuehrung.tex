@@ -7,11 +7,39 @@
 
 \section{Business Case}
 
-Die Applikation MEON dient der Registration neuer händler für den mobilen Bezahldienst Twint. 
+Die Applikation MEON dient der Registration neuer händler für den mobilen Bezahldienst Twint.  Der Geschäftsprozess ist in der folgenden Grafik vereinfacht dargestellt:
+
+\begin{center}
+	\includegraphics[scale=0.55]{meon-workflow.png}
+\end{center}
+
+Die folgende Tabelle beschreibt die einzelnen Teile des Prozesses genauer.
+
+\begin{table}[H]
+	\centering
+	\caption{Prozessteile}
+	\begin{tabular}{ | p{4cm} | p{12cm} | }
+		\toprule
+		{\textbf{Name}} & {\textbf{Beschreibung}} \\
+		\midrule
+		Check preconditions & Überprüft ob die Vorbedinungen erfüllt sind. \\ \hline
+		enrich ZEFIX data & Reichert die erhaltenen Daten mit den Daten aus dem Handelsregister an. \\ \hline
+		perform PEP Check & Prüft ob die Person politisch exponiert ist. \\ \hline
+		PASS create partner & Erstellt den Händler (Partner) im Acquering System.\\ \hline
+		SCS setup merchant & Registriert den Händler für die Zahlungsterminals. \\ \hline
+		risk review  & Risiko Abschätzung im Fall einer politischen exponierten Person. \\ \hline
+	    PASS Unblock settling & Schaltet die Verarbeitung von Transaktionen im Acquering System frei. \\ \hline
+	    MEPO create user account&  Erstellt einen Account im Kundenportal. \\ \hline
+	    generate contract PDF & Generiert ein unterzeichnungsbereits Vertrags PDF.  \\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
 \section{Aufgabenstellung}
 
-Die Architektur der Applikation MEON soll so angepasst werde dann Continuous Deployment möglich wird ohne das der Benutzer etwas davon merkt. Funktional ist die Anwendung komplett.
+Die Architektur der Applikation MEON soll so angepasst werden das Continuous Deployment möglich wird. Damit ist gemeint das jeder Teil der Applikation eigenständig ausgerollt werden kann, ohne andere Komponente herunter zu fahren. Des Weiteren darf der Benutzer nicht von der Änderung betroffen sein respektive seine Anfragen dürfen nicht verloren gehen.
+Funktional ist die Anwendung komplett weshalb diesbezüglich keine Anforderungen vorhanden sind ausser das die Funktionalität sich nicht ändern darf.
+Die Aufgabe besteht darin die Teile hinsichtlich der Kommunikation von einander zu entkoppeln so das eine Aktualisierung den darin abgebilteten Geschäftsprozess nicht unterbricht.  Der interne Aufbau der Komponenten soll nur angepasst werden falls nötig. 
 
 \section{Anforderungen}
 
@@ -30,7 +58,6 @@ Alle funktionalen Anforderungen sind bereits umgesetzt. Durch die Anpassung der 
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Applikation muss einfach skalierbar sein \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Anwendung muss eine hohe Ausfallsicherheit aufweisen \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Bugfixing mittels Vorwärtscommit. Anstelle von Hotfixes wird immer die ganze Applikation neu ausgerollt. \\ \hline
-		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} &  \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Anwendung lässt sich voll automatisch Ausrollen. \\
 		\bottomrule
 	\end{tabular}
