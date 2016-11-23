@@ -7,7 +7,7 @@
 
 \section{Business Case}
 
-Die Applikation MEON dient der Registration neuer händler für den mobilen Bezahldienst Twint.  Der Geschäftsprozess ist in der folgenden Grafik vereinfacht dargestellt:
+Die Applikation MEON dient der Registration neuer händler für den mobilen Bezahldienst Paymit (Twint aktuell nicht klar) und zukünftig der Registrierung neuer Handler für Terminal/Acquiring Pakete.  Der Geschäftsprozess ist in der folgenden Grafik vereinfacht dargestellt:
 
 \begin{center}
 	\includegraphics[scale=0.55]{meon-workflow.png}
@@ -38,7 +38,7 @@ Die folgende Tabelle beschreibt die einzelnen Teile des Prozesses genauer.
 \section{Aufgabenstellung}
 
 Die Architektur der Applikation MEON soll so angepasst werden das Continuous Deployment möglich wird. Damit ist gemeint das jeder Teil der Applikation eigenständig ausgerollt werden kann, ohne andere Komponente herunter zu fahren. Des Weiteren darf der Benutzer nicht von der Änderung betroffen sein respektive seine Anfragen dürfen nicht verloren gehen.
-Funktional ist die Anwendung komplett weshalb diesbezüglich keine Anforderungen vorhanden sind ausser das die Funktionalität sich nicht ändern darf.
+Die Onboarding Anwendung ist funktional komplett implementiert und keine weiteren Anforderungen sind bekannt. Neue funktionale Anforderungen müssen die hier erarbeitete Lösung miteinbeziehen, so dass das Continuous Deployment nicht beeinträchtigt wird.
 Die Aufgabe besteht darin die Teile hinsichtlich der Kommunikation von einander zu entkoppeln so das eine Aktualisierung den darin abgebilteten Geschäftsprozess nicht unterbricht.  Der interne Aufbau der Komponenten soll nur angepasst werden falls nötig. 
 
 \section{Anforderungen}
