@@ -4,6 +4,94 @@
 
 Die folgenden Lösungs wurden für die Teilprobleme erarbeitet. Für die entgültige Architektur wurde nur eine Version verwendet.
 
+\subsection{Schnittstellen Versionierung}
+
+\subsubsection{Versionierung mittels Pfad}
+\subsubsection{Versionierung mittels Contenttype}
+\subsubsection{Versionierung mittels GraphQL}
+
+\subsection{Kommunikationsentkopplung}
+
+\subsubsection{Message Queue mit JMS}
+\subsubsection{Message Queue mit Kafka}
+\subsubsection{Message Queue mit Redis}
+\subsubsection{Hystrix}
+
+\subsection{Datenspeicherung}
+
+Aktuell wir eine MySQL als Datenbank verwendet welche zur Zeit nur Requests speichert und kleinere Abfragen ausführt.. Die neuen Anforderungen an die Datenbank bezüglich Continuous Deployment sind:
+\begin{itemize}
+	\item Replikation wird unterstützt und kann auf dem Client konfiguriert werden.
+	\item Es ist möglich mit mehreren Applikations Version auf die gleiche Datenbank zuzugreifen.
+\end{itemize}
+Vorallem der Zweite Punkt hat hohe bedeutung da bei Continuous Delivery bei der Installation der Software immer mindest zwei verschiedene Versionen der Applikation gleichzeitig auf den Datenspeicher zugreifen. Die Anwendung verwendet bereits Spring Data als Persitzenz-Bibliothek welche für alle aufgeführten Lösungsvarianten entsprechende Erweiterungen besitzt.
+
+Folgend die einzlenen Teillösungen für die Datenspeicherung.
+
+\subsubsection{Relationale Datenbank}
+
+Wie bereits erwähnt wird MySQL aktuell verwendet. Diese hat jedoch die Limitation, dass auf dem Client der Slave nicht in der Verbindung konfiguriert werden kann. Deshalb wird Oracle, welche die Standartdatenbank ist, als Lösungsvariante vorgeschlagen.
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item Sehr gutes und verbreitetes Know-how bezüglich Betrieb, erstellen von Anfragen, optimierung usw.
+	\item Baisert auf ACID und gewährteistet deshalb die Datenkonsistenz.
+	\item Der Java Connector kann mit Master und Slave konfiguriert werden.
+	\item Bietet Enterprise fähige Replikationsmechanismen.
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item Daten werden nach einem Schema abgelegt welches nicht mit verschiedenen Versionen umgehen kann.
+	\item Versionierung muss selber mittels Triggern und Migrationsskripten gemacht werden.	
+\end{itemize}
+\textbf{Risiken}
+\begin{itemize}
+	\item Aktuell keine Bewilligung die Oracle Datenbank in der entsprechenden Zone zu betreiben.
+\end{itemize}
+
+\subsubsection{Dokumentenbasierte Datenbank}
+
+Als alternative zu einer relationalen Datenbank, kann eine dokumentenbasierte wie zum Beispiel MongoDB verwendet werden. 
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item Kein Schema vorhanden weshalb die Daten in verschiedenen Versionen gespeichert werden können.
+	\item Hirarchische struktur von JSON Dokumenten passt gut zur Natur der Datenbank
+	\item Bietet Datenreplikation mittels Master/Slave und Replica Sets.
+	\item Der Java Connector kann mit Master und Slave konfiguriert werden.
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item Anpassung des Persistzenslayers nötig.
+\end{itemize}
+\textbf{Risiken}
+\begin{itemize}
+	\item Keine Erfahrung mit der Datenbank (Verwendung, Betrieb, Abfragen).
+\end{itemize}
+
+\subsubsection{Key-Value Datenbank}
+
+Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwendent. In diesem konkreten Fall wird Redis als Lösung in betracht gezogen. 
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item Bereits in Betrieb und daher vorhandenes Know-how
+	\item Kein Schema vorhanden weshalb die Daten in verschiedenen Versionen gespeichert werden können.
+	\item Bietet Datenreplikation mittels Master/Slave
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item Abfrage Möglichkeiten beschränkt.
+	\item Anpassung des Persistzenslayers nötig.
+\end{itemize}
+\textbf{Risiken}
+\begin{itemize}
+	\item Java Connection für Master/Slave Konfiguration befindet sich noch in der Entwicklung resp. muss selber gemacht werden. Gleiches gilt für die Clusterfunktionalität.
+\end{itemize}
+
+\subsection{Konfigurations Management}
+\subsection{Deployment Pipeline}
+
 \section{Lösungsvarianten}
 
 Mithilfe der Teillösungen wurden folgende Lösungsvariante erstellt. 
