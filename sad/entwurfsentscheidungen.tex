@@ -6,16 +6,146 @@ Die folgenden Lösungs wurden für die Teilprobleme erarbeitet. Für die entgül
 
 \subsection{Schnittstellen Versionierung}
 
+Die Versionierung der Schnittstelle zwischen der Webseite und dem Server muss sichergestellt werde. Da bei der kontinuierlichen Ausrollung von Software meistens mehrere Versionen im laufenden Betrieb sind, muss ein Weg gefunden werden dies auf einfache Weise zu erreichen ohne für den Entwickler zuviel Aufwand zu generieren.
+
 \subsubsection{Versionierung mittels Pfad}
-\subsubsection{Versionierung mittels Contenttype}
+
+Sollte es nötig sein eine neue Version der REST Schnittstelle zu veröffentliche, kann dies über Versionsnummer im Pfad erreicht werden. 
+\newline
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item Schnittstellenversionen sind durch den Pfad klar getrennt.
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item Für jede neue Version muss eine neuer Endpoint inklusive URI definiert werden welche der Client kennen muss.
+	\item Domänenmodelle liegen unterumständen in mehreren Versionen vor.
+	\item Verhältnismässig viel Aufwand für den Nutzen.
+\end{itemize}
+
+\subsubsection{Versionierung mittels Content-Negotiation}
+
+Mittels Accept-Header ist es möglich auf einem Endpoint zu definieren welche Version der Resource er akzeptiert.
+\newline
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item Es gibt nicht mehrere Pfade nach aussen sondern nur einer.
+	\item Es können auch kleinere Änderungen gemacht werden ohne die Kompatibilität zu brechen.
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item Auf Serverseite ist trotzdem ein Routing notwending in Form einer neuen Methode falls es sich um eine inkompatible Änderung handelt.
+	\item Domänenmodelle liegen unterumständen in mehreren Versionen vor.
+	\item Verhältnismässig viel Aufwand für den Nutzen.
+\end{itemize}
+
 \subsubsection{Versionierung mittels GraphQL}
+
+Anstelle der klassischen Ansätze der Versionierung über Pfade und Content-Negotiation, gibt es mit GraphGL eine Libary welche diese Probleme anders angeht. Anstelle einer Versionierung können die Attribute mittels einer Abfragesprache vom Server angefordert werden. Dadurch benötigt es auf Serverseite nur noch einen Endpoint.
+\newline
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item Keine wirkliche Versionierung nötig. Alte Felder können mit deprecated gekennzeichnet werden und nach der kompletten Ausrollung entfernt werden.
+	\item Aufwand einiges geringer als bei der Variante mit Pfaden und Content-Negotiation.
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item Der Web Client braucht eine Anpassungen seiner Afrufe an den Server.
+\end{itemize}
+\textbf{Risiken}
+\begin{itemize}
+	\item Im Rahmen eines neuen Projekts wurde ein Proof of Concept gemacht allerdings sind noch keine wirklichen Erfahrungen vorhanden.
+\end{itemize}
 
 \subsection{Kommunikationsentkopplung}
 
+Durch die geänderten Anforderungen bezüglich Ausrollung der Software ist ein unterbruch zwischen Server und der Business Process Engine unausweichlich. Damit keine Anfragen der Benutzer verloren gehen müssen die Nachrichten entweder gespeichert werden oder es brauch eine Asynchrone Kommunikation. Aktuell werden zwischen dem Server und der BPM Engine REST Call mittels Hystrix abgesetzt.
+
 \subsubsection{Message Queue mit JMS}
+
+Entkopplung kann generell über Messaging erreicht werden welches in der Java Welt mittels dem Java Messaging Service erreicht werden kann. Da an den Benutzer keine Anwort geschickt werden muss,
+braucht es nicht unbedingt eine Antwort. Die Zustellung der Nachricht muss jedoch sichergestellt werden. Des Weiteren müssen die Nachrichten dürfen die Nachrichten bei einem Kommunikationsunterbruch nicht verloren gehen.
+\newline
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item Gute Unterstützung durch das Spring Framework.
+	\item Bekanntes Integrationsmuster.
+	\item Inhalt der Nachrichten frei wählbar.
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item Umbau der Schnittstelle zwischen Server und BPM Engine.
+	\item Messaging Infrastruktur ist nicht vorhanden respektive nicht Verfügbar in der Zone. Diese wäre zusätzlich ein weitere Single Point of Failure.
+	\item Messaging Infrastruktur ist für den Use Case überdimensioniert.
+\end{itemize}
+\textbf{Risiken}
+\begin{itemize}
+	\item Nicht sicher ob eine solche Middleware überhaupt verwendet werden darf respektive ob Know-how vorhanden ist.
+\end{itemize}
+
+Alternative könnte anstelle eine Messaging System auch eine Message Bridge verwendet werden. Hierzu verbindet sich der Server direkt auf die Queue welche sich auf der BPM Engine befindet.
+
 \subsubsection{Message Queue mit Kafka}
-\subsubsection{Message Queue mit Redis}
+
+Eine weitere Möglichkeit wäre das Versenden von Nachrichten über Kafka\footnote{https://kafka.apache.org}. Entstanden bei grossen Internet Dienstleistern wie Linkedin für welche JMS nicht praktikabel war Aufgrund der Perfomanz(verifizieren). Kafka ist ein verteiltes Messaging System welches auf durchsatz optimiert ist. Für die Zustellung der Nachrichten verwendet Kafka einen sogenannten Nimbus welche die Zustellung an den Empfänger übernimmt.
+\newline
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item Unterstützung durch das Spring Framework.
+	\item Bekanntes Integrationsmuster.
+	\item Inhalt der Nachrichten frei wählbar.
+	\item Braucht keine zentrale Infrastruktur und kann selber aufgebaut werden.
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item Umbau der Schnittstelle zwischen Server und BPM Engine.
+	\item Infrastruktur muss selber administriert werden.
+	\item Für den Use Case überdimensioniert da gar nie soviele Nachrichten über das System verschickt werden.
+\end{itemize}
+\textbf{Risiken}
+\begin{itemize}
+	\item Know-how zu Kafka hinsichlicht Betrieb und Verwendung nicht vorhanden.
+\end{itemize}
+
+\subsubsection{Message Queue mit Key-Value Store}
+
+Anstelle eines Messaging Systems, bietet sich die Möglichkeit an Redis als Message queue zu verwenden. Würde Redis gleichzeitig als Datenspeicher verwendet könntem hier Synergien genutz werden.
+\newline
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item Bietet asynchrones Messaging über eine eingebaute Queue Funktionalität.
+	\item Schemalos und wodurch Nachrichten eifach gespeichert werden können.
+	\item Eliminiert die Probleme der Speicherung und Asynchronität gleichzeitig.
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item Umbau der Schnittstelle zwischen Server und BPM Engine.
+\end{itemize}
+\textbf{Risiken}
+\begin{itemize}
+	\item Java Connection für Master/Slave Konfiguration befindet sich noch in der Entwicklung resp. muss selber gemacht werden. Gleiches gilt für die Clusterfunktionalität.
+\end{itemize}
+
 \subsubsection{Hystrix}
+
+Aktuell werden die Requests an die BPM Engine mittels Hystrix\footnote{https://github.com/Netflix/Hystrix} und REST abgeschickt. Leider gibt es zur Zeit keinen Mechanismus welcher verindert das Anfragen verloren gehen. Anstelle einer Queue könnte die aktuelle Implementation erweitert werden um ebenfalls den Fehlerfall von Verbindungsunterbrüchen zu behandeln.
+\newline
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item Nur geringfügige Anpassungen an der Schnittstelle auf Serverseite.
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item Keine wirkliche Entkopplung der Dienste.
+\end{itemize}
+\textbf{Risiken}
 
 \subsection{Datenspeicherung}
 
@@ -31,6 +161,7 @@ Folgend die einzlenen Teillösungen für die Datenspeicherung.
 \subsubsection{Relationale Datenbank}
 
 Wie bereits erwähnt wird MySQL aktuell verwendet. Diese hat jedoch die Limitation, dass auf dem Client der Slave nicht in der Verbindung konfiguriert werden kann. Deshalb wird Oracle, welche die Standartdatenbank ist, als Lösungsvariante vorgeschlagen.
+\newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
@@ -51,7 +182,8 @@ Wie bereits erwähnt wird MySQL aktuell verwendet. Diese hat jedoch die Limitati
 
 \subsubsection{Dokumentenbasierte Datenbank}
 
-Als alternative zu einer relationalen Datenbank, kann eine dokumentenbasierte wie zum Beispiel MongoDB verwendet werden. 
+Als alternative zu einer relationalen Datenbank, kann eine dokumentenbasierte wie zum Beispiel MongoDB\footnote{https://www.mongodb.com} verwendet werden. 
+\newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
@@ -71,13 +203,14 @@ Als alternative zu einer relationalen Datenbank, kann eine dokumentenbasierte wi
 
 \subsubsection{Key-Value Datenbank}
 
-Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwendent. In diesem konkreten Fall wird Redis als Lösung in betracht gezogen. 
+Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwendent. In diesem konkreten Fall wird Redis\footnote{https://redis.io} als Lösung in betracht gezogen. \newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
 	\item Bereits in Betrieb und daher vorhandenes Know-how
 	\item Kein Schema vorhanden weshalb die Daten in verschiedenen Versionen gespeichert werden können.
 	\item Bietet Datenreplikation mittels Master/Slave
+	\item Könnte im gleichen Zuge auf für die Queue verwendet werden.	
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
@@ -90,7 +223,83 @@ Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwen
 \end{itemize}
 
 \subsection{Konfigurations Management}
+
+Flo: Hier fehlen noch Requirements. Was genau muss das Konfiguration Management können ? Was fehlt bei der heutigen Implementierung?
+Konfigurations Management ist aus dem heutigen Betrieb von Applikation nicht mehr weg zu denken. Dennoch kommen durch die neue Architektur Anforderungen hinzu, welche Konfigurarionsänderungen im laufenden Betrieb ermöglichen sollen.
+
+\subsubsection{Docker Compose, Swarm}
+
+Aktuell ist die Konfiguration der Container in einem Dockerfile gespeichert. Mit Compose\footnote{https://docs.docker.com/compose/} werden die Anhängigkeiten zwischen den Container definiert.\newline
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item ...
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item ...
+\end{itemize}
+\textbf{Risiken}
+\begin{itemize}
+	\item ...
+\end{itemize}
+
+\subsubsection{Kubernetes}
+...\newline
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item Ist die Basis von Openshift \footnote{https://www.openshift.org: Plattform welche das Ausrollen von Containers im Sinne einer Cloud Umgebung ermöglicht.} welches als Standart Plattform für Container etabliert werden soll.
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item Anpassungen an der Orchestration der Container.
+\end{itemize}
+\textbf{Risiken}
+\begin{itemize}
+	\item Plattform ist noch nicht wirklich in Betrieb sonder nur zu Testzwecken installiert.
+	\item Kein Know-how zu Kubernetes vorhanden.
+\end{itemize}
+\subsubsection{Spring Cloud Config}
+
+Spring Cloud Config\footnote{https://cloud.spring.io/spring-cloud-config/} bieted die Möglichkeit Konfigurationen währed dem laufend Betrieb zu ändern. Dadurch muss ein Container nicht neu gestartet werden.\newline
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item Integriert sich gut mit dem Spring Framework
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item Benötigt einen neuen Config Server und Anpassungen der Applikation entsprechenden Stellen in der Applikation.
+\end{itemize}
+\textbf{Risiken}
+\begin{itemize}
+	\item ...
+\end{itemize}
+\subsubsection{Saltstack}
+
+Saltstack\newline
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item Firmen standart ?
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item Kolidiert mit dem Ansatz von Dockerfiles.
+\end{itemize}
+\textbf{Risiken}
+\begin{itemize}
+	\item Kein Know-how vorhanden.
+\end{itemize}
+
 \subsection{Deployment Pipeline}
+
+Hier fehlen noch informationen resp. Anforderungen. Was ist mit der Sicherheit?
+
+\subsection{Monitoring}
+
+Frage an Flo: Braucht es da nicht auch noch etwas? Bisschen Logfiles auslesen und mit JMX die VM,'s kontrollieren wird wohl nicht mehr reichen?
 
 \section{Lösungsvarianten}
 
