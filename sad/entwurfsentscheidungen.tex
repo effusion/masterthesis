@@ -135,6 +135,9 @@ Anstelle eines Messaging Systems, bietet sich die Möglichkeit an Redis als Mess
 \subsubsection{Hystrix}
 
 Aktuell werden die Requests an die BPM Engine mittels Hystrix\footnote{https://github.com/Netflix/Hystrix} und REST abgeschickt. Leider gibt es zur Zeit keinen Mechanismus welcher verindert das Anfragen verloren gehen. Anstelle einer Queue könnte die aktuelle Implementation erweitert werden um ebenfalls den Fehlerfall von Verbindungsunterbrüchen zu behandeln.
+
+Aktuell sind wir daran die Lösung so zu implementieren, dass die Anfragen auf der DB als JSON abgespeichert werden und asynchron an den Workflow geschickt werden, sofern dieser Online ist. So lange der Workflow offline ist dient die MySQL DB als Queue.
+
 \newline
 \newline
 \textbf{Vorteile}
