@@ -132,12 +132,9 @@ Anstelle eines Messaging Systems, bietet sich die Möglichkeit an Redis als Mess
 	\item Java Connection für Master/Slave Konfiguration befindet sich noch in der Entwicklung resp. muss selber gemacht werden. Gleiches gilt für die Clusterfunktionalität.
 \end{itemize}
 
-\subsubsection{Hystrix}
+\subsubsection{Spring Rest}
 
-Aktuell werden die Requests an die BPM Engine mittels Hystrix\footnote{https://github.com/Netflix/Hystrix} und REST abgeschickt. Leider gibt es zur Zeit keinen Mechanismus welcher verindert das Anfragen verloren gehen. Anstelle einer Queue könnte die aktuelle Implementation erweitert werden um ebenfalls den Fehlerfall von Verbindungsunterbrüchen zu behandeln.
-
-Aktuell sind wir daran die Lösung so zu implementieren, dass die Anfragen auf der DB als JSON abgespeichert werden und asynchron an den Workflow geschickt werden, sofern dieser Online ist. So lange der Workflow offline ist dient die MySQL DB als Queue.
-
+Aktuell werden die Requests an die BPM Engine mittels Hystrix\footnote{https://github.com/Netflix/Hystrix} und REST abgeschickt. Die Request werden dabei gleich zur Workflow Engine geschickt oder im Fehlerfall als JSON in die Datenbank gespeichert. Mit einem Scheduler werden dann später die nicht gesendeten Request nochmals verschickt. Die Datenbank hat deshalb eine Queue ähnliche Funktion.
 \newline
 \newline
 \textbf{Vorteile}
@@ -161,16 +158,15 @@ Vorallem der Zweite Punkt hat hohe bedeutung da bei Continuous Delivery bei der 
 
 Folgend die einzlenen Teillösungen für die Datenspeicherung.
 
-\subsubsection{Relationale Datenbank}
+\subsubsection{Relationale Datenbank mit Oracle}
 
-Wie bereits erwähnt wird MySQL aktuell verwendet. Diese hat jedoch die Limitation, dass auf dem Client der Slave nicht in der Verbindung konfiguriert werden kann. Deshalb wird Oracle, welche die Standartdatenbank ist, als Lösungsvariante vorgeschlagen.
+Oracle ist bei vielen Firmen die Standart Software für Datenbank. Sie bietet sämtliche features welche im Bereich von Finanzdienstleistern benötigt werden hat aber auch ihren Preis. Oralce basiert auf klassischen relationalen Prinzipien und setzt auf hohe Datenkonsitzenz.
 \newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
 	\item Sehr gutes und verbreitetes Know-how bezüglich Betrieb, erstellen von Anfragen, optimierung usw.
 	\item Baisert auf ACID und gewährteistet deshalb die Datenkonsistenz.
-	\item Der Java Connector kann mit Master und Slave konfiguriert werden.
 	\item Bietet Enterprise fähige Replikationsmechanismen.
 \end{itemize}
 \textbf{Nachteile}
@@ -180,20 +176,40 @@ Wie bereits erwähnt wird MySQL aktuell verwendet. Diese hat jedoch die Limitati
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
-	\item Aktuell keine Bewilligung die Oracle Datenbank in der entsprechenden Zone zu betreiben.
+	\item Oracle darf aus Lizenzgründen nur auf pysischen Maschinen installiert werden.
+	\item High Availability Mode welcher zu Verfügung steht nicht klar.
+\end{itemize}
+
+\subsubsection{Relationale Datenbank mit MySQL}
+
+MySQL wird wie bereits aktuell verwendet. Es bietet die klassischen Funktionen einer relationalen Datenbank. MySQL wird meistens verwendet wenn Oracle zu teuer ist resp. die Anforderungen an die Datenhaltung nicht so hoch sind.
+\newline
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item Wird bereits eingesetzt.
+	\item Baisert auf ACID und gewährteistet deshalb die Datenkonsistenz.
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item Daten werden nach einem Schema abgelegt welches nicht mit verschiedenen Versionen umgehen kann.
+	\item Versionierung muss selber mittels Triggern und Migrationsskripten gemacht werden.
+\end{itemize}
+\textbf{Risiken}
+\begin{itemize}
+	\item Umschaltung von Master auf Slave muss aufwendig manuell durgeführt werden.
 \end{itemize}
 
 \subsubsection{Dokumentenbasierte Datenbank}
 
-Als alternative zu einer relationalen Datenbank, kann eine dokumentenbasierte wie zum Beispiel MongoDB\footnote{https://www.mongodb.com} verwendet werden. 
+Als alternative zu einer relationalen Datenbank, kann eine dokumentenbasierte wie zum Beispiel MongoDB\footnote{https://www.mongodb.com} verwendet werden. Die Datenbank gehöhrt zu Familie der NoSQL Speicher und ist deshalb Schemalos. Sie ist durch Ihre Natur mit Dokumenten zu Arbeite trotzdem stuckweit strukturiert. 
 \newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
 	\item Kein Schema vorhanden weshalb die Daten in verschiedenen Versionen gespeichert werden können.
-	\item Hirarchische struktur von JSON Dokumenten passt gut zur Natur der Datenbank
+	\item Hirarchische struktur von JSON passt gut zur Natur der Datenbank.
 	\item Bietet Datenreplikation mittels Master/Slave und Replica Sets.
-	\item Der Java Connector kann mit Master und Slave konfiguriert werden.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
@@ -206,13 +222,13 @@ Als alternative zu einer relationalen Datenbank, kann eine dokumentenbasierte wi
 
 \subsubsection{Key-Value Datenbank}
 
-Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwendent. In diesem konkreten Fall wird Redis\footnote{https://redis.io} als Lösung in betracht gezogen. \newline
+Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwendent. Es handelt sich Dabei um eine NoSQL Datenbank welche wie eine HashMap Funktioniert. Daten können schnell gespeichert und mit dem Key wieder geholt werden. Gewisse Abfrage Möglichkeiten sind ebenfalls gegeben. Des Weiteren ist die Datenbank Schema was eslaubt verschiedenste Strukturen zu speichern. In diesem konkreten Fall wird Redis\footnote{https://redis.io} als Lösung in betracht gezogen. \newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
 	\item Bereits in Betrieb und daher vorhandenes Know-how
 	\item Kein Schema vorhanden weshalb die Daten in verschiedenen Versionen gespeichert werden können.
-	\item Bietet Datenreplikation mittels Master/Slave
+	\item Bietet High Availablity wie Clustering und Sentinel.
 	\item Könnte im gleichen Zuge auf für die Queue verwendet werden.	
 \end{itemize}
 \textbf{Nachteile}
@@ -222,28 +238,20 @@ Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwen
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
-	\item Java Connection für Master/Slave Konfiguration befindet sich noch in der Entwicklung resp. muss selber gemacht werden. Gleiches gilt für die Clusterfunktionalität.
+	\item Keine Erfahrung mit den Clusterfuntkionalitäten.
 \end{itemize}
 
 \subsection{Konfigurations Management}
 
-Wir haben verschiedene Konfigurationselemente:
-- DB Konfiguration (URL/USER/PWD)
-- Service URLs
-	- WORKFLOW
-	- Address Service
-	- SMS Service (inklusive Konfiguration Credentials usw.)
-	- Pepcheck (inklusive Credentials)
-	- Recaptcha Verifikationsadresse
-- Truststore
-- Mailadressen
+Soll die Applikation kontinuierlich ausgerollt werden, sind manuelle Anpassungen an Konfigurationsdateinen hinderlich. Ob das nun Propert files, Dockerfiles oder andere Dateinen sind. Gewisse Änderungen erfordern einen neustart von Systemen falls für den Container eine neue Version gebaut wird. Für andere wäre es wünscheswert gäbe es einen Weg die Konfiguration ohne einen anzupassen. Hierzu einige Beispiele:\newline
+\begin{itemize}
+	\item Hostnamen, Ports
+	\item Usernamem, Passwörter, Email-Adressen
+	\item Datenbank Konfigurationen
+	\item Dateien welche Zertifikate beinhalten.
+\end{itemize}
 
-Die jeweiligen Komponenten können unterschiedlich ändern:
-- Truststore braucht ein neues Zertifikat dem vertraut wird
-- neue Mailadressen
-- neue Service Anbindungen
-
-Grundsätzlich wird die ProduktionsDB nicht so häufig ändern, ist aber vorstellbar. Das Problem heute ist, wenn zB ein neuer Service angezogen wird, dann wird dies in dem Propertiesfile nachgetragen, da dieses aber nicht eingecheckt ist wegen Credentials muss dies auf der Prod manuell gemacht werden. Auf der QA merken wir das nicht, da dort die Properties eingecheckt sind und normalerweise auf Mocks zeigen. Falls ein Service ändert kann dies natürlich auch nur auf einem "neuen" Container sein, d.h. die Konfiguration könnte auch noch zwischen den Containern je nach Version unterschiedlich sein.
+Auf Testumgebungen ist dies meistens kein Problem da entsprechene Konfigurationen mitabgelegt sind. Die Probleme treten aktuell hauptsächlich für Produktive Systeme bei welchen keine Passwörter mit eingegeckt werden können.
 
 \subsubsection{Docker Compose, Swarm}
 
@@ -251,23 +259,26 @@ Aktuell ist die Konfiguration der Container in einem Properties gespeichert. Mit
 \newline
 \textbf{Vorteile}
 \begin{itemize}
-	\item ...
+	\item Wird aktuell bereits eingesetzt.
+	\item Konfigurationen der Container können von aussen injziert werden.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
-	\item ...
+	\item Konfigurationsänderungen an der Applikation führen zu einem neustart.
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
-	\item ...
+	\item Nicht kombatibel mit Kubernetes welche bei Openshift\footnote{https://www.openshift.org: Plattform welche das Ausrollen von Containers im Sinne einer Cloud Umgebung ermöglicht.}  verwendet wird. Die Plattfrom ist im Aufbau und wird die zukünfige Plattform.
 \end{itemize}
 
 \subsubsection{Kubernetes}
-...\newline
+
+Kubernetes ist ein andere Framework\footnote{http://kubernetes.io: Wurde von Google Entwickelt und beschränkt sich nicht nur auf Docker Container.} für die Konfiguration von Containern und deren Abhängigkeiten. Kubernetes verfolgt eine andere Philosophie und ist aus diesem Grund nicht kompatible mit der Docker eingenen API.
+\newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
-	\item Ist die Basis von Openshift \footnote{https://www.openshift.org: Plattform welche das Ausrollen von Containers im Sinne einer Cloud Umgebung ermöglicht.} welches als Standart Plattform für Container etabliert werden soll.
+	\item Ist die Basis von Openshift welches als Standart Plattform für Container etabliert werden soll und daher von strategische Bedeutung.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
@@ -280,50 +291,54 @@ Aktuell ist die Konfiguration der Container in einem Properties gespeichert. Mit
 \end{itemize}
 \subsubsection{Spring Cloud Config}
 
-Spring Cloud Config\footnote{https://cloud.spring.io/spring-cloud-config/} bieted die Möglichkeit Konfigurationen währed dem laufend Betrieb zu ändern. Dadurch muss ein Container nicht neu gestartet werden.\newline
+Spring Cloud Config\footnote{https://cloud.spring.io/spring-cloud-config/} bieted die Möglichkeit Konfigurationen währed dem laufend Betrieb zu ändern. Dadurch muss ein Applikation/Container bei Konfigurationänderungen nicht neu gestartet werden. Änderungen am Deployment des Containers selber kann die Library jedoch nicht ändern.\newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
 	\item Integriert sich gut mit dem Spring Framework
+	\item Konfigurationen können während dem laufenden Betreib geändert werden.
+	\item Da der Server zustandslos ist, kann Hochverfügbarkeit einfach erreicht weden.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
-	\item Benötigt einen neuen Config Server und Anpassungen der Applikation entsprechenden Stellen in der Applikation.
+	\item Benötigt einen neuen Config Server und Anpassungen der Applikation.
+	\item Kann keine Änderungen an der Containerkonfiguration vornehmen.
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
-	\item ...
+	\item Erhöht die Komplexität des Systems weiter.
 \end{itemize}
+
 \subsubsection{Saltstack}
 
-Saltstack\newline
+Saltstack ist ein Konfigurationmanagement mit welchem sich Server und deren Applikationen auf verschiedenen physischen oder virutell Rechner konfigurieren lassen. Zusätzlich können die Server gruppiert werden um logische Einheiten wie Entwicklung, Test, Produktion zu modellieren.\newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
-	\item Firmen standart ?
+	\item Erlaub das Schreiben von Konfugrationsscripty mittels Python.
+	\item Benötigt kein grosses Setup auf dem Client.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
-	\item Kolidiert mit dem Ansatz von Dockerfiles.
+	\item Kolidiert mit dem Ansatz Containern da diese unveränderbar sind und Änderungen deshalb von aussen injziert werden müssen.
+	\item Kein Know-how vorhanden.
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
-	\item Kein Know-how vorhanden.
+	\item Wird durch den Einsatz von OpenShift für Container wahrscheinlich obsolet.
 \end{itemize}
 
 \subsection{Deployment Pipeline}
 
 Hier fehlen noch informationen resp. Anforderungen. Was ist mit der Sicherheit?
 
-\subsection{Monitoring}
+\section{Bewertungskriterienkatalog}
 
-Monitoring der Logfiles aktuell vorgesehen via Splunk, selbst können wir ELK benutzen. Potentiell wäre https://www.elastic.co/products/x-pack/alerting oder auch Monit (https://mmonit.com/monit/), welches bereits im Einsatz ist, möglich. Schlussendlich bringt auch Openshift Überwachungstools mit.
-
-Frage an Flo: Braucht es da nicht auch noch etwas? Bisschen Logfiles auslesen und mit JMX die VM,'s kontrollieren wird wohl nicht mehr reichen?
+Mit Hilfe der Bewertungskriteren sollen die einzelne Teillösungen bewertet werden um daraus Lösungsvarianten zu definieren. Für die Varianten oder Teillösungen werden dann Prototypen entwickelt um deren Umsetzbarkeit zu verfizieren.
 
 \section{Lösungsvarianten}
 
 Mithilfe der Teillösungen wurden folgende Lösungsvariante erstellt. 
 
-\section{Bewertungskriterienkatalog}
+
 
