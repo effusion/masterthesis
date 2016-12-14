@@ -10,7 +10,7 @@ Die Versionierung der Schnittstelle zwischen der Webseite und dem Server muss si
 
 \subsubsection{Versionierung mittels Pfad}
 
-Sollte es nötig sein eine neue Version der REST Schnittstelle zu veröffentliche, kann dies über Versionsnummer im Pfad erreicht werden. 
+Sollte es nötig sein eine neue Version der \Gls{REST} Schnittstelle zu veröffentliche, kann dies über Versionsnummer im Pfad erreicht werden. 
 \newline
 \newline
 \textbf{Vorteile}
@@ -43,7 +43,7 @@ Mittels Accept-Header ist es möglich auf einem Endpoint zu definieren welche Ve
 
 \subsubsection{Versionierung mittels GraphQL}
 
-Anstelle der klassischen Ansätze der Versionierung über Pfade und Content-Negotiation, gibt es mit GraphGL eine Libary welche diese Probleme anders angeht. Anstelle einer Versionierung können die Attribute mittels einer Abfragesprache vom Server angefordert werden. Dadurch benötigt es auf Serverseite nur noch einen Endpoint.
+Anstelle der klassischen Ansätze der Versionierung über Pfade und Content-Negotiation, gibt es mit GraphQL eine Libary welche diese Probleme anders angeht. Anstelle einer Versionierung können die Attribute mittels einer Abfragesprache vom Server angefordert werden. Dadurch benötigt es auf Serverseite nur noch einen Endpoint.
 \newline
 \newline
 \textbf{Vorteile}
@@ -62,7 +62,7 @@ Anstelle der klassischen Ansätze der Versionierung über Pfade und Content-Nego
 
 \subsection{Kommunikationsentkopplung}
 
-Durch die geänderten Anforderungen bezüglich Ausrollung der Software ist ein unterbruch zwischen Server und der Business Process Engine unausweichlich. Damit keine Anfragen der Benutzer verloren gehen müssen die Nachrichten entweder gespeichert werden oder es brauch eine Asynchrone Kommunikation. Aktuell werden zwischen dem Server und der BPM Engine REST Call mittels Hystrix abgesetzt.
+Durch die geänderten Anforderungen bezüglich Ausrollung der Software ist ein unterbruch zwischen Server und der Business Process Engine unausweichlich. Damit keine Anfragen der Benutzer verloren gehen müssen die Nachrichten entweder gespeichert werden oder es brauch eine Asynchrone Kommunikation. Aktuell werden zwischen dem Server und der \Gls{BPM} Engine REST Call mittels Hystrix abgesetzt.
 
 \subsubsection{Message Queue mit JMS}
 
@@ -166,7 +166,7 @@ Oracle ist bei vielen Firmen die Standart Software für Datenbank. Sie bietet s�
 \textbf{Vorteile}
 \begin{itemize}
 	\item Sehr gutes und verbreitetes Know-how bezüglich Betrieb, erstellen von Anfragen, optimierung usw.
-	\item Baisert auf ACID und gewährteistet deshalb die Datenkonsistenz.
+	\item Baisert auf \Gls{ACID} und gewährteistet deshalb die Datenkonsistenz.
 	\item Bietet Enterprise fähige Replikationsmechanismen.
 \end{itemize}
 \textbf{Nachteile}
@@ -188,7 +188,7 @@ MySQL wird wie bereits aktuell verwendet. Es bietet die klassischen Funktionen e
 \textbf{Vorteile}
 \begin{itemize}
 	\item Wird bereits eingesetzt.
-	\item Baisert auf ACID und gewährteistet deshalb die Datenkonsistenz.
+	\item Baisert auf \gls{ACID} und gewährteistet deshalb die Datenkonsistenz.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
@@ -202,7 +202,7 @@ MySQL wird wie bereits aktuell verwendet. Es bietet die klassischen Funktionen e
 
 \subsubsection{Dokumentenbasierte Datenbank}
 
-Als alternative zu einer relationalen Datenbank, kann eine dokumentenbasierte wie zum Beispiel MongoDB\footnote{https://www.mongodb.com} verwendet werden. Die Datenbank gehöhrt zu Familie der NoSQL Speicher und ist deshalb Schemalos. Sie ist durch Ihre Natur mit Dokumenten zu Arbeite trotzdem stuckweit strukturiert. 
+Als alternative zu einer relationalen Datenbank, kann eine dokumentenbasierte wie zum Beispiel MongoDB\footnote{https://www.mongodb.com} verwendet werden. Die Datenbank gehöhrt zu Familie der \Gls{NoSQL} Speicher und ist deshalb Schemalos. Sie ist durch Ihre Natur mit Dokumenten zu Arbeite trotzdem stuckweit strukturiert. 
 \newline
 \newline
 \textbf{Vorteile}
@@ -255,7 +255,7 @@ Auf Testumgebungen ist dies meistens kein Problem da entsprechene Konfiguratione
 
 \subsubsection{Docker Compose, Swarm}
 
-Aktuell ist die Konfiguration der Container in einem Properties gespeichert. Mit Compose\footnote{https://docs.docker.com/compose/} werden die Anhängigkeiten zwischen den Container definiert und die Konfiguration in den Container gelinkt.\newline
+Aktuell ist die Konfiguration der \Gls{Container} in einem Properties gespeichert. Mit Compose\footnote{https://docs.docker.com/compose/} werden die Anhängigkeiten zwischen den Container definiert und die Konfiguration in den Container gelinkt.\newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
