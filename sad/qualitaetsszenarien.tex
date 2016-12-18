@@ -1,98 +1,116 @@
 \chapter{Qualitätsszenarien}
 \label{sec:qualityscenarios}
 
-\section{Qualitätsszenarien}
+\section{Qualitätsbaum}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ | p{3cm} | p{3.5cm} | p{6.5cm} | p{1cm} | }
+		\toprule
+		{\textbf{Merkmal}} & {\textbf{Untermerkmal}} & {\textbf{Szenario}} & {\textbf{Prio}} \\
+		\midrule
+		Funktionalität & Sicherheit & Q1: Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein & 1 \\ \hline
+		Änderbarkeit & Modifizierbarkeit & Q2: Anpassungen an der Software sollen einfach eingeführt werden können & 2 \\ \hline
+		Funktionalität & Ordnungsmässigkeit & Q3: Nur verifizierte Händler dürfen sich onboarden & 3 \\ \hline
+		Benutzbarkeit & Bedienbarkeit & Q4: Der Händler soll sich mit dem minimalen Set an Informationen onboarden können & 4 \\ \hline
+		Übertragbarkeit & Installierbarkeit & Q5: Die Applikation soll einfach auf unterschiedlichen Umgebungen installiert werden können & 5 \\ \hline
+		Zuverlässigkeit & Fehlertoleranz & Q6: Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können & 6 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+\newpage
+\section{Bewertungsszenarien}
 
-\subsection{Qualitätsbaum}
+Damit die angepasste Architektur bewertet werden kann, wurden folgenden Bewertungsszenarien definiert. 
+Q3, Q4 sind zwar korrekt, können aber im Context der Arbeit kaum verifiziert werden resp. sind schon umgesetzt.
 
-\begin{tabular}{l|l|l|c}
-Merkmal & Untermerkmal & Szenario & Prio \\ \hline
-Funktionalität & Sicherheit & Q1: Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein & 1 \\
-Änderbarkeit & Modifizierbarkeit & Q2: Anpassungen an der Software sollen einfach eingeführt werden können & 2 \\
-Funktionalität & Ordnungsmässigkeit & Q3: Nur verifizierte Händler dürfen sich onboarden & 3 \\
-Benutzbarkeit & Bedienbarkeit & Q4: Der Händler soll sich mit dem minimalen Set an Informationen onboarden können & 4 \\
-Übertragbarkeit & Installierbarkeit & Q5: Die Applikation soll einfach auf unterschiedlichen Umgebungen installiert werden können & 5 \\
-Zuverlässigkeit & Fehlertoleranz & Q6: Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können & 6
-\\ \hline
-\end{tabular}
-
-\subsection{Bewertungsszenarien}
-\subsubsection{Szenario: Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein}
+\subsection{Szenario: Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein}
 %% https://www.pcisecuritystandards.org/document_library
 Nach PCI Standard müssen Kartendaten geschützt werden und dürfen nicht unberechtigt zugegriffen werden.
-\paragraph{}
-\begin{tabular}{l|l}
-\hline
-Geschäftsziel & Damit SIX Kartendaten verarbeiten kann müssen die PCI Standards eingehalten werden. Die Händler werden in einem System mit sensitiven Daten aufgesetzt, auf dieses System soll kein Zugriff möglich sein. \\ \hline
-Auslöser & Ein Krimineller versucht an Kartendaten zu gelangen. \\ \hline
-Reaktion & Der Zugriff über die Schnittstelle zum System ist nur schreibend und wird überwacht. Unregelmässigkeiten werden geloggt.
-\\ \hline
-\end{tabular}
 
-\subsubsection{Szenario: Anpassungen an der Software sollen einfach eingeführt werden können}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ | p{3cm} | p{11cm} | }
+		\toprule
+		Geschäftsziel & Damit SIX Kartendaten verarbeiten kann müssen die PCI Standards eingehalten werden. Die Händler werden in einem System mit sensitiven Daten aufgesetzt, auf dieses System soll kein Zugriff möglich sein. \\ \hline
+		Auslöser & Ein Krimineller versucht an Kartendaten zu gelangen. \\ \hline
+		Reaktion & Der Zugriff über die Schnittstelle zum System ist nur schreibend und wird überwacht. Unregelmässigkeiten werden geloggt. \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\subsection{Szenario: Anpassungen an der Software sollen einfach eingeführt werden können}
 
 Es muss möglich sein neue Businessanforderungen und Fehlerbehebungen in der Software schnell nach der Umsetzung in der produktiven Platform zu integrieren. 
-\paragraph{}
-\begin{tabular}{l|l}
-\hline
-Geschäftsziel & Die Anforderungen vom Business (z.B. Risk) oder Fehler in der Software muss möglichst zeitnah ausgerollt werden. \\ \hline
-Auslöser & Eine Änderung oder ein Fehler führen zu rechtlich inkonsistentem Zustand \\ 
-\hline
-Reaktion & Die Software wird vom Entwickler behoben und kann nach Abnahme des zuständigen Stakeholders selbstständig in der Produktion ausgerollt werden \\ 
-\hline
-Zielwerte & Durchlauf von Abnahme bis zur produktiven Benutzbarkeit soll in unter 10 Minuten erreicht werden.
-\\ \hline
-\end{tabular}
 
-\subsubsection{Szenario: Nur verifizierte Händler dürfen sich onboarden}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ | p{3cm} | p{11cm} | }
+		\toprule
+		Geschäftsziel & Die Anforderungen vom Business (z.B. Risk) oder Fehler in der Software muss möglichst zeitnah ausgerollt werden. \\ \hline
+		Auslöser & Eine Änderung oder ein Fehler führen zu rechtlich inkonsistentem Zustand. \\ \hline
+		Reaktion & Die Software wird vom Entwickler behoben und kann nach Abnahme des zuständigen Stakeholders selbstständig in der Produktion ausgerollt werden. \\ \hline
+		Zielwerte & Durchlauf von Abnahme bis zur produktiven Benutzbarkeit soll in unter 10 Minuten erreicht werden.\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\subsection{Szenario: Nur verifizierte Händler dürfen sich onboarden}
+
 Jeder Händlern, der sich über das Portal onboardet, soll so verifiziert sein, dass eine gültige Emailadresse und eine gültige Telefonnummer verfügbar sind.
-\paragraph{}
-\begin{tabular}{l|l}
-\hline
-Geschäftsziel & Über das Portal sollen nur potentielle Kunden sich onboarden können. \\ 
-\hline
-Auslöser & Eine Maschine oder eine Person ohne Interesse an der Dienstleistung versuchen sich im System auzusetzen. \\ 
-\hline
-Reaktion & Das System stellt sicher, dass nur ein Benutzer mit gülter Emailadresse und Telefonnummer zum Onboardingbereich Zugriff erhalten.
-\\ \hline
-\end{tabular}
 
-\subsubsection{Szenario: Der Händler soll sich mit dem minimalen Set an Informationen onboarden können}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ | p{3cm} | p{11cm} | }
+		\toprule
+		Geschäftsziel & Über das Portal sollen nur potentielle Kunden sich onboarden können. \\ \hline
+		Auslöser & Eine Maschine oder eine Person ohne Interesse an der Dienstleistung versuchen sich im System auzusetzen. \\ \hline
+		Reaktion & Das System stellt sicher, dass nur ein Benutzer mit gülter Emailadresse und Telefonnummer zum Onboardingbereich Zugriff erhalten. \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\subsection{Szenario: Der Händler soll sich mit dem minimalen Set an Informationen onboarden können}
+
 Acquiringverträge haben > 100 Felder, die ein Händler ausfüllen muss.
-\paragraph{}
-\begin{tabular}{l|l}
-\hline
-Geschäftsziel & Der Benutzer soll soweit als möglich unterstützt werden, so dass ein Vertrag mit den minimalen Eingaben vom Benutzer vollständig ausgefüllt werden kann \\
-\hline
-Auslöser & Der Benutzer will sich onboarden ohne im Büro zu sitzen (Use Case im Taxi am Tablet) \\ 
-\hline
-Reaktion & Die Oberfläche unterstützt den Benutzer mit Autocompletion / Automatischem Handelsregisterauszug / Fotouploadmöglichkeiten
-\\ \hline
-\end{tabular}
 
-\subsubsection{Szenario: Die Applikation soll einfach auf unterschiedlichen Umgebungen installiert werden können}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ | p{3cm} | p{11cm} | }
+		\toprule
+		Geschäftsziel & Der Benutzer soll soweit als möglich unterstützt werden, so dass ein Vertrag mit den minimalen Eingaben vom Benutzer vollständig ausgefüllt werden kann \\ \hline
+		Auslöser & Der Benutzer will sich onboarden ohne im Büro zu sitzen (Use Case im Taxi am Tablet) \\ 	\hline
+		Reaktion & Die Oberfläche unterstützt den Benutzer mit Autocompletion, Automatischem Handelsregisterauszug, Fotouploadmöglichkeiten \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\subsection{Szenario: Die Applikation soll einfach auf unterschiedlichen Umgebungen installiert werden können}
+
 Die Applikation soll sowohl intern für Tester als auch extern für Businessabnahmen oder zur Skalierung einfach in verschiedenen Umgebungen installiert werden können.
-\paragraph{}
-\begin{tabular}{l|l}
-\hline
-Geschäftsziel & Die Applikation ist standortunabhängig in verschiedenen Versionen verfügbar. \\
-\hline
-Auslöser & Ein Businessvertreter möchte die Applikation zur Abnahme zur Verfügung gestellt bekommen. \\ 
-\hline
-Reaktion & Die Applikation wird in einer neuen Umgebung dem Businessvertreter zugänglich gemacht. 
-\\ \hline
-\end{tabular}
 
-\subsubsection{Szenario: Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ | p{3cm} | p{11cm} | }
+		\toprule
+		Geschäftsziel & Die Applikation ist standortunabhängig in verschiedenen Versionen verfügbar. \\ \hline
+		Auslöser & Ein Businessvertreter möchte die Applikation zur Abnahme zur Verfügung gestellt bekommen. \\ \hline
+		Reaktion & Die Applikation wird in einer neuen Umgebung dem Businessvertreter zugänglich gemacht. \\ 
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\subsection{Szenario: Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können}
+
 Das Abschicken der Registrierungsdaten soll bei validem Inhalt jederzeit möglich sein.
-\paragraph{}
-\begin{tabular}{l|l}
-\hline
-Geschäftsziel & Der Benutzer füllt das Formular korrekt aus und meldet sich damit bei der SIX als Kunde an. \\
-Auslöser & Der Kunde drückt den Registierungsknopf am Ende des Pagewizards \\  \hline
-Reaktion & Der Kunde kriegt eine Bestätigung, dass sein Formular bearbeitet wird. \\ \hline
-Zielwerte & Unabhängig der Verfügbarkeit der Umsysteme muss ein Kunde erfolgreich die Registrierung abschlissen können
-\\ \hline
-\end{tabular}
 
-
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ | p{3cm} | p{11cm} | }
+		\toprule
+		Geschäftsziel & Der Benutzer füllt das Formular korrekt aus und meldet sich damit bei der SIX als Kunde an. \\ \hline
+		Auslöser & Der Kunde drückt den Registierungsknopf am Ende des Pagewizards \\  \hline
+		Reaktion & Der Kunde kriegt eine Bestätigung, dass sein Formular bearbeitet wird. \\ \hline
+		Zielwerte & Unabhängig der Verfügbarkeit der Umsysteme muss ein Kunde erfolgreich die Registrierung abschliessen können \\
+		\bottomrule
+	\end{tabular}
+\end{table}
