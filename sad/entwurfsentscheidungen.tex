@@ -2,7 +2,7 @@
 
 \section{Teillösungen}
 
-Die folgenden Lösungs wurden für die Teilprobleme erarbeitet. Für die entgültige Architektur wurde nur eine Version verwendet.
+Um eine Architektur zu entwickeln, müssen zuerst Lösungen für die Teilprobleme erarbeitet werden. in den folgenden Kapiteln sind mehrere Varianten mit ihren Vor-, Nachteilen und Risiken aufgeführt. Diese Ansätze sind nur oberflächlich erforscht worden um den Lösungsraum möglichst gross zu machen. Diese Ansätze werden dann bewertet mit welchen Lösungsvarianten zusammenstellen werden. Diese Varianten wiederum gelten als Basis für die Prototypen um zu verifizieren das die wichigten Punkte eingehalten werden können. Erst danach wird die Architektur definiert.
 
 \subsection{Schnittstellen Versionierung}
 
@@ -330,7 +330,44 @@ Saltstack ist ein Konfigurationmanagement mit welchem sich Server und deren Appl
 
 \subsection{Deployment Pipeline}
 
-Hier fehlen noch informationen resp. Anforderungen. Was ist mit der Sicherheit?
+Abklären ob das alles stimmt.
+Damit die Applikation nach einem Comit eines Entwicklers gebaut, getestet und schliesslich installiert wird braucht es eine Deployment Pipeline welche sämtliche Schritte automatisch durchführt. Stand heute gibt es für den 'develop', 'master' eine eigene Pipeline. Zusätzlich hat wird jedes Feature noch separat gebaut. 
+Was soll die Pipeline genau können?, Parallellisieren? Wie sollen die Feature branches deployt werden? Sicherheitscans(OWASP) überhaupt möglich wegen PCI DSS Zonen?
+
+\subsubsection{Pipeline mit Freigabe für Produktion}
+
+...\newline
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item .
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item .
+\end{itemize}
+\textbf{Risiken}
+\begin{itemize}
+	\item .
+\end{itemize}
+
+\subsubsection{Pipleine ohne Freigabe für Produktion}
+
+...\newline
+\newline
+\textbf{Vorteile}
+\begin{itemize}
+	\item .
+\end{itemize}
+\textbf{Nachteile}
+\begin{itemize}
+	\item .
+\end{itemize}
+\textbf{Risiken}
+\begin{itemize}
+	\item .
+\end{itemize}
+
 
 \section{Bewertungskriterienkatalog}
 
