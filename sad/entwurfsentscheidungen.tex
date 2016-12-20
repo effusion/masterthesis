@@ -1,3 +1,5 @@
+\newcounter{bk} \stepcounter{bk} %Bewertungskriterien counter
+
 \chapter{Entwurfsentscheidungen}
 
 \section{Teillösungen}
@@ -154,9 +156,7 @@ Aktuell wir eine MySQL als Datenbank verwendet welche zur Zeit nur Requests spei
 	\item Replikation wird unterstützt und kann auf dem Client konfiguriert werden.
 	\item Es ist möglich mit mehreren Applikations Version auf die gleiche Datenbank zuzugreifen.
 \end{itemize}
-Vorallem der Zweite Punkt hat hohe bedeutung da bei Continuous Delivery bei der Installation der Software immer mindest zwei verschiedene Versionen der Applikation gleichzeitig auf den Datenspeicher zugreifen. Die Anwendung verwendet bereits Spring Data als Persitzenz-Bibliothek welche für alle aufgeführten Lösungsvarianten entsprechende Erweiterungen besitzt.
-
-Folgend die einzlenen Teillösungen für die Datenspeicherung.
+Vorallem der Zweite Punkt hat hohe bedeutung da bei Continuous Delivery bei der Installation der Software immer mindest zwei verschiedene Versionen der Applikation gleichzeitig auf den Datenspeicher zugreifen. Die Anwendung verwendet bereits Spring Data als Persitzenz-Bibliothek welche für alle aufgeführten Lösungsvarianten entsprechende Erweiterungen besitzt. Der Serverteil hält aktuell nur sechs Tabellen da die ganze Verarbeitung der Daten auf der Workflow-Engine gemacht wird.
 
 \subsubsection{Relationale Datenbank mit Oracle}
 
@@ -173,6 +173,7 @@ Oracle ist bei vielen Firmen die Standart Software für Datenbank. Sie bietet s�
 \begin{itemize}
 	\item Daten werden nach einem Schema abgelegt welches nicht mit verschiedenen Versionen umgehen kann.
 	\item Versionierung muss selber mittels Triggern und Migrationsskripten gemacht werden.	
+	\item Für die aktuell sechs Tabellen ein grosser Kostenpunkt. 
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
@@ -330,9 +331,8 @@ Saltstack ist ein Konfigurationmanagement mit welchem sich Server und deren Appl
 
 \subsection{Deployment Pipeline}
 
-Abklären ob das alles stimmt.
-Damit die Applikation nach einem Comit eines Entwicklers gebaut, getestet und schliesslich installiert wird braucht es eine Deployment Pipeline welche sämtliche Schritte automatisch durchführt. Stand heute gibt es für den 'develop', 'master' eine eigene Pipeline. Zusätzlich hat wird jedes Feature noch separat gebaut. 
-Was soll die Pipeline genau können?, Parallellisieren? Wie sollen die Feature branches deployt werden? Sicherheitscans(OWASP) überhaupt möglich wegen PCI DSS Zonen?
+Damit die Applikation nach einem Comit eines Entwicklers gebaut, getestet und schliesslich installiert wird braucht es eine Deployment Pipeline welche sämtliche Schritte automatisch durchführt. Stand heute gibt es für den 'develop', 'master' eine eigene Pipeline. Zusätzlich hat wird jedes Feature noch separat gebaut. Die Erweiterungen oder Behebungen werden dann mittels Merge in den Master-Branch verschoben wo der produktive Build gebaut wird. 
+
 
 \subsubsection{Pipeline mit Freigabe für Produktion}
 
@@ -368,10 +368,31 @@ Was soll die Pipeline genau können?, Parallellisieren? Wie sollen die Feature b
 	\item .
 \end{itemize}
 
-
 \section{Bewertungskriterienkatalog}
 
-Mit Hilfe der Bewertungskriteren sollen die einzelne Teillösungen bewertet werden um daraus Lösungsvarianten zu definieren. Für die Varianten oder Teillösungen werden dann Prototypen entwickelt um deren Umsetzbarkeit zu verfizieren.
+Mit Hilfe der Bewertungskriteren sollen die einzelne Teillösungen bewertet werden um daraus Lösungsvarianten zu definieren. Für die Varianten oder Teillösungen werden dann Prototypen entwickelt um deren Umsetzbarkeit zu verfizieren. Die Bewertungskriterien mögen sich stellenweise mit den Qualitätszielen überschneiden, betrachten die Lösungen jedoch auf einen anderen Ebene. Nicht alle Kriterien sind auf alle Teillösungen anwendbar und werden in der Matrix später nicht ausgefüllt.\newline
+Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis Fünf verwendet mit Eins als schwache Gewichtung/Bewertung und Fünf als starte Gewichtung/Bewertung.
+
+\newgeometry{left=2.5cm, right=2.5cm, bottom=2.5cm, top=2.5cm}
+\begin{landscape}
+\begin{longtable}{ | p{1cm} | p{3cm} | p{8cm} | p{2cm} | p{8cm} | }
+		\toprule
+		{\textbf{ID}} & {\textbf{Name}} & {\textbf{Beschreibung}} & {\textbf{Gewicht}} & {\textbf{Begründung}}\\
+		\midrule 
+		BK-\arabic{bk} \stepcounter{bk} & Ausfallsicherheit / Konsistenz & Die Komponente ermöglicht automatische Ausfallsicherheit ohne manuelle interaktion eines Administrators.& 5 & Nicht-funktionale Anforderung an die Architektur. Notwending dabei bei kontinuierlicher Ausrollung keine inkonsistenzen entstehen.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Reifegrad & Die Komponente wird akutell von anderen Firmen in produktiven Umgebungen eingesetzt und hat eine ausführliche Dokumentation und Literatur. Für Obensource gilt, dass die Komponente eine entsprechende Community hat und aktive entwickelt wird.  & 4 & Der Einsatz von unreifer Software führt zu Mehraufwand in Fehlerfällen resp. falls Fehler auftreten die lange brauchen bis sie behoben werden.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Entkopplungsgrad & Die Komponente erlaubt die asynchrone Kommunikation.& 4 & Nicht-funkionale Anforderung welche wichtig ist damit der Benutzer von einem unterbruch des Dienstes nichts merkt. \\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Skalierbarkeit & Die Komponente lässt sich durch Konfiguration resp. durch bereitstellen eines neuen Containers horizontal skalieren.& 5 & Nicht-funktionale Anforderungan die Architektur. Während der Installation ist immer ein Teil der Applikation nicht erreichbar. Die Skalierbarkeit stellt deshalb sicher, dass in diesem Fall immer genug Resourcen vorhanden sind um die Anfragen zu bearbeiten. \\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Wartbarkeit & Die eingesetzte Komponente ist Wartungsfreundlich und braucht. & 3 & Die Wartung der Software sollte in einem angemessenem Rahmen möglich sein.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Lizenzkosten & Die Komponente hat möglichst kleine einmalig und wiederkehrende Kosten. & 3 & Die Kosten sind wichtig jedoch ist im Bereich der Finanzindustrie die Konsistenz höher weit gewichtet.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Testbarkeit & Die Komponente läst sich einfach in einer Testumgebung oder für Unittests aufsetzten. &  3 & Die Komponente sollte sich gut testen lassen. Das ein gewisser Aufwand wird jedoch in kauf genommen.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Interportabilität & Die Komponente ist technologisch Unabhängig und lässt sich einfach mit anderen integrieren. & 3 & Die Software sollte sich mit den wichtigsten Technologien verwenden lassen. Die Applikation selber ist jedoch spezifsch weshalb dies weniger gewertet wird.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Lernkurve & Die Konzepte, API's, Konfigurationsmöglichkeiten sind einfach verständlich und sind für den Entwickler und Administrator schnell erlernbar. & 4 & Die neue Architektur besitzt als ganzes bereits eine gewisse Komplexität. Sind die neuen Teile selber komplex wird dadurch das ganze System automatich schwerer zu verstehen.\\
+		\bottomrule
+\end{longtable}
+
+\end{landscape}
+\restoregeometry
 
 \section{Lösungsvarianten}
 
