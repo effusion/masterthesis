@@ -12,7 +12,7 @@ Die Versionierung der Schnittstelle zwischen der Webseite und dem Server muss si
 
 \subsubsection{Versionierung mittels Pfad}
 
-Sollte es nötig sein eine neue Version der \Gls{REST} Schnittstelle zu veröffentliche, kann dies über Versionsnummer im Pfad erreicht werden. 
+Sollte es nötig sein eine neue Version der \Gls{REST} Schnittstelle zu veröffentliche, kann dies über Versionsnummer im Pfad erreicht werden. Hierfür wird die URL für den Rest-Endpoint mit einer Versionsnummer versehen z.B 'servername/meon/api/v2/'.
 \newline
 \newline
 \textbf{Vorteile}
@@ -28,7 +28,7 @@ Sollte es nötig sein eine neue Version der \Gls{REST} Schnittstelle zu veröffe
 
 \subsubsection{Versionierung mittels Content-Negotiation}
 
-Mittels Accept-Header ist es möglich auf einem Endpoint zu definieren welche Version der Resource er akzeptiert.
+Mittels Accept-Header ist es möglich auf einem Endpoint zu definieren welche Version der Resource er akzeptiert. Dadurch kann auf Rest-Controller Ebene eine Art Routing gemacht werden welche Methode die Anfrage entgegen nimmt und so die Versionierung sichergestellt werden.
 \newline
 \newline
 \textbf{Vorteile}
@@ -68,8 +68,7 @@ Durch die geänderten Anforderungen bezüglich Ausrollung der Software ist ein u
 
 \subsubsection{Message Queue mit JMS}
 
-Entkopplung kann generell über Messaging erreicht werden welches in der Java Welt mittels dem Java Messaging Service erreicht werden kann. Da an den Benutzer keine Anwort geschickt werden muss,
-braucht es nicht unbedingt eine Antwort. Die Zustellung der Nachricht muss jedoch sichergestellt werden. Des Weiteren müssen die Nachrichten dürfen die Nachrichten bei einem Kommunikationsunterbruch nicht verloren gehen.
+Entkopplung kann generell über Messaging erreicht werden welches in der Java Welt mittels dem Java Messaging Service erreicht werden kann. Da an den Benutzer keine Anwort geschickt werden muss, braucht es nicht unbedingt eine Antwort. Die Zustellung der Nachricht muss jedoch sichergestellt werden. Des Weiteren müssen die Nachrichten dürfen die Nachrichten bei einem Kommunikationsunterbruch nicht verloren gehen.
 \newline
 \newline
 \textbf{Vorteile}
@@ -116,7 +115,7 @@ Eine weitere Möglichkeit wäre das Versenden von Nachrichten über Kafka\footno
 
 \subsubsection{Message Queue mit Key-Value Store}
 
-Anstelle eines Messaging Systems, bietet sich die Möglichkeit an Redis als Message queue zu verwenden. Würde Redis gleichzeitig als Datenspeicher verwendet könntem hier Synergien genutz werden.
+Anstelle eines Messaging Systems, bietet sich die Möglichkeit an Redis als Message queue zu verwenden. Würde Redis gleichzeitig als Datenspeicher verwendet könnten hier Synergien genutz werden. 
 \newline
 \newline
 \textbf{Vorteile}
@@ -160,7 +159,7 @@ Vorallem der Zweite Punkt hat hohe bedeutung da bei Continuous Delivery bei der 
 
 \subsubsection{Relationale Datenbank mit Oracle}
 
-Oracle ist bei vielen Firmen die Standart Software für Datenbank. Sie bietet sämtliche features welche im Bereich von Finanzdienstleistern benötigt werden hat aber auch ihren Preis. Oralce basiert auf klassischen relationalen Prinzipien und setzt auf hohe Datenkonsitzenz.
+Oracle ist bei vielen Firmen die Standart Software für Datenbank. Sie bietet sämtliche Features welche im Bereich von Finanzdienstleistern benötigt werden hat aber auch ihren Preis. Oralce basiert auf klassischen relationalen Prinzipien und setzt auf hohe Datenkonsitzenz. Für die Replikation bietet Oracle diverse Mechanismen und Setup welche unterschiedliche Kosten haben.
 \newline
 \newline
 \textbf{Vorteile}
@@ -183,7 +182,7 @@ Oracle ist bei vielen Firmen die Standart Software für Datenbank. Sie bietet s�
 
 \subsubsection{Relationale Datenbank mit MySQL}
 
-MySQL wird wie bereits aktuell verwendet. Es bietet die klassischen Funktionen einer relationalen Datenbank. MySQL wird meistens verwendet wenn Oracle zu teuer ist resp. die Anforderungen an die Datenhaltung nicht so hoch sind.
+MySQL wird wie bereits aktuell verwendet. Es bietet die klassischen Funktionen einer relationalen Datenbank. MySQL wird meistens verwendet wenn Oracle zu teuer ist resp. die Anforderungen an die Datenhaltung nicht so hoch sind. MySQL bietet akutell auch Replikation mittels Master-Slave an und Tools für eine automatische Umschaltung
 \newline
 \newline
 \textbf{Vorteile}
@@ -198,12 +197,12 @@ MySQL wird wie bereits aktuell verwendet. Es bietet die klassischen Funktionen e
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
-	\item Umschaltung von Master auf Slave muss aufwendig manuell durgeführt werden.
+	\item Kein Know-How mit MySQL Cluster oder dem Mysqlfailover Util.
 \end{itemize}
 
 \subsubsection{Dokumentenbasierte Datenbank}
 
-Als alternative zu einer relationalen Datenbank, kann eine dokumentenbasierte wie zum Beispiel MongoDB\footnote{https://www.mongodb.com} verwendet werden. Die Datenbank gehöhrt zu Familie der \Gls{NoSQL} Speicher und ist deshalb Schemalos. Sie ist durch Ihre Natur mit Dokumenten zu Arbeite trotzdem stuckweit strukturiert. 
+Als alternative zu einer relationalen Datenbank, kann eine dokumentenbasierte wie zum Beispiel MongoDB\footnote{https://www.mongodb.com} verwendet werden. Die Datenbank gehöhrt zu Familie der \Gls{NoSQL} Speicher und ist deshalb Schemalos. Von den \gls{NoSQL} Datenbanken besitzen die Dokumente basierte die grösste Struktur im sinn der Datenspeicherung.
 \newline
 \newline
 \textbf{Vorteile}
@@ -290,6 +289,7 @@ Kubernetes ist ein andere Framework\footnote{http://kubernetes.io: Wurde von Goo
 	\item Plattform ist noch nicht wirklich in Betrieb sonder nur zu Testzwecken installiert.
 	\item Kein Know-how zu Kubernetes vorhanden.
 \end{itemize}
+
 \subsubsection{Spring Cloud Config}
 
 Spring Cloud Config\footnote{https://cloud.spring.io/spring-cloud-config/} bieted die Möglichkeit Konfigurationen währed dem laufend Betrieb zu ändern. Dadurch muss ein Applikation/Container bei Konfigurationänderungen nicht neu gestartet werden. Änderungen am Deployment des Containers selber kann die Library jedoch nicht ändern.\newline
@@ -333,7 +333,6 @@ Saltstack ist ein Konfigurationmanagement mit welchem sich Server und deren Appl
 
 Damit die Applikation nach einem Comit eines Entwicklers gebaut, getestet und schliesslich installiert wird braucht es eine Deployment Pipeline welche sämtliche Schritte automatisch durchführt. Stand heute gibt es für den 'develop', 'master' eine eigene Pipeline. Zusätzlich hat wird jedes Feature noch separat gebaut. Die Erweiterungen oder Behebungen werden dann mittels Merge in den Master-Branch verschoben wo der produktive Build gebaut wird. 
 
-
 \subsubsection{Pipeline mit Freigabe für Produktion}
 
 ...\newline
@@ -375,7 +374,7 @@ Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis
 
 \newgeometry{left=2.5cm, right=2.5cm, bottom=2.5cm, top=2.5cm}
 \begin{landscape}
-\begin{longtable}{ | p{1cm} | p{3cm} | p{8cm} | p{2cm} | p{8cm} | }
+\begin{longtable}{ | p{1.2cm} | p{3cm} | p{8cm} | p{2cm} | p{8cm} | }
 		\toprule
 		{\textbf{ID}} & {\textbf{Name}} & {\textbf{Beschreibung}} & {\textbf{Gewicht}} & {\textbf{Begründung}}\\
 		\midrule 
@@ -387,7 +386,10 @@ Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis
 		BK-\arabic{bk} \stepcounter{bk} & Lizenzkosten & Die Komponente hat möglichst kleine einmalig und wiederkehrende Kosten. & 3 & Die Kosten sind wichtig jedoch ist im Bereich der Finanzindustrie die Konsistenz höher weit gewichtet.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Testbarkeit & Die Komponente läst sich einfach in einer Testumgebung oder für Unittests aufsetzten. &  3 & Die Komponente sollte sich gut testen lassen. Das ein gewisser Aufwand wird jedoch in kauf genommen.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Interportabilität & Die Komponente ist technologisch Unabhängig und lässt sich einfach mit anderen integrieren. & 3 & Die Software sollte sich mit den wichtigsten Technologien verwenden lassen. Die Applikation selber ist jedoch spezifsch weshalb dies weniger gewertet wird.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Lernkurve & Die Konzepte, API's, Konfigurationsmöglichkeiten sind einfach verständlich und sind für den Entwickler und Administrator schnell erlernbar. & 4 & Die neue Architektur besitzt als ganzes bereits eine gewisse Komplexität. Sind die neuen Teile selber komplex wird dadurch das ganze System automatich schwerer zu verstehen.\\
+		BK-\arabic{bk} \stepcounter{bk} & Lernkurve & Die Konzepte, API's, Konfigurationsmöglichkeiten sind einfach verständlich und sind für den Entwickler und Administrator schnell erlernbar. & 4 & Die neue Architektur besitzt als ganzes bereits eine gewisse Komplexität. Sind die neuen Teile selber komplex wird dadurch das ganze System automatich schwerer zu verstehen.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Strategisch & Der Einsatz der Software/Plattform wurde auf Firmenebene als strategisch definiert. & 5 & Der Einsatz einer anderen Lösung ist nach wie vor gestattet muss jedoch begründet werden und fällt in die Kategorie 'Special Solutions' für welche die entsprechende Abeilung später die Kosten tragen muss.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Know-How & Wissen was bereits über die Technologie vorhanden ist respektive wie diese eingesetzt werden kann & 2 & Obschon dadurch Kosten und Zeit gespart werden können, ist es auch ein Hinderniss bei der Suche eine passenden Lösung. Vor allem in anbetracht der Anfoderungen welche neue Denkansätze verlangt.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Konfigurationsänderung & Massstab wie einfach es ist die Konfiguration der Applikation mit der Software zu ändern. & 5 & Nicht-funktionale Anforderung, dass gewissen Eigenschaften ohne einen neustart geändert werden könne.\\
 		\bottomrule
 \end{longtable}
 
