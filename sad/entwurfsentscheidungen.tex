@@ -391,14 +391,32 @@ Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis
 		BK-\arabic{bk} \stepcounter{bk} & Know-How & Wissen was bereits über die Technologie vorhanden ist respektive wie diese eingesetzt werden kann & 2 & Obschon dadurch Kosten und Zeit gespart werden können, ist es auch ein Hinderniss bei der Suche eine passenden Lösung. Vor allem in anbetracht der Anfoderungen welche neue Denkansätze verlangt.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Konfigurations- änderung & Massstab wie einfach es ist die Konfiguration der Applikation mit der Software zu ändern. & 5 & Nicht-funktionale Anforderung, dass gewissen Eigenschaften ohne einen neustart geändert werden könne.\\
 		\bottomrule
-\end{longtable}
+\end{longtable}	
 
 \end{landscape}
 \restoregeometry
+\newpage
+Für folgende Lösungsvarianten werden zuerst kleine Prototypen gemacht um die Annahmen und Risken besser evaluieren zu können.
+
+Datenspeicher 
+MongoDB, MySQL
+
+MySQL Prototyp mit Trigger erfolgreich. 
+
+Konfigurationmanagement
+OpenShift, Spring Cloud Config
 
 \section{Lösungsvarianten}
 
 Mithilfe der Teillösungen wurden folgende Lösungsvariante erstellt. 
 
+\chapter{Installation Log}
 
+Setup von MySQL auf OpenShift
+OpenShiftClient installieren.
+
+1. Account erstellen.
+2. Projekt erstellen
+3. Terminal öffnen
+4. Template anlegen mit: oc create -f \url{https://raw.githubusercontent.com/sclorg/mysql-container/master/5.7/examples/replica/mysql_replica.json}
 
