@@ -32,6 +32,8 @@
 
 \section{Batchverarbeitung}
 
+nicht vorhabdeb
+
 \begin{quote}
 	Batchverarbeitung sequentielle Verarbeitung einer i.d.R. vorab festgelegten Menge an Daten oder Aufgaben.
 \end{quote}
@@ -54,6 +56,9 @@ Die Bedienoberfläche basiert auf AngularJS und ist bereits vorhanden und nicht 
 
 \section{Hochverfügbarkeit}
 
+DB Replica Set
+Komponenten mehrfach vorhanden über PODS
+
 \begin{quote}
 	Wie erreichen Sie hohe Verfügbarkeit des Systems? Legen Sie Teile redundant aus? Verteilen Sie das System auf unterschiedliche Rechner oder Rechenzentren? Betreiben Sie Standby-Systeme?
 	Könnte in Zusammenhang zu Clusterung stehen.
@@ -67,12 +72,20 @@ Die Bedienoberfläche basiert auf AngularJS und ist bereits vorhanden und nicht 
 
 \section{Kommunikation, Integration}
 
+übertragung wie REST zwischen den Services Bus für Konfiguations Änderungen(Siehe Konfiguration)
+
 \begin{quote}
 	Kommunikation: Übertragung von Daten zwischen System-Komponenten. Bezieht sich auf Kommunikation innerhalb eines Prozesses oder Adressraumes, zwischen unterschiedlichen Prozessen oder auch zwischen unterschiedlichen Rechnersystemen.
 	Integration: Einbindung bestehender Systeme (in einen neuen Kontext). Auch bekannt als: (Legacy) Wrapper, Gateway, Enterprise Application Integration (EAI).
 \end{quote}
 
 \section{Konfiguration}
+
+Zweiteilig:
+Spring Cloud Config für die Applikations internen Properties.
+Deployment über OpenShift Kubernetes
+
+Feature Toogles für Webapplikation und Server
 
 \begin{quote}
 	Die Flexibilität von IT-Systemem wird unter anderem durch ihre Konfigurierbarkeit beeinflusst, die Möglichkeit, manche Entscheidungen hinsichtlich der Systemnutzung erst spät zu treffen. Konfiguration kann zu folgenden Zeitpunkten erfolgen:
@@ -104,6 +117,8 @@ Die Bedienoberfläche basiert auf AngularJS und ist bereits vorhanden und nicht 
 
 \section{Migration}
 
+keine Migration notwendig
+
 \begin{quote}
 	Für manche Systeme gibt es existierende Altsysteme, die durch die neuen Systeme abgelöst werden sollen. Denken Sie als Architekt rechtzeitig auch an alle organisatorischen und technischen Aspekte, die zur Einführung oder Migration der Architektur beachtet werden müssen.
 	Beispiele:
@@ -121,6 +136,9 @@ Die Bedienoberfläche basiert auf AngularJS und ist bereits vorhanden und nicht 
 \end{quote}
 
 \section{Persistenz}
+
+Mongo DB
+Replica Set
 
 \begin{quote}
 	Persistenz (Dauerhaftigkeit, Beständigkeit) bedeutet, Daten aus dem (flüchtigen) Hauptspeicher auf ein beständiges Medium (und wieder zurück) zu bringen.
@@ -140,6 +158,8 @@ Die Bedienoberfläche basiert auf AngularJS und ist bereits vorhanden und nicht 
 \end{quote}
 
 \section{Sessionbehandlung}
+
+Stateless kein Sessionhandling nötig
 
 Die Applikation besitzt keine Sessions. Eine Anfrage/Bestellung eines Benutzers wird angesendet und asynchron verarbeitet. Es gibt keine Möglichkeit sich in der Applikation einzulogen.
 
