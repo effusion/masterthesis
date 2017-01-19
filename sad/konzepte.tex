@@ -111,13 +111,15 @@ Feature Toogles für Webapplikation und Server
 
 \section{Management und Administrierbarkeit}
 
+Kein Sepatates UI in der Applikation. Management über OpenShift Web oder OC Client
+
 \begin{quote}
 	Größere IT-Systeme laufen häufig in kontrollierten Ablaufumgebungen (Rechenzentren) unter der Kontrolle von Operatoren oder Administratoren ab. Diese Stakeholder benötigen einerseits spezifische Informationen über den Zustand der Programme zur Laufzeit, andererseits auch spezielle Eingriffs- oder Konfigurationsmöglichkeiten.
 \end{quote}
 
 \section{Migration}
 
-keine Migration notwendig
+Migration von MySQL nach MongoDB notwendig
 
 \begin{quote}
 	Für manche Systeme gibt es existierende Altsysteme, die durch die neuen Systeme abgelöst werden sollen. Denken Sie als Architekt rechtzeitig auch an alle organisatorischen und technischen Aspekte, die zur Einführung oder Migration der Architektur beachtet werden müssen.
@@ -179,11 +181,15 @@ Die Applikation besitzt keine Sessions. Eine Anfrage/Bestellung eines Benutzers 
 
 \section{Skalierung / Clusterung}
 
+Clustering wie OpenShift
+
 \begin{quote}
 	Wie gestalten Sie Ihr System „wachstumsfähig“, so daß auch bei steigender Last oder steigenden Benutzerzahlen die Antwortzeiten und/oder Durchsatz erhalten bleiben?
 \end{quote}
 
 \section{Transaktionsbehandlung}
+
+BASE für MongoDB
 
 \begin{quote}
 	Transaktionen sind Arbeitsschritte oder Abläufe, die entweder alle gemeinsam oder garnicht durchgeführt werden. Der Begriff stammt aus den Datenbanken - wichtiges Stichwort hier sind ACID-Transaktionen (atomar, consistent, isolated, durable). Im Bereich von NoSQL-Datenbanken gelten andere Kriterien.

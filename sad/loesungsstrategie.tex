@@ -1,5 +1,24 @@
 \chapter{Lösungsstrategie}
 
+\section{Architekturentscheide}
+
+Anhand der nicht funktionalen Anforderungen und den Qualitätszielen, wurden folgende architekturrelevanten Entscheidungen getroffen.
+
+\begin{table}[H]
+	\centering
+	\caption{Architekturentscheide}
+	\begin{tabular}{ | p{4cm} | p{12cm} | }
+		\toprule
+		{\textbf{Qualitätsziel}} & {\textbf{Entscheidung}} \\
+		\midrule
+		Funktionalität, Sicherheit &  Damit der Benuzter nicht merkt, dass die Applikation aktualisiert wird, muss die Applikation gleichzeitig mit mehreren Versionen lauffähig sein. Hierfür werden die Schnittstellen und das Datenbankschema versioniert. Funktionalität wird über sogenannte Feature Toggels gesteuert.\\ \hline
+		Änderbarkeit, Modifizierbarkeit & Entwicklers sollen einfach neue Anforderungen der Stakeholder umsetzten können. Deshalb werden bestehende Konzepte angewandt und bereits bekannte Libraries verwendet. Eine Komplexitäterhöhnung wird für die Umsetztung von Continuous Deployment hingenommen. \\ \hline
+		Übertragbarkeit, Installierbarkeit &  Um Änderungen und Erweiterungen zeitnahe in Betrieb nehmen zu können, ist eine hoher Automatisierungsgrad notwendig. Daher wird die Applikation mittems Konfigurationsmanagement- und Orchestrierungstools verwaltet. Die Build Server soll nach alles Tests die Applikation automatisch ausrollen mit der Ausnahme eines manuellen Eingriffs für die Freigabe.\\ \hline
+		Zuverlässigkeit, Fehlertoleranz &  Das Architektur soll Hochverfügbarkeit und Replikation vorsehen damit ein Ausfall einer Komponente keine Auswirkungen auf die Applikation hat. Des Weiteren soll eine Änderung am Code, Konfiguration oder an der Verteilung keinen Unterbruch des dienstes zur Folge haben.\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
 \section{Teilprobleme}	
 
 Um eine Software Architektur zu entwicklen welche die gegebenen Anforderungen und Qualitätsziele erfüllten, müssen zuerst die einzelnen Teilprobleme indentifiziert und entsprecheden Lösungen gesucht werden.
@@ -20,24 +39,10 @@ Um eine Software Architektur zu entwicklen welche die gegebenen Anforderungen un
 	\end{tabular}
 \end{table}
 
-\section{Architekturentscheide}
+\section{Lösungsvariante}
 
-Anhand der nicht funktionalen Anforderungen und den Qualitätszielen, wurden folgende architekturrelevanten Entscheidungen getroffen.
+Für die einzelenen Teilprobleme wurden diverse Varianten ausprobiert, prototypisiert und schlussendlich Bewertet. Sämltiche Entwurfsentscheide bezüglich Technologien und Konzepten finden sich im Kapitel \ref{entwurfsentscheidungen} .
 
-\begin{table}[H]
-	\centering
-	\caption{Architekturentscheide}
-	\begin{tabular}{ | p{4cm} | p{12cm} | }
-		\toprule
-		{\textbf{Qualitätsziel}} & {\textbf{Entscheidung}} \\
-		\midrule
-		Funktionalität, Sicherheit &  \\ \hline
-		Änderbarkeit, Modifizierbarkeit &  \\ \hline
-		Übertragbarkeit, Installierbarkeit &  \\ \hline
-		Zuverlässigkeit, Fehlertoleranz &  \\
-		\bottomrule
-	\end{tabular}
-\end{table}
 
 http://blogs.atlassian.com/2014/04/practical-continuous-deployment/
 
