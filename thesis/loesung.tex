@@ -1,6 +1,8 @@
 \chapter{Lösung}
 
-Notizen zum ablauf:
+\section{Requirements}
+
+\section{Kontextabgrenzung}
 
 Wie wurde die Lösung erarbeitet. Das Was ist im SAD obschon gewisse Teile zusammengefasst hier aufgeführt werden müssen.
 
@@ -9,9 +11,9 @@ erarbeiten der Anforderungen und den Qualitätszielen. MEON exisitiert bereits k
 Qualitätsziele und neue Anforderungen nicht einfach definierbar da aktuell gar nicht klar wie das überhaupt ausehen soll. Anforderungen deshalb pro forma mal aufgenommen mit der Möglichkeit diese später anzupassen.
 Organisatorischer Teil impact weitgehend unklar da das Projekt dies bezüglich grössere freiheiten genossen hat. 
 
-Rechercen zum Thema continuous deployment betreffend
+\section{Qualitätsziele}
 
-1. Identifizieren der Teilprobleme
+\section{Teilprobleme}
 
 - Pipeline
 - Versionierung
@@ -19,7 +21,7 @@ Rechercen zum Thema continuous deployment betreffend
 - Datenspeicherung
 - Konfigurationsmanagement
 
-2. Suchen von Teillösungen, Beschreiben der Teillösungen.
+\section{Teillösungen}
 
 Diverse Teilösungen indentifiziert anhand der bis zu diesem Zeitpunkt vorhandenen Requirements -> Qualitätsziele nach wievor nicht komplett klar.
 Möglichst grosser Lösungsraum an Teilprobleme um eine gute Sicht auf das zu lösende Problem zu bekommen.
@@ -29,18 +31,34 @@ Erstellen der Bewertungskriterien.
 
 Bewerungskriterien erstellt und entsprechend aufgeführt.
 
-Prototypen erstellen für die Unklarheiten der ausgewählen Teillösungen
+Prototypen erstellen für die Unklarheiten der ausgewählen Teillösungen.
 
 Bild erstellen für Problem der Datenmigration resp. der unterstützung von zwei gleichzeitig laufenden versionen.
 RDBMS -> trigger recursion, migration
 NoSQL -> kein schema jedoch gleiches problem
 
+CAP Theorem
+
+MySQL CA, Mongo CP
+
+Beide Datenbankentypen erlauben das Problem zu lösen. RDBMS braucht die ändernung an zwei stellen-> Buch über alle möglichen Variationen. Zyrkuläre Trigger tükisch. Mongo: alle muss in Code gemacht werden. Ermöglich schrittweise migration
 
 
-3. Erstellen von Lösungsvarianten mittels der Teillösungen.
+Evaluation Graphql
+Content Negogiation und Versionierung nicht im Prototyp abgebildet da bereits hinreichend bekannt.
+Graphql sehr mühesam für Mutationen nicht die gleiche Konfiguration wie für die Abfragen verwendet werden kann.Übergabe wie MAp was sehr viel casten verursacht.. Library nicht von einer Organisation entwickelt sondern von 36 Entwicklern über Github. Gelegentliche Commits jedoch nicht wirk lebendig. 
 
-4. Erstellen eines Bewertungskatalogens mit den Stakeholdern/Betreuer
+\section{Lösungsvariante}
 
-5. Bewerten der Lösungsvarianten.
+\section{Bewertung}
 
-6. Erstellen der Prototypen.
+
+
+
+
+
+
+
+
+
+
