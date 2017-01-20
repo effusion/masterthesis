@@ -65,7 +65,7 @@ Anstelle der klassischen Ansätze der Versionierung über Pfade und Content-Nego
 
 \subsection{Kommunikationsentkopplung}
 
-Durch die geänderten Anforderungen bezüglich Ausrollung der Software ist ein unterbruch zwischen Server und der Business Process Engine unausweichlich. Damit keine Anfragen der Benutzer verloren gehen müssen die Nachrichten entweder gespeichert werden oder es brauch eine Asynchrone Kommunikation. Aktuell werden zwischen dem Server und der \Gls{BPM} Engine REST Call mittels Hystrix abgesetzt.
+Durch die geänderten Anforderungen bezüglich Ausrollung der Software ist ein unterbruch zwischen Server und der Business Process Engine unausweichlich. Damit keine Anfragen der Benutzer verloren gehen müssen die Nachrichten entweder gespeichert werden oder es brauch eine Asynchrone Kommunikation. Aktuell werden zwischen dem Server und der \Gls{BPM} Engine \gls{REST} Call mittels Hystrix abgesetzt.
 
 \subsubsection{Message Queue mit JMS}
 
@@ -136,7 +136,7 @@ Anstelle eines Messaging Systems, bietet sich die Möglichkeit an Redis als Mess
 
 \subsubsection{Spring Rest}
 
-Aktuell werden die Requests an die BPM Engine mittels Hystrix\footnote{https://github.com/Netflix/Hystrix} und REST abgeschickt. Die Request werden dabei gleich zur Workflow Engine geschickt oder im Fehlerfall als JSON in die Datenbank gespeichert. Mit einem Scheduler werden dann später die nicht gesendeten Request nochmals verschickt. Die Datenbank hat deshalb eine Queue ähnliche Funktion.
+Aktuell werden die Requests an die BPM Engine mittels Hystrix\footnote{https://github.com/Netflix/Hystrix} und \gls{REST} abgeschickt. Die Request werden dabei gleich zur Workflow Engine geschickt oder im Fehlerfall als JSON in die Datenbank gespeichert. Mit einem Scheduler werden dann später die nicht gesendeten Request nochmals verschickt. Die Datenbank hat deshalb eine Queue ähnliche Funktion.
 \newline
 \newline
 \textbf{Vorteile}
@@ -150,7 +150,7 @@ Aktuell werden die Requests an die BPM Engine mittels Hystrix\footnote{https://g
 \textbf{Risiken}
 
 \subsection{Datenspeicherung}
-
+\label{ent-db}
 Aktuell wir eine MySQL als Datenbank verwendet welche zur Zeit nur Requests speichert und kleinere Abfragen ausführt.. Die neuen Anforderungen an die Datenbank bezüglich Continuous Deployment sind:
 \begin{itemize}
 	\item Replikation wird unterstützt und kann auf dem Client konfiguriert werden.
@@ -223,7 +223,7 @@ Als alternative zu einer relationalen Datenbank, kann eine dokumentenbasierte wi
 
 \subsubsection{Key-Value Datenbank}
 
-Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwendent. Es handelt sich Dabei um eine NoSQL Datenbank welche wie eine HashMap Funktioniert. Daten können schnell gespeichert und mit dem Key wieder geholt werden. Gewisse Abfrage Möglichkeiten sind ebenfalls gegeben. Des Weiteren ist die Datenbank Schema was eslaubt verschiedenste Strukturen zu speichern. In diesem konkreten Fall wird Redis\footnote{https://redis.io} als Lösung in betracht gezogen. \newline
+Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwendent. Es handelt sich Dabei um eine \gls{NoSQL} Datenbank welche wie eine HashMap Funktioniert. Daten können schnell gespeichert und mit dem Key wieder geholt werden. Gewisse Abfrage Möglichkeiten sind ebenfalls gegeben. Des Weiteren ist die Datenbank Schema was eslaubt verschiedenste Strukturen zu speichern. In diesem konkreten Fall wird Redis\footnote{https://redis.io} als Lösung in betracht gezogen. \newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
@@ -390,35 +390,60 @@ Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis
 		BK-\arabic{bk} \stepcounter{bk} & Lernkurve & Die Konzepte, API's, Konfigurationsmöglichkeiten sind einfach verständlich und sind für den Entwickler und Administrator schnell erlernbar. & 4 & Die neue Architektur besitzt als ganzes bereits eine gewisse Komplexität. Sind die neuen Teile selber komplex wird dadurch das ganze System automatich schwerer zu verstehen.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Strategisch & Der Einsatz der Software/Plattform wurde auf Firmenebene als strategisch definiert. & 5 & Der Einsatz einer anderen Lösung ist nach wie vor gestattet muss jedoch begründet werden und fällt in die Kategorie 'Special Solutions' für welche die entsprechende Abeilung später die Kosten tragen muss.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Know-How & Wissen was bereits über die Technologie vorhanden ist respektive wie diese eingesetzt werden kann & 2 & Obschon dadurch Kosten und Zeit gespart werden können, ist es auch ein Hinderniss bei der Suche eine passenden Lösung. Vor allem in anbetracht der Anfoderungen welche neue Denkansätze verlangt.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Konfigurations- änderung & Massstab wie einfach es ist die Konfiguration der Applikation mit der Software zu ändern. & 5 & Nicht-funktionale Anforderung, dass gewissen Eigenschaften ohne einen neustart geändert werden könne.\\
+		BK-\arabic{bk} \stepcounter{bk} & Konfigurations- änderung & Massstab wie einfach es ist die Konfiguration der Applikation mit der Software zu ändern. & 5 & Nicht-funktionale Anforderung, dass gewissen Eigenschaften ohne einen neustart geändert werden können.\\
+		BK-\arabic{bk} \stepcounter{bk} & Multi Version & Wie einfach kann die Datenbank mit mehrere Version umgehen und wie einfach sind die Konzepte dafür diese umzusetzen. & 5 & Die Umsetzung von Continuous Deployment ein sehr centraler Punkt da die Applikation zu jederzeit mit mehreren Version auskommen muss.\\
+		BK-\arabic{bk} \stepcounter{bk} & Anpassungen & Gewisse Codeteile müssen unweigerlich Angepasst werden und versuchen daher Aufwand. Hier sind vorallem Schnittsellen und die Persistenz betroffen. & 3 & Für die Erfüllung der Ziele kann dies in kauf genommen werden solang der Aufwand nicht zu hoch wird.\\
 		\bottomrule
 \end{longtable}	
 
 \end{landscape}
 \restoregeometry
 \newpage
-Für folgende Lösungsvarianten werden zuerst kleine Prototypen gemacht um die Annahmen und Risken besser evaluieren zu können.
 
-Datenspeicher 
-MongoDB, MySQL
+\section{Bewertungen}
 
-MySQL Prototyp mit Trigger erfolgreich. 
-Mon
+Die Ausgefüllte Bewertungsmatrix findet sich im Anhang des Dokuments. Folgend die Begründungen für die einzelnen Bewertungen und deren Schlussfolgerungen
 
-Konfigurationmanagement
-OpenShift, Spring Cloud Config
+\subsection{Schnittstellen Versionierung}
 
-\section{Lösungsvarianten}
 
-Mithilfe der Teillösungen wurden folgende Lösungsvariante erstellt. 
+\subsection{Kommunikationsentkopplung}
 
-\chapter{Installation Log}
+Die Messaging basierten Variante für Entkopplung haben sich für den Use Case als nicht passend respektive als zu überdimensioniert erwiesen. Die SIX hat eine Messaging Infrastruktur(JMS) welche allerdings nicht unter der Kontrolle des Projektes ist und zur kritischen Infrastruktur gehört. Aus diesem Grund ist dies keine Option. Kafka und Redis können ebenfalls als Message Queue verwendet werden. Bei diesen beiden Varianten würde man die Komponenten selber administrieren und hätte dadurch eine grössere Kontrolle. Bei Redis ziehen die gleichen Arguemten wie schon beim Datenspeicher weshalb die Variante nicht inbetracht gezogen wird. Bei Kafka gelten die gleichen Überlegungen wobei noch hinzukommt, dass die Plattform nicht dem Zweck entspricht da sie für Hochverfügbare Message Systeme mit sehr hohe Durchsatz konzipiert ist.\newline
+Schlussendlich wird die aktuelle Lösung mittels Spring REST weiterverwendet und im Fall eines Fehler, die Nachricht in die Datenbank gespeichert damit sie nicht verloren geht. Aktuell ist die Workflow Engine noch nicht hochverfügbar die Hersteller haben solche Konzepte für die neuen Versionen schon implementiert. Daher ist die Notwendigkeit einer asynchronen Kommunikation nicht mehr vorhanden.
 
-Setup von MySQL auf OpenShift
-OpenShiftClient installieren.
 
-1. Account erstellen.
-2. Projekt erstellen
-3. Terminal öffnen
-4. Template anlegen mit: oc create -f \url{https://raw.githubusercontent.com/sclorg/mysql-container/master/5.7/examples/replica/mysql_replica.json}
+\subsection{Datenspeicherung}
+
+Für die Datenspeicherung standen Oracle, Mysql, MongoDB und Redis zu Auswahl(Siehe Kapitel \ref{ent-db}). \newline
+Oracle hat die höchste Bewertung erhalten da die Firma mit dieser Datenbank schon viele Jahre Erfahrung hat und dementsprechen die relationalen Konzepte bestens versteht. Auf Grund von Lizenzbestimmungen seitens Oracles hat SIX keine Lizenzen welche es erlaubt Oracle Instanzen auf einer virtualisierten Umgebung zu installieren. Oracle kann deshalb nicht als Datenspeicher berücksichtigt werden.\newline
+Redis ist wird teils in der Firma schon verwendet, jedoch ist die Datenbank nicht wirklich passend für den Usecase und die Lernkurve um alles nur in einer Map zu speichern macht die Datenbank zu am wenigsten passenden Option. Auch deshalb da für die Datenbank nur der Support der Community verfügbat ist.\newline
+MySQL erhielt die zweitbeste Bewertung und liegt vor MongoDB. Obschon die relationalen Konzepte besser bekannt, wurde entschieden für beide einen Prototypen zu machen um den Umgang mit mehrere Schemaversionen zu evaluieren da. Für MongoDB müssen noch Themen wie Replikation und der Aufwand für die Umstellung der Repositories berrücksichtigt werden.
+
+\subsection{Konfigurationsmanagement}
+
+
+
+\subsection{Deployment Pipeline}
+
+\section{Prototypen}
+
+Folgend die Prototypen welche erstellt wurden um die Risiken und Unsicherheiten bei der Lösungsvarianten zu bestätigen oder zu wiederlegen. 
+
+\subsection{MySQL Schema Migration}
+
+\subsection{MongoDB Schema Migration}
+
+\subsection{Graphql}
+
+GraphQL ist eine Technologie welche von Facebook entwickelt wurde um den Umgang mit mehreren Schnittstellen Versionen für die verschiedenen Endgeräte besser umgehen zu können. Dabei wird eine Art Abfrage an den \gls{REST} Endpunkt gesendet welcher anschliessend die Daten dynamisch sammelt und an den Client sendet. Um die Funktionsweise der Bibiliothek besser einschätzen zu können, wurde ein einfacher Prototyp gemacht welche die Use Cases von Lesen und Schreiben abbildet.\newline
+Der Prototyp konnte erfolgreich umgesetzt werden hat jedoch einige negative Erkenntnisse über die Bibliothek zu gezeigt. Folgend eine Auflistung der Probleme:\newline
+\newline
+\begin{itemize}
+	\item Model für das Schreiben und Lesen müssen separat definiert werden was faktisch zum doppelten Code fürt.
+	\item Viele Einstellungen müssen mit Stringvariablen angegeben werden und ist deshalb fehleranfällig.
+	\item Für Mutationen müssen die Variable aus einem untypisieren hirarchischen Arguemten herausgeparst werden was unter statisch typisierten Sprachen wie Java zu sehr viel Konvertierungscode führt.
+\end{itemize}
+Die Library wurde von Facebook für dynamische Sprachen entwickelt und ist für diese Verwendung sicher besser geeignet. Die Library wurde von Entwicklern nach Java protiert und wird auf GitHub gehostet. Der Zustand der Library ist nur anhand von GitHub schwer zu evaluieren und brigt das Risiko, dass im Fall von Probleme keine Fehler behoben werden oder dies schlussendlich selber gemacht werden muss.
+
 
