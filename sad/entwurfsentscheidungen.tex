@@ -1,8 +1,7 @@
 \newcounter{bk} \stepcounter{bk} %Bewertungskriterien counter
-\label{entwurfsentscheidungen}
 
 \chapter{Entwurfsentscheidungen}
-
+\label{entwurfsentscheidungen}
 \section{Teillösungen}
 
 Um eine Architektur zu entwickeln, müssen zuerst Lösungen für die Teilprobleme erarbeitet werden. in den folgenden Kapiteln sind mehrere Varianten mit ihren Vor-, Nachteilen und Risiken aufgeführt. Diese Ansätze sind nur oberflächlich erforscht worden um den Lösungsraum möglichst gross zu machen. Diese Ansätze werden dann bewertet mit welchen Lösungsvarianten zusammenstellen werden. Diese Varianten wiederum gelten als Basis für die Prototypen um zu verifizieren das die wichigten Punkte eingehalten werden können. Erst danach wird die Architektur definiert.
@@ -390,8 +389,8 @@ Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis
 		BK-\arabic{bk} \stepcounter{bk} & Lernkurve & Die Konzepte, API's, Konfigurationsmöglichkeiten sind einfach verständlich und sind für den Entwickler und Administrator schnell erlernbar. & 4 & Die neue Architektur besitzt als ganzes bereits eine gewisse Komplexität. Sind die neuen Teile selber komplex wird dadurch das ganze System automatich schwerer zu verstehen.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Strategisch & Der Einsatz der Software/Plattform wurde auf Firmenebene als strategisch definiert. & 5 & Der Einsatz einer anderen Lösung ist nach wie vor gestattet muss jedoch begründet werden und fällt in die Kategorie 'Special Solutions' für welche die entsprechende Abeilung später die Kosten tragen muss.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Know-How & Wissen was bereits über die Technologie vorhanden ist respektive wie diese eingesetzt werden kann & 2 & Obschon dadurch Kosten und Zeit gespart werden können, ist es auch ein Hinderniss bei der Suche eine passenden Lösung. Vor allem in anbetracht der Anfoderungen welche neue Denkansätze verlangt.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Konfigurations- änderung & Massstab wie einfach es ist die Konfiguration der Applikation mit der Software zu ändern. & 5 & Nicht-funktionale Anforderung, dass gewissen Eigenschaften ohne einen neustart geändert werden können.\\
-		BK-\arabic{bk} \stepcounter{bk} & Multi Version & Wie einfach kann die Datenbank mit mehrere Version umgehen und wie einfach sind die Konzepte dafür diese umzusetzen. & 5 & Die Umsetzung von Continuous Deployment ein sehr centraler Punkt da die Applikation zu jederzeit mit mehreren Version auskommen muss.\\
+		BK-\arabic{bk} \stepcounter{bk} & Konfigurations- änderung & Massstab wie einfach es ist die Konfiguration der Applikation mit der Software zu ändern. & 5 & Nicht-funktionale Anforderung, dass gewissen Eigenschaften ohne einen neustart geändert werden können.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Multi Version & Wie einfach kann die Datenbank mit mehrere Version umgehen und wie einfach sind die Konzepte dafür diese umzusetzen. & 5 & Die Umsetzung von Continuous Deployment ein sehr centraler Punkt da die Applikation zu jederzeit mit mehreren Version auskommen muss.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Anpassungen & Gewisse Codeteile müssen unweigerlich Angepasst werden und versuchen daher Aufwand. Hier sind vorallem Schnittsellen und die Persistenz betroffen. & 3 & Für die Erfüllung der Ziele kann dies in kauf genommen werden solang der Aufwand nicht zu hoch wird.\\
 		\bottomrule
 \end{longtable}	
@@ -412,7 +411,6 @@ Die Ausgefüllte Bewertungsmatrix findet sich im Anhang des Dokuments. Folgend d
 Die Messaging basierten Variante für Entkopplung haben sich für den Use Case als nicht passend respektive als zu überdimensioniert erwiesen. Die SIX hat eine Messaging Infrastruktur(JMS) welche allerdings nicht unter der Kontrolle des Projektes ist und zur kritischen Infrastruktur gehört. Aus diesem Grund ist dies keine Option. Kafka und Redis können ebenfalls als Message Queue verwendet werden. Bei diesen beiden Varianten würde man die Komponenten selber administrieren und hätte dadurch eine grössere Kontrolle. Bei Redis ziehen die gleichen Arguemten wie schon beim Datenspeicher weshalb die Variante nicht inbetracht gezogen wird. Bei Kafka gelten die gleichen Überlegungen wobei noch hinzukommt, dass die Plattform nicht dem Zweck entspricht da sie für Hochverfügbare Message Systeme mit sehr hohe Durchsatz konzipiert ist.\newline
 Schlussendlich wird die aktuelle Lösung mittels Spring REST weiterverwendet und im Fall eines Fehler, die Nachricht in die Datenbank gespeichert damit sie nicht verloren geht. Aktuell ist die Workflow Engine noch nicht hochverfügbar die Hersteller haben solche Konzepte für die neuen Versionen schon implementiert. Daher ist die Notwendigkeit einer asynchronen Kommunikation nicht mehr vorhanden.
 
-
 \subsection{Datenspeicherung}
 
 Für die Datenspeicherung standen Oracle, Mysql, MongoDB und Redis zu Auswahl(Siehe Kapitel \ref{ent-db}). \newline
@@ -422,7 +420,10 @@ MySQL erhielt die zweitbeste Bewertung und liegt vor MongoDB. Obschon die relati
 
 \subsection{Konfigurationsmanagement}
 
-
+Applikationen welche kontinuierlich ausgerollt werden sollen, brauch zwingend eine Art Konfigurationmanagement um Tätigkeiten wie Installationen und Aktualisierungen zu automatisieren. Die aktuelle Lösung mittels Docker und Docker Compose erlaubt zwar die Verwendung von Container und somit eine einfache Kapeslung wurde jedoch von den Entwicklern für produktive Umgebungen als schwer wartbar bezeichnet. Der Reifegrad ist trotz der schnellen Entwicklung vor allem bei den Orchestrierungsmechanismen noch nicht wirklich gegeben.\newline
+Saltstack als welches schon produktive eingesetzt bietet durch seine Verbreitung viele Vorteile. In Kombination mit Containern fehlt allerdings die Orchestrierungsmöglichkeit um mehrere miteinander zu verbinden. Für die Applikation direkt macht Saltstack trotz der hohen Bewertung daher keinen Sinn.\newline
+OpenShift als Plattform wird von der SIX als strategisch angesehen und hat damit das Ziel später einen grossteil der Applikation darauf zu migrieren. Aktuell gibt es Testinstanzen auf Grund von Compliance Anforderungen ist das ganze Deployment der Plattform noch nicht komplett definiert. Falls Projekte die Plattform nicht nutzen, fallen sie unter den Bereich 'Spezial Solutions' was zu Folge hat, dass die Kosten für den Betrieb von der Abteilung bewältigt werden muss. Daher ist OpenShift für das Deployment der Container die einzige Wahl.
+Spring Cloud Config wird als Ergänzung zu OpenShift verwendet wo Applikationsspezifische Konfigurationen zu laufzeit geändert werden müssen. Obschon diese mittels eines neustart des Containers möglicht ist, kann so ein unterbruchsfreie Betrieb gewährleistet werden.
 
 \subsection{Deployment Pipeline}
 
@@ -430,9 +431,23 @@ MySQL erhielt die zweitbeste Bewertung und liegt vor MongoDB. Obschon die relati
 
 Folgend die Prototypen welche erstellt wurden um die Risiken und Unsicherheiten bei der Lösungsvarianten zu bestätigen oder zu wiederlegen. 
 
-\subsection{MySQL Schema Migration}
+\subsection{MySQL, MongoDB Schema Migration}
 
-\subsection{MongoDB Schema Migration}
+Um die Möglichkeiten einer Schema Migration ohne unterbruch zu evaluieren,wurden folgende zwei Use Cases ausgewählt:
+\newline
+\begin{itemize}
+	\item Änderung einer Spalte
+	\item 'Split Table' bei welcher eine Tabelle in mehrere aufgeteilt werden.
+\end{itemize}
+
+Für beide Datenbanktypen ist einer Migration zweistufig da gleichzeitig mehrere Versionen der Applikationen auf die Datenbank zugreifen. Bei MySQL werden dabei Trigger verwendet welche die Daten zwischen den Kolumen respektive den Tabellen hin und her schieben. Sind mehrere Tabellen involviert, muss auf zirkuläre Trigger geachtet werden. Für die meisten Probleme gibt es Lösungen im Buch Database Refactoring \footnote{Database Refactoring: Evolutionary Database Design: Addison Wesley Signature Series: Scott J Ambler, Pramod J Sadalage: 2006}. Sobald alle Versionen der Applikation angehoben sind, können die Trigger und entsprechenden obsolete Columen gelöscht werden. Der Entwickler sich bei einer Änderung um die entsprechenden Scripts kümmern und diese auch testen.\newline
+Im gegensatz zu MySQL ist bei MongoDB keine Migrationsskript beim ausrollen der neuen Version von Nöten. Die Datenbank kann mit mehreren Dokumentversionen gleichzeitig umgehen. Anstelle von Triggern muss die Migration im Code gemacht werden. Für den Entwickler bedeutet das nicht weniger Aufwand der Ort ist schlicht ein anderer. Ein Vorteil ist, dass die Daten über Zeit migriert werden können und zu einem spätere Zeitpunkt die verbleibenden Daten nach gezogen werden können.\newline
+Beide Varianten bieten entsprechende Möglichkeiten dem Problem zu begegnen.
+ 
+
+\subsection{MySQL, MongoDB Replikation}
+
+Um Continuouse Delivery zu erreichen, müssen die Datenspeicher entsprechend hochverfügbar ausgelegt werden. MySQL als klassische \Gls{RDBMS} Datenbank bieten Replikation von Haus aus an. Gleiches gilt für MongoDB. Bei beiden kann ebenfalls der Grad er Replikation stuckweit definiert werden. Die Daten werden bei beiden Datenbanken in der Standarteinstellung asynchron repliziert. Dies wird vor allem aus Performanzgründen gemacht da Two-Phase Commits\Gls{2PC} über mehrere Standorte die Performaz eines System stark beinflussen kann. Es gibt dennoch bei beiden Datenbanken die Möglichkeit das Schreiben auf einen Slave zu verlagen. Unter MySQL heisst das Semisynchron, bei MongoDB geht das unter dem Namen WriteConcerns. Gemäss CAP-Theorem\Gls{CAP} ist MySQL als konsistent und verfügbar deklariert und MongoDB als konsistent und partitions tolerant. Die Replikation kann daher Produktabhängig gewährleistet werden wobi MongoDB durch die Architektur besser geeignet ist da der Handover zwischen den Servern voll automatisch geschiet und nicht ein Umschaltung gemacht werden muss.
 
 \subsection{Graphql}
 
@@ -446,4 +461,10 @@ Der Prototyp konnte erfolgreich umgesetzt werden hat jedoch einige negative Erke
 \end{itemize}
 Die Library wurde von Facebook für dynamische Sprachen entwickelt und ist für diese Verwendung sicher besser geeignet. Die Library wurde von Entwicklern nach Java protiert und wird auf GitHub gehostet. Der Zustand der Library ist nur anhand von GitHub schwer zu evaluieren und brigt das Risiko, dass im Fall von Probleme keine Fehler behoben werden oder dies schlussendlich selber gemacht werden muss.
 
+\subsection{Spring Cloud Config}
 
+\subsection{OpenShift}
+
+\section{Entscheidungen}
+
+Nach den 
