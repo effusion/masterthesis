@@ -463,7 +463,11 @@ Die Library wurde von Facebook für dynamische Sprachen entwickelt und ist für 
 
 \subsection{Spring Cloud Config}
 
+Spring Cloud Config erlaubt es, Änderungen an der Konfiguration der Applikation zu Lauftzeit durchzuführen. Auf der Clientseite werden Klassen welche Properties haben entsprechend annotiert und beim Start der Applikationoder wenn die entsprechende URL aufgerufen wird, aktualisiert. Der Server überprüft dabei regelmässig das git Repository auf Änderungen und kann wahlweise auf mittels eines Hook auf dem Repositoryserver angestossen werden. Für kleinere Applikationen mag das ausführen einer URL noch praktikabel sein, für grössere Deployments ist dies hingegen sehr umständlich. Deshalb kann durch hinzufügen von Spring Cloud Bus und einer Messagequeue wie RabbitMQ, dieser Prozess vereifacht werden. Die Clients und der Server verbinden sich auf den entsprechenden Message Server und erhalten bei einer Konfigurationänderung eine Nachricht die entsprechenden Properties zu aktualisieren.
+
 \subsection{OpenShift}
+
+OpenShift ist eine Plattform as a Service Lösung welche es erlaubt Docker Container zu Orchestrieren und somit ganze Umgebungen aufzubauen. Das Produkt basiert in der neuen Version auf Kubernetes und fügt über die Konsole respektive die Benutzeroberfläche gewisse Administrationsfunktionen hinzu. 
 
 \section{Entscheidungen}
 

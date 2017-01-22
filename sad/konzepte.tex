@@ -12,6 +12,10 @@
 
 \section{Typische Muster und Strukturen}
 
+\subsection{Repository}
+
+\subsection{Dependency Injection}
+
 \begin{quote}
 	Oftmals tauchen einige typische Lösungsstrukturen oder Grundmuster an mehren Stellen der Architektur auf. Beispiele dafür sind die Abhängigkeiten zwischen Persistenzschicht, Applikation sowie die Anbindung grafischer Oberflächen an die Fach- oder Domänenobjekte. Solche wiederkehrenden Strukturen beschreiben Sie möglichst nur ein einziges Mal, um Redundanzen zu vermeiden. Dieser Abschnitt erfüllt genau diesen Zweck.
 \end{quote}
@@ -40,7 +44,7 @@ nicht vorhabdeb
 
 \section{Bedienoberfläche}
 
-Die Bedienoberfläche basiert auf AngularJS und ist bereits vorhanden und nicht Teil der neuen Architektur.
+Die Benutzeroberfläche wurde mittels 
 
 \section{Ergonomie}
 
@@ -97,6 +101,8 @@ Feature Toogles für Webapplikation und Server
 
 \section{Logging, Protokollierung}
 
+Splunk
+
 \begin{quote}
 	
 	Es gibt zwei Ausprägungen der Protokollierung, das Logging und das Tracing . Bei beiden werden Funktions- oder Methodenaufrufe in das Programm aufgenommen, die zur Laufzeit über den Status des Programms Auskunft geben.
@@ -119,7 +125,8 @@ Kein Sepatates UI in der Applikation. Management über OpenShift Web oder OC Cli
 
 \section{Migration}
 
-Migration von MySQL nach MongoDB notwendig durch die sehr kleine Datenmengen wegen der umstellung von Paymit nach Twint.
+Da aktuell als Datenbank MySQL verwendet wird, muss eine Migration nach MongoDB durchgeführt werden. Da die Daten von MEON durch den Wechsel von Paymit nach TWINT
+obsolet werden und nur wenig Laufdaten gespeichert sind, können die Daten relativ einfach übernommen werden.
 
 \begin{quote}
 	Für manche Systeme gibt es existierende Altsysteme, die durch die neuen Systeme abgelöst werden sollen. Denken Sie als Architekt rechtzeitig auch an alle organisatorischen und technischen Aspekte, die zur Einführung oder Migration der Architektur beachtet werden müssen.
@@ -138,6 +145,7 @@ Migration von MySQL nach MongoDB notwendig durch die sehr kleine Datenmengen weg
 \end{quote}
 
 \section{Persistenz}
+\label{persistenz}
 
 Mongo DB
 Replica Set
@@ -161,9 +169,7 @@ Replica Set
 
 \section{Sessionbehandlung}
 
-Stateless kein Sessionhandling nötig
-
-Die Applikation besitzt keine Sessions. Eine Anfrage/Bestellung eines Benutzers wird angesendet und asynchron verarbeitet. Es gibt keine Möglichkeit sich in der Applikation einzulogen.
+Die Applikation besitzt keine Sessions. Eine Anfrage/Bestellung eines Benutzers wird abgesendet und asynchron verarbeitet. Es gibt keine Möglichkeit sich in der Applikation einzulogen.
 
 \section{Sicherheit}
 
@@ -181,11 +187,7 @@ Die Applikation besitzt keine Sessions. Eine Anfrage/Bestellung eines Benutzers 
 
 \section{Skalierung / Clusterung}
 
-Clustering wie OpenShift
-
-\begin{quote}
-	Wie gestalten Sie Ihr System „wachstumsfähig“, so daß auch bei steigender Last oder steigenden Benutzerzahlen die Antwortzeiten und/oder Durchsatz erhalten bleiben?
-\end{quote}
+Wie bereits im Kapitel \ref{deploy} angesprochen, können auf der OpenShift Plattform die Anzahl Pods eines Services dynamisch angepasst werden. Dies kann über das WebInterface den OC Client oder über Autoscaling geschehen. Da die Applikation nur wenige tägliche Benutzer hat, wird die Skalierung manuell durchgeführt.
 
 \section{Transaktionsbehandlung}
 
@@ -201,3 +203,7 @@ BASE für MongoDB
 	Verteilung: Entwurf von Software-Systemen, deren Bestandteile auf unterschiedlichen und eventuell physikalisch getrennten Rechnersystemen ablaufen.
 	Zur Verteilung gehören Dinge wie der Aufruf entfernter Methoden (remote procedure call, RPC), die Übertragung von Daten oder Dokumenten an verteilte Kommunikationspartner, die Wahl passender Interaktionsstile oder Nachrichtenaustauschmuster (etwa: synchron / asynchron, publish- subsribe, peer-to- peer).
 \end{quote}
+
+\section{Codegenerierung}
+
+Die AngularJS Services welche die Anfragen an den Server schicken werden anhand von Swagger und den RestController automatisch während dem Build Prozess generiert. Sie können durch den Entwickler auch lokal erstellt werden wenn Änderungen gemacht wurden.
