@@ -11,7 +11,7 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 \section{Ebene 1}
 
 \begin{center}
-	\includegraphics[scale=0.60]{ComponentLevel1.png}
+	\includegraphics[scale=0.6]{ComponentLevel1.png}
 \end{center}
 
 \end{landscape}
@@ -57,7 +57,7 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 		RegistrationService &  Enthält sämtliche Logik für die Aufbereitung der Registrierungsanfrage an die Workflow Engine sowie die Überprüfung des SMS Codes welcher an den neuen Händer verschickt wurde.\\ \hline
 		LegalService &  Stellt die Dienste für das Abfragen den rechtlichen Dokumente bereit. \\ \hline
 		FeatureService &  Verwaltet die aktuell eingeschalteten Features welche aktiviert sind. Holt sich die neuen Konfigurationen automatisch nach einer Benachrichtigung durch die Message Queue. \\ \hline
-		SMSService & Ermöglicht das Senden des generieten SMS Codes an den Händler.\\
+		External Services & Schnittstelle zu diversen externen Web Services der Post, des Schweizer Bundes und des Handelsregister. \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -82,7 +82,9 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 		\toprule
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
-		Zefix &  Handelsregisterschnittstelle zu Überprüfung des Händlers \\ \hline
+		Zefix &  Schnittstelle zum Download des Handelsregisterauszugs. \\ \hline
+		UID &  Schnittstelle zur Unternehmensidentifikation anhand der UnternehmerID \\ \hline
+		AddressChecerk &  Schnittstelle zu Post für Addressverifikation und Vervollständigung. \\ \hline
 		Configserver &  Beinhaltet die Configurationen der einzelnen Featueres. \\ \hline
 		SMS Gateway &  Sendet generierte Code an die vom Händler angegebene Nummer. \\ \hline
 		ConfigeQueue & Message Queue welche die Benachrichtigungen für Konfigurationsänderungen enthält. \\ \hline
@@ -90,7 +92,23 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 		\bottomrule
 	\end{tabular}
 \end{table}
+\newpage
 
 \section{Ebene 2}
 
+\subsection{RegistrationUI}
+
+\begin{center}
+	\includegraphics[scale=0.8]{WebComponentLevel2.png}
+\end{center}
+\newpage
+\subsection{RegistrationService}
+
+\begin{center}
+	\includegraphics[scale=0.8]{RegistrationServicesLevel2.png}
+\end{center}
+
 \section{Ebene 3}
+
+\subsection{RegistrationController}
+

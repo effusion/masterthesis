@@ -9,11 +9,23 @@ OpenShift verwendet diverse Konzepte welche kurz erläutert werden soll, und sic
 
 \subsection{Container und Pods}
 
-Neben den normalen Docker Container kenn OpenShift das Konzept von Pods. Pods\footnote{https://kubernetes.io/docs/user-guide/pods/} sind logisch gruppierte Einheiten von Docker Containern, des gleichen Types, welche gemeinsame Resourcen, IP Addressen, Speicher usw.,  aufweisen. Pods sind wie Container sterblich und werden von OpenShift beim hoch- oder runterskaliere respektive bei Fehlern einfach gelöscht und gegebenenfalls als neue Instanz gestartet.
+Neben den normalen Docker Container kenn OpenShift das Konzept von Pods. Pods\footnote{https://kubernetes.io/docs/user-guide/pods/} sind logisch gruppierte Einheiten von Docker Containern, des gleichen Types, welche gemeinsame Resourcen, IP Addressen, Speicher usw.,  aufweisen. Pods sind wie Container sterblich und werden von OpenShift beim hoch- oder runterskaliere respektive bei Fehlern einfach gelöscht und gegebenenfalls als neue Instanz gestartet. Detailierte Informationen zu Containern finden sich im Kapitel \ref{container}.
 
 \subsection{Services}
 
 Services\footnote{https://kubernetes.io/docs/user-guide/services/} sind eine weitere Abstraktion von OpenShift welche Pods gruppiert. Wenn verschiedene Pods miteinander kommunizieren wollen, braucht es eine Möglichkeite den Netzwerkverkehr zu organisieren. Services sind die Schnittstelle zwischen einzelnen Pods welche intern wie ein Loadbalancer funktionieren, welche eine Anfrage an einen Pod weiterleiten. Durch diesen Mechanismus wird es möglich dynamisch Pods hinzu zufügen oder zu entfernen.
+
+\subsection{Deployment Konfiguration}
+
+Um die Anwendung auf OpenShift auszurollen benötigt es neben Services und Container eine Beschreibung wie die Komponenten zusammenhängen. Folgende Konfigurationen müssen gemacht werden:\newline
+\begin{itemize}
+	\item Docker Image welches verwendet werden soll sowie die verfügbaren Ports und Protokoll.
+	\item Persistente Volumen.
+	\item Services auf welche zugegriffen werden muss. Diese werden dann mittels des internen DNS aufgelösst und eingetragen.
+	\item Strategien was bei Konfigurations- und Containeränderungen gemacht werden soll.
+	\item Eingestellungen für den Gesundheitszustand respektive ob ein Pod noch aktiv ist.
+\end{itemize}
+
 
 \section{Diagramm}
 \label{deploy-dia}

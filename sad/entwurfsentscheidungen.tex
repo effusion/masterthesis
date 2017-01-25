@@ -255,7 +255,7 @@ Auf Testumgebungen ist dies meistens kein Problem da entsprechene Konfiguratione
 
 \subsubsection{Docker Compose, Swarm}
 
-Aktuell ist die Konfiguration der \Gls{Container} in einem Properties gespeichert. Mit Compose\footnote{https://docs.docker.com/compose/} werden die Anhängigkeiten zwischen den Container definiert und die Konfiguration in den Container gelinkt.\newline
+Aktuell ist die Konfiguration der Container in einem Properties gespeichert. Mit Compose\footnote{https://docs.docker.com/compose/} werden die Anhängigkeiten zwischen den Container definiert und die Konfiguration in den Container gelinkt.\newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
@@ -327,44 +327,6 @@ Saltstack ist ein Konfigurationmanagement mit welchem sich Server und deren Appl
 \textbf{Risiken}
 \begin{itemize}
 	\item Wird durch den Einsatz von OpenShift für Container wahrscheinlich obsolet.
-\end{itemize}
-
-\subsection{Deployment Pipeline}
-
-Damit die Applikation nach einem Comit eines Entwicklers gebaut, getestet und schliesslich installiert wird braucht es eine Deployment Pipeline welche sämtliche Schritte automatisch durchführt. Stand heute gibt es für den 'develop', 'master' eine eigene Pipeline. Zusätzlich hat wird jedes Feature noch separat gebaut. Die Erweiterungen oder Behebungen werden dann mittels Merge in den Master-Branch verschoben wo der produktive Build gebaut wird. 
-
-\subsubsection{Pipeline mit Freigabe für Produktion}
-
-...\newline
-\newline
-\textbf{Vorteile}
-\begin{itemize}
-	\item .
-\end{itemize}
-\textbf{Nachteile}
-\begin{itemize}
-	\item .
-\end{itemize}
-\textbf{Risiken}
-\begin{itemize}
-	\item .
-\end{itemize}
-
-\subsubsection{Pipleine ohne Freigabe für Produktion}
-
-...\newline
-\newline
-\textbf{Vorteile}
-\begin{itemize}
-	\item .
-\end{itemize}
-\textbf{Nachteile}
-\begin{itemize}
-	\item .
-\end{itemize}
-\textbf{Risiken}
-\begin{itemize}
-	\item .
 \end{itemize}
 
 \section{Bewertungskriterienkatalog}

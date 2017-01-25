@@ -42,7 +42,7 @@ Für die einzelenen Teilprobleme wurden diverse Varianten ausprobiert, prototypi
 
 \section{Lösung}
 
-Die neue Architektur wird in den folgenden Kapiteln genauer erläutert. Ein Konzept was sich durch die ganze Applikation zieht ist, dass die ganze Anwendung mit mehreren Versionen von Schnittstellen und Datenbankschemata umgehen muss. Änderungen werden, im Vergleich zu klassichen Applikationen, immer in mehreren Schritten druchgeführt. Wird eine neuer REST Enpunkt hinzugefügt, muss der alte Pfad solang verfügbar sein bis alle Teile der Applikation aktualisiert sind. Das Gleiche gilt für das Datenbankschema. Durch den Einsatz von MongoDB kann das Schema kontinuierlich überführt werden und braucht keine Migrationsscripts bei der Installation. Neue Features sind über Feature \Gls{Toggles} gesteuert und dürfen erst aktiviert werden sobald alle Teile den entsprechenden stand haben.
+Die neue Architektur wird in den folgenden Kapiteln genauer erläutert. Ein Konzept was sich durch die ganze Applikation zieht ist, dass die ganze Anwendung mit mehreren Versionen von Schnittstellen und Datenbankschemata umgehen muss. Änderungen werden, im Vergleich zu klassichen Applikationen, immer in mehreren Schritten druchgeführt. Wird eine neuer REST Enpunkt hinzugefügt, muss der alte Pfad solang verfügbar sein bis alle Teile der Applikation aktualisiert sind. Das Gleiche gilt für das Datenbankschema. Durch den Einsatz von MongoDB kann das Schema kontinuierlich überführt werden und braucht keine Migrationsscripts bei der Installation. Neue Features sind über Feature Toggles gesteuert und dürfen erst aktiviert werden sobald alle Teile den entsprechenden stand haben.
 \newpage
 
 http://blogs.atlassian.com/2014/04/practical-continuous-deployment/
