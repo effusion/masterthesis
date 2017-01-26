@@ -12,13 +12,17 @@
 
 \section{Typische Muster und Strukturen}
 
-\subsection{Repository}
-
 \subsection{Dependency Injection}
 
-\begin{quote}
-	Oftmals tauchen einige typische Lösungsstrukturen oder Grundmuster an mehren Stellen der Architektur auf. Beispiele dafür sind die Abhängigkeiten zwischen Persistenzschicht, Applikation sowie die Anbindung grafischer Oberflächen an die Fach- oder Domänenobjekte. Solche wiederkehrenden Strukturen beschreiben Sie möglichst nur ein einziges Mal, um Redundanzen zu vermeiden. Dieser Abschnitt erfüllt genau diesen Zweck.
-\end{quote}
+Dieser Mechanismu stellt die korrekte zusammensetztung von Komponenten im Code sicher. Die Abhängigkeite müssen deshalb nicht durch den Entwickler im Code programmiert werden da das Framework diese Aufgabe übernimmt. 
+
+\subsection{Repository}
+
+Repositories sind eine Abstraktionschicht für die Busisses Logik welche den Zugriff auf die Datenbank abstrahiert. Sämtliche Operationen zum Speichern, Lesen und Aktualisieren, sind über Repositories zu tätigen. 
+
+\subsection{Controller}
+
+Controller dienen als Schnittstelle zwischen einem Web Framework und einer Server Applikation. Dabei werden URL Pfad auf einem Contollermethode abbgebildet und können dadurch von einem Web Client angesprochen werden. Für moderen Applikationen wird als Transportformat JSON verwendet. 
 
 \section{Ablaufsteuerung}
 
@@ -43,13 +47,14 @@ Jenkins, OC Plugin, Pipleline, Feature Branches
 
 Die AngularJS Services welche die Anfragen an den Server schicken werden anhand von Swagger und den RestController automatisch während dem Build Prozess generiert. Sie können durch den Entwickler auch lokal erstellt werden wenn Änderungen gemacht wurden.
 
-\section{Container}
+\section{Docker Container}
 \label{container}
-Was genau sind container erklärung des konzeptes.
+Container, welche vor allem im Zusammenhang mit Docker stehen, sind Software Einheiten mit eingenem Betreibsystem und können auf einen Host wie Linux gestartet werden. Dabei bekommen die Container einen eigenen Bereich auf dem Host System in welchem sie laufen. Dadurch kann Software als Komplettpakt, gegebenenfalls mit zusätzlichen Bibliotheken, ausgerollt werden ohne auf dem Host-System Änderungen machen zu müssen. \newline
+Bevor ein Container gestartet werden kann, muss zuerst eine Definition in Form eines Dockerfiles vorliegen. Aus dieser Definition ensteht ein Image welches danach gestartet werden kann und dann als Container läuft. Container sind unverändlerlich und verlieren alle Daten welche darin gespeichert wurden. Für diesen Fall wurden persistente Volumen geschaffen welche an einen Container angehängt werden können.
 
 \section{Bedienoberfläche}
 
-Die Benutzeroberfläche wurde mittels 
+Die Benutzeroberfläche wurde mittels des Single Page Application Frameworks Angularjs entwickelt um den Benutze
 
 \section{Ergonomie}
 
@@ -59,7 +64,7 @@ Die Benutzeroberfläche wurde mittels
 
 \section{Feature Toggles}
 
-was bezwecken Feature toggles
+Toggles erlaubt das Ein- und Ausschalten bestimmter Funkionalität einer Software. Ziel ist es, Änderungen welche an einer Anwendung gemacht wurden, erst zu einem späteren Zeitpunkt zu aktivieren. Für den Anwendungsfall von Continuous Deployment ist dies zwingen notwending da die während der Installattion verschieden Versionen der Software am laufen sind. Neue Funktionen können daher erst aktiviert werden wenn alle Teil der Applikation entsprechend aktualisiert wurden.
 
 \section{Geschäftsregeln}
 
@@ -98,8 +103,6 @@ Komponenten mehrfach vorhanden über PODS
 Zweiteilig:
 Spring Cloud Config für die Applikations internen Properties.
 Deployment über OpenShift Kubernetes
-
-Feature Toogles für Webapplikation und Server
 
 \begin{quote}
 	Die Flexibilität von IT-Systemem wird unter anderem durch ihre Konfigurierbarkeit beeinflusst, die Möglichkeit, manche Entscheidungen hinsichtlich der Systemnutzung erst spät zu treffen. Konfiguration kann zu folgenden Zeitpunkten erfolgen:
@@ -173,6 +176,7 @@ Replica Set
 
 \section{Plausibilisierung und Validierung}
 
+Presentation layer durch UID und addresschecker. Handelsregister auszug erneut auf der Workflow enginge
 \begin{quote}
 	Wo und wie plausibilisieren und validieren Sie (Eingabe-)daten, etwa Benutzereingaben?
 \end{quote}
@@ -182,6 +186,8 @@ Replica Set
 Die Applikation besitzt keine Sessions. Eine Anfrage/Bestellung eines Benutzers wird abgesendet und asynchron verarbeitet. Es gibt keine Möglichkeit sich in der Applikation einzulogen.
 
 \section{Sicherheit}
+
+SSL firewall zwischen den Zonen. Zugriffsberechtigung für die Datenbank
 
 \begin{quote}
 	Die Sicherheit von IT-Systemen befasst sich mit Mechanismen zur Gewährleistung von Datensicherheit und Datenschutz sowie Verhinderung von Datenmissbrauch.
