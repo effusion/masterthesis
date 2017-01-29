@@ -1,43 +1,50 @@
+\graphicspath{{./images/}}
+
 \chapter{Konzepte}
 
-\section{Fachliche Strukturen (Domäne)}
+\section{Fachliche Strukturen}
 
-\begin{quote}
-	Fachliche Modelle, Domänenmodelle, Business-Modelle – sie alle beschreiben Strukturen der reinen Fachlichkeit, also ohne Bezug zur Implementierungs- oder Lösungstechnologie.
-	Oftmals tauchen Teile solcher fachlichen Modelle an vielen Stellen in der Architektur, insbesondere der Bausteinsicht, wieder auf. 
-	Das "Domain-Driven-Design" oder die uralte "essentielle Systemanalyse" können Ihnen hierbei helfen.
-	
-	Mit Absicht stellen wir diesen Abschnitt an den Anfang der übergreifenden Konzepte.
-\end{quote}
+Wie in der Einführun schon erwähnt geht es bei der Applikation um das Registrieren neuer Händler für den TWINT Service. Die folgende Abbildung zeigt das Domänenmodell der Applikation. Ziel der Grafik ist es, die Struktur einfach darzustellen weshalb nicht alle Details aufgeführt sind. 
+
+\begin{center}
+	\includegraphics[scale=0.6]{DomainModel.png}
+\end{center}
 
 \section{Typische Muster und Strukturen}
 
 \subsection{Dependency Injection}
 
-Dieser Mechanismu stellt die korrekte zusammensetztung von Komponenten im Code sicher. Die Abhängigkeite müssen deshalb nicht durch den Entwickler im Code programmiert werden da das Framework diese Aufgabe übernimmt. 
+Dieser Mechanismu stellt die korrekte zusammensetztung von Komponenten im Code sicher. Die Abhängigkeiten und Objekt Instanzierungen  müssen deshalb nicht durch den Entwickler im Code programmiert werden sondern das Framework diese Aufgabe übernimmt. Das Basis der Server Applikation bildet Spring Boot. Damit der Prozess korrekt funktioniert,
+müssen entsprechende Klassen mit spezifischen Annotationen versehen werden. 
+Damit Spring die Klassen beim Starten auch finden, muss entweder eine XML oder eine Java Konfiguration des Kontextes vorliegen. Darin werden die entsprechen Packages aufgelisten in welche gesucht werden soll. Eine ausführliche Erklärung der Funktionsweise findet sich unter \url{https://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html}\newline
+Im Spring Kontext wird auch oft der Name Beans verwendet wobei diese verschiedene Ausprägungen haben können. In den folgenden unter Kapiteln werden einzelne Arte genauer erklärt.\newline
+Das Web Framework AngularJS verwendet ebenfalls Dependency Injection hat dafür auf Grund der Programmier Sprache JavaScript andere Modelle. Um die Abhängigkeiten aufzulösen können verschiedene Methoden verwendet werden. Eine genaue Erklärung dazu findet sich unter \url{https://docs.angularjs.org/guide/di}
 
 \subsection{Repository}
 
-Repositories sind eine Abstraktionschicht für die Busisses Logik welche den Zugriff auf die Datenbank abstrahiert. Sämtliche Operationen zum Speichern, Lesen und Aktualisieren, sind über Repositories zu tätigen. 
+Repositories sind eine Abstraktionschicht für die Busisses Logik welche den Zugriff auf die Datenbank abstrahiert. Sämtliche Operationen zum Speichern, Lesen und Aktualisieren, sind über Repositories zu tätigen.  Detailierte Informationen finden sich unter \url{http://docs.spring.io/spring-data/commons/docs/current/reference/html/}
 
 \subsection{Controller}
 
-Controller dienen als Schnittstelle zwischen einem Web Framework und einer Server Applikation. Dabei werden URL Pfad auf einem Contollermethode abbgebildet und können dadurch von einem Web Client angesprochen werden. Für moderen Applikationen wird als Transportformat JSON verwendet. 
+Controller dienen als Schnittstelle zwischen einem Web Framework und einer Server Applikation. Dabei werden URL Pfad auf einem Contollermethode abbgebildet und können dadurch von einem Web Client angesprochen werden. Für moderen Applikationen wird als Transportformat JSON verwendet. Weitere Informationen unter \url{http://docs.spring.io/spring-restdocs/docs/current/reference/html5/}
 
-\section{Ablaufsteuerung}
+\subsection{Services}
 
-\begin{quote}
-	Ablaufsteuerung von IT-Systemen bezieht sich sowohl auf die an der (grafischen) Oberfläche sichtbaren Abläufe als auch auf die Steuerung der Hintergrundaktivitäten. Zur Ablaufsteuerung gehört daher unter anderem die Steuerung der Benutzungsoberfläche, die Workflow- oder Geschäftsprozessteuerung sowie Steuerung von Batchabläufen.
-\end{quote}
+Serverseitig spricht man bei Services von Klassen welche Business Logik ausführen und somit die fachlichkeit der Applikation abbilden. Sie befinden sich in einer Schnichtenarchitektur zwischen den Controllern und den Repositories. Auf der Frontend Seite sind Services die Abstraktionschicht welche den Zugriff auf die URL auf Server Seite kapselt.
+
+\subsection{Router}
+
+Für die Navigation zwischen den verschiedenen Web Interface Teilen, wird in AngularJS das Konzept der Router verwendet. Sie definieren die Übergänge zwischen den einzlenen Seiten.
 
 \section{Ausnahme- und Fehlerbehandlung}
 
-\begin{quote}
-	Wie werden Programmfehler und Ausnahmen systematisch und konsistent behandelt?
-	Wie kann das System nach einem Fehler wieder in einen konsistenten Zustand gelangen? Geschieht dies automatisch oder ist manueller Eingriff erforderlich? Dieser Aspekt hat mit Logging, Protokollierung und Tracing zu tun.
-	Welche Art Ausnahmen und Fehler behandelt ihr System? Welche Art Ausnahmen werden an welche Außenschnittstelle weitergeleitet und welche Ausnahmen behandelt das System komplett intern? Wie nutzen Sie die Exception-Handling Mechanismen ihrer Programmiersprache? Verwenden Sie checked- oder unchecked-Exceptions?
-\end{quote}
-
+Das Applikation hat diverse Schnittstellen zu internen und externen System. Generell wird dabei von zwischen zwei Fehler unterschieden:
+\begin{itemize}
+	\item Fehler welche korrigiert werden können und somit dem Benutzer nicht angezeigt werden.
+	\item Fehler welche nicht korrgiert werden können und somit eine Meldung an den Nutzer zur folge haben.
+\end{itemize}
+Die Architektur der Applikation wurde so vorgesehen, dass der Benutzer möglichst keine Fehler des Systems bemerkt. Sämltiche Server sind redundant ausgelegt um eventuelle Netzwerkprobleme, Applikationabstürzte, Installationsprozeduren usw. abzufangen. Siehe dazu auch Kapitel \ref{deploy}. Request vom Server an die Workflow Engine werden aus diesem Grund asynchron verarbeitet.\newline
+Dienste bei welchen nicht von der SIX zu Verfügung gestellt werden, sind meistens auch redunant ausgelegt, ein Fehler muss jedoch mitigiert werden. Dazu zählen die Services des Bundes, Handelsregisters und der Post. Sollte einer der Dienste bei der Registrierung nicht vorhanden sein, soll dem Benutzer eine entsprechende Meldung angezeigt werden.
 
 \section{Build}
 
@@ -54,13 +61,7 @@ Bevor ein Container gestartet werden kann, muss zuerst eine Definition in Form e
 
 \section{Bedienoberfläche}
 
-Die Benutzeroberfläche wurde mittels des Single Page Application Frameworks Angularjs entwickelt um den Benutze
-
-\section{Ergonomie}
-
-\begin{quote}
-	Ergonomie von IT-Systemen bedeutet die Verbesserung (Optimierung) deren Benutzbarkeit aufgrund objektiver und subjektiver Faktoren. Im wesentlichen zählen zu ergonomischen Faktoren die Benutzungsoberfläche, die Reaktivität (gefühlte Performance) sowie die Verfügbarkeit und Robustheit eines Systems.
-\end{quote}
+Die Benutzeroberfläche wurde mittels des Single Page Application Frameworks Angularjs entwickelt um den Benutzer eine schnelle und einfach zu bedienende Oberfläche zur Verfügung zu stellen. 
 
 \section{Feature Toggles}
 
@@ -68,94 +69,45 @@ Toggles erlaubt das Ein- und Ausschalten bestimmter Funkionalität einer Softwar
 
 \section{Geschäftsregeln}
 
-wird auf der BPM Engine ausgeführt.
-\begin{quote}
-	Wie behandeln Sie Geschäftslogik oder Geschäftsregeln? Implementieren die beteiligten Fachklassen ihre Logik selbst, oder liegt die Logik in der Verantwortung einer zentralen Komponente? Setzen Sie eine Regelmaschine (rule-engine) zur Interpretation von Geschäftsregeln ein (Produktionsregelsysteme, forward- oder backward-chaining)?
-\end{quote}
-
-\section{Hochverfügbarkeit}
-
-DB Replica Set
-Komponenten mehrfach vorhanden über PODS
-
-\begin{quote}
-	Wie erreichen Sie hohe Verfügbarkeit des Systems? Legen Sie Teile redundant aus? Verteilen Sie das System auf unterschiedliche Rechner oder Rechenzentren? Betreiben Sie Standby-Systeme?
-	Könnte in Zusammenhang zu Clusterung stehen.
-\end{quote}
+Obschon der Serverteil gewisse Fachlogik beinhalten, werden die Geschäftsregeln auf der Workflow Engine gemacht da nur diese auf die entsprechenden Systeme Zugriff hat. Die Engine basiert auf Camunda und wurde mit entsprechenden eingenen Klassen angereichert um den Prozess der Neuregistration für Händler durchzuführen. Der Prozess läuft aus Sicht des Benutzers asynchron ab. Je nach Ausgang sämtliche Prüfungen und Registierungen auf den entsprechenden System, erhält der neue Händern den Vertrag zugeschickt. Der Prozess läuft generell automatisch ab mit der einzigen Ausnahme, dass die \gls{PEP} Prüfung anschlägt. In diesem Fall muss die Riskabteilung eine Prüfung durchführen und eine Genehmigung erteilen. 
 
 \section{Internationalisierung}
 
-\begin{quote}
-	Unterstützung für den Einsatz von Systemen in unterschiedlichen Ländern, Anpassung der Systeme an länderspezifische Merkmale. Bei der Internationalisierung (aufgrund der 18 Buchstaben zwischen I und n des englischen Internationalisation auch i18n genannt) geht es neben der Übersetzung von Aus- oder EIngabetexten auch um verwendete Zeichensätze, Orientierung von Schriften am Bildschirm und andere (äußerliche) Aspekte.
-\end{quote}
+Das Web Interface ist mehrsprachig ausgelegt und die Sprache kann durch den Benutzer eingestellt werden. Rechtliche Dokumente sind ebenfalls in den entsprechenden Sprachen abgelegt.
 
 \section{Kommunikation, Integration}
 
-übertragung wie REST zwischen den Services Bus für Konfiguations Änderungen(Siehe Konfiguration)
-
-\begin{quote}
-	Kommunikation: Übertragung von Daten zwischen System-Komponenten. Bezieht sich auf Kommunikation innerhalb eines Prozesses oder Adressraumes, zwischen unterschiedlichen Prozessen oder auch zwischen unterschiedlichen Rechnersystemen.
-	Integration: Einbindung bestehender Systeme (in einen neuen Kontext). Auch bekannt als: (Legacy) Wrapper, Gateway, Enterprise Application Integration (EAI).
-\end{quote}
+Als Kommunikationsmittel zwischen den einzelnen Teilen der Applikation kommen \gls{REST} und Messaging zum Einsatz. REST ist eine Art um Datenzwischen zwei System auszutauschen. Dabei werden die gängingen HTTP Methoden GET, PUT, POST und DELETE verwendet um entsprechende Aktion auf dem Schnittstelle des Zielsystems auszuführen. Als Übertragungs Format wirde JSON verwendet. Weitere Informationen finden sind unter \url{https://en.wikipedia.org/wiki/Representational_state_transfer}.\newline
+Das Konfigurationmanagement von Spring Clound Config ,verwendet für die Benachrichtigung der Komponenten bei einer Konfigurationsänderung, das Messaging Protokoll \Gls{AMQP}. Die Queues werden dabei auf einem separaten RabbitMQ Server gehalt vorauf sich der Config Server und die Clients verbinden.
 
 \section{Konfiguration}
+\label{config}
 
-Zweiteilig:
-Spring Cloud Config für die Applikations internen Properties.
-Deployment über OpenShift Kubernetes
+Die Konfiguration der Applikation besteht aus zwei Teilen. Für die Orchestrierung der Anwendung ist gleichzeit auch die Deployment Plattform OpenShift zuständing welche bereits in Kapitel \ref{deploy} vorgestellt wurde. OpenShift verwendet intern Kubernetes für die Koordination der einzelen Teile. Die sogennannte Deployment Konfiguration basiert auf einer yaml Datei wechle bei erstellen des Projekt eingelesen werden kann. 
+Um die Anwendung  auszurollen benötigt es neben Services und Container eine Beschreibung wie die Komponenten zusammenhängen. Folgende Konfigurationen müssen gemacht werden:\newline
+\begin{itemize}
+	\item Docker Image welches verwendet werden soll sowie die verfügbaren Ports und Protokoll.
+	\item Persistente Volumen.
+	\item Services auf welche zugegriffen werden muss. Diese werden dann mittels des internen DNS aufgelösst und eingetragen.
+	\item Strategien was bei Konfigurations- und Containeränderungen gemacht werden soll.
+	\item Eingestellungen für den Gesundheitszustand respektive ob ein Pod noch aktiv ist.
+\end{itemize}
 
-\begin{quote}
-	Die Flexibilität von IT-Systemem wird unter anderem durch ihre Konfigurierbarkeit beeinflusst, die Möglichkeit, manche Entscheidungen hinsichtlich der Systemnutzung erst spät zu treffen. Konfiguration kann zu folgenden Zeitpunkten erfolgen:
-	Während der Programmierung: Dabei werden beispielsweise Server-, Datei- oder Verzeichnisnamen direkt ("hart") in den Programmcode aufgenommen.
-	Während des Deployments oder der Installation: Hier werden Konfigurationsinformationen für eine bestimmte Installation angegeben, etwa der Installationspfad.
-	Beim Systemstart: Hier werden Informationen vor oder beim Programmstart dynamisch gelesen.
-	Während des Programmablaufs: Konfigurationsinformation wird zur Programmlaufzeit erfragt oder gelesen.
-\end{quote}
+Ist die Konfiguration erstellt und in einer Datei gespeichert, kann die Anwendung jederzeit in einem neuen Projekt mit angepassten Paramatern ausgerollt werden.\newline
+Der zweite Teil bilded Spring Cloud Config womit Konfiguratonänderungen zu Laufzeit ohne neustart der Applikation notwendig sind. Dafür verwendet die Bibiliothek einen zentralen Server welcher die Konfigurationen aus einem GIT Repository liest. Die Dateinamen sind nach dem Schema 'applicationname.properties' abgelegt und werden periodisch auf Änderungen überprüft. Die Client Applikation braucht ein Datei bootstrap.yml im Klassenpfad wo der Name der Applikation steht welche mit den Name des Propertyfiles übereinstimmen muss. Dadurch weiss Config Server welche Einstellungen an die Anwendung geschickt werden müssen. Damit Properties aktualisiert werden, muss die Klasse die Annotation '@RefreshScope' haben. Zusätzlich wird noch ein Bus mittels Queue, basierend auf RabbitMQ, verwendet um die Anwendungen zu benachrichtigen wenn eine Einstellung geändert hat.
 
 \section{Logging, Protokollierung}
 
-Splunk
-
-\begin{quote}
-	
-	Es gibt zwei Ausprägungen der Protokollierung, das Logging und das Tracing . Bei beiden werden Funktions- oder Methodenaufrufe in das Programm aufgenommen, die zur Laufzeit über den Status des Programms Auskunft geben.
-	In der Praxis gibt es zwischen Logging und Tracing allerdings sehr wohl Unterschiede:
-	\begin{itemize}
-		\item Logging kann fachliche oder technische Protokollierung sein, oder eine beliebige Kombination von beidem.
-		\item Fachliche Protokolle werden gewöhnlich anwenderspezifisch aufbereitet und übersetzt. Sie dienen Endbenutzern, Administratoren oder Betreibern von Softwaresystemen und liefern Informationen über die vom Programm abgewickelten Geschäftsprozesse.
-		\item Technische Protokolle sind Informationen für Betreiber oder Entwickler. Sie dienen der Fehlersuche sowie der Systemoptimierung.
-		\item Tracing soll Debugging -Information für Entwickler oder Supportmitarbeiter liefern. Es dient primär zur Fehlersuche und -analyse.
-	\end{itemize}
-\end{quote}
+Sämtliche Protokollierungsdaten welche von der Applikation generiert werden, sind an den zentralen Splunk Server zu schicken.
 
 \section{Management und Administrierbarkeit}
 
-Kein Sepatates UI in der Applikation. Management über OpenShift Web oder OC Client
-
-\begin{quote}
-	Größere IT-Systeme laufen häufig in kontrollierten Ablaufumgebungen (Rechenzentren) unter der Kontrolle von Operatoren oder Administratoren ab. Diese Stakeholder benötigen einerseits spezifische Informationen über den Zustand der Programme zur Laufzeit, andererseits auch spezielle Eingriffs- oder Konfigurationsmöglichkeiten.
-\end{quote}
+Da die Applikation auf OpenShift läuft wird sie auch über das Web interface oder den Command Line Client administiert. Die Firma verfolgt mittlerweile den DevOps Ansatz weshalb die Administratoren nicht die Applikation direkt verwalten, sondern sich mehr um die Plattform selber kümmern.  Das Management fällt somit dem Entwickler zu. 
 
 \section{Migration}
 
 Da aktuell als Datenbank MySQL verwendet wird, muss eine Migration nach MongoDB durchgeführt werden. Da die Daten von MEON durch den Wechsel von Paymit nach TWINT
 obsolet werden und nur wenig Laufdaten gespeichert sind, können die Daten relativ einfach übernommen werden.
-
-\begin{quote}
-	Für manche Systeme gibt es existierende Altsysteme, die durch die neuen Systeme abgelöst werden sollen. Denken Sie als Architekt rechtzeitig auch an alle organisatorischen und technischen Aspekte, die zur Einführung oder Migration der Architektur beachtet werden müssen.
-	Beispiele:
-	\begin{itemize}
-		\item Konzept, Vorgehensweise oder Werkzeuge zur Datenübernahme und initialen Befüllung mit Daten
-		\item Konzept zur Systemeinführung oder zeitweiliger Parallelbetrieb von Alt- und Neusystem
-	\end{itemize}
-	Müssen Sie bestehende Daten migrieren? Wie führen Sie die benötigten syntaktischen oder semantischern Transformationen durch?
-\end{quote}
-
-\section{Parallelisierung / Nebenläufigkeit}
-
-\begin{quote}
-	Programme können in parallelen Prozessen oder Threads ablaufen - was die Notwendigkeit von Synchronisationspunkten mit sich bringt. Die Grundlagen dieses Aspekten legt die Parallelverarbeitung. Für die Architektur und Implementierung nebenläufiger Systeme sind viele technische Detailaspekte zu berücksichtigen (Adressräume, Arten von Synchronisationsmechanismen (Guards, Wächter, Semaphore), Prozesse und Threads, Parallelität im Betriebssystem, Parallelität in virtuellen Maschinen und andere).
-\end{quote}
 
 \section{Persistenz}
 \label{persistenz}
@@ -176,10 +128,7 @@ Replica Set
 
 \section{Plausibilisierung und Validierung}
 
-Presentation layer durch UID und addresschecker. Handelsregister auszug erneut auf der Workflow enginge
-\begin{quote}
-	Wo und wie plausibilisieren und validieren Sie (Eingabe-)daten, etwa Benutzereingaben?
-\end{quote}
+Auf dem Formular des Web Interfaces sollen Daten wie Händelername via des Unternehmensinfdentifikationserve des Bundes sowie die Addressen mittles der Services der Post überprüft werden. Angaben welcher der Händler machen muss, sind entsprechend gegenzeichnet und führen zu einem Fehler falls sie nicht validiert werden können. Der hochgeladene Handelsregisterauszug wird auf der Workflow Engine nochmals geprüft.
 
 \section{Sessionbehandlung}
 
@@ -187,19 +136,7 @@ Die Applikation besitzt keine Sessions. Eine Anfrage/Bestellung eines Benutzers 
 
 \section{Sicherheit}
 
-SSL firewall zwischen den Zonen. Zugriffsberechtigung für die Datenbank
-
-\begin{quote}
-	Die Sicherheit von IT-Systemen befasst sich mit Mechanismen zur Gewährleistung von Datensicherheit und Datenschutz sowie Verhinderung von Datenmissbrauch.
-	Typische Fragestellungen sind:
-	\begin{itemize}
-		\item Wie können Daten auf dem Transport (beispielsweise über offene Netze wie das Internet) vor Missbrauch geschützt werden?
-		\item Wie können Kommunikationspartner sich gegenseitig vertrauen?
-		\item Wie können sich Kommunikationspartner eindeutig erkennen und vor falschen Kommunikationspartner schützen?
-		\item Wie können Kommunikationspartner die Herkunft von Daten für sich beanspruchen (oder die Echtheit von Daten bestätigen)?
-	\end{itemize}
-	Das Thema IT-Sicherheit hat häufig Berührung zu juristischen Aspekten, teilweise sogar zu internationalem Recht.
-\end{quote}
+Die Applikation befindet sich, wie im Kapitel \ref{deploy-dia} dargestellt, in zwei Verschiedenen Zonen. Der Teil in der öffentlichen Zone hält keine kritischen Informationen vor sondern Addressdaten der neuen Händler. Diese werden jnur kurzeitig für die Übertragung an die Workflow Engine gespeichert. Der Teil in der PCI Zone steht unter den gleichnamigen Compliance Anforderungen da im gleichen Bereich auch Systeme sind welche mit Kartendaten arbeiten. Aus diesem Grund ist eine entsprechende Firewall dazwischen. Diese Firewall kann jedoch kein Content Scanning durchführen weshalb vor der Workflow Engine eine Apache WebServer mit einem Security Modul steht. Der Config Server steht ebenfalls in der sicheren Zone um Passwörter zu schützen. Die ganze Kommunikation muss verschlüsselt erfolgen. Durch dem Umstieg auf OpenShift ist jedoch noch nicht klar wie die ganzen Zertifikate verwaltet werden resp. ob nur am Eingang ein offizielles verwendet wird oder ob die ganze Kommunikation verschlüsselt sein muss.
 
 \section{Skalierung / Clusterung}
 
@@ -207,15 +144,5 @@ Wie bereits im Kapitel \ref{deploy} angesprochen, können auf der OpenShift Plat
 
 \section{Transaktionsbehandlung}
 
-BASE für MongoDB
+Im Vergleich zu klassischen \Gls{RDBMS} welche sich an die \Gls{ACID} Prizipien halten, hat MongoDB andere Mechanismen wie Transaktionen gehandhabt werden.
 
-\begin{quote}
-	Transaktionen sind Arbeitsschritte oder Abläufe, die entweder alle gemeinsam oder garnicht durchgeführt werden. Der Begriff stammt aus den Datenbanken - wichtiges Stichwort hier sind ACID-Transaktionen (atomar, consistent, isolated, durable). Im Bereich von NoSQL-Datenbanken gelten andere Kriterien.
-\end{quote}
-
-\section{Verteilung}
-
-\begin{quote}
-	Verteilung: Entwurf von Software-Systemen, deren Bestandteile auf unterschiedlichen und eventuell physikalisch getrennten Rechnersystemen ablaufen.
-	Zur Verteilung gehören Dinge wie der Aufruf entfernter Methoden (remote procedure call, RPC), die Übertragung von Daten oder Dokumenten an verteilte Kommunikationspartner, die Wahl passender Interaktionsstile oder Nachrichtenaustauschmuster (etwa: synchron / asynchron, publish- subsribe, peer-to- peer).
-\end{quote}

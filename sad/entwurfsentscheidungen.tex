@@ -361,37 +361,9 @@ Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis
 \restoregeometry
 \newpage
 
-\section{Bewertungen}
-
-Die Ausgefüllte Bewertungsmatrix findet sich im Anhang des Dokuments. Folgend die Begründungen für die einzelnen Bewertungen und deren Schlussfolgerungen
-
-\subsection{Schnittstellen Versionierung}
-
-
-\subsection{Kommunikationsentkopplung}
-
-Die Messaging basierten Variante für Entkopplung haben sich für den Use Case als nicht passend respektive als zu überdimensioniert erwiesen. Die SIX hat eine Messaging Infrastruktur(JMS) welche allerdings nicht unter der Kontrolle des Projektes ist und zur kritischen Infrastruktur gehört. Aus diesem Grund ist dies keine Option. Kafka und Redis können ebenfalls als Message Queue verwendet werden. Bei diesen beiden Varianten würde man die Komponenten selber administrieren und hätte dadurch eine grössere Kontrolle. Bei Redis ziehen die gleichen Arguemten wie schon beim Datenspeicher weshalb die Variante nicht inbetracht gezogen wird. Bei Kafka gelten die gleichen Überlegungen wobei noch hinzukommt, dass die Plattform nicht dem Zweck entspricht da sie für Hochverfügbare Message Systeme mit sehr hohe Durchsatz konzipiert ist.\newline
-Schlussendlich wird die aktuelle Lösung mittels Spring REST weiterverwendet und im Fall eines Fehler, die Nachricht in die Datenbank gespeichert damit sie nicht verloren geht. Aktuell ist die Workflow Engine noch nicht hochverfügbar die Hersteller haben solche Konzepte für die neuen Versionen schon implementiert. Daher ist die Notwendigkeit einer asynchronen Kommunikation nicht mehr vorhanden.
-
-\subsection{Datenspeicherung}
-
-Für die Datenspeicherung standen Oracle, Mysql, MongoDB und Redis zu Auswahl(Siehe Kapitel \ref{ent-db}). \newline
-Oracle hat die höchste Bewertung erhalten da die Firma mit dieser Datenbank schon viele Jahre Erfahrung hat und dementsprechen die relationalen Konzepte bestens versteht. Auf Grund von Lizenzbestimmungen seitens Oracles hat SIX keine Lizenzen welche es erlaubt Oracle Instanzen auf einer virtualisierten Umgebung zu installieren. Oracle kann deshalb nicht als Datenspeicher berücksichtigt werden.\newline
-Redis ist wird teils in der Firma schon verwendet, jedoch ist die Datenbank nicht wirklich passend für den Usecase und die Lernkurve um alles nur in einer Map zu speichern macht die Datenbank zu am wenigsten passenden Option. Auch deshalb da für die Datenbank nur der Support der Community verfügbat ist.\newline
-MySQL erhielt die zweitbeste Bewertung und liegt vor MongoDB. Obschon die relationalen Konzepte besser bekannt, wurde entschieden für beide einen Prototypen zu machen um den Umgang mit mehrere Schemaversionen zu evaluieren da. Für MongoDB müssen noch Themen wie Replikation und der Aufwand für die Umstellung der Repositories berrücksichtigt werden.
-
-\subsection{Konfigurationsmanagement}
-
-Applikationen welche kontinuierlich ausgerollt werden sollen, brauch zwingend eine Art Konfigurationmanagement um Tätigkeiten wie Installationen und Aktualisierungen zu automatisieren. Die aktuelle Lösung mittels Docker und Docker Compose erlaubt zwar die Verwendung von Container und somit eine einfache Kapeslung wurde jedoch von den Entwicklern für produktive Umgebungen als schwer wartbar bezeichnet. Der Reifegrad ist trotz der schnellen Entwicklung vor allem bei den Orchestrierungsmechanismen noch nicht wirklich gegeben.\newline
-Saltstack als welches schon produktive eingesetzt bietet durch seine Verbreitung viele Vorteile. In Kombination mit Containern fehlt allerdings die Orchestrierungsmöglichkeit um mehrere miteinander zu verbinden. Für die Applikation direkt macht Saltstack trotz der hohen Bewertung daher keinen Sinn.\newline
-OpenShift als Plattform wird von der SIX als strategisch angesehen und hat damit das Ziel später einen grossteil der Applikation darauf zu migrieren. Aktuell gibt es Testinstanzen auf Grund von Compliance Anforderungen ist das ganze Deployment der Plattform noch nicht komplett definiert. Falls Projekte die Plattform nicht nutzen, fallen sie unter den Bereich 'Spezial Solutions' was zu Folge hat, dass die Kosten für den Betrieb von der Abteilung bewältigt werden muss. Daher ist OpenShift für das Deployment der Container die einzige Wahl.
-Spring Cloud Config wird als Ergänzung zu OpenShift verwendet wo Applikationsspezifische Konfigurationen zu laufzeit geändert werden müssen. Obschon diese mittels eines neustart des Containers möglicht ist, kann so ein unterbruchsfreie Betrieb gewährleistet werden.
-
-\subsection{Deployment Pipeline}
-
 \section{Prototypen}
 
-Folgend die Prototypen welche erstellt wurden um die Risiken und Unsicherheiten bei der Lösungsvarianten zu bestätigen oder zu wiederlegen. 
+Folgend die Prototypen welche erstellt wurden um die Risiken und Unsicherheiten bei der Lösungsvarianten zu bestätigen oder zu wiederlegen. Die Ergebnisse fliessen in die Bewertungsmatrix ein.
 
 \subsection{MySQL, MongoDB Schema Migration}
 
@@ -405,7 +377,6 @@ Um die Möglichkeiten einer Schema Migration ohne unterbruch zu evaluieren,wurde
 Für beide Datenbanktypen ist einer Migration zweistufig da gleichzeitig mehrere Versionen der Applikationen auf die Datenbank zugreifen. Bei MySQL werden dabei Trigger verwendet welche die Daten zwischen den Kolumen respektive den Tabellen hin und her schieben. Sind mehrere Tabellen involviert, muss auf zirkuläre Trigger geachtet werden. Für die meisten Probleme gibt es Lösungen im Buch Database Refactoring \footnote{Database Refactoring: Evolutionary Database Design: Addison Wesley Signature Series: Scott J Ambler, Pramod J Sadalage: 2006}. Sobald alle Versionen der Applikation angehoben sind, können die Trigger und entsprechenden obsolete Columen gelöscht werden. Der Entwickler sich bei einer Änderung um die entsprechenden Scripts kümmern und diese auch testen.\newline
 Im gegensatz zu MySQL ist bei MongoDB keine Migrationsskript beim ausrollen der neuen Version von Nöten. Die Datenbank kann mit mehreren Dokumentversionen gleichzeitig umgehen. Anstelle von Triggern muss die Migration im Code gemacht werden. Für den Entwickler bedeutet das nicht weniger Aufwand der Ort ist schlicht ein anderer. Ein Vorteil ist, dass die Daten über Zeit migriert werden können und zu einem spätere Zeitpunkt die verbleibenden Daten nach gezogen werden können.\newline
 Beide Varianten bieten entsprechende Möglichkeiten dem Problem zu begegnen.
- 
 
 \subsection{MySQL, MongoDB Replikation}
 
@@ -415,7 +386,6 @@ Um Continuouse Delivery zu erreichen, müssen die Datenspeicher entsprechend hoc
 
 GraphQL ist eine Technologie welche von Facebook entwickelt wurde um den Umgang mit mehreren Schnittstellen Versionen für die verschiedenen Endgeräte besser umgehen zu können. Dabei wird eine Art Abfrage an den \gls{REST} Endpunkt gesendet welcher anschliessend die Daten dynamisch sammelt und an den Client sendet. Um die Funktionsweise der Bibiliothek besser einschätzen zu können, wurde ein einfacher Prototyp gemacht welche die Use Cases von Lesen und Schreiben abbildet.\newline
 Der Prototyp konnte erfolgreich umgesetzt werden hat jedoch einige negative Erkenntnisse über die Bibliothek zu gezeigt. Folgend eine Auflistung der Probleme:\newline
-\newline
 \begin{itemize}
 	\item Model für das Schreiben und Lesen müssen separat definiert werden was faktisch zum doppelten Code fürt.
 	\item Viele Einstellungen müssen mit Stringvariablen angegeben werden und ist deshalb fehleranfällig.
@@ -429,8 +399,32 @@ Spring Cloud Config erlaubt es, Änderungen an der Konfiguration der Applikation
 
 \subsection{OpenShift}
 
-OpenShift ist eine Plattform as a Service Lösung welche es erlaubt Docker Container zu Orchestrieren und somit ganze Umgebungen aufzubauen. Das Produkt basiert in der neuen Version auf Kubernetes und fügt über die Konsole respektive die Benutzeroberfläche gewisse Administrationsfunktionen hinzu. 
+OpenShift ist eine Plattform as a Service Lösung welche es erlaubt Docker Container zu Orchestrieren und somit ganze Umgebungen aufzubauen. Das Produkt basiert in der neuen Version auf Kubernetes und fügt über die Konsole respektive die Benutzeroberfläche gewisse Administrationsfunktionen hinzu.  Mit dem Prototypen konnte verifiziert werden, dass die Installation einer Applikation gut von der Hand geht. Die Konzepte welche von Docker und Docker Compose bekannt sind, konnte wieder angewendet werden. OpenShift bietet diverse Möglichkeiten hochverfügbarkeit für die Anwendung zu erreichen und Applikation schnell produktiv zu schalten. Trotz der einfach Befehle und des übersichtlichen Administrations Interfaces ist die Fehlerbehandlung und das Konzept nicht immer einfach.
 
-\section{Entscheidungen}
+\section{Bewertungen}
 
-Nach den 
+Die Ausgefüllte Bewertungsmatrix findet sich im Anhang des Dokuments. Folgend die Begründungen für die einzelnen Bewertungen und deren Schlussfolgerungen
+
+\subsection{Schnittstellen Versionierung}
+
+Die Methoden wie Content-Negotiation und Versionierung mittels Pfad sind bestens bekannt und wurden nicht evaluiert. Für GraphQL hat der Prototyp gezeigt, das die Bibliothek für den Gebrauch in einer Java Anwendung nicht sinnvoll ist.  Auf Grund von internen Richtlichen zu API Desgin, wird die Versionierung mittels Pfand für die REST Schnittstellen verwendet.
+
+\subsection{Kommunikationsentkopplung}
+
+Die Messaging basierten Variante für Entkopplung haben sich für den Use Case als nicht passend respektive als zu überdimensioniert erwiesen. Die SIX hat eine Messaging Infrastruktur(JMS) welche allerdings nicht unter der Kontrolle des Projektes ist und zur kritischen Infrastruktur gehört. Aus diesem Grund ist dies keine Option. Kafka und Redis können ebenfalls als Message Queue verwendet werden. Bei diesen beiden Varianten würde man die Komponenten selber administrieren und hätte dadurch eine grössere Kontrolle. Bei Redis ziehen die gleichen Arguemten wie schon beim Datenspeicher weshalb die Variante nicht inbetracht gezogen wird. Bei Kafka gelten die gleichen Überlegungen wobei noch hinzukommt, dass die Plattform nicht dem Zweck entspricht da sie für Hochverfügbare Message Systeme mit sehr hohe Durchsatz konzipiert ist.\newline
+Schlussendlich wird die aktuelle Lösung mittels Spring REST weiterverwendet welche die Datenbank als Queue verwendet und die Anfrage asynchron weiterschickt. 
+
+\subsection{Datenspeicherung}
+
+Für die Datenspeicherung standen Oracle, Mysql, MongoDB und Redis zu Auswahl(Siehe Kapitel \ref{ent-db}). \newline
+Oracle hat die höchste Bewertung erhalten da die Firma mit dieser Datenbank schon viele Jahre Erfahrung hat und dementsprechen die relationalen Konzepte bestens versteht. Auf Grund von Lizenzbestimmungen seitens Oracles hat SIX keine Lizenzen welche es erlaubt Oracle Instanzen auf einer virtualisierten Umgebung zu installieren. Oracle kann deshalb nicht als Datenspeicher berücksichtigt werden.\newline
+Redis ist wird teils in der Firma schon verwendet, jedoch ist die Datenbank nicht wirklich passend für den Usecase und die Lernkurve um alles nur in einer Map zu speichern macht die Datenbank zu am wenigsten passenden Option. Auch deshalb da für die Datenbank nur der Support der Community verfügbat ist.\newline
+MySQL erhielt die zweitbeste Bewertung und liegt vor MongoDB. Obschon die relationalen Konzepte besser bekannt sind, wurde entschieden für beide einen Prototypen zu machen um den Umgang mit mehrere Schemaversionen zu evaluieren da. Für MongoDB müssen noch Themen wie Replikation und der Aufwand für die Umstellung der Repositories berrücksichtigt werden.
+
+\subsection{Konfigurationsmanagement}
+
+Applikationen welche kontinuierlich ausgerollt werden sollen, brauch zwingend eine Art Konfigurationmanagement um Tätigkeiten wie Installationen und Aktualisierungen zu automatisieren. Die aktuelle Lösung mittels Docker und Docker Compose erlaubt zwar die Verwendung von Container und somit eine einfache Kapeslung wurde jedoch von den Entwicklern für produktive Umgebungen als schwer wartbar bezeichnet. Der Reifegrad ist trotz der schnellen Entwicklung vor allem bei den Orchestrierungsmechanismen noch nicht wirklich gegeben.\newline
+Saltstack als welches schon produktive eingesetzt bietet durch seine Verbreitung viele Vorteile. In Kombination mit Containern fehlt allerdings die Orchestrierungsmöglichkeit um mehrere miteinander zu verbinden. Für die Applikation direkt macht Saltstack trotz der hohen Bewertung daher keinen Sinn.\newline
+OpenShift als Plattform wird von der SIX als strategisch angesehen und hat damit das Ziel später einen grossteil der Applikation darauf zu migrieren. Aktuell gibt es Testinstanzen auf Grund von Compliance Anforderungen ist das ganze Deployment der Plattform noch nicht komplett definiert. Falls Projekte die Plattform nicht nutzen, fallen sie unter den Bereich 'Spezial Solutions' was zu Folge hat, dass die Kosten für den Betrieb von der Abteilung bewältigt werden muss. Daher ist OpenShift für das Deployment der Container die einzige Wahl.
+Spring Cloud Config wird als Ergänzung zu OpenShift verwendet wo Applikationsspezifische Konfigurationen zu laufzeit geändert werden müssen. Obschon diese mittels eines neustart des Containers möglicht ist, kann so ein unterbruchsfreie Betrieb gewährleistet werden.
+
