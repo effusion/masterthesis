@@ -10,6 +10,23 @@ Wie in der Einführun schon erwähnt geht es bei der Applikation um das Registri
 	\includegraphics[scale=0.6]{DomainModel.png}
 \end{center}
 
+\section{Software Aktualisierung}
+\label{software-update}
+
+Die aktualisierung der Software geschiet mit der neuen Architektur kontinuierlich. Damit dies problemlos funktioniert, müssen gewisse Konzepte berücksichtigt werden. Generell sind folgende Regel zu beachten:
+\begin{itemize}
+	\item Anpassungen müssen abwärtskompatibel sein. Felder müssen deshalb als 'deprecated' gekennzeichnet werden und sind erst zu entfernen wenn alle Teil der Applikation aktualisiert wurden.
+	\item Mappings auf andere Objekte ,wie Datenbank oder Transferobjekte welche an umliegende System geschickt werden, müssen immer mit beiden Versionen funtkionieren.
+\end{itemize}
+
+\subsection{Schnittstellen}
+
+Schnittstellen müssen im Pfad die Versionsnummer enthalten damit der Client die richtigen Entpunkte ansprechen kann. Müssen Änderungen gemacht werden welche sich nicht in die aktuelle Implementierung kombinieren lassen, gilt es, einen neue URL mit neuer Version zu erstellen.
+
+\subsection{Persistenz}
+
+Datenbank objekte müssen wie Schnittstellen ebenfall abwärtskompatibel sein wodurch kann eine kontinuierliche Aktualisierung erfolgen kann. Alte Versionen können nach bedarf später mittels eines Migrationsskipts auf die neue Version angehoben werden. Siehe dazu auch Kapitel \ref{persistenz}
+
 \section{Typische Muster und Strukturen}
 
 \subsection{Dependency Injection}
@@ -46,9 +63,19 @@ Das Applikation hat diverse Schnittstellen zu internen und externen System. Gene
 Die Architektur der Applikation wurde so vorgesehen, dass der Benutzer möglichst keine Fehler des Systems bemerkt. Sämltiche Server sind redundant ausgelegt um eventuelle Netzwerkprobleme, Applikationabstürzte, Installationsprozeduren usw. abzufangen. Siehe dazu auch Kapitel \ref{deploy}. Request vom Server an die Workflow Engine werden aus diesem Grund asynchron verarbeitet.\newline
 Dienste bei welchen nicht von der SIX zu Verfügung gestellt werden, sind meistens auch redunant ausgelegt, ein Fehler muss jedoch mitigiert werden. Dazu zählen die Services des Bundes, Handelsregisters und der Post. Sollte einer der Dienste bei der Registrierung nicht vorhanden sein, soll dem Benutzer eine entsprechende Meldung angezeigt werden.
 
-\section{Build}
+\section{Build Management}
+\begin{quote}
+ Mit Marc abklären
+\end{quote}
 
-Jenkins, OC Plugin, Pipleline, Feature Branches
+Um die Applikation zu bauen und bei neuen Funktionen ausrollen zu können, braucht es einen entsprechen konfigurierten Build Job. Da bei diesem Projekt GIT zum Einsatz kommt, gibt es mehrere Branches welche den Code für das entsprechende Stage enthalten. Im generellen gibt es drei wichtige Branches:
+\begin{itemize}
+	\item develop: Startpunkt für den Build
+	\item develop-stable: Enthält den Code für die Integrationsumgebung
+	\item master: Enthält den produktiven Code
+\end{itemize}
+Sämtliche neuen Funktionen und Fehlerbehebungen werden auf einem separaten \Gls{FEBA}Feature Branch erledigt und erst nach Abschluss in den Development Branch gemerged. Dadurch können die Änderungen unabhängig voneinander durchgeführt werden.\newline
+Der Build Job ist als Jenkinsfile eingecheckt und erhält die Beschreibung wie die Pipeline und Ihre Stage definiert sind. Siehe dazu auch \url{https://jenkins.io/doc/book/pipeline/}. In den einzelen Stages werden Docker Container gebaut welche dann ins Firmen interne Repository hochgeladen werden. Durch das OpenShift Plugin können die Container dann in den entsprechenden Projekten neu ausgerollt werden.
 
 \section{Codegenerierung}
 
@@ -64,6 +91,7 @@ Bevor ein Container gestartet werden kann, muss zuerst eine Definition in Form e
 Die Benutzeroberfläche wurde mittels des Single Page Application Frameworks Angularjs entwickelt um den Benutzer eine schnelle und einfach zu bedienende Oberfläche zur Verfügung zu stellen. 
 
 \section{Feature Toggles}
+\label{toggles}
 
 Toggles erlaubt das Ein- und Ausschalten bestimmter Funkionalität einer Software. Ziel ist es, Änderungen welche an einer Anwendung gemacht wurden, erst zu einem späteren Zeitpunkt zu aktivieren. Für den Anwendungsfall von Continuous Deployment ist dies zwingen notwending da die während der Installattion verschieden Versionen der Software am laufen sind. Neue Funktionen können daher erst aktiviert werden wenn alle Teil der Applikation entsprechend aktualisiert wurden.
 
@@ -112,19 +140,18 @@ obsolet werden und nur wenig Laufdaten gespeichert sind, können die Daten relat
 \section{Persistenz}
 \label{persistenz}
 
-Mongo DB
-Replica Set
+\subsection{Datenspeicherung}
+Für die Speicherung der Daten wird die NoSQL Datenbank MongoDB eingesetzt. Anstelle von Tabellen mit einem defininierten Schema, werden Dokumente verwendet welche schemalos sind. Dadruch können mehrere Versionen des selben Dokumentes in der Datenbank gespeichert werden. Der Treiber für MongoDB wird beim Mapping nicht vorhandene Attribute welche sich im Dokument befinden jedoch nicht auf der Klasse entsprechend nicht umwandeln.\newline
+Dokumenteklasse in Java müssen ein Attribut haben welches die Version des Dokumentes wiederspiegelt. Die Nummer ist bei jeder Änderung der Klasse anzupassen. Dadruch können bei einer Migration die Entsprechenden Serviceklassen die Daten entsprechen des neuen Dokumentes speichern.
 
-\begin{quote}
-	Persistenz (Dauerhaftigkeit, Beständigkeit) bedeutet, Daten aus dem (flüchtigen) Hauptspeicher auf ein beständiges Medium (und wieder zurück) zu bringen.
-	Einige der Daten, die ein Software-System bearbeitet, müssen dauerhaft auf einem Speichermedium gespeichert oder von solchen Medien gelesen werden:
-	\begin{itemize}
-		\item Flüchtige Speichermedien (Hauptspeicher oder Cache) sind technisch nicht für dauerhafte Speicherung ausgelegt. Daten gehen verloren, wenn die entsprechende Hardware ausgeschaltet oder heruntergefahren wird.
-		\item Die Menge der von kommerziellen Software-Systemen bearbeiteten Daten übersteigt üblicherweise die Kapazität des Hauptspeichers.
-		\item Auf Festplatten, optischen Speichermedien oder Bändern sind oftmals große Mengen von Unternehmensdaten vorhanden, die eine beträchtliche Investition darstellen.
-	\end{itemize}
-	Persistenz ist ein technisch bedingtes Thema und trägt nichts zur eigentlichen Fachlichkeit eines Systems bei. Dennoch müssen Sie sich als Architekt mit dem Thema auseinander setzen, denn ein erheblicher Teil aller Software-Systeme benötigt einen effizienten Zugriff auf persistent gespeicherte Daten. Hierzu gehören praktisch sämtliche kommerziellen und viele technischen Systeme. Eingebettete Systeme (embedded systems ) gehorchen jedoch oft anderen Regeln hinsichtlich ihrer Datenverwaltung.
-\end{quote}
+\subsection{Ausfallsicherheit}
+
+Um Ausfallsicherheit zu gewähren wird ein Replica Set für die MongoDB aufgebaut. Dabei werden alle Schreiboperationen an den Pirmary des Set delegiert. Die Replication auf die Secondarys geschiet asynchon. Die folgende Darstellung zeigt den aufbau:
+\begin{center}
+	\includegraphics[scale=0.6]{mongodb-replicaset.png}\newline
+	Quelle: \url{https://docs.mongodb.com/manual/replication/}
+\end{center}
+Im Falle eins Problem mit dem Primary iniziieren die Secondaries eine Wahl wer zum neuen Primary wird. Die Instanz, welche einen Fehler hatte, kann dann neu gestartet werden sobald dieser behoben ist. Sollte ein Knoten des Replica Set länger nicht aktiv sein, wird er 'stale' wodurch die Daten neu synchronisiert werden müssen. Im Kapitel \ref{transactions} sind weitere Information bezüglich Transaktionbehandlung und WriteConcerns.
 
 \section{Plausibilisierung und Validierung}
 
@@ -143,6 +170,6 @@ Die Applikation befindet sich, wie im Kapitel \ref{deploy-dia} dargestellt, in z
 Wie bereits im Kapitel \ref{deploy} angesprochen, können auf der OpenShift Plattform die Anzahl Pods eines Services dynamisch angepasst werden. Dies kann über das WebInterface den OC Client oder über Autoscaling geschehen. Da die Applikation nur wenige tägliche Benutzer hat, wird die Skalierung manuell durchgeführt.
 
 \section{Transaktionsbehandlung}
-
-Im Vergleich zu klassischen \Gls{RDBMS} welche sich an die \Gls{ACID} Prizipien halten, hat MongoDB andere Mechanismen wie Transaktionen gehandhabt werden.
-
+\label{transactions}
+Im Vergleich zu klassischen \Gls{RDBMS} welche sich an die \Gls{ACID} Prizipien halten, hat MongoDB andere Mechanismen wie Transaktionen gehandhabt werden. Schreiboperation welche nur ein einzelnes Dokument aktualisieren, sind on MongoBD atomar. WriteConcerns definieren wann MongoDB eine erfolgreiche Speicherung der Daten quitiert. Die zwei vorhanden Einstellungen sind On-Disk und in-memory. Um keine Daten zu verlieren wird On-Disk aktiviert.\newline
+Da MongoDB als Replica Set aufgebaut wird und einen Ausfall des Primaries zu kompensieren gibt es eine weitere Einstellung mit welcher definiert werden kann, auf wievielen Replicas der Datensatz ebenfalls gespeichert wird. Für den Anwendungsfall von MEON ist dies nicht notwendig da der Registrierungsprozess mit dem verschicken der SMD Nachricht und der Mail bereits asynchronität behinaltet welche genug Zeit für eine synchronisation der Replicas ermöglichen. Weitere Informationen finden sich in der MongoDB Dokumentation unter \url{https://docs.mongodb.com/manual/reference/write-concern/}.

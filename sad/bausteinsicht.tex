@@ -97,18 +97,16 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 \section{Ebene 2}
 
 \subsection{RegistrationUI}
+Anhand des Registrierungs Intefaces soll der generelle Aufbau illustiert werden. Sämtliche UI Teile besitzen eine View in Form eines HTML files. Der Controller steuert die Interaktion des Benutzers und sendet die Daten via Services an den REST Controller auf dem Server. Der FeatureService enthält Methoden um zu Prüfen ob einzelne Features im Interface aktive sind oder nicht. Siehe dazue auch Kapitel \ref{toggles} Feature Toogles.
 
 \begin{center}
 	\includegraphics[scale=0.8]{WebComponentLevel2.png}
 \end{center}
 \newpage
 \subsection{RegistrationService}
+\label{reg-service}
 
+Der Registrierungsservice kümmert um die Aufbereitung der Daten für die Workflow Engine sowie der Übertragung der Daten. Er verwendet den SMS- und dem MailService um entsprechenden Nachrichten an den Händler zu schicken. Nach der Bestätigung des Benutzers, speichert der die Daten in der Datenbank. Der SchedulerService prüft regelmässig ob neue Registierungen Pendent sind, und sendet sie and die BPM Engine. Sollte bei der Kommunikation ein Fehler auftreten, wird es zu einem späteren Zeitpunkt nochmals versucht.
 \begin{center}
-	\includegraphics[scale=0.8]{RegistrationServicesLevel2.png}
+	\includegraphics[scale=0.65]{RegistrationServicesLevel2.png}
 \end{center}
-
-\section{Ebene 3}
-
-\subsection{RegistrationController}
-
