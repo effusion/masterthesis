@@ -3,8 +3,8 @@
 \chapter{Bausteinsicht}
 
 \section{Beschreibung}
-
-Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die Präsentationsschicht ist auf dem WebServer während die anderen drei sich auf dem AppServer befinden. Die einzelnen Komponenten wurden gruppiert um die Übersicht zu wahren. Auf der nächsttieferen Ebene sind diese Komponenten detailierter aufgeführt.
+\textcolor{red}{ /* TODO im Bild sind es 4 Schichten aus 5 Layern */}
+Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die Präsentationsschicht ist auf dem WebServer während sich die anderen drei auf dem AppServer befinden. Die einzelnen Komponenten wurden gruppiert um die Übersicht zu wahren. Auf der nächsttieferen Ebene sind diese Komponenten detaillierter aufgeführt.
 
 \newgeometry{left=2.5cm, right=2.5cm, bottom=2.5cm, top=2.5cm}
 \begin{landscape}
@@ -24,10 +24,10 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 		\toprule
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
-		ProductUI &  Stellt die einzelnen Produktoptionen von Twint dar welche der Benutzer auswählen kann. \\ \hline
-		RegistrationUI &  Beinhalten sämtliche Felder für die Registration wie Name, Addresse, Händlername. Stellt die Eingabefelder für den Verifikationscode dar welcher dem Benutzer zugesendet wird.\\ \hline
-		LegalUI &  Zeigt rechtliche Dokumente wie Allgemeinegeschäftsbedienungen an. \\ \hline
-		MerchantUI &  Zuständing für die überprüfung des neuen Händlers.\\
+		ProductUI &  Stellt die einzelnen Produktoptionen von Paymit dar welche der Benutzer auswählen kann\\ \hline
+		RegistrationUI \textcolor{red}{TODO Abgrenzung RegistrationUI und MerchantUI nicht ganz klar, ev. musst du das noch genauer herausstreichen} &  Beinhaltet sämtliche Felder für die Registrierung wie  Geschäftsdaten, Adresse, Händlerdaten, Kontoverbindung. Stellt die Eingabefelder für den MTAN Verifikationscode dar, welcher dem Benutzer zu gesendet wird\\ \hline
+		LegalUI &  Zeigt rechtliche Dokumente wie Allgemeine Geschäftsbedienungen an \\ \hline
+		MerchantUI &  Zuständing für die Überprüfung des neuen Händlers\\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -39,10 +39,10 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 		\toprule
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
-		RegistrationController &  Schnittstelle für den Registrationsprozess und die Verifikation des Codes. \\ \hline
-		LegalController &  Schnittstelle welche rechtliche Dokumente liefert. \\ \hline
-		MerchantController &  Schnittstelle für die Prüfung von Händlern.\\ \hline
-		FeatureController & Schnittstelle für das Abfragen der Features welche aktiv sind. \\
+		RegistrationController &  Schnittstelle für den Registrierungsprozess und \textcolor{red}{ev. könnte dies in einen Security/Sessioncontroller erweitert werden. Der Händler hat nach der Email eine gewisse Zeit um auf den Link zu klicken, danach hat muss er den MTAN innerhalb von wenigen Minuten eingeben und hat bei korrekter Eingabe 30 Minuten um das Formular auszufüllen}die Verifikation des MTAN Codes \\ \hline
+		LegalController &  Schnittstelle welche rechtliche Dokumente liefert \\ \hline
+		MerchantController &  Schnittstelle für die Prüfung von Händlern \\ \hline
+		FeatureController & Schnittstelle für das Abfragen der Features welche aktiv sind \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -54,10 +54,10 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 		\toprule
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
-		RegistrationService &  Enthält sämtliche Logik für die Aufbereitung der Registrierungsanfrage an die Workflow Engine sowie die Überprüfung des SMS Codes welcher an den neuen Händer verschickt wurde.\\ \hline
-		LegalService &  Stellt die Dienste für das Abfragen den rechtlichen Dokumente bereit. \\ \hline
-		FeatureService &  Verwaltet die aktuell eingeschalteten Features welche aktiviert sind. Holt sich die neuen Konfigurationen automatisch nach einer Benachrichtigung durch die Message Queue. \\ \hline
-		External Services & Schnittstelle zu diversen externen Web Services der Post, des Schweizer Bundes und des Handelsregister. \\
+		RegistrationService &  Enthält sämtliche Logik für die Aufbereitung der Registrierungsanfrage an die Workflow Engine \textcolor{red}{Entsprechend dem Kommentar in der Tabelle davor, Security/Sessionservice}sowie die Überprüfung des MTAN Codes, welcher an den neuen Händer verschickt wurde\\ \hline
+		LegalService &  Stellt die Dienste für das Abfragen den rechtlichen Dokumente bereit \\ \hline
+		FeatureService &  Verwaltet die aktuell eingeschalteten Features welche aktiviert sind. Holt sich die neuen Konfigurationen automatisch nach einer Benachrichtigung durch die Message Queue \\ \hline
+		External Services & Schnittstelle zu diversen externen WebServices der Post, des Schweizer Bundes und des Handelsregister \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -69,7 +69,7 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 		\toprule
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
-		RegistrationRepository &  Speichert die Registrationsdaten den Code sowie die Requests welche nicht direkt zur Workflow Enginge gesendet werden können. \\ \hline
+		RegistrationRepository &  Speichert die Registrierungsdaten, den MTAN Code sowie die Requests, welche nicht direkt zur Workflow Enginge gesendet werden können. \\ \hline
 		LegalRepository &  Holt die rechtlichen Dokumente aus dem Datenspeicher. \\
 		\bottomrule
 	\end{tabular}
@@ -84,11 +84,11 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 		\midrule
 		Zefix &  Schnittstelle zum Download des Handelsregisterauszugs. \\ \hline
 		UID &  Schnittstelle zur Unternehmensidentifikation anhand der UnternehmerID \\ \hline
-		AddressChecerk &  Schnittstelle zu Post für Addressverifikation und Vervollständigung. \\ \hline
-		Configserver &  Beinhaltet die Configurationen der einzelnen Featueres. \\ \hline
+		AddressChecker &  Schnittstelle zur Post für Addressverifikation und Autovervollständigung. \\ \hline
+		Configserver &  Beinhaltet die Konfigurationen der einzelnen Featueres. \\ \hline
 		SMS Gateway &  Sendet generierte Code an die vom Händler angegebene Nummer. \\ \hline
 		ConfigeQueue & Message Queue welche die Benachrichtigungen für Konfigurationsänderungen enthält. \\ \hline
-		BPM Engine & Verarbeitet die Registrierungsdaten im hinterlegten Workflow beschrieben in Kapitel \ref{businesscase}\\
+		BPM Engine & Verarbeitet die Registrierungsdaten im hinterlegten Workflow, beschrieben in Kapitel \ref{businesscase}\\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -97,7 +97,7 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 \section{Ebene 2}
 
 \subsection{RegistrationUI}
-Anhand des Registrierungs Intefaces soll der generelle Aufbau illustiert werden. Sämtliche UI Teile besitzen eine View in Form eines HTML files. Der Controller steuert die Interaktion des Benutzers und sendet die Daten via Services an den REST Controller auf dem Server. Der FeatureService enthält Methoden um zu Prüfen ob einzelne Features im Interface aktive sind oder nicht. Siehe dazue auch Kapitel \ref{toggles} Feature Toogles.
+Anhand des Registrierungsintefaces soll der generelle Aufbau illustiert werden. Sämtliche UI Teile besitzen eine View in Form eines HTML Files. Der Controller steuert die Interaktion des Benutzers und sendet die Daten via Services an den REST Controller auf dem Server. Der FeatureService enthält Methoden um zu Prüfen ob einzelne Features im Interface aktiv sind oder nicht. Siehe dazu auch Kapitel \ref{toggles} Feature Toogles.
 
 \begin{center}
 	\includegraphics[scale=0.8]{WebComponentLevel2.png}
@@ -106,7 +106,7 @@ Anhand des Registrierungs Intefaces soll der generelle Aufbau illustiert werden.
 \subsection{RegistrationService}
 \label{reg-service}
 
-Der Registrierungsservice kümmert um die Aufbereitung der Daten für die Workflow Engine sowie der Übertragung der Daten. Er verwendet den SMS- und dem MailService um entsprechenden Nachrichten an den Händler zu schicken. Nach der Bestätigung des Benutzers, speichert der die Daten in der Datenbank. Der SchedulerService prüft regelmässig ob neue Registierungen Pendent sind, und sendet sie and die BPM Engine. Sollte bei der Kommunikation ein Fehler auftreten, wird es zu einem späteren Zeitpunkt nochmals versucht.
+Der Registrierungsservice kümmert sich um die Aufbereitung der Daten für die Workflow Engine sowie die Übertragung der Daten. Er verwendet den SMS- und dem MailService um Nachrichten an den Händler zu schicken. Nach der Bestätigung des Benutzers speichert er die Daten in der Datenbank. Der SchedulerService prüft regelmässig, ob neue Registierungen pendent sind, und sendet sie an die BPM Engine. Sollte bei der Kommunikation ein Fehler auftreten, wird zu einem späteren Zeitpunkt nochmals versucht die Daten an den Workflow zu schicken.
 \begin{center}
 	\includegraphics[scale=0.65]{RegistrationServicesLevel2.png}
 \end{center}
