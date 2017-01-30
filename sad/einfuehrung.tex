@@ -10,7 +10,7 @@
 
 Die Applikation MEON dient der Registration neuer Händler für den mobilen Bezahldienst Paymit (Twint aktuell nicht klar) und zukünftig der Registrierung neuer Händler für Enabling(Terminal)/Acquiring Pakete.  Der Geschäftsprozess ist in der folgenden Grafik vereinfacht dargestellt:
 
-/* TODO als ersten Schritt würde ich sowas wie "Merchant fills registration data" einführen, oder Start On-Boarding genauer erklären */
+\textcolor{red}{/* TODO als ersten Schritt würde ich sowas wie "Merchant fills registration data" einführen, oder Start On-Boarding genauer erklären */}
 \begin{center}
 	\includegraphics[scale=0.4]{meon-workflow.png}
 \end{center}
@@ -25,7 +25,7 @@ Die folgende Tabelle beschreibt die einzelnen Teile des Prozesses genauer.
 		{\textbf{Name}} & {\textbf{Beschreibung}} \\
 		\midrule
 		Merchant fills registrations data & Der Händler füllt alle notwendigen Daten aus für den Vetrag aus \\ \hline
-		Check preconditions & Überprüft Vorbedingungen wie techniusche Gültigkeit der Daten /* TODO  hier bin ich nicht mehr sicher was alles überprüft wird */ \\ \hline
+		Check preconditions & Überprüft Vorbedingungen wie techniusche Gültigkeit der Daten \textcolor{red}{/* TODO  hier bin ich nicht mehr sicher was alles überprüft wird} */ \\ \hline
 		enrich ZEFIX data & Reichert die erhaltenen Daten mit dem Handelsregisterauszug an \\ \hline
 		perform PEP Check & Prüft ob die Person politisch exponiert ist. \\ \hline
 		PASS create partner & Erstellt den Händler (Partner) im Acquiring System.\\ \hline
@@ -33,7 +33,7 @@ Die folgende Tabelle beschreibt die einzelnen Teile des Prozesses genauer.
 		risk review  & Risiko Abschätzung im Fall einer politisch exponierten Person und Abklärung, ob ein risikotechnisch gültiger Geschäftsbereich vorliegt \\ \hline
 	    PASS Unblock settling & Schaltet die Auszahlung der verarbeiteten Transaktionen im Acquiring System frei \\ \hline
 	    MEPO create user account&  Erstellt einen Account im Kundenportal \\ \hline
-	    generate contract PDF & Generiert ein ausgefülltes Vertrags-PDF und schickt es per E-Mail an den Händler /* TODO Bei Paymit wurde der Vertrag nicht mehr unterschrieben */  \\
+	    generate contract PDF & Generiert ein ausgefülltes Vertrags-PDF und schickt es per E-Mail an den Händler \textcolor{red}{/* TODO Bei Paymit wurde der Vertrag nicht mehr unterschrieben */}  \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -83,7 +83,7 @@ Bei MEON handelt es sich um ein interaktives Onlinesystem.
 
 \subsection{Schnittstellen}
 
-MEON hat folgende Schnittstellen zu Umsystemen. /* TODO ro = ReadOnly, w = Write, ev. nicht wichtig hier */
+MEON hat folgende Schnittstellen zu Umsystemen. \textcolor{red}{/* TODO ro = ReadOnly, w = Write, ev. nicht wichtig hier */}
 \begin{itemize}
 	\item AddressService: Adressen Service der Post (ro)
 	\item UID: Schweizer Unternehmens-Identifikationsnummer (ro) 
