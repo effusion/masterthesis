@@ -4,11 +4,11 @@
 \label{entwurfsentscheidungen}
 \section{Teillösungen}
 
-Um eine Architektur zu entwickeln, müssen zuerst Lösungen für die Teilprobleme erarbeitet werden. in den folgenden Kapiteln sind mehrere Varianten mit ihren Vor-, Nachteilen und Risiken aufgeführt. Diese Ansätze sind nur oberflächlich erforscht worden um den Lösungsraum möglichst gross zu machen. Diese Ansätze werden dann bewertet mit welchen Lösungsvarianten zusammenstellen werden. Diese Varianten wiederum gelten als Basis für die Prototypen um zu verifizieren das die wichigten Punkte eingehalten werden können. Erst danach wird die Architektur definiert.
+Um eine Architektur zu entwickeln, müssen zuerst Lösungen für die Teilprobleme erarbeitet werden. In den folgenden Kapiteln sind mehrere Varianten mit ihren Vor-, Nachteilen und Risiken aufgeführt. Diese Ansätze sind nur oberflächlich erforscht worden um den Lösungsraum möglichst gross zu machen. Diese Ansätze werden dann bewertet um die verschiedenen Lösungsvarianten zusammenstellen zu können. Diese Varianten wiederum gelten als Basis für die Prototypen um zu verifizieren das die wichtigsten Punkte eingehalten werden können. Erst danach wird die Architektur definiert.
 
 \subsection{Schnittstellen Versionierung}
 
-Die Versionierung der Schnittstelle zwischen der Webseite und dem Server muss sichergestellt werde. Da bei der kontinuierlichen Ausrollung von Software meistens mehrere Versionen im laufenden Betrieb sind, muss ein Weg gefunden werden dies auf einfache Weise zu erreichen ohne für den Entwickler zuviel Aufwand zu generieren.
+Die Versionierung der Schnittstelle zwischen der Webseite und dem Server muss sichergestellt werde. Da bei der kontinuierlichen Ausrollung von Software meistens mehrere Versionen im laufenden Betrieb sind, muss ein Weg gefunden werden dies auf einfache Weise zu erreichen ohne für den Entwickler zu viel Aufwand zu generieren.
 
 \subsubsection{Versionierung mittels Pfad}
 
@@ -22,7 +22,7 @@ Sollte es nötig sein eine neue Version der \Gls{REST} Schnittstelle zu veröffe
 \textbf{Nachteile}
 \begin{itemize}
 	\item Für jede neue Version muss eine neuer Endpoint inklusive URI definiert werden welche der Client kennen muss.
-	\item Domänenmodelle liegen unterumständen in mehreren Versionen vor.
+	\item Domänenmodelle liegen unter Umständen in mehreren Versionen vor.
 	\item Verhältnismässig viel Aufwand für den Nutzen.
 \end{itemize}
 
@@ -33,13 +33,13 @@ Mittels Accept-Header ist es möglich auf einem Endpoint zu definieren welche Ve
 \newline
 \textbf{Vorteile}
 \begin{itemize}
-	\item Es gibt nicht mehrere Pfade nach aussen sondern nur einer.
+	\item Es gibt nicht mehrere Pfade nach aussen sondern nur einen.
 	\item Es können auch kleinere Änderungen gemacht werden ohne die Kompatibilität zu brechen.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
-	\item Auf Serverseite ist trotzdem ein Routing notwending in Form einer neuen Methode falls es sich um eine inkompatible Änderung handelt.
-	\item Domänenmodelle liegen unterumständen in mehreren Versionen vor.
+	\item Auf Serverseite ist trotzdem ein Routing notwendig in Form einer neuen Methode falls es sich um eine inkompatible Änderung handelt.
+	\item Domänenmodelle liegen unter Umständen in mehreren Versionen vor.
 	\item Verhältnismässig viel Aufwand für den Nutzen.
 \end{itemize}
 
@@ -55,7 +55,7 @@ Anstelle der klassischen Ansätze der Versionierung über Pfade und Content-Nego
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
-	\item Der Web Client braucht eine Anpassungen seiner Afrufe an den Server.
+	\item Der Web Client braucht eine Anpassungen seiner Aufrufe an den Server.
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
@@ -64,11 +64,11 @@ Anstelle der klassischen Ansätze der Versionierung über Pfade und Content-Nego
 
 \subsection{Kommunikationsentkopplung}
 
-Durch die geänderten Anforderungen bezüglich Ausrollung der Software ist ein unterbruch zwischen Server und der Business Process Engine unausweichlich. Damit keine Anfragen der Benutzer verloren gehen müssen die Nachrichten entweder gespeichert werden oder es brauch eine Asynchrone Kommunikation. Aktuell werden zwischen dem Server und der \Gls{BPM} Engine \gls{REST} Call mittels Hystrix abgesetzt.
+Durch die geänderten Anforderungen bezüglich Ausrollung der Software ist ein Unterbruch zwischen Server und der Business Process Engine unausweichlich. Damit keine Anfragen der Benutzer verloren gehen müssen die Nachrichten entweder gespeichert werden oder es braucht eine Asynchrone Kommunikation. Aktuell werden zwischen dem Server und der \Gls{BPM} Engine \gls{REST} Call mittels Hystrix abgesetzt.
 
 \subsubsection{Message Queue mit JMS}
 
-Entkopplung kann generell über Messaging erreicht werden welches in der Java Welt mittels dem Java Messaging Service erreicht werden kann. Da an den Benutzer keine Anwort geschickt werden muss, braucht es nicht unbedingt eine Antwort. Die Zustellung der Nachricht muss jedoch sichergestellt werden. Des Weiteren müssen die Nachrichten dürfen die Nachrichten bei einem Kommunikationsunterbruch nicht verloren gehen.
+Entkopplung kann generell über Messaging erreicht werden welches in der Java Welt mittels dem Java Messaging Service erreicht werden kann. Da an den Benutzer keine Antwort geschickt werden muss, braucht es nicht unbedingt eine. Die Zustellung der Nachricht muss jedoch sichergestellt werden. Des Weiteren dürfen die Nachrichten bei einem Kommunikationsunterbruch nicht verloren gehen.
 \newline
 \newline
 \textbf{Vorteile}
@@ -80,7 +80,7 @@ Entkopplung kann generell über Messaging erreicht werden welches in der Java We
 \textbf{Nachteile}
 \begin{itemize}
 	\item Umbau der Schnittstelle zwischen Server und BPM Engine.
-	\item Messaging Infrastruktur ist nicht vorhanden respektive nicht Verfügbar in der Zone. Diese wäre zusätzlich ein weitere Single Point of Failure.
+	\item Messaging Infrastruktur ist nicht vorhanden respektive verfügbar in der Zone. Diese wäre zusätzlich ein weitere Single Point of Failure.
 	\item Messaging Infrastruktur ist für den Use Case überdimensioniert.
 \end{itemize}
 \textbf{Risiken}
@@ -92,7 +92,7 @@ Alternative könnte anstelle eine Messaging System auch eine Message Bridge verw
 
 \subsubsection{Message Queue mit Kafka}
 
-Eine weitere Möglichkeit wäre das Versenden von Nachrichten über Kafka\footnote{https://kafka.apache.org}. Entstanden bei grossen Internet Dienstleistern wie Linkedin für welche JMS nicht praktikabel war Aufgrund der Perfomanz(verifizieren). Kafka ist ein verteiltes Messaging System welches auf durchsatz optimiert ist. Für die Zustellung der Nachrichten verwendet Kafka einen sogenannten Nimbus welche die Zustellung an den Empfänger übernimmt.
+Eine weitere Möglichkeit wäre das Versenden von Nachrichten über Kafka\footnote{https://kafka.apache.org}. Entstanden bei grossen Internet Dienstleistern wie Linkedin, für welche JMS nicht praktikabel war aufgrund der Perfomanz(\textcolor{red}{TODO verifizieren}). Kafka ist ein verteiltes Messaging System welches auf Durchsatz optimiert ist. Für die Zustellung der Nachrichten verwendet Kafka einen sogenannten Nimbus welche die Zustellung an den Empfänger übernimmt.
 \newline
 \newline
 \textbf{Vorteile}
@@ -106,22 +106,22 @@ Eine weitere Möglichkeit wäre das Versenden von Nachrichten über Kafka\footno
 \begin{itemize}
 	\item Umbau der Schnittstelle zwischen Server und BPM Engine.
 	\item Infrastruktur muss selber administriert werden.
-	\item Für den Use Case überdimensioniert da gar nie soviele Nachrichten über das System verschickt werden.
+	\item Für den Use Case überdimensioniert da nie so viele Nachrichten über das System verschickt werden.
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
-	\item Know-how zu Kafka hinsichlicht Betrieb und Verwendung nicht vorhanden.
+	\item Know-how zu Kafka hinsichtlich Betrieb und Verwendung nicht vorhanden.
 \end{itemize}
 
 \subsubsection{Message Queue mit Key-Value Store}
 
-Anstelle eines Messaging Systems, bietet sich die Möglichkeit an Redis als Message queue zu verwenden. Würde Redis gleichzeitig als Datenspeicher verwendet könnten hier Synergien genutz werden. 
+Anstelle eines Messaging Systems, bietet sich die Möglichkeit an Redis als Message Queue zu verwenden. Würde Redis gleichzeitig als Datenspeicher verwendet könnten hier Synergien genutzt werden. 
 \newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
 	\item Bietet asynchrones Messaging über eine eingebaute Queue Funktionalität.
-	\item Schemalos und wodurch Nachrichten eifach gespeichert werden können.
+	\item Schemalos und wodurch Nachrichten einfach gespeichert werden können.
 	\item Eliminiert die Probleme der Speicherung und Asynchronität gleichzeitig.
 \end{itemize}
 \textbf{Nachteile}
@@ -135,7 +135,7 @@ Anstelle eines Messaging Systems, bietet sich die Möglichkeit an Redis als Mess
 
 \subsubsection{Spring Rest}
 
-Aktuell werden die Requests an die BPM Engine mittels Hystrix\footnote{https://github.com/Netflix/Hystrix} und \gls{REST} abgeschickt. Die Request werden dabei gleich zur Workflow Engine geschickt oder im Fehlerfall als JSON in die Datenbank gespeichert. Mit einem Scheduler werden dann später die nicht gesendeten Request nochmals verschickt. Die Datenbank hat deshalb eine Queue ähnliche Funktion.
+Aktuell werden die Requests an die BPM Engine mittels Hystrix\footnote{https://github.com/Netflix/Hystrix} und \gls{REST} abgeschickt. Die Requests werden dabei gleich zur Workflow Engine geschickt oder im Fehlerfall als JSON in die Datenbank gespeichert. Mit einem Scheduler werden dann später die nicht gesendeten Requests nochmals verschickt. Die Datenbank hat deshalb eine Queue ähnliche Funktion.
 \newline
 \newline
 \textbf{Vorteile}
@@ -153,20 +153,20 @@ Aktuell werden die Requests an die BPM Engine mittels Hystrix\footnote{https://g
 Aktuell wir eine MySQL als Datenbank verwendet welche zur Zeit nur Requests speichert und kleinere Abfragen ausführt.. Die neuen Anforderungen an die Datenbank bezüglich Continuous Deployment sind:
 \begin{itemize}
 	\item Replikation wird unterstützt und kann auf dem Client konfiguriert werden.
-	\item Es ist möglich mit mehreren Applikations Version auf die gleiche Datenbank zuzugreifen.
+	\item Es ist möglich mit mehreren Applikationsversionen auf die gleiche Datenbank zuzugreifen.
 \end{itemize}
-Vorallem der Zweite Punkt hat hohe bedeutung da bei Continuous Delivery bei der Installation der Software immer mindest zwei verschiedene Versionen der Applikation gleichzeitig auf den Datenspeicher zugreifen. Die Anwendung verwendet bereits Spring Data als Persitzenz-Bibliothek welche für alle aufgeführten Lösungsvarianten entsprechende Erweiterungen besitzt. Der Serverteil hält aktuell nur sechs Tabellen da die ganze Verarbeitung der Daten auf der Workflow-Engine gemacht wird.
+Vor allem der zweite Punkt hat hohe Bedeutung da bei Continuous Delivery bei der Installation der Software immer mindestens zwei verschiedene Versionen der Applikation gleichzeitig auf den Datenspeicher zugreifen. Die Anwendung verwendet bereits Spring Data als Persistenz-Bibliothek welche für alle aufgeführten Lösungsvarianten entsprechende Erweiterungen besitzt. Der Serverteil hält aktuell nur sechs Tabellen da die ganze Verarbeitung der Daten auf der Workflow-Engine gemacht wird.
 
 \subsubsection{Relationale Datenbank mit Oracle}
 
-Oracle ist bei vielen Firmen die Standart Software für Datenbank. Sie bietet sämtliche Features welche im Bereich von Finanzdienstleistern benötigt werden hat aber auch ihren Preis. Oralce basiert auf klassischen relationalen Prinzipien und setzt auf hohe Datenkonsitzenz. Für die Replikation bietet Oracle diverse Mechanismen und Setup welche unterschiedliche Kosten haben.
+Oracle ist bei vielen Firmen die Standard Software für Datenbank. Sie bietet sämtliche Features welche im Bereich von Finanzdienstleistern benötigt werden hat aber auch ihren Preis. Oracle basiert auf klassischen relationalen Prinzipien und setzt auf hohe Datenkonsistenz. Für die Replikation bietet Oracle diverse Mechanismen und Setup an, welche unterschiedliche Kosten haben.
 \newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
-	\item Sehr gutes und verbreitetes Know-how bezüglich Betrieb, erstellen von Anfragen, optimierung usw.
-	\item Baisert auf \Gls{ACID} und gewährteistet deshalb die Datenkonsistenz.
-	\item Bietet Enterprise fähige Replikationsmechanismen.
+	\item Sehr gutes und verbreitetes Know-how bezüglich Betrieb, erstellen von Anfragen, Optimierung usw.
+	\item Baisert auf \Gls{ACID} und gewährleistet deshalb die Datenkonsistenz.
+	\item Bietet enterprisefähige Replikationsmechanismen.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
@@ -176,19 +176,19 @@ Oracle ist bei vielen Firmen die Standart Software für Datenbank. Sie bietet s�
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
-	\item Oracle darf aus Lizenzgründen nur auf pysischen Maschinen installiert werden.
-	\item High Availability Mode welcher zu Verfügung steht nicht klar.
+	\item Oracle darf aus Lizenzgründen nur auf physischen Maschinen installiert werden.
+	\item High Availability Mode, welcher zu Verfügung steht, ist nicht klar.
 \end{itemize}
 
 \subsubsection{Relationale Datenbank mit MySQL}
 
-MySQL wird wie bereits aktuell verwendet. Es bietet die klassischen Funktionen einer relationalen Datenbank. MySQL wird meistens verwendet wenn Oracle zu teuer ist resp. die Anforderungen an die Datenhaltung nicht so hoch sind. MySQL bietet akutell auch Replikation mittels Master-Slave an und Tools für eine automatische Umschaltung
+MySQL wird bereits aktuell verwendet. Es bietet die klassischen Funktionen einer relationalen Datenbank. MySQL wird meistens verwendet wenn Oracle zu teuer ist resp. die Anforderungen an die Datenhaltung nicht so hoch sind. MySQL bietet aktuell auch Replikation mittels Master-Slave und Tools für eine automatische Umschaltung an
 \newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
 	\item Wird bereits eingesetzt.
-	\item Baisert auf \gls{ACID} und gewährteistet deshalb die Datenkonsistenz.
+	\item Basiert auf \gls{ACID} und gewährleistet deshalb die Datenkonsistenz.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
@@ -202,18 +202,18 @@ MySQL wird wie bereits aktuell verwendet. Es bietet die klassischen Funktionen e
 
 \subsubsection{Dokumentenbasierte Datenbank}
 
-Als alternative zu einer relationalen Datenbank, kann eine dokumentenbasierte wie zum Beispiel MongoDB\footnote{https://www.mongodb.com} verwendet werden. Die Datenbank gehöhrt zu Familie der \Gls{NoSQL} Speicher und ist deshalb Schemalos. Von den \gls{NoSQL} Datenbanken besitzen die Dokumente basierte die grösste Struktur im sinn der Datenspeicherung.
+Als Alternative zu einer relationalen Datenbank kann eine dokumentenbasierte wie zum Beispiel MongoDB\footnote{https://www.mongodb.com} verwendet werden. Die Datenbank gehört zu Familie der \Gls{NoSQL} Speicher und ist deshalb schemalos. Von den \gls{NoSQL} Datenbanken besitzen die dokumentenbasierte die grösste Struktur im Sinn der Datenspeicherung.
 \newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
 	\item Kein Schema vorhanden weshalb die Daten in verschiedenen Versionen gespeichert werden können.
-	\item Hirarchische struktur von JSON passt gut zur Natur der Datenbank.
+	\item Hierarchische Struktur von JSON passt gut zur Natur der Datenbank.
 	\item Bietet Datenreplikation mittels Master/Slave und Replica Sets.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
-	\item Anpassung des Persistzenslayers nötig.
+	\item Anpassung des Persistenzslayers nötig.
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
@@ -222,7 +222,7 @@ Als alternative zu einer relationalen Datenbank, kann eine dokumentenbasierte wi
 
 \subsubsection{Key-Value Datenbank}
 
-Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwendent. Es handelt sich Dabei um eine \gls{NoSQL} Datenbank welche wie eine HashMap Funktioniert. Daten können schnell gespeichert und mit dem Key wieder geholt werden. Gewisse Abfrage Möglichkeiten sind ebenfalls gegeben. Des Weiteren ist die Datenbank Schema was eslaubt verschiedenste Strukturen zu speichern. In diesem konkreten Fall wird Redis\footnote{https://redis.io} als Lösung in betracht gezogen. \newline
+Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwenden. Es handelt sich dabei um eine \gls{NoSQL} Datenbank welche wie eine HashMap funktioniert. Daten können schnell gespeichert und mit dem Key wieder geholt werden. Gewisse Abfragemöglichkeiten sind ebenfalls gegeben. Des Weiteren ist die Datenbank schemalos was es erlaubt verschiedenste Strukturen zu speichern. In diesem konkreten Fall wird Redis\footnote{https://redis.io} als Lösung in Betracht gezogen. \newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
@@ -234,7 +234,7 @@ Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwen
 \textbf{Nachteile}
 \begin{itemize}
 	\item Abfrage Möglichkeiten beschränkt.
-	\item Anpassung des Persistzenslayers nötig.
+	\item Anpassung des Persistenzslayers nötig.
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
@@ -243,62 +243,62 @@ Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwen
 
 \subsection{Konfigurations Management}
 
-Soll die Applikation kontinuierlich ausgerollt werden, sind manuelle Anpassungen an Konfigurationsdateinen hinderlich. Ob das nun Propert files, Dockerfiles oder andere Dateinen sind. Gewisse Änderungen erfordern einen neustart von Systemen falls für den Container eine neue Version gebaut wird. Für andere wäre es wünscheswert gäbe es einen Weg die Konfiguration ohne einen anzupassen. Hierzu einige Beispiele:\newline
+Soll die Applikation kontinuierlich ausgerollt werden, sind manuelle Anpassungen an Konfigurationsdateien hinderlich. Ob das nun Property Files, Dockerfiles oder andere Dateien sind. Gewisse Änderungen erfordern einen Neustart von Systemen falls für den Container eine neue Version gebaut wird. Für andere wäre es wünschenswert gäbe es einen Weg die Konfiguration ohne einen Neustart anzupassen. Hierzu einige Beispiele:\newline
 \begin{itemize}
 	\item Hostnamen, Ports
-	\item Usernamem, Passwörter, Email-Adressen
+	\item Usernamen, Passwörter, Email-Adressen
 	\item Datenbank Konfigurationen
 	\item Dateien welche Zertifikate beinhalten.
 \end{itemize}
 
-Auf Testumgebungen ist dies meistens kein Problem da entsprechene Konfigurationen mitabgelegt sind. Die Probleme treten aktuell hauptsächlich für Produktive Systeme bei welchen keine Passwörter mit eingegeckt werden können.
+Auf Testumgebungen ist dies meistens kein Problem da entsprechende Konfigurationen mit abgelegt sind. Die Probleme treten aktuell hauptsächlich für produktive Systeme bei welchen keine Passwörter mit eingecheckt werden können.
 
 \subsubsection{Docker Compose, Swarm}
 
-Aktuell ist die Konfiguration der Container in einem Properties gespeichert. Mit Compose\footnote{https://docs.docker.com/compose/} werden die Anhängigkeiten zwischen den Container definiert und die Konfiguration in den Container gelinkt.\newline
+Aktuell ist die Konfiguration der Container in einem Propertiesfile gespeichert. Mit Compose\footnote{https://docs.docker.com/compose/} werden die Abhängigkeiten zwischen den Container definiert und die Konfiguration in den Container gelinkt.\newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
 	\item Wird aktuell bereits eingesetzt.
-	\item Konfigurationen der Container können von aussen injziert werden.
+	\item Konfigurationen der Container können von aussen initiiert werden.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
-	\item Konfigurationsänderungen an der Applikation führen zu einem neustart.
+	\item Konfigurationsänderungen an der Applikation führen zu einem Neustart.
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
-	\item Nicht kombatibel mit Kubernetes welche bei Openshift\footnote{https://www.openshift.org: Plattform welche das Ausrollen von Containers im Sinne einer Cloud Umgebung ermöglicht.}  verwendet wird. Die Plattfrom ist im Aufbau und wird die zukünfige Plattform.
+	\item Nicht kompatibel mit Kubernetes welche bei Openshift\footnote{https://www.openshift.org: Plattform welche das Ausrollen von Containers im Sinne einer Cloud Umgebung ermöglicht.}  verwendet wird. Die Plattform ist im Aufbau und wird die zukünftige Plattform.
 \end{itemize}
 
 \subsubsection{Kubernetes}
 
-Kubernetes ist ein andere Framework\footnote{http://kubernetes.io: Wurde von Google Entwickelt und beschränkt sich nicht nur auf Docker Container.} für die Konfiguration von Containern und deren Abhängigkeiten. Kubernetes verfolgt eine andere Philosophie und ist aus diesem Grund nicht kompatible mit der Docker eingenen API.
+Kubernetes ist ein anderes Framework\footnote{http://kubernetes.io: Wurde von Google Entwickelt und beschränkt sich nicht nur auf Docker Container.} für die Konfiguration von Containern und deren Abhängigkeiten. Kubernetes verfolgt eine andere Philosophie und ist aus diesem Grund nicht kompatibel mit der Docker eigenen API.
 \newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
-	\item Ist die Basis von Openshift welches als Standart Plattform für Container etabliert werden soll und daher von strategische Bedeutung.
+	\item Ist die Basis von Openshift, welche als Standard Plattform für Container etabliert werden soll, und daher von strategischer Bedeutung.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
-	\item Anpassungen an der Orchestration der Container.
+	\item Anpassungen an der Orchestrierung der Container.
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
-	\item Plattform ist noch nicht wirklich in Betrieb sonder nur zu Testzwecken installiert.
+	\item Plattform ist noch nicht wirklich in Betrieb sondern nur zu Testzwecken installiert.
 	\item Kein Know-how zu Kubernetes vorhanden.
 \end{itemize}
 
 \subsubsection{Spring Cloud Config}
 
-Spring Cloud Config\footnote{https://cloud.spring.io/spring-cloud-config/} bieted die Möglichkeit Konfigurationen währed dem laufend Betrieb zu ändern. Dadurch muss ein Applikation/Container bei Konfigurationänderungen nicht neu gestartet werden. Änderungen am Deployment des Containers selber kann die Library jedoch nicht ändern.\newline
+Spring Cloud Config\footnote{https://cloud.spring.io/spring-cloud-config/} bietet die Möglichkeit Konfigurationen während dem laufend Betrieb zu ändern. Dadurch muss ein Applikation/Container bei Konfigurationsänderungen nicht neu gestartet werden. Änderungen am Deployment des Containers selber kann die Library jedoch nicht ändern.\newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
 	\item Integriert sich gut mit dem Spring Framework
-	\item Konfigurationen können während dem laufenden Betreib geändert werden.
-	\item Da der Server zustandslos ist, kann Hochverfügbarkeit einfach erreicht weden.
+	\item Konfigurationen können während dem laufenden Betrieb geändert werden.
+	\item Da der Server zustandslos ist, kann Hochverfügbarkeit einfach erreicht werden.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
@@ -312,16 +312,16 @@ Spring Cloud Config\footnote{https://cloud.spring.io/spring-cloud-config/} biete
 
 \subsubsection{Saltstack}
 
-Saltstack ist ein Konfigurationmanagement mit welchem sich Server und deren Applikationen auf verschiedenen physischen oder virutell Rechner konfigurieren lassen. Zusätzlich können die Server gruppiert werden um logische Einheiten wie Entwicklung, Test, Produktion zu modellieren.\newline
+Saltstack ist ein Konfigurationmanagement mit welchem sich Server und deren Applikationen auf verschiedenen physischen oder virtuellen Rechnern konfigurieren lassen. Zusätzlich können die Server gruppiert werden um logische Einheiten wie Entwicklung, Test, Produktion zu modellieren.\newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
-	\item Erlaub das Schreiben von Konfugrationsscripty mittels Python.
+	\item Erlaubt das Schreiben von Konfigurationsscript mittels Python.
 	\item Benötigt kein grosses Setup auf dem Client.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
-	\item Kolidiert mit dem Ansatz Containern da diese unveränderbar sind und Änderungen deshalb von aussen injziert werden müssen.
+	\item Kollidiert mit dem Ansatz Containern da diese unveränderbar sind und Änderungen deshalb von aussen initiiert werden müssen.
 	\item Kein Know-how vorhanden.
 \end{itemize}
 \textbf{Risiken}
@@ -331,7 +331,7 @@ Saltstack ist ein Konfigurationmanagement mit welchem sich Server und deren Appl
 
 \section{Bewertungskriterienkatalog}
 
-Mit Hilfe der Bewertungskriteren sollen die einzelne Teillösungen bewertet werden um daraus Lösungsvarianten zu definieren. Für die Varianten oder Teillösungen werden dann Prototypen entwickelt um deren Umsetzbarkeit zu verfizieren. Die Bewertungskriterien mögen sich stellenweise mit den Qualitätszielen überschneiden, betrachten die Lösungen jedoch auf einen anderen Ebene. Nicht alle Kriterien sind auf alle Teillösungen anwendbar und werden in der Matrix später nicht ausgefüllt.\newline
+Mit Hilfe der Bewertungskriteren sollen die einzelne Teillösungen bewertet werden um daraus Lösungsvarianten zu definieren. Für die Varianten oder Teillösungen werden dann Prototypen entwickelt um deren Umsetzbarkeit zu verifizieren. Die Bewertungskriterien mögen sich stellenweise mit den Qualitätszielen überschneiden, betrachten die Lösungen jedoch auf einen anderen Ebene. Nicht alle Kriterien sind auf alle Teillösungen anwendbar und werden in der Matrix später nicht ausgefüllt.\newline
 Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis Fünf verwendet mit Eins als schwache Gewichtung/Bewertung und Fünf als starte Gewichtung/Bewertung.
 
 \newgeometry{left=2.5cm, right=2.5cm, bottom=2.5cm, top=2.5cm}
@@ -340,20 +340,20 @@ Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis
 		\toprule
 		{\textbf{ID}} & {\textbf{Name}} & {\textbf{Beschreibung}} & {\textbf{Gewicht}} & {\textbf{Begründung}}\\
 		\midrule 
-		BK-\arabic{bk} \stepcounter{bk} & Ausfallsicherheit / Konsistenz & Die Komponente ermöglicht automatische Ausfallsicherheit ohne manuelle interaktion eines Administrators.& 5 & Nicht-funktionale Anforderung an die Architektur. Notwending dabei bei kontinuierlicher Ausrollung keine inkonsistenzen entstehen.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Reifegrad & Die Komponente wird akutell von anderen Firmen in produktiven Umgebungen eingesetzt und hat eine ausführliche Dokumentation und Literatur. Für Obensource gilt, dass die Komponente eine entsprechende Community hat und aktive entwickelt wird.  & 4 & Der Einsatz von unreifer Software führt zu Mehraufwand in Fehlerfällen resp. falls Fehler auftreten die lange brauchen bis sie behoben werden.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Entkopplungsgrad & Die Komponente erlaubt die asynchrone Kommunikation.& 4 & Nicht-funkionale Anforderung welche wichtig ist damit der Benutzer von einem unterbruch des Dienstes nichts merkt. \\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Skalierbarkeit & Die Komponente lässt sich durch Konfiguration resp. durch bereitstellen eines neuen Containers horizontal skalieren.& 5 & Nicht-funktionale Anforderungan die Architektur. Während der Installation ist immer ein Teil der Applikation nicht erreichbar. Die Skalierbarkeit stellt deshalb sicher, dass in diesem Fall immer genug Resourcen vorhanden sind um die Anfragen zu bearbeiten. \\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Wartbarkeit & Die eingesetzte Komponente ist Wartungsfreundlich und braucht. & 3 & Die Wartung der Software sollte in einem angemessenem Rahmen möglich sein.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Lizenzkosten & Die Komponente hat möglichst kleine einmalig und wiederkehrende Kosten. & 3 & Die Kosten sind wichtig jedoch ist im Bereich der Finanzindustrie die Konsistenz höher weit gewichtet.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Testbarkeit & Die Komponente läst sich einfach in einer Testumgebung oder für Unittests aufsetzten. &  3 & Die Komponente sollte sich gut testen lassen. Das ein gewisser Aufwand wird jedoch in kauf genommen.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Interportabilität & Die Komponente ist technologisch Unabhängig und lässt sich einfach mit anderen integrieren. & 3 & Die Software sollte sich mit den wichtigsten Technologien verwenden lassen. Die Applikation selber ist jedoch spezifsch weshalb dies weniger gewertet wird.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Lernkurve & Die Konzepte, API's, Konfigurationsmöglichkeiten sind einfach verständlich und sind für den Entwickler und Administrator schnell erlernbar. & 4 & Die neue Architektur besitzt als ganzes bereits eine gewisse Komplexität. Sind die neuen Teile selber komplex wird dadurch das ganze System automatich schwerer zu verstehen.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Strategisch & Der Einsatz der Software/Plattform wurde auf Firmenebene als strategisch definiert. & 5 & Der Einsatz einer anderen Lösung ist nach wie vor gestattet muss jedoch begründet werden und fällt in die Kategorie 'Special Solutions' für welche die entsprechende Abeilung später die Kosten tragen muss.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Know-How & Wissen was bereits über die Technologie vorhanden ist respektive wie diese eingesetzt werden kann & 2 & Obschon dadurch Kosten und Zeit gespart werden können, ist es auch ein Hinderniss bei der Suche eine passenden Lösung. Vor allem in anbetracht der Anfoderungen welche neue Denkansätze verlangt.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Konfigurations- änderung & Massstab wie einfach es ist die Konfiguration der Applikation mit der Software zu ändern. & 5 & Nicht-funktionale Anforderung, dass gewissen Eigenschaften ohne einen neustart geändert werden können.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Multi Version & Wie einfach kann die Datenbank mit mehrere Version umgehen und wie einfach sind die Konzepte dafür diese umzusetzen. & 5 & Die Umsetzung von Continuous Deployment ein sehr centraler Punkt da die Applikation zu jederzeit mit mehreren Version auskommen muss.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Anpassungen & Gewisse Codeteile müssen unweigerlich Angepasst werden und versuchen daher Aufwand. Hier sind vorallem Schnittsellen und die Persistenz betroffen. & 3 & Für die Erfüllung der Ziele kann dies in kauf genommen werden solang der Aufwand nicht zu hoch wird.\\
+		BK-\arabic{bk} \stepcounter{bk} & Ausfallsicherheit / Konsistenz & Die Komponente ermöglicht automatische Ausfallsicherheit ohne manuelle Interaktion eines Administrators.& 5 & Nicht-funktionale Anforderung an die Architektur. Notwendig dabei ist, dass bei kontinuierlicher Ausrollung keine Inkonsistenzen entstehen.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Reifegrad & Die Komponente wird aktuell von anderen Firmen in produktiven Umgebungen eingesetzt und hat eine ausführliche Dokumentation und Literatur. Für Opensource gilt, dass die Komponente eine entsprechende Community hat und aktive entwickelt wird.  & 4 & Der Einsatz von unreifer Software führt zu Mehraufwand in Fehlerfällen resp. falls Fehler auftreten die lange brauchen bis sie behoben werden.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Entkopplungsgrad & Die Komponente erlaubt die asynchrone Kommunikation.& 4 & Nicht-funktionale Anforderung welche wichtig ist damit der Benutzer von einem Unterbruch des Dienstes nichts merkt. \\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Skalierbarkeit & Die Komponente lässt sich durch Konfiguration resp. durch bereitstellen eines neuen Containers horizontal skalieren.& 5 & Nicht-funktionale Anforderungen an die Architektur. Während der Installation ist immer ein Teil der Applikation nicht erreichbar. Die Skalierbarkeit stellt deshalb sicher, dass in diesem Fall immer genug Resourcen vorhanden sind um die Anfragen zu bearbeiten. \\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Wartbarkeit & Die eingesetzte Komponente ist wartungsfreundlich & 3 & Die Wartung der Software sollte in einem angemessenem Rahmen möglich sein.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Lizenzkosten & Die Komponente hat möglichst kleine, einmalig oder wiederkehrende, Kosten. & 3 & Die Kosten sind wichtig jedoch ist im Bereich der Finanzindustrie die Konsistenz weit höher gewichtet.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Testbarkeit & Die Komponente lässt sich einfach in einer Testumgebung oder für Unittests aufsetzten. &  3 & Die Komponente sollte sich gut testen lassen. Ein gewisser Aufwand wird jedoch in Kauf genommen.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Interportabilität & Die Komponente ist technologisch unabhängig und lässt sich einfach mit anderen integrieren. & 3 & Die Software sollte sich mit den wichtigsten Technologien verwenden lassen. Die Applikation selber ist jedoch sehr spezifisch weshalb dies weniger gewertet wird.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Lernkurve & Die Konzepte, API's, Konfigurationsmöglichkeiten sind einfach verständlich und sind für den Entwickler und Administrator schnell erlernbar. & 4 & Die neue Architektur besitzt als ganzes bereits eine gewisse Komplexität. Sind die neuen Teile selber komplex wird dadurch das ganze System automatisch schwerer zu verstehen.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Strategisch & Der Einsatz der Software/Plattform wurde auf Firmenebene als strategisch definiert. & 5 & Der Einsatz einer anderen Lösung ist nach wie vor gestattet, muss jedoch begründet werden und fällt in die Kategorie 'Special Solutions', für welche die verantwortliche Abteilung später die Kosten tragen muss.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Know-How & Wissen was bereits über die Technologie vorhanden ist respektive wie diese eingesetzt werden kann & 2 & Obschon dadurch Kosten und Zeit gespart werden können, ist es auch ein Hindernis bei der Suche eine passenden Lösung. Vor allem in Anbetracht der Anforderungen welche neue Denkansätze verlangt.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Konfigurationsänderung & Massstab wie einfach es ist die Konfiguration der Applikation mit der Software zu ändern. & 5 & Nicht-funktionale Anforderung, dass gewissen Eigenschaften ohne einen Neustart geändert werden können.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Multi Version & Wie einfach kann die Datenbank mit mehrere Version umgehen und wie einfach sind die Konzepte dafür diese umzusetzen. & 5 & Die Umsetzung von Continuous Deployment ein sehr zentraler Punkt da die Applikation zu jederzeit mit mehreren Version auskommen muss.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Anpassungen & Gewisse Codeteile müssen unweigerlich angepasst werden und verursachen daher Aufwand. Hier sind vor allem Schnittstellen und die Persistenz betroffen. & 3 & Für die Erfüllung der Ziele kann dies in kauf genommen werden solange der Aufwand nicht zu hoch wird.\\
 		\bottomrule
 \end{longtable}	
 
@@ -363,43 +363,43 @@ Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis
 
 \section{Prototypen}
 
-Folgend die Prototypen welche erstellt wurden um die Risiken und Unsicherheiten bei der Lösungsvarianten zu bestätigen oder zu wiederlegen. Die Ergebnisse fliessen in die Bewertungsmatrix ein.
+Folgend die Prototypen welche erstellt wurden um die Risiken und Unsicherheiten bei der Lösungsvarianten zu bestätigen oder zu widerlegen. Die Ergebnisse fliessen in die Bewertungsmatrix ein.
 
 \subsection{MySQL, MongoDB Schema Migration}
 
-Um die Möglichkeiten einer Schema Migration ohne unterbruch zu evaluieren,wurden folgende zwei Use Cases ausgewählt:
+Um die Möglichkeiten einer Schema Migration ohne Unterbruch zu evaluieren,wurden folgende zwei Use Cases ausgewählt:
 \newline
 \begin{itemize}
 	\item Änderung einer Spalte
 	\item 'Split Table' bei welcher eine Tabelle in mehrere aufgeteilt werden.
 \end{itemize}
 
-Für beide Datenbanktypen ist einer Migration zweistufig da gleichzeitig mehrere Versionen der Applikationen auf die Datenbank zugreifen. Bei MySQL werden dabei Trigger verwendet welche die Daten zwischen den Kolumen respektive den Tabellen hin und her schieben. Sind mehrere Tabellen involviert, muss auf zirkuläre Trigger geachtet werden. Für die meisten Probleme gibt es Lösungen im Buch Database Refactoring \footnote{Database Refactoring: Evolutionary Database Design: Addison Wesley Signature Series: Scott J Ambler, Pramod J Sadalage: 2006}. Sobald alle Versionen der Applikation angehoben sind, können die Trigger und entsprechenden obsolete Columen gelöscht werden. Der Entwickler sich bei einer Änderung um die entsprechenden Scripts kümmern und diese auch testen.\newline
-Im gegensatz zu MySQL ist bei MongoDB keine Migrationsskript beim ausrollen der neuen Version von Nöten. Die Datenbank kann mit mehreren Dokumentversionen gleichzeitig umgehen. Anstelle von Triggern muss die Migration im Code gemacht werden. Für den Entwickler bedeutet das nicht weniger Aufwand der Ort ist schlicht ein anderer. Ein Vorteil ist, dass die Daten über Zeit migriert werden können und zu einem spätere Zeitpunkt die verbleibenden Daten nach gezogen werden können.\newline
+Für beide Datenbanktypen ist einer Migration zweistufig da gleichzeitig mehrere Versionen der Applikationen auf die Datenbank zugreifen. Bei MySQL werden dabei Trigger verwendet welche die Daten zwischen den Kolonnen respektive den Tabellen hin- und herschieben. Sind mehrere Tabellen involviert, muss auf zirkuläre Trigger geachtet werden. Für die meisten Probleme gibt es Lösungen im Buch Database Refactoring \footnote{Database Refactoring: Evolutionary Database Design: Addison Wesley Signature Series: Scott J Ambler, Pramod J Sadalage: 2006}. Sobald alle Versionen der Applikation angehoben sind, können die Trigger und entsprechenden obsolete Kolonnen gelöscht werden. Der Entwickler sich bei einer Änderung um die entsprechenden Scripts kümmern und diese auch testen.\newline
+Im Gegensatz zu MySQL ist bei MongoDB keine Migrationsskript beim Ausrollen der neuen Version von Nöten. Die Datenbank kann mit mehreren Dokumentversionen gleichzeitig umgehen. Anstelle von Triggern muss die Migration im Code gemacht werden. Für den Entwickler bedeutet das nicht weniger Aufwand, der Ort ist schlicht ein anderer. Ein Vorteil ist, dass die Daten über Zeit migriert werden können und zu einem spätere Zeitpunkt die verbleibenden Daten nachgezogen werden können.\newline
 Beide Varianten bieten entsprechende Möglichkeiten dem Problem zu begegnen.
 
 \subsection{MySQL, MongoDB Replikation}
 
-Um Continuouse Delivery zu erreichen, müssen die Datenspeicher entsprechend hochverfügbar ausgelegt werden. MySQL als klassische \Gls{RDBMS} Datenbank bieten Replikation von Haus aus an. Gleiches gilt für MongoDB. Bei beiden kann ebenfalls der Grad er Replikation stuckweit definiert werden. Die Daten werden bei beiden Datenbanken in der Standarteinstellung asynchron repliziert. Dies wird vor allem aus Performanzgründen gemacht da Two-Phase Commits\Gls{2PC} über mehrere Standorte die Performaz eines System stark beinflussen kann. Es gibt dennoch bei beiden Datenbanken die Möglichkeit das Schreiben auf einen Slave zu verlagen. Unter MySQL heisst das Semisynchron, bei MongoDB geht das unter dem Namen WriteConcerns. Gemäss CAP-Theorem\Gls{CAP} ist MySQL als konsistent und verfügbar deklariert und MongoDB als konsistent und partitions tolerant. Die Replikation kann daher Produktabhängig gewährleistet werden wobi MongoDB durch die Architektur besser geeignet ist da der Handover zwischen den Servern voll automatisch geschiet und nicht ein Umschaltung gemacht werden muss.
+Um Continuouse Delivery zu erreichen, müssen die Datenspeicher entsprechend hochverfügbar ausgelegt werden. MySQL als klassische \Gls{RDBMS} Datenbank bietet Replikation von Haus aus an. Gleiches gilt für MongoDB. Bei beiden kann ebenfalls der Grad der Replikation stückweit definiert werden. Die Daten werden bei beiden Datenbanken in der Standarteinstellung asynchron repliziert. Dies wird vor allem aus Performanzgründen gemacht, da Two-Phase Commits\Gls{2PC} über mehrere Standorte die Performanz eines Systems stark beeinflussen kann. Es gibt dennoch bei beiden Datenbanken die Möglichkeit das Schreiben auf einen Slave zu verlagern. Unter MySQL heisst das Semisynchron, bei MongoDB geht das unter dem Namen WriteConcerns. Gemäss CAP-Theorem\Gls{CAP} ist MySQL als konsistent und verfügbar deklariert und MongoDB als konsistent und partitions tolerant. Die Replikation kann daher produktabhängig gewährleistet werden, wobei MongoDB durch die Architektur besser geeignet ist, da der Handover zwischen den Servern voll automatisch geschieht und nicht ein Umschaltung gemacht werden muss.
 
 \subsection{Graphql}
 
-GraphQL ist eine Technologie welche von Facebook entwickelt wurde um den Umgang mit mehreren Schnittstellen Versionen für die verschiedenen Endgeräte besser umgehen zu können. Dabei wird eine Art Abfrage an den \gls{REST} Endpunkt gesendet welcher anschliessend die Daten dynamisch sammelt und an den Client sendet. Um die Funktionsweise der Bibiliothek besser einschätzen zu können, wurde ein einfacher Prototyp gemacht welche die Use Cases von Lesen und Schreiben abbildet.\newline
+GraphQL ist eine Technologie welche von Facebook entwickelt wurde um mit mehreren Schnittstellenversionen für die verschiedenen Endgeräte besser umgehen zu können. Dabei wird eine Art Abfrage an den \gls{REST} Endpunkt gesendet welcher anschliessend die Daten dynamisch sammelt und an den Client sendet. Um die Funktionsweise der Bibliothek besser einschätzen zu können, wurde ein einfacher Prototyp gemacht welche die Use Cases von Lesen und Schreiben abbildet.\newline
 Der Prototyp konnte erfolgreich umgesetzt werden hat jedoch einige negative Erkenntnisse über die Bibliothek zu gezeigt. Folgend eine Auflistung der Probleme:\newline
 \begin{itemize}
-	\item Model für das Schreiben und Lesen müssen separat definiert werden was faktisch zum doppelten Code fürt.
+	\item Model für das Schreiben und Lesen müssen separat definiert werden was faktisch zum doppelten Code führt.
 	\item Viele Einstellungen müssen mit Stringvariablen angegeben werden und ist deshalb fehleranfällig.
-	\item Für Mutationen müssen die Variable aus einem untypisieren hirarchischen Arguemten herausgeparst werden was unter statisch typisierten Sprachen wie Java zu sehr viel Konvertierungscode führt.
+	\item Für Mutationen müssen die Variable aus einem untypisierten hierarchischen Argumenten herausgeparst werden, was unter statisch typisierten Sprachen wie Java zu sehr viel Konvertierungscode führt.
 \end{itemize}
-Die Library wurde von Facebook für dynamische Sprachen entwickelt und ist für diese Verwendung sicher besser geeignet. Die Library wurde von Entwicklern nach Java protiert und wird auf GitHub gehostet. Der Zustand der Library ist nur anhand von GitHub schwer zu evaluieren und brigt das Risiko, dass im Fall von Probleme keine Fehler behoben werden oder dies schlussendlich selber gemacht werden muss.
+Die Library wurde von Facebook für dynamische Sprachen entwickelt und ist für diese Verwendung sicher besser geeignet. Die Library wurde von Entwicklern nach Java portiert und wird auf GitHub gehostet. Der Zustand der Library ist nur anhand von GitHub schwer zu evaluieren und birgt das Risiko, dass im Fall von Problemen keine Fehler behoben werden oder dies schlussendlich selber gemacht werden muss.
 
 \subsection{Spring Cloud Config}
 
-Spring Cloud Config erlaubt es, Änderungen an der Konfiguration der Applikation zu Lauftzeit durchzuführen. Auf der Clientseite werden Klassen welche Properties haben entsprechend annotiert und beim Start der Applikationoder wenn die entsprechende URL aufgerufen wird, aktualisiert. Der Server überprüft dabei regelmässig das git Repository auf Änderungen und kann wahlweise auf mittels eines Hook auf dem Repositoryserver angestossen werden. Für kleinere Applikationen mag das ausführen einer URL noch praktikabel sein, für grössere Deployments ist dies hingegen sehr umständlich. Deshalb kann durch hinzufügen von Spring Cloud Bus und einer Messagequeue wie RabbitMQ, dieser Prozess vereifacht werden. Die Clients und der Server verbinden sich auf den entsprechenden Message Server und erhalten bei einer Konfigurationänderung eine Nachricht die entsprechenden Properties zu aktualisieren.
+Spring Cloud Config erlaubt es, Änderungen an der Konfiguration der Applikation zu Lauftzeit durchzuführen. Auf der Clientseite werden Klassen welche Properties haben entsprechend annotiert und beim Start der Applikation oder wenn die entsprechende URL aufgerufen wird, aktualisiert. Der Server überprüft dabei regelmässig das Git Repository auf Änderungen und kann wahlweise auf mittels eines Hook auf dem Repositoryserver angestossen werden. Für kleinere Applikationen mag das Ausführen einer URL noch praktikabel sein, für grössere Deployments ist dies hingegen sehr umständlich. Deshalb kann durch hinzufügen von Spring Cloud Bus und einer Messagequeue, wie RabbitMQ, dieser Prozess vereinfacht werden. Die Clients und der Server verbinden sich auf den entsprechenden Message Server und erhalten bei einer Konfigurationänderung eine Nachricht die entsprechenden Properties zu aktualisieren.
 
 \subsection{OpenShift}
 
-OpenShift ist eine Plattform as a Service Lösung welche es erlaubt Docker Container zu Orchestrieren und somit ganze Umgebungen aufzubauen. Das Produkt basiert in der neuen Version auf Kubernetes und fügt über die Konsole respektive die Benutzeroberfläche gewisse Administrationsfunktionen hinzu.  Mit dem Prototypen konnte verifiziert werden, dass die Installation einer Applikation gut von der Hand geht. Die Konzepte welche von Docker und Docker Compose bekannt sind, konnte wieder angewendet werden. OpenShift bietet diverse Möglichkeiten hochverfügbarkeit für die Anwendung zu erreichen und Applikation schnell produktiv zu schalten. Trotz der einfach Befehle und des übersichtlichen Administrations Interfaces ist die Fehlerbehandlung und das Konzept nicht immer einfach.
+OpenShift ist eine Plattform as a Service Lösung welche es erlaubt Docker Container zu orchestrieren und somit ganze Umgebungen aufzubauen. Das Produkt basiert in der neuen Version auf Kubernetes und fügt über die Konsole respektive die Benutzeroberfläche gewisse Administrationsfunktionen hinzu.  Mit dem Prototypen konnte verifiziert werden, dass die Installation einer Applikation gut von der Hand geht. Die Konzepte welche von Docker und Docker Compose bekannt sind, konnte wieder angewendet werden. OpenShift bietet diverse Möglichkeiten Hochverfügbarkeit für die Anwendung zu erreichen und Applikation schnell produktiv zu schalten. Trotz der einfachen Befehle und des übersichtlichen Administrations Interfaces ist die Fehlerbehandlung und das Konzept nicht immer einfach.
 
 \section{Bewertungen}
 
@@ -407,24 +407,24 @@ Die Ausgefüllte Bewertungsmatrix findet sich im Anhang des Dokuments. Folgend d
 
 \subsection{Schnittstellen Versionierung}
 
-Die Methoden wie Content-Negotiation und Versionierung mittels Pfad sind bestens bekannt und wurden nicht evaluiert. Für GraphQL hat der Prototyp gezeigt, das die Bibliothek für den Gebrauch in einer Java Anwendung nicht sinnvoll ist.  Auf Grund von internen Richtlichen zu API Desgin, wird die Versionierung mittels Pfand für die REST Schnittstellen verwendet.
+Die Methoden wie Content-Negotiation und Versionierung mittels Pfad sind bestens bekannt und wurden nicht evaluiert. Für GraphQL hat der Prototyp gezeigt, das die Bibliothek für den Gebrauch in einer Java Anwendung nicht sinnvoll ist.  Auf Grund von internen Richtlinien zu API Design wird die Versionierung mittels Pfand für die REST Schnittstellen verwendet.
 
 \subsection{Kommunikationsentkopplung}
 
-Die Messaging basierten Variante für Entkopplung haben sich für den Use Case als nicht passend respektive als zu überdimensioniert erwiesen. Die SIX hat eine Messaging Infrastruktur(JMS) welche allerdings nicht unter der Kontrolle des Projektes ist und zur kritischen Infrastruktur gehört. Aus diesem Grund ist dies keine Option. Kafka und Redis können ebenfalls als Message Queue verwendet werden. Bei diesen beiden Varianten würde man die Komponenten selber administrieren und hätte dadurch eine grössere Kontrolle. Bei Redis ziehen die gleichen Arguemten wie schon beim Datenspeicher weshalb die Variante nicht inbetracht gezogen wird. Bei Kafka gelten die gleichen Überlegungen wobei noch hinzukommt, dass die Plattform nicht dem Zweck entspricht da sie für Hochverfügbare Message Systeme mit sehr hohe Durchsatz konzipiert ist.\newline
+Die Messaging basierten Variante für Entkopplung haben sich für den Use Case als nicht passend respektive als zu überdimensioniert erwiesen. SIX hat eine Messaging Infrastruktur(JMS), welche allerdings nicht unter der Kontrolle des Projektes ist und zur kritischen Infrastruktur gehört. Aus diesem Grund ist dies keine Option. Kafka und Redis können ebenfalls als Message Queue verwendet werden. Bei diesen beiden Varianten würde man die Komponenten selber administrieren und hätte dadurch eine grössere Kontrolle. Bei Redis ziehen die gleichen Argumente wie schon beim Datenspeicher, weshalb die Variante nicht in Betracht gezogen wird. Bei Kafka gelten die gleichen Überlegungen wobei noch hinzukommt, dass die Plattform nicht dem Zweck entspricht da sie für hochverfügbare Message Systeme mit sehr hohe Durchsatz konzipiert ist.\newline
 Schlussendlich wird die aktuelle Lösung mittels Spring REST weiterverwendet welche die Datenbank als Queue verwendet und die Anfrage asynchron weiterschickt. 
 
 \subsection{Datenspeicherung}
 
 Für die Datenspeicherung standen Oracle, Mysql, MongoDB und Redis zu Auswahl(Siehe Kapitel \ref{ent-db}). \newline
-Oracle hat die höchste Bewertung erhalten da die Firma mit dieser Datenbank schon viele Jahre Erfahrung hat und dementsprechen die relationalen Konzepte bestens versteht. Auf Grund von Lizenzbestimmungen seitens Oracles hat SIX keine Lizenzen welche es erlaubt Oracle Instanzen auf einer virtualisierten Umgebung zu installieren. Oracle kann deshalb nicht als Datenspeicher berücksichtigt werden.\newline
-Redis ist wird teils in der Firma schon verwendet, jedoch ist die Datenbank nicht wirklich passend für den Usecase und die Lernkurve um alles nur in einer Map zu speichern macht die Datenbank zu am wenigsten passenden Option. Auch deshalb da für die Datenbank nur der Support der Community verfügbat ist.\newline
-MySQL erhielt die zweitbeste Bewertung und liegt vor MongoDB. Obschon die relationalen Konzepte besser bekannt sind, wurde entschieden für beide einen Prototypen zu machen um den Umgang mit mehrere Schemaversionen zu evaluieren da. Für MongoDB müssen noch Themen wie Replikation und der Aufwand für die Umstellung der Repositories berrücksichtigt werden.
+Oracle hat die höchste Bewertung erhalten, da die Firma mit dieser Datenbank schon viele Jahre Erfahrung hat und dementsprechend die relationalen Konzepte bestens versteht. Auf Grund von Lizenzbestimmungen seitens Oracles hat SIX keine Lizenzen welche es erlaubt Oracle Instanzen auf einer virtualisierten Umgebung zu installieren. Oracle kann deshalb nicht als Datenspeicher berücksichtigt werden.\newline
+Redis wird teils in der Firma schon verwendet, jedoch ist die Datenbank nicht wirklich passend für den Use Case und die Lernkurve um alles nur in einer Map zu speichern macht die Datenbank zu der am wenigsten passenden Option. Auch deshalb, da für die Datenbank nur der Support der Community verfügbat ist.\newline
+MySQL erhielt die zweitbeste Bewertung und liegt vor MongoDB. Obschon die relationalen Konzepte besser bekannt sind, wurde entschieden für beide einen Prototypen zu machen um den Umgang mit mehrere Schemaversionen zu evaluieren da. Für MongoDB müssen noch Themen wie Replikation und der Aufwand für die Umstellung der Repositories berücksichtigt werden.
 
 \subsection{Konfigurationsmanagement}
 
-Applikationen welche kontinuierlich ausgerollt werden sollen, brauch zwingend eine Art Konfigurationmanagement um Tätigkeiten wie Installationen und Aktualisierungen zu automatisieren. Die aktuelle Lösung mittels Docker und Docker Compose erlaubt zwar die Verwendung von Container und somit eine einfache Kapeslung wurde jedoch von den Entwicklern für produktive Umgebungen als schwer wartbar bezeichnet. Der Reifegrad ist trotz der schnellen Entwicklung vor allem bei den Orchestrierungsmechanismen noch nicht wirklich gegeben.\newline
-Saltstack als welches schon produktive eingesetzt bietet durch seine Verbreitung viele Vorteile. In Kombination mit Containern fehlt allerdings die Orchestrierungsmöglichkeit um mehrere miteinander zu verbinden. Für die Applikation direkt macht Saltstack trotz der hohen Bewertung daher keinen Sinn.\newline
-OpenShift als Plattform wird von der SIX als strategisch angesehen und hat damit das Ziel später einen grossteil der Applikation darauf zu migrieren. Aktuell gibt es Testinstanzen auf Grund von Compliance Anforderungen ist das ganze Deployment der Plattform noch nicht komplett definiert. Falls Projekte die Plattform nicht nutzen, fallen sie unter den Bereich 'Spezial Solutions' was zu Folge hat, dass die Kosten für den Betrieb von der Abteilung bewältigt werden muss. Daher ist OpenShift für das Deployment der Container die einzige Wahl.
-Spring Cloud Config wird als Ergänzung zu OpenShift verwendet wo Applikationsspezifische Konfigurationen zu laufzeit geändert werden müssen. Obschon diese mittels eines neustart des Containers möglicht ist, kann so ein unterbruchsfreie Betrieb gewährleistet werden.
+Applikationen, welche kontinuierlich ausgerollt werden sollen, brauchen zwingend eine Art Konfigurationsmanagement um Tätigkeiten wie Installationen und Aktualisierungen zu automatisieren. Die aktuelle Lösung mittels Docker und Docker Compose erlaubt zwar die Verwendung von Container und somit eine einfache Kapselung, wurde jedoch von den Entwicklern für produktive Umgebungen als schwer wartbar bezeichnet. Der Reifegrad ist trotz der schnellen Entwicklung vor allem bei den Orchestrierungsmechanismen noch nicht wirklich gegeben.\newline
+Saltstack, welches schon produktive eingesetzt wird, bietet durch seine Verbreitung viele Vorteile. In Kombination mit Containern fehlt allerdings die Orchestrierungsmöglichkeit um mehrere Container miteinander zu verbinden. Für die Applikation direkt macht Saltstack trotz der hohen Bewertung daher keinen Sinn.\newline
+OpenShift als Plattform wird von SIX als strategisch angesehen und hat damit das Ziel später einen Grossteil der Applikationen darauf zu migrieren. Aktuell gibt es Testinstanzen, auf Grund von Compliance Anforderungen ist das ganze Deployment der Plattform noch nicht komplett definiert. Falls Projekte die Plattform nicht nutzen, fallen sie unter den Bereich 'Special Solutions' was zu Folge hat, dass die Kosten für den Betrieb von der verantwortlichen Abteilung bewältigt werden muss. Daher ist OpenShift für das Deployment der Container die einzige Wahl.
+Spring Cloud Config wird als Ergänzung zu OpenShift verwendet wo Applikationsspezifische Konfigurationen zur Laufzeit geändert werden müssen. Obschon diese mittels eines Neustart des Containers möglich ist, kann so ein unterbruchsfreier Betrieb gewährleistet werden.
 
