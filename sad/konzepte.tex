@@ -4,7 +4,7 @@
 
 \section{Fachliche Strukturen}
 
-Wie in der Einführung schon erwähnt geht es bei der Applikation um das Registrieren neuer Händler für den Paymit Service. Die folgende Abbildung zeigt das Domänenmodell der Applikation. Ziel der Grafik ist es, die Struktur einfach darzustellen weshalb nicht alle Details aufgeführt sind. 
+Wie in der Einführung schon erwähnt geht es bei der Applikation um das Registrieren neuer Händler für den TWINT Service. Die folgende Abbildung zeigt das Domänenmodell der Applikation. Ziel der Grafik ist es, die Struktur einfach darzustellen weshalb nicht alle Details aufgeführt sind. 
 
 \begin{center}
 	\includegraphics[scale=0.6]{DomainModel.png}
@@ -23,17 +23,19 @@ Die Aktualisierung der Software geschieht mit der neuen Architektur kontinuierli
 
 Schnittstellen müssen im Pfad die Versionsnummer enthalten damit der Client die richtigen Endpunkte ansprechen kann. Müssen Änderungen gemacht werden welche sich nicht in die aktuelle Implementierung kombinieren lassen, gilt es, einen neue URL mit neuer Version zu erstellen.
 
+\textcolor{red}{TODO}beispiel verweiss auf Schnittstellen guide von SIX
+
 \subsection{Persistenz}
 
-Datenbankobjekte müssen wie Schnittstellen ebenfalls rückwärtss kompatibel sein wodurch kann eine kontinuierliche Aktualisierung erfolgen kann. Alte Versionen können nach Bedarf später mittels eines Migrationsskipts auf die neue Version angehoben werden. Siehe dazu auch Kapitel \ref{persistenz}
+Datenbankobjekte müssen wie Schnittstellen ebenfalls rückwärtss kompatibel sein, so dass eine kontinuierliche Aktualisierung erfolgen kann. Alte Versionen können nach Bedarf später mittels eines Migrationsskipts auf die neue Version angehoben werden. Siehe dazu auch Kapitel \ref{persistenz}
+\textcolor{red}{TODO}Bild damit es klare wird
 
 \section{Typische Muster und Strukturen}
 
 \subsection{Dependency Injection}
 
-Dieser Mechanismus stellt die korrekte Zusammensetzung von Komponenten im Code sicher. Die Abhängigkeiten und Objektinstanzierungen  müssen deshalb nicht durch den Entwickler im Code programmiert werden, sondern das Framework übernimmt diese Aufgabe. Die Basis der Server Applikation bildet Spring Boot. Damit der Prozess korrekt funktioniert,
-müssen entsprechende Klassen mit spezifischen Annotationen versehen werden. 
-Damit Spring die Klassen beim Starten auch finden, muss entweder eine XML oder eine Java Konfiguration des Kontextes vorliegen. Darin werden die entsprechen Packages aufgelistet in welchen gesucht werden soll. Eine ausführliche Erklärung der Funktionsweise findet sich unter \url{https://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html}\newline
+Dieser Mechanismus stellt die korrekte Zusammensetzung von Komponenten im Code sicher. Die Abhängigkeiten und Objektinstanzierungen  müssen deshalb nicht durch den Entwickler im Code programmiert werden, sondern das Framework übernimmt diese Aufgabe. Die Basis der Server Applikation bildet Spring Boot. Klassen welche von Spring automatisch iniziert werden sollen, brauchen die passande Annotation.
+Damit Spring die Klassen beim Starten findet, muss entweder eine XML oder eine Java Konfiguration des Kontextes vorliegen. Darin werden die entsprechen Packages aufgelistet in welchen gesucht werden soll. Eine ausführliche Erklärung der Funktionsweise findet sich unter \url{https://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html}\newline
 Im Spring Kontext wird auch oft der Name Beans verwendet wobei diese verschiedene Ausprägungen haben können. In den folgenden Unterkapiteln werden einzelne Ausprägungen genauer erklärt.\newline
 Das Web Framework AngularJS verwendet ebenfalls Dependency Injection hat dafür auf Grund der Programmier Sprache JavaScript andere Modelle. Um die Abhängigkeiten aufzulösen können verschiedene Methoden verwendet werden. Eine genaue Erklärung dazu findet sich unter \url{https://docs.angularjs.org/guide/di}
 
@@ -61,17 +63,16 @@ Das Applikation hat diverse Schnittstellen zu internen und externen System. Gene
 	\item Fehler welche nicht korrigiert werden können und somit eine Meldung an den Nutzer zur Folge haben.
 \end{itemize}
 Die Architektur der Applikation wurde so vorgesehen, dass der Benutzer möglichst keine Fehler des Systems bemerkt. Sämtliche Server sind redundant ausgelegt um eventuelle Netzwerkprobleme, Applikationsabstürze, Installationsprozeduren usw. abzufangen. Siehe dazu auch Kapitel \ref{deploy}. Requests vom Server an die Workflow Engine werden aus diesem Grund asynchron verarbeitet.\newline
-Dienste welche nicht von der SIX zu Verfügung gestellt werden, sind meistens auch redundant ausgelegt, ein Fehler muss jedoch mitigiert werden. Dazu zählen die Services des Bundes, Handelsregisters und der Post. Sollte einer der Dienste bei der Registrierung nicht vorhanden sein so muss der Benutzer die Daten manuell ausfüllen.
+Dienste welche nicht von der SIX zu Verfügung gestellt werden, sind meistens auch redundant ausgelegt, ein Fehler muss jedoch mitigiert werden. Dazu zählen die Services des Bundes, Handelsregisters und der Post. Sollte einer der Dienste bei der Registrierung nicht vorhanden sein, muss der Benutzer die Daten manuell ausfüllen und das Risk Management die Daten gegebenenfalls von Hand kontrollieren und erneut freigeben.
 
 \section{Build Management}
 \begin{quote}
-  \textcolor{red}{TODO}Mit Marc abklären
+  \textcolor{red}{TODO textapassung openshift, image scan push gitflow bild}
 \end{quote}
 
-Um die Applikation zu bauen und neue Funktionen ausrollen zu können, braucht es einen entsprechen konfigurierten Build Pipeline. Da bei diesem Projekt GIT zum Einsatz kommt, gibt es mehrere Branches welche den Code für das entsprechende Stages enthalten. Im Generellen gibt es drei wichtige Branches:
+Um die Applikation zu bauen und neue Funktionen ausrollen zu können, braucht es eine konfigurierte Build Pipeline. Da bei diesem Projekt GIT zum Einsatz kommt, gibt es mehrere Branches welche den Code für das dazugehörige Stages enthalten. Im Generellen gibt es zwe wichtige Branches:
 \begin{itemize}
 	\item develop: Startpunkt für den Build
-	\item develop-stable: Enthält den Code für die Integrationsumgebung
 	\item master: Enthält den produktiven Code
 \end{itemize}
 Sämtliche neuen Funktionen und Fehlerbehebungen werden auf einem separaten \Gls{FEBA}Feature Branch erledigt und erst nach Abschluss in den Development Branch gemerged. Dadurch können die Änderungen unabhängig voneinander durchgeführt werden.\newline
@@ -105,7 +106,7 @@ Das Web Interface ist mehrsprachig ausgelegt und die Sprache kann durch den Benu
 
 \section{Kommunikation, Integration}
 
-Als Kommunikationsmittel zwischen den einzelnen Teilen der Applikation kommen \gls{REST} und Messaging zum Einsatz. REST ist eine Art um Daten zwischen zwei System auszutauschen. Dabei werden die gängigen HTTP Methoden GET, PUT, POST und DELETE\textcolor{red}{TODO ob DELETE erlaubt ist bin ich mir nicht sicher, ist soweit ich mich erinnern kann ebenfalls in dem Webinterface Dokument beschrieben, welche die Versionierung vorschreibt} verwendet um entsprechende Aktionen auf dem Schnittstelle des Zielsystems auszuführen. Als Übertragungsformat wirde JSON verwendet. Weitere Informationen finden sind unter \url{https://en.wikipedia.org/wiki/Representational_state_transfer}.\newline
+Als Kommunikationsmittel zwischen den einzelnen Teilen der Applikation kommen \gls{REST} und Messaging zum Einsatz. REST ist eine Art um Daten zwischen zwei System auszutauschen. Dabei werden die gängigen HTTP Methoden GET, PUT, POST  verwendet um entsprechende Aktionen auf dem Schnittstelle des Zielsystems auszuführen. Als Übertragungsformat wirde JSON verwendet. Weitere Informationen finden sind unter \url{https://en.wikipedia.org/wiki/Representational_state_transfer}.\newline
 Das Konfigurationmanagement von Spring Cloud Config verwendet für die Benachrichtigung der Komponenten bei einer Konfigurationsänderung, das Messaging Protokoll \Gls{AMQP}. Die Queues werden dabei auf einem separaten RabbitMQ Server gehalten vorauf sich der Config Server und die Clients verbinden.
 
 \section{Konfiguration}
@@ -115,22 +116,28 @@ Die Konfiguration der Applikation besteht aus zwei Teilen. Für die Orchestrieru
 Um die Anwendung  auszurollen benötigt es neben Services und Containern eine Beschreibung wie die Komponenten zusammenhängen. Folgende Konfigurationen müssen gemacht werden:\newline
 \begin{itemize}
 	\item Docker Image welches verwendet werden soll sowie die verfügbaren Ports und Protokoll.
-	\item Persistente Volumen.
+	\item Persistente Volumen für Datenbank oder Caches.
 	\item Services auf welche zugegriffen werden muss. Diese werden dann mittels des internen DNS aufgelöst und eingetragen.
 	\item Strategien was bei Konfigurations- und Containeränderungen gemacht werden soll.
 	\item Einstellungen für den Gesundheitszustand respektive ob ein Pod noch aktiv ist.
 \end{itemize}
 
 Ist die Konfiguration erstellt und in einer Datei gespeichert, kann die Anwendung jederzeit in einem neuen Projekt mit angepassten Parametern ausgerollt werden.\newline
-Der zweite Teil bildet Spring Cloud Config womit Konfigurationsänderungen zu Laufzeit ohne Neustart der Applikation möglich sind. Dafür verwendet die Bibliothek einen zentralen Server welcher die Konfigurationen aus einem GIT Repository liest. Die Dateinamen sind nach dem Schema 'applicationname.properties' abgelegt und werden periodisch auf Änderungen überprüft. Die Client Applikation braucht ein Datei bootstrap.yml im Klassenpfad wo der Name der Applikation steht, welche mit dem Namen des Propertyfiles übereinstimmen muss. Dadurch weiss der Config Server welche Einstellungen an die Anwendung geschickt werden müssen. Damit Properties aktualisiert werden, muss die Klasse die Annotation '@RefreshScope' haben. Zusätzlich wird noch ein Bus mittels Queue, basierend auf RabbitMQ, verwendet um die Anwendungen zu benachrichtigen wenn eine Einstellung geändert hat.
+Der zweite Teil bildet Spring Cloud Config womit Konfigurationsänderungen zu Laufzeit ohne Neustart der Applikation möglich sind. Dafür verwendet die Bibliothek einen zentralen Server welcher die Konfigurationen aus einem GIT Repository liest. Die Dateinamen sind nach dem Schema 'applicationname.properties' abgelegt und werden periodisch auf Änderungen überprüft. Die Client Applikation braucht ein Datei bootstrap.yml im Klassenpfad wo der Name der Applikation steht, welche mit dem Namen des Propertyfiles übereinstimmen muss. Dadurch weiss der Config Server welche Einstellungen an die Anwendung zu übermitteln sind. Damit Properties aktualisiert werden, muss die Klasse die Annotation '@RefreshScope' haben. Zusätzlich wird noch ein Bus mittels Queue, basierend auf RabbitMQ, verwendet um die Anwendungen zu benachrichtigen wenn eine Einstellung geändert hat.
 
 \section{Logging, Protokollierung}
 
-Sämtliche Protokollierungsdaten welche von der Applikation generiert werden, sind an den zentralen Splunk Server zu schicken.
+Sämtliche Protokollierungsdaten, welche die Applikation generiert, werden auf die Konsole geschrieben und von dort via OpenShift an den zentralen Splunk Server weitergeleitet.
 
 \section{Management und Administrierbarkeit}
 
-Da die Applikation auf OpenShift läuft wird sie auch über das Webinterface oder den Command Line Client administriert. Die Firma verfolgt mittlerweile den DevOps Ansatz weshalb die Administratoren nicht die Applikation direkt verwalten, sondern sich mehr um die Plattform selber kümmern.  Das Management fällt somit dem Entwickler zu. 
+Das Deployment der Applikation kann wahlweise über das Web Interface oder die Konsolenapplikation durchgeführt werden. Die Anwendung selber verfügt über keine Möglichkeiten der Administration. Die Firma verfolgt mittlerweile den DevOps Ansatz weshalb die Administratoren nicht die Applikation direkt verwalten, sondern sich mehr um die Plattform selber kümmern.  Das Management fällt somit dem Entwickler zu. 
+
+\section{Monitoring}
+
+\begin{quote}
+	\textcolor{red}{Diagnosalbe, Spring Boot Actuator}
+\end{quote}
 
 \section{Migration}
 
@@ -141,25 +148,26 @@ obsolet werden und nur wenig Laufdaten gespeichert sind, können die Daten relat
 \label{persistenz}
 
 \subsection{Datenspeicherung}
-Für die Speicherung der Daten wird die NoSQL Datenbank MongoDB eingesetzt. Anstelle von Tabellen mit einem definierten Schema, werden Dokumente verwendet welche schemalos sind. Dadurch können mehrere Versionen desselben Dokumentes in der Datenbank gespeichert werden. Der Treiber für MongoDB wird beim Mapping nicht vorhandene Attribute welche sich im Dokumentjedoch nicht auf der Klasse befinden, entsprechend nicht umwandeln.\newline
+Für die Speicherung der Daten wird die NoSQL Datenbank MongoDB eingesetzt. Anstelle von Tabellen mit einem definierten Schema, werden Dokumente verwendet welche schemalos sind. Dadurch können mehrere Versionen desselben Dokumentes in der Datenbank gespeichert werden. Der Treiber für MongoDB wird beim Mapping nicht vorhandener Attribute ,welche sich im Dokument, jedoch nicht auf der Klasse befinden, nicht umwandeln.\newline
 Dokumentenklasse in Java müssen ein Attribut haben welches die Version des Dokumentes widerspiegelt. Die Nummer ist bei jeder Änderung der Klasse anzupassen. Dadurch können bei einer Migration die entsprechenden Serviceklassen die Daten gemäss des neuen Dokumentes speichern.
 
 \subsection{Ausfallsicherheit}
 
-Um Ausfallsicherheit zu gewährleisten wird ein Replica Set für die MongoDB aufgebaut. Dabei werden alle Schreiboperationen an den Primary des Set delegiert. Die Replication auf die Secondarys geschieht asynchron. Die folgende Darstellung zeigt den Aufbau:
+Um Ausfallsicherheit zu gewährleisten wird ein Replica Set für die MongoDB aufgebaut. Dabei werden alle Schreiboperationen an den Primary des Set delegiert. Die Replication auf die Secondaries geschieht asynchron. Die folgende Darstellung zeigt den Aufbau:
 \begin{center}
 	\includegraphics[scale=0.6]{mongodb-replicaset.png}\newline
 	Quelle: \url{https://docs.mongodb.com/manual/replication/}
 \end{center}
-Im Falle eins Problems mit dem Primary initiieren die Secondaries eine Wahl wer zum neuen Primary wird. Die Instanz, welche einen Fehler hatte, kann neu gestartet werden sobald dieser behoben ist. Sollte ein Knoten des Replica Set länger nicht aktiv sein, wird er 'stale' wodurch die Daten neu synchronisiert werden müssen. Im Kapitel \ref{transactions} finden sich weitere Information bezüglich Transaktionsbehandlung und WriteConcerns.
+Im Falle eins Problems mit dem Primary initiieren die Secondaries eine Wahl wer zum neuen Primary wird. Die Instanz, welche einen Fehler hatte, kann neu gestartet werden und sich wieder in das Set einhängen. Sollte ein Knoten des Replica Set länger nicht aktiv sein, wird er 'stale' wodurch die Daten neu synchronisiert werden müssen. Im Kapitel \ref{transactions} finden sich weitere Information bezüglich Transaktionsbehandlung und WriteConcerns.
 
 \section{Plausibilisierung und Validierung}
 
 Auf dem Formular des Web Interfaces sollen Daten wie Händlername via des Unternehmensindentifikationservices des Bundes sowie die Adressen mittels der Services der Post überprüft werden. Angaben, welcher der Händler machen muss, sind entsprechend gekennzeichnet und führen zu einem Fehler falls sie nicht validiert werden können. Der hochgeladene Handelsregisterauszug wird auf der Workflow Engine nochmals geprüft.
 
 \section{Sessionbehandlung}
-\textcolor{red}{TODO es gibt ein gewisses Sessionhandling. Der User hat nur 30 Minuten Zeit das Formular auszufüllen, nachdem der MTAN korrekt eingegeben wurde. Der Grund dafür ist der Schutz der externen Dienste, damit keine DDOS Attacke über unser Merchant Onboarding gemacht werden kann}
-Die Applikation besitzt keine Sessions. Eine Anfrage/Bestellung eines Benutzers wird abgesendet und asynchron verarbeitet. Es gibt keine Möglichkeit sich in der Applikation einzuloggen.
+
+Die Applikation hat ein einmaliges Sessionhandling während der Registrierung eines neuen Händler. Nach dem ersten Schritt der Registrierung wird ein MTAN Code und eine Link mittels Mail an den Händer verschickt. Nach dem Klick auf den Link und er korrekten Eingabe des Codes hat der Händler 30 Minuten Zeit um den Prozess abzuschliessen.
+Tut er dies nicht, wird die Registierung abgebrochen und er muss nochmals von vorne beginnen. Ziel der Zeitbegrenzung ist die Verhinderungen von \Gls{DDoS} Attacken.
 
 \section{Sicherheit}
 

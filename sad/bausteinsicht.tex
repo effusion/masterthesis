@@ -3,8 +3,8 @@
 \chapter{Bausteinsicht}
 
 \section{Beschreibung}
-\textcolor{red}{ /* TODO im Bild sind es 4 Schichten aus 5 Layern */}
-Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die Präsentationsschicht ist auf dem WebServer während sich die anderen drei auf dem AppServer befinden. Die einzelnen Komponenten wurden gruppiert um die Übersicht zu wahren. Auf der nächsttieferen Ebene sind diese Komponenten detaillierter aufgeführt.
+
+Die Architektur für die Applikation wird mittel Schichten realisiert. Die Präsentationsschicht ist auf dem WebServer während sich die anderen vier auf dem AppServer befinden. Die einzelnen Komponenten wurden gruppiert um die Übersicht zu wahren. Auf der nächsttieferen Ebene sind diese Komponenten detaillierter aufgeführt.
 
 \newgeometry{left=2.5cm, right=2.5cm, bottom=2.5cm, top=2.5cm}
 \begin{landscape}
@@ -20,12 +20,12 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 \begin{table}[H]
 	\centering
 	\caption{Presentation Layer}
-	\begin{tabular}{ | p{4cm} | p{12cm} | }
+	\begin{tabular}{ | p{4cm} | p{11cm} | }
 		\toprule
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
 		ProductUI &  Stellt die einzelnen Produktoptionen von Paymit dar welche der Benutzer auswählen kann\\ \hline
-		RegistrationUI \textcolor{red}{TODO Abgrenzung RegistrationUI und MerchantUI nicht ganz klar, ev. musst du das noch genauer herausstreichen} &  Beinhaltet sämtliche Felder für die Registrierung wie  Geschäftsdaten, Adresse, Händlerdaten, Kontoverbindung. Stellt die Eingabefelder für den MTAN Verifikationscode dar, welcher dem Benutzer zu gesendet wird\\ \hline
+		RegistrationUI \textcolor{red}{TODO Abgrenzung RegistrationUI und MerchantUI nicht ganz klar, ev. musst du das noch genauer herausstreichen} &  Beinhaltet sämtliche Felder für die Registrierung wie Geschäftsdaten, Adresse, Händlerdaten, Kontoverbindung. Stellt die Eingabefelder für den MTAN Verifikationscode dar, welcher dem Benutzer zu gesendet wird.\\ \hline
 		LegalUI &  Zeigt rechtliche Dokumente wie Allgemeine Geschäftsbedienungen an \\ \hline
 		MerchantUI &  Zuständing für die Überprüfung des neuen Händlers\\
 		\bottomrule
@@ -35,14 +35,14 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 \begin{table}[H]
 	\centering
 	\caption{REST Service Layer}
-	\begin{tabular}{ | p{4cm} | p{12cm} | }
+	\begin{tabular}{ | p{4cm} | p{11cm} | }
 		\toprule
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
-		RegistrationController &  Schnittstelle für den Registrierungsprozess und \textcolor{red}{ev. könnte dies in einen Security/Sessioncontroller erweitert werden. Der Händler hat nach der Email eine gewisse Zeit um auf den Link zu klicken, danach hat muss er den MTAN innerhalb von wenigen Minuten eingeben und hat bei korrekter Eingabe 30 Minuten um das Formular auszufüllen}die Verifikation des MTAN Codes \\ \hline
+		RegistrationControllers &  Schnittstelle für den Registrierungsprozess und \textcolor{red}{ev. könnte dies in einen Security/Sessioncontroller erweitert werden. Der Händler hat nach der Email eine gewisse Zeit um auf den Link zu klicken, danach hat muss er den MTAN innerhalb von wenigen Minuten eingeben und hat bei korrekter Eingabe 30 Minuten um das Formular auszufüllen}die Verifikation des MTAN Codes \\ \hline
 		LegalController &  Schnittstelle welche rechtliche Dokumente liefert \\ \hline
 		MerchantController &  Schnittstelle für die Prüfung von Händlern \\ \hline
-		FeatureController & Schnittstelle für das Abfragen der Features welche aktiv sind \\
+		FeatureControllers& Schnittstelle für das Abfragen der Features welche aktiv sind \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -50,7 +50,7 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 \begin{table}[H]
 	\centering
 	\caption{Business Logic Layer}
-	\begin{tabular}{ | p{4cm} | p{12cm} | }
+	\begin{tabular}{ | p{4cm} | p{11cm} | }
 		\toprule
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
@@ -65,7 +65,7 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 \begin{table}[H]
 	\centering
 	\caption{Persistenz Layer}
-	\begin{tabular}{ | p{4cm} | p{12cm} | }
+	\begin{tabular}{ | p{4cm} | p{11cm} | }
 		\toprule
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
@@ -78,7 +78,7 @@ Die Architektur für die Applikation wird mittels vier Schichten realisiert. Die
 \begin{table}[H]
 	\centering
 	\caption{Integration Layer}
-	\begin{tabular}{ | p{4cm} | p{12cm} | }
+	\begin{tabular}{ | p{4cm} | p{11cm} | }
 		\toprule
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
@@ -106,7 +106,7 @@ Anhand des Registrierungsintefaces soll der generelle Aufbau illustiert werden. 
 \subsection{RegistrationService}
 \label{reg-service}
 
-Der Registrierungsservice kümmert sich um die Aufbereitung der Daten für die Workflow Engine sowie die Übertragung der Daten. Er verwendet den SMS- und dem MailService um Nachrichten an den Händler zu schicken. Nach der Bestätigung des Benutzers speichert er die Daten in der Datenbank. Der SchedulerService prüft regelmässig, ob neue Registierungen pendent sind, und sendet sie an die BPM Engine. Sollte bei der Kommunikation ein Fehler auftreten, wird zu einem späteren Zeitpunkt nochmals versucht die Daten an den Workflow zu schicken.
+Der Registrierungsservice kümmert sich um die Aufbereitung der Daten für die Workflow Engine sowie die Übertragung der Daten. Er verwendet den SMS- und dem MailService um Nachrichten an den Händler zu schicken. Nach der Bestätigung des Benutzers speichert er die Daten in der Datenbank. Der SchedulerService prüft regelmässig, ob neue Registierungen pendent sind, und sendet sie an die BPM Engine. Sollte bei der Kommunikation ein Fehler auftreten, wird zu einem späteren Zeitpunkt nochmals versucht die Daten an den Workflow zu schicken. \textcolor{red}{MTAN verifikation fehlt.}
 \begin{center}
 	\includegraphics[scale=0.65]{RegistrationServicesLevel2.png}
 \end{center}

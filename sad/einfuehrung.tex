@@ -8,9 +8,13 @@
 \section{Business Case}
 \label{businesscase}
 
-Die Applikation MEON dient der Registration neuer Händler für den mobilen Bezahldienst Paymit (Twint aktuell nicht klar) und zukünftig der Registrierung neuer Händler für Enabling(Terminal)/Acquiring Pakete.  Der Geschäftsprozess ist in der folgenden Grafik vereinfacht dargestellt:
-
 \textcolor{red}{/* TODO als ersten Schritt würde ich sowas wie "Merchant fills registration data" einführen, oder Start On-Boarding genauer erklären */}
+
+
+\textcolor{red}{/* TODO Macht das überhaupt Sinn so? Business Case und Kontextabgrenzung sind so ziemlich das gleich aktuell?*/}
+
+Die Applikation MEON dient der Registration neuer Händler für den mobilen Bezahldienst TWINT und zukünftig der Registrierung neuer Händler für Enabling(Terminal)/Acquiring Pakete.  Der Geschäftsprozess läuft in zwei Teilen ab welche durch verschiedene Teile der Applikation durchgeführt werden.
+
 \begin{center}
 	\includegraphics[scale=0.4]{meon-workflow.png}
 \end{center}
@@ -20,7 +24,7 @@ Die folgende Tabelle beschreibt die einzelnen Teile des Prozesses genauer.
 \begin{table}[H]
 	\centering
 	\caption{Prozessteile}
-	\begin{tabular}{ | p{4cm} | p{12cm} | }
+	\begin{tabular}{ | p{4cm} | p{11cm} | }
 		\toprule
 		{\textbf{Name}} & {\textbf{Beschreibung}} \\
 		\midrule
@@ -40,9 +44,7 @@ Die folgende Tabelle beschreibt die einzelnen Teile des Prozesses genauer.
 
 \section{Aufgabenstellung}
 
-Die Architektur der Applikation MEON soll so angepasst werden das Continuous Deployment möglich wird. Damit ist gemeint das jeder Teil der Applikation eigenständig ausgerollt werden kann, ohne andere Komponenten herunterzufahren. Des Weiteren darf der Benutzer nicht von der Änderung beeinflusst sein respektive seine Anfragen dürfen durch ein Anheben einer Komponente nicht verloren gehen.
-Die Paymit Onboarding Anwendung ist funktional komplett implementiert und keine weiteren Anforderungen sind bekannt. Neue funktionale Anforderungen müssen die hier erarbeitete Lösung miteinbeziehen, so dass das Continuous Deployment nicht beeinträchtigt wird.
-Die Aufgabe besteht darin die Teile hinsichtlich der Kommunikation voneinander zu entkoppeln, so dass eine Aktualisierung den darin abgebildeten Geschäftsprozess nicht unterbricht.  Der interne Aufbau der Komponenten soll nur falls nötig angepasst werden. Die Benutzeroberfläche sowie deren Benutzbarkeit ist nicht Teil der Aufgabe.
+Die neu Architektur der Applikation soll die kontinuierliche Installation erlauben ohne den Dienst zu unterbrechen(Continuous Deployment). Da die Anwendung bereits in Betrieb ist sollen Änderungen nur gemacht werden, wenn sie für die Umsetzunge unumgänglich sind. 
 
 \section{Anforderungen}
 
@@ -51,13 +53,13 @@ Alle funktionalen Anforderungen sind bereits umgesetzt. Durch die Anpassung der 
 \begin{table}[H]
 	\centering
 	\caption{Nicht funktionale Anforderungen}
-	\begin{tabular}{ | p{2cm} | p{14cm} | }
+	\begin{tabular}{ | p{2cm} | p{13cm} | }
 		\toprule
 		{\textbf{ID}} & {\textbf{Beschreibung}} \\
 		\midrule
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Kunde merkt nicht wenn neue Komponenten der Applikation ausgetauscht werden. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Verfügbarkeit der Frontend-Anwendung ist 24x7 (SLA). \\ \hline
-		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Einhaltung der PCI DSS Anforderung bezüglich Umgang mit Daten resp. deren Zugriffsschutz durch Authentifizierung, Authorisierung und entsprechende Netzwerksegmentierung. \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Einhaltung der PCI DSS Anforderung bezüglich Umgang mit Daten resp. deren Zugriffsschutz durch Authentifizierung, Authorisierung und Netzwerksegmentierung. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Applikation muss einfach skalierbar sein. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Anwendung muss eine hohe Ausfallsicherheit für Server und die Datenbank aufweisen. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Bugfixing geschieht mittels vorwärts committen, anstelle von Hotfixes wird immer die ganze Applikation neu ausgerollt. \\ \hline
@@ -67,56 +69,50 @@ Alle funktionalen Anforderungen sind bereits umgesetzt. Durch die Anpassung der 
 	\end{tabular}
 \end{table}
 
-\subsection{Aspekte}
+\subsection{Kernaufgabe}
 
-Die wichtigstens Aspekte der Fachdomäne sind: 
-\begin{itemize}
-	\item Auswahl eines Paymit Abos
-	\item Vertragsabschluss
-\end{itemize}
+Ziel ist die aquirierung neuer Händler für das mobile Bezahlsystem TWINT.
 
 \subsection{Art des Systems}
 
-Bei MEON handelt es sich um ein interaktives Onlinesystem.
+Die Applikation MEON besteht aus zwei Teilen. Der Onboarding Server ist ein interaktives Online System, die Workflow Engines ist ein Hintergrundsystem.
 
-\subsection{Nutzung des Systems}
+\subsection{Datenhaltung}
+
+Die Datenhaltung wird mittels MongoDB für den Onboarding Server und Oracle für die Workflow Engine sichergestellt.
 
 \subsection{Schnittstellen}
 
-MEON hat folgende Schnittstellen zu Umsystemen. \textcolor{red}{/* TODO ro = ReadOnly, w = Write, ev. nicht wichtig hier */}
+MEON hat folgende Schnittstellen zu Umsystemen welche lesend(ro) oder schreiben(w) sein können.
 \begin{itemize}
 	\item AddressService: Adressen Service der Post (ro)
 	\item UID: Schweizer Unternehmens-Identifikationsnummer (ro) 
 	\item ZEFIX: Handelsregsiteranbindung (ro)
-	\item PEP: Service zur Überprüfung politisch exponierter Personen (ro)
 	\item ATMS: SMS Service (w)
 	\item Email: Email Service (w)
 	\item Workflow: Workflow Engine Backoffice SIX (w)
 	\subitem PASS: Transaktionsverarbeitungssystem (w)
-	\subitem SCS:  Verwaltung der Terminal geräte bei den Kunden (w)
-\end{itemize}
-
-\subsection{Datenhaltung}
-
-\begin{itemize}
-	\item RDBMS (Presistenz)
+	\subitem SCS: Verwaltung der Terminal geräte bei den Kunden (w)
+	\subitem PEP: Service zur Überprüfung politisch exponierter Personen (ro)
 \end{itemize}
 
 \section{Qualitätsziele}
 
 Die folgende Tabelle zeigt die wichtigsten Qualitätsziele. Die Szenarien zu den Zielen sind genauer im Kapitel \ref{sec:qualityscenarios} aufgeführt.
 
+\stepcounter{quatar} 
 \begin{table}[H]
 	\centering
 	\caption{Qualitätsziele}
-	\begin{tabular}{ | p{3cm} | p{13cm} | }
+	\begin{tabular}{ | p{3cm} | p{12cm} | }
 		\toprule
 		{\textbf{Name}} & {\textbf{Beschreibung}} \\
 		\midrule
-		Q-\arabic{quatar} \stepcounter{quatar} & Die neue Architektur soll einfach verständlich und anwendbar sein.\\ \hline
-		Q-\arabic{quatar} \stepcounter{quatar} & Die Deployment Pipeline soll einfach wartbar sein. \\ \hline
-		Q-\arabic{quatar} \stepcounter{quatar} & Der Benutzer wird durch eine Ausrollung der Anwendung nicht beeinträchtigt. \\ \hline
-		Q-\arabic{quatar} \stepcounter{quatar} & Die Performanz wird durch eine Ausrollung der Applikation nicht beeinträchtigt.\\ 
+		Q-\arabic{quatar} \stepcounter{quatar} & Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein.\\ \hline
+		Q-\arabic{quatar} \stepcounter{quatar} & Anpassungen an der Software sollen einfach eingeführt werden können. \\ \hline
+		Q-\arabic{quatar} \stepcounter{quatar} & Die Applikation soll ohne Unterbrechung des Dienstes installiert werden können. \\ \hline
+		Q-\arabic{quatar} \stepcounter{quatar} & Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können.\\ \hline
+		Q-\arabic{quatar} \stepcounter{quatar} & Konfigurationsänderungen an der Applikation können ohne Unterbruch durchgeführt werden. \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -126,7 +122,7 @@ Die folgende Tabelle zeigt die wichtigsten Qualitätsziele. Die Szenarien zu den
 \begin{table}[H]
 	\centering
 	\caption{Stakeholder}
-	\begin{tabular}{ | p{3cm} | p{13cm} | }
+	\begin{tabular}{ | p{3cm} | p{12cm} | }
 		\toprule
 		{\textbf{Name}} & {\textbf{Beschreibung}} \\
 		\midrule

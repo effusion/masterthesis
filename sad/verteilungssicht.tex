@@ -26,11 +26,10 @@ Services\footnote{https://kubernetes.io/docs/user-guide/services/} sind eine wei
 
 In der Verteilungssicht gibt es folgende Komponenten:\newline
 \begin{itemize}
-	\item Gelb sind die Teile welche den Use Case der Applikation abbilden und es dem Benutzer ermöglichen sich für Paymit anzumelden. Dazu gehören der WebServer mit dem statischen Inhalt für die WebPage, die \textcolor{red}{TODO Server/Backendapplikation?} sowie die Workflow Enginge.
+	\item Gelb sind die Teile welche den Use Case der Applikation abbilden und es dem Benutzer ermöglichen sich für TWINT anzumelden. Dazu gehören der WebServer mit dem statischen Inhalt für die WebPage, der Onboarding Server mit der Spring Boot Applikation sowie die Workflow Enginge.
 	\item Orange sind Komponenten welche für das Konfigurationsmanagement der Applikation verantwortlich sind. Hierzu gehört eine Spring Boot Anwendung, ein Message Bus für die Benachrichtigung der Server sowie ein GIT-Repository welches die Konfigurationen, gespeichert in Property Files, beinhaltet.
 	\item Grün sind OpenShift Services welche die Schnittstellen zwischen den einzelnen Teilen der gesamten Applikation verbinden.
-	\item Blau sind Teile welche für die Datenspeicherung verwendet werden. Es handelt sich dabei um ein Replica Set von MongoDB. m
-    Mehr Informationen zur Persistenz finden sich im Kapitel \ref{persistenz}.
+	\item Blau sind Teile welche für die Datenspeicherung verwendet werden. Es handelt sich dabei um ein Replica Set von MongoDB. Mehr Informationen zur Persistenz finden sich im Kapitel \ref{persistenz}.
 \end{itemize}
 
 Aus Compliance-Gründen befindet sich die Workflow Engine sowie die Config Server in einer separaten, durch eine Firewall getrennten Zone innerhalb des Clusters. Da die Workflow Engines auf Dienste mit Kreditkartendaten zugreifen muss, fällt die Komponente automatisch unter die gleichen PCI DSS Regeln. 

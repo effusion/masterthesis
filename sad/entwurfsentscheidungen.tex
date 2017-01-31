@@ -4,11 +4,11 @@
 \label{entwurfsentscheidungen}
 \section{Teillösungen}
 
-Um eine Architektur zu entwickeln, müssen zuerst Lösungen für die Teilprobleme erarbeitet werden. In den folgenden Kapiteln sind mehrere Varianten mit ihren Vor-, Nachteilen und Risiken aufgeführt. Diese Ansätze sind nur oberflächlich erforscht worden um den Lösungsraum möglichst gross zu machen. Diese Ansätze werden dann bewertet um die verschiedenen Lösungsvarianten zusammenstellen zu können. Diese Varianten wiederum gelten als Basis für die Prototypen um zu verifizieren das die wichtigsten Punkte eingehalten werden können. Erst danach wird die Architektur definiert.
+Um eine Architektur zu entwickeln, müssen zuerst Lösungen für die Teilprobleme erarbeitet werden. In den folgenden Kapiteln sind mehrere Varianten mit ihren Vor-, Nachteilen und Risiken aufgeführt. Diese Ansätze sind nur oberflächlich erforscht worden um den Lösungsraum möglichst gross zu machen. Diese Ansätze werden dann bewertet um die verschiedenen Lösungsvarianten zusammenstellen zu können. Diese Varianten wiederum gelten als Basis für die Prototypen um zu verifizieren, dass die wichtigsten Punkte eingehalten werden können. 
 
 \subsection{Schnittstellen Versionierung}
 
-Die Versionierung der Schnittstelle zwischen der Webseite und dem Server muss sichergestellt werde. Da bei der kontinuierlichen Ausrollung von Software meistens mehrere Versionen im laufenden Betrieb sind, muss ein Weg gefunden werden dies auf einfache Weise zu erreichen ohne für den Entwickler zu viel Aufwand zu generieren.
+Die Versionierung der Schnittstelle zwischen der Webseite und dem Onboarding Server muss sichergestellt werden. Da bei der kontinuierlichen Ausrollung von Software meistens mehrere Versionen im laufenden Betrieb sind, muss ein Weg gefunden werden dies auf einfache Weise zu erreichen ohne für den Entwickler zu viel Aufwand zu generieren.
 
 \subsubsection{Versionierung mittels Pfad}
 
@@ -92,7 +92,7 @@ Alternative könnte anstelle eine Messaging System auch eine Message Bridge verw
 
 \subsubsection{Message Queue mit Kafka}
 
-Eine weitere Möglichkeit wäre das Versenden von Nachrichten über Kafka\footnote{https://kafka.apache.org}. Entstanden bei grossen Internet Dienstleistern wie Linkedin, für welche JMS nicht praktikabel war aufgrund der Perfomanz(\textcolor{red}{TODO verifizieren}). Kafka ist ein verteiltes Messaging System welches auf Durchsatz optimiert ist. Für die Zustellung der Nachrichten verwendet Kafka einen sogenannten Nimbus welche die Zustellung an den Empfänger übernimmt.
+Eine weitere Möglichkeit wäre das Versenden von Nachrichten über Kafka\footnote{https://kafka.apache.org}. Kafka ist ein verteiltes Messaging System welches auf Durchsatz optimiert ist. Für die Zustellung der Nachrichten verwendet Kafka einen sogenannten Nimbus welche die Zustellung an den Empfänger übernimmt.
 \newline
 \newline
 \textbf{Vorteile}
@@ -351,7 +351,7 @@ Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis
 		BK-\arabic{bk} \stepcounter{bk} & Lernkurve & Die Konzepte, API's, Konfigurationsmöglichkeiten sind einfach verständlich und sind für den Entwickler und Administrator schnell erlernbar. & 4 & Die neue Architektur besitzt als ganzes bereits eine gewisse Komplexität. Sind die neuen Teile selber komplex wird dadurch das ganze System automatisch schwerer zu verstehen.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Strategisch & Der Einsatz der Software/Plattform wurde auf Firmenebene als strategisch definiert. & 5 & Der Einsatz einer anderen Lösung ist nach wie vor gestattet, muss jedoch begründet werden und fällt in die Kategorie 'Special Solutions', für welche die verantwortliche Abteilung später die Kosten tragen muss.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Know-How & Wissen was bereits über die Technologie vorhanden ist respektive wie diese eingesetzt werden kann & 2 & Obschon dadurch Kosten und Zeit gespart werden können, ist es auch ein Hindernis bei der Suche eine passenden Lösung. Vor allem in Anbetracht der Anforderungen welche neue Denkansätze verlangt.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Konfigurationsänderung & Massstab wie einfach es ist die Konfiguration der Applikation mit der Software zu ändern. & 5 & Nicht-funktionale Anforderung, dass gewissen Eigenschaften ohne einen Neustart geändert werden können.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Konfigurations- änderung & Massstab wie einfach es ist die Konfiguration der Applikation mit der Software zu ändern. & 5 & Nicht-funktionale Anforderung, dass gewissen Eigenschaften ohne einen Neustart geändert werden können.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Multi Version & Wie einfach kann die Datenbank mit mehrere Version umgehen und wie einfach sind die Konzepte dafür diese umzusetzen. & 5 & Die Umsetzung von Continuous Deployment ein sehr zentraler Punkt da die Applikation zu jederzeit mit mehreren Version auskommen muss.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Anpassungen & Gewisse Codeteile müssen unweigerlich angepasst werden und verursachen daher Aufwand. Hier sind vor allem Schnittstellen und die Persistenz betroffen. & 3 & Für die Erfüllung der Ziele kann dies in kauf genommen werden solange der Aufwand nicht zu hoch wird.\\
 		\bottomrule

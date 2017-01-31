@@ -7,33 +7,33 @@ Anhand der nicht funktionalen Anforderungen und den Qualitätszielen wurden folg
 \begin{table}[H]
 	\centering
 	\caption{Architekturentscheide}
-	\begin{tabular}{ | p{4cm} | p{12cm} | }
+	\begin{tabular}{ | p{4cm} | p{11cm} | }
 		\toprule
 		{\textbf{Qualitätsziel}} & {\textbf{Entscheidung}} \\
 		\midrule
-		Funktionalität, Sicherheit &  Damit der Benuzter nicht merkt, dass die Applikation aktualisiert wird, muss die Applikation gleichzeitig mit mehreren Versionen lauffähig sein. Hierfür werden die Schnittstellen und das Datenbankschema versioniert. Funktionalität wird über sogenannte Feature Toggles gesteuert.\\ \hline
+		Funktionalität, Sicherheit &  Damit der Benuzter nicht merkt, dass die Applikation aktualisiert wird, muss die sie gleichzeitig mit mehreren Versionen lauffähig sein. Hierfür werden die Schnittstellen und das Datenbankschema versioniert. Funktionalität wird über sogenannte Feature Toggles gesteuert.\\ \hline
 		Änderbarkeit, Modifizierbarkeit & Entwicklers sollen einfach neue Anforderungen der Stakeholder umsetzten können. Deshalb werden bestehende Konzepte angewandt und bereits bekannte Libraries verwendet. Eine Komplexitäterhöhnung wird für die Umsetztung von Continuous Deployment hingenommen. \\ \hline
-		Übertragbarkeit, Installierbarkeit &  Um Änderungen und Erweiterungen zeitnahe in Betrieb nehmen zu können ist ein hoher Automatisierungsgrad notwendig. Daher wird die Applikation mittels Konfigurationsmanagement- und Orchestrierungstools verwaltet. Die Build Server sollen nach erfolgreicher Ausführung aller Tests die Applikation automatisch ausrollen, mit der Ausnahme eines manuellen Eingriffs für die Freigabe.\\ \hline
-		Zuverlässigkeit, Fehlertoleranz &  Die Architektur soll Hochverfügbarkeit und Replikation vorsehen, damit ein Ausfall einer Komponente keine Auswirkungen auf die Anwendbarkeit der Applikation hat. Des Weiteren soll eine Änderung am Code, der Konfiguration oder an der Verteilung keinen Unterbruch des Dienstes zur Folge haben.\\
+		Übertragbarkeit, Installierbarkeit &  Um Änderungen und Erweiterungen zeitnahe in Betrieb nehmen zu können, ist ein hoher Automatisierungsgrad notwendig. Daher wird die Applikation mittels Konfigurationsmanagement- und Orchestrierungstools verwaltet. Die Build Server sollen nach erfolgreicher Ausführung aller Tests die Applikation automatisch ausrollen, mit der Ausnahme eines manuellen Eingriffs für die Freigabe.\\ \hline
+		Zuverlässigkeit, Fehlertoleranz &  Die Architektur soll Hochverfügbarkeit und Replikation vorsehen, damit ein Ausfall einer Komponente keine Auswirkungen auf die Verfügbarkeit der Applikation hat. Des Weiteren soll eine Änderung am Code, der Konfiguration oder an der Verteilung keinen Unterbruch des Dienstes zur Folge haben.\\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 \section{Teilprobleme}	
 
-Um eine Software Architektur zu entwickeln, welche die gegebenen Anforderungen und Qualitätsziele erfüllt, müssen zuerst die einzelnen Teilprobleme identifiziert und nach entsprechenden Lösungen gesucht werden.
+Um eine Software Architektur zu entwickeln, welche die gegebenen Anforderungen und Qualitätsziele erfüllt, müssen zuerst die einzelnen Teilprobleme identifiziert und nach passenden Lösungen gesucht werden.
 
 \begin{table}[H]
 	\centering
 	\caption{Teilprobleme}
-	\begin{tabular}{ | p{4cm} | p{12cm} | }
+	\begin{tabular}{ | p{4cm} | p{11cm} | }
 		\toprule
 		{\textbf{Name}} & {\textbf{Beschreibung}} \\
 		\midrule
 		Schnittstellen Versionierung & Die Schnittstellen der Software ändern sich mit der Zeit. Wird die Applikation sehr häufig ausgerollt, muss ein Lösung gefunden werden welche es ermöglicht, dass Schnittstellen einfach versioniert werden können.\\ \hline
-		Kommunikationsentkopplung &  Durch die kontinuierliche Installation neuer Versionen der Applikation, respektive deren Teile, muss sichergestellt werden, dass keine Anfragen verloren gehen.\\ \hline
+		Kommunikations- entkopplung &  Durch die kontinuierliche Installation neuer Versionen der Applikation, respektive deren Teile, muss sichergestellt werden, dass keine Anfragen verloren gehen.\\ \hline
 		Datenspeicherung &  Die Speicherung erfolgt aktuell in einem relationalen Datenbank System. Es muss überprüft werden ob das System mit ständiger Aktualisierung zurechtkommt oder ob eine andere Lösung gesucht werden muss.\\ \hline
-		Konfigurationsmanagement & Das aktuelle Konfigurationsmanagement über Property-Files oder Docker Variablen ist für die neue Architektur nicht mehr angemessen. Die Umsetzung braucht einen Ansatz welcher das Anpassen/Einführen von Konfigurationsvariablen automatisch und zentral ermöglicht. \\
+		Konfigurations- management & Das aktuelle Konfigurationsmanagement über Property-Files oder Docker Variablen ist für die neue Architektur nicht mehr angemessen. Die Umsetzung braucht einen Ansatz welcher das Anpassen/Einführen von Konfigurationsvariablen automatisch und zentral ermöglicht. \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -42,5 +42,5 @@ Für die einzelnen Teilprobleme wurden diverse Varianten ausprobiert, prototypis
 
 \section{Lösung}
 
-Die neue Architektur wird in den folgenden Kapiteln genauer erläutert. Ein Konzept was sich durch die ganze Applikation zieht ist, dass die ganze Anwendung mit mehreren Versionen von Schnittstellen und Datenbankschemata umgehen muss. Änderungen werden, im Vergleich zu klassischen Applikationen, immer in mehreren Schritten durchgeführt. Wird eine neuer REST Endpunkt hinzugefügt, muss der alte Pfad solange verfügbar sein bis alle Teile der Applikation aktualisiert sind. Das Gleiche gilt für das Datenbankschema. Durch den Einsatz von MongoDB kann das Schema kontinuierlich überführt werden und braucht keine Migrationsscripts während der Installation. Neue Features sind über Feature Toggles gesteuert und dürfen erst aktiviert werden sobald alle Teile den entsprechenden Versionsstand haben. Detaillierte Information zu den genannten Konzepten finden sich im Kapitel \ref{software-update} Aktualisierung und Kapitel \ref{toggles} Feature Toggles.
+Die neue Architektur wird in den folgenden Kapiteln genauer erläutert. Ein Konzept was sich durch die ganze Applikation zieht ist, dass die ganze Anwendung mit mehreren Versionen von Schnittstellen und Datenbankschemata umgehen muss. Änderungen werden, im Vergleich zu klassischen Applikationen, immer in mehreren Schritten durchgeführt. Wird eine neuer REST Endpunkt hinzugefügt, muss der alte Pfad solange verfügbar sein bis alle Teile der Applikation aktualisiert sind. Das Gleiche gilt für das Datenbankschema. Durch den Einsatz von MongoDB kann das Schema kontinuierlich überführt werden und braucht keine Migrationsscripts während der Installation. Neue Features sind über Feature Toggles gesteuert und dürfen erst aktiviert werden sobald alle Teile den gleichen Versionsstand haben. Detaillierte Information zu den genannten Konzepten finden sich im Kapitel \ref{software-update} Aktualisierung und Kapitel \ref{toggles} Feature Toggles.
 \newpage
