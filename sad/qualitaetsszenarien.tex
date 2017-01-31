@@ -23,7 +23,7 @@ Damit die angepasste Architektur bewertet werden kann, wurden folgenden Bewertun
 
 \subsection{Szenario: Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein}
 %% https://www.pcisecuritystandards.org/document_library
-Nach PCI Standard müssen Kartendaten geschützt werden und dürfen nicht unberechtigt zugegriffen werden. Die Applikation selber hält keine Kartendaten sondern hat Schittstellen zu Systeme welche dies tun. Obschon diese Anwendungen in einer separat geschützen Zone stehen, ist die Firewall für einige Systeme geöffnet welche es einem Angreifer ermöglichen könnte an Daten zu kommen.
+Nach PCI Standard müssen Kartendaten geschützt werden und dürfen nicht unberechtigt zugegriffen werden. Die Applikation selber hält keine Kartendaten sondern hat Schittstellen zu Systeme welche dies tun. Obschon diese Anwendungen in einer separat geschützten Zone stehen, ist die Firewall für einige Systeme geöffnet, welche es einem Angreifer ermöglichen könnten an Daten zu kommen.
 
 \begin{table}[H]
 	\centering
@@ -38,7 +38,7 @@ Nach PCI Standard müssen Kartendaten geschützt werden und dürfen nicht unbere
 
 \subsection{Szenario: Anpassungen an der Software sollen einfach eingeführt werden können}
 
-Es muss möglich sein neue Businessanforderungen und Fehlerbehebungen in der Software schnell nach der Umsetzung in der produktiven Platform zu integrieren ohne das ein Unterbruch des Dienstes für den Benutzer ersichtlich wird.
+Es muss möglich sein neue Businessanforderungen und Fehlerbehebungen in der Software schnell nach der Umsetzung in der produktiven Plattform zu integrieren ohne das ein Unterbruch des Dienstes für den Benutzer ersichtlich wird.
 
 \begin{table}[H]
 	\centering
@@ -78,7 +78,7 @@ Das Abschicken der Registrierungsdaten soll bei validem Inhalt jederzeit möglic
 	\begin{tabular}{ | p{3cm} | p{11cm} | }
 		\toprule
 		Geschäftsziel & Der Benutzer füllt das Formular korrekt aus und meldet sich damit bei der SIX als Kunde an. \\ \hline
-		Auslöser & Der Kunde drückt den Registierungsknopf am Ende des Pagewizards \\  \hline
+		Auslöser & Der Kunde drückt den Registrierungsknopf am Ende des Pagewizards \\  \hline
 		Reaktion & Der Kunde kriegt eine Bestätigung, dass sein Formular bearbeitet wird. \\ \hline
 		Zielwerte & Unabhängig der Verfügbarkeit der Umsysteme muss ein Kunde erfolgreich die Registrierung abschliessen können \\
 		\bottomrule
@@ -87,8 +87,7 @@ Das Abschicken der Registrierungsdaten soll bei validem Inhalt jederzeit möglic
 
 \subsection{Szenario: Konfigurationsänderungen an der Applikation können ohne Unterbruch durchgeführt werden}
 
-Auf dem produktiven System können Konfigurationsänderungen an der Applikation während des laufenden Betriebs durchgeführt werden ohne
-das ein Unterbruch des Dienstes nötig wird.
+Auf dem produktiven System können Konfigurationsänderungen an der Applikation während des laufenden Betriebs durchgeführt werden ohne das ein Unterbruch des Dienstes nötig wird.
 
 \begin{table}[H]
 	\centering

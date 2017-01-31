@@ -3,7 +3,7 @@
 \chapter{Kontextabgrenzung}
 
 \section{Fachlicher Kontext}
-
+\textcolor{red}{/* TODO hier abgebildet ist der Workflow, Grafik anpassen mit einer Box Kunde füllt Vertragsformular aus */}
 \begin{center}
 	\includegraphics[scale=0.7]{kontext.png}
 \end{center}
@@ -11,7 +11,7 @@
 
 \section{Technischer Kontext}
 
-Die Applikation MEON basiert auf dem Spring Framework als Backend und AngularJS als Frontent. Die Anwendung wird mittels der Container Technologie Docker ausgerollt. Die Details zum Deployment finden sich im Kapitel Verteilungssicht.
+Die Applikation MEON basiert auf dem Spring Framework als Backend und AngularJS als Frontend. Die Anwendung wird mittels der Container Technologie Docker ausgerollt. Die Details zum Deployment finden sich im Kapitel Verteilungssicht. \textcolor{red}{/* TODO Referenz zum Kapitel mit Nummer */}
 
 \section{Externe Schnittstellen}
 
@@ -19,27 +19,32 @@ Die Applikation MEON basiert auf dem Spring Framework als Backend und AngularJS 
 		
 \subsubsection{Identifikation}
 
-REST Schnittstelle
+REST Schnittstelle (URL)
 
 \subsubsection{Bereitgestellte Resourcen}
 
-- Anlegen eines neuen Partners
-- Unblock des Kontos, damit der Partner Zahlungen ausbezahlt bekommt
+\begin{itemize}
+ \item Anlegen eines neuen Partners
+ \item Unblock des Kontos, damit der Partner Zahlungen ausbezahlt bekommt
+\end{itemize}
 
 \subsubsection{Fehlerszenarien}
 
-- Ausfall der Datenbank
-- Ausfall Applikationsservers
-	
+\begin{itemize}
+ \item Schnittstelle nicht verfügbar
+ \item invalide Daten
+\end{itemize}
+Bei einem Fehler bleibt der Request im Workflow stehen. Bei einem technischen Fehler wird periodisch versucht den Request nochmals zu schicken. Bei einem Datenqualitätsfehler muss der Datensatz im Workflow korrigiert werden.
+
 \subsubsection{Variabilitität und Konfigurierbarkeit}
 
-Der Partner wird anhand eines hinterlegten Templates erstellt, nur die davon unterschiedlichen Felder müssen geliefert werden. Die Konfigurierbarkeit ist entsprechend in dem Template, welches über die Schnittstelle mitgegeben wird. Die Schnittstelle ist versioniert für neue Features.
+Der Partner wird anhand eines hinterlegten Templates erstellt, nur die davon unterschiedlichen Felder müssen geliefert werden. Die Konfigurierbarkeit ist entsprechend in dem Template, für welches die Referenz über die Schnittstelle mitgegeben wird. Die Schnittstelle ist versioniert..
 Die URL zeigt auf eine VIP (Virtual IP). D.h. bei einem Ausfall wird (manuell) der Loadbalancer auf den Ausfallserver gerichtet. Da muss die Applikation ebenfalls laufen.
 
 \subsubsection{Qualitätseigenschaften}
 
-Hochverfügbar da über zwei Datenzentern mittels Hot Cold gesichert
-Die Schnittstelle nimmt nur zwischen 07:00 und 19:00 Requests an (tagfertige Verarbeitung)
+Hochverfügbar da über zwei Datenzentren mittels Hot Cold gesichert.
+Die Schnittstelle nimmt nur zwischen 07:00 und 19:00 Requests an (tagfertige Verarbeitung).
 	
 \subsubsection{Entwurfsentscheidungen} 
 
@@ -58,6 +63,12 @@ Der Service liegt in der PCI Zone und kann aus der PubDMZ nicht angesprochen wer
 
 \subsubsection{Fehlerszenarien}
 
+\begin{itemize}
+	\item Schnittstelle nicht verfügbar
+	\item invalide Daten
+\end{itemize}
+Im Fehlerfall bleibt der Request im Workflow stehen. Ist es ein technischer Fehler wird periodisch versucht den Request zu schicken, im Fall von falschen Daten muss der Datensatz im Workflow korrigiert werden.
+
 \subsubsection{Variabilitität und Konfigurierbarkeit}
 
 \subsubsection{Qualitätseigenschaften}
@@ -72,11 +83,15 @@ Der Service liegt in der PCI Zone und kann aus der PubDMZ nicht angesprochen wer
 URL
 
 \subsubsection{Bereitgestellte Resourcen}
-Unternehmensdaten
+Unternehmensdaten abfragen
 
 \subsubsection{Fehlerszenarien}
-Service nicht verfügbar --> Der User muss von Hand die Daten in der Webapplikation erfassen
-Invalide Daten
+\begin{itemize}
+	\item Service nicht verfügbar --> Der User muss von Hand die Daten in der Webapplikation erfassen
+	\item Invalide Daten 
+\end{itemize}
+
+
 
 \subsubsection{Variabilitität und Konfigurierbarkeit}
 Histerix
@@ -95,10 +110,14 @@ URL
 Abfrage Handelsregisterauszug
 
 \subsubsection{Fehlerszenarien}
-Unternehmen nicht vorhanden, Handelsregisterauszug muss manuell hochgeladen werden
+\begin{itemize}
+	\item Unternehmen nicht vorhanden
+	\item Service nicht verfügbar
+\end{itemize}
+In beiden Fällen muss der Handelsregisterauszug manuell hochgeladen werden.
 
 \subsubsection{Variabilitität und Konfigurierbarkeit}
-Kantone haben unterschiedliche Zugangsurls und unterschiedliche Provider
+Kantone haben unterschiedliche Zugangsurls und Provider
 Histerix
 
 \subsubsection{Qualitätseigenschaften}
@@ -116,7 +135,7 @@ URL
 Abfrage Plz/Ort und Strasse
 
 \subsubsection{Fehlerszenarien}
-Nicht verfügbar, User muss Adresse ohne Autofill ausfüllen.
+Falls der Service nicht verfügbar ist muss der User die Adresse ohne Autofill ausfüllen.
 
 \subsubsection{Variabilitität und Konfigurierbarkeit}
 Histerix
