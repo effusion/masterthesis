@@ -38,9 +38,26 @@ Um eine Software Architektur zu entwickeln, welche die gegebenen Anforderungen u
 	\end{tabular}
 \end{table}
 
-Für die einzelnen Teilprobleme wurden diverse Varianten ausprobiert, prototypisiert und schlussendlich bewertet. Sämtliche Entwurfsentscheide bezüglich Technologien und Konzepten finden sich im Kapitel \ref{entwurfsentscheidungen}.
+\section{Teillösungen}
+
+Für die einzelnen Teilprobleme wurden diverse Lösungsvarianten ausprobiert, prototypisiert und schlussendlich bewertet. Sämtliche Entwurfsentscheide bezüglich Technologien und Konzepten finden sich im Kapitel \ref{entwurfsentscheidungen}. In der folgenden Tabelle sind die Lösungen kurz aufgeführt
+
+\begin{table}[H]
+	\centering
+	\caption{Teillösungen}
+	\begin{tabular}{ | p{4cm} | p{11cm} | }
+		\toprule
+		{\textbf{Name}} & {\textbf{Beschreibung}} \\
+		\midrule
+		Schnittstellen Versionierung & REST Schnittstellen müssen die Versionsnummer im Pfad enthalten und müssen abwärtskompatible sein.\\ \hline
+		Kommunikations- entkopplung &  Die Registrierungsanfragen werden in der Datenbank gespeichert und von einem Scheduler asynchron an die Worflow Engine weitergeleitet.\\ \hline
+		Datenspeicherung & Die Daten des Onboarding Servers werden in einer MongoDB gespeichert. Die Schemalosenatur der Datenbank erlauben eine einfachere Migration. Durch die Paritionstoleranz ist kann die Verfügbarkeit einfacher gewährleistet werden.\\ \hline
+		Konfigurations- management &  Die Orchestrierung der und der Betrieb der Docker Container wird mittels OpenShift realisiert. Spring Cloud Config dient des Konfiguration Applikations interner Einstellungen.\\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
 \section{Lösung}
 
-Die neue Architektur wird in den folgenden Kapiteln genauer erläutert. Ein Konzept was sich durch die ganze Applikation zieht ist, dass die ganze Anwendung mit mehreren Versionen von Schnittstellen und Datenbankschemata umgehen muss. Änderungen werden, im Vergleich zu klassischen Applikationen, immer in mehreren Schritten durchgeführt. Wird eine neuer REST Endpunkt hinzugefügt, muss der alte Pfad solange verfügbar sein bis alle Teile der Applikation aktualisiert sind. Das Gleiche gilt für das Datenbankschema. Durch den Einsatz von MongoDB kann das Schema kontinuierlich überführt werden und braucht keine Migrationsscripts während der Installation. Neue Features sind über Feature Toggles gesteuert und dürfen erst aktiviert werden sobald alle Teile den gleichen Versionsstand haben. Detaillierte Information zu den genannten Konzepten finden sich im Kapitel \ref{software-update} Aktualisierung und Kapitel \ref{toggles} Feature Toggles.
+Die Architektur wird in den folgenden Kapiteln genauer erläutert. Ein Konzept was sich durch die ganze Applikation zieht ist, dass die ganze Anwendung mit mehreren Versionen von Schnittstellen und Datenbankschemata umgehen muss. Änderungen werden, im Vergleich zu klassischen Applikationen, immer in mehreren Schritten durchgeführt. Wird eine neuer REST Endpunkt hinzugefügt, muss der alte Pfad solange verfügbar sein bis alle Teile der Applikation aktualisiert sind. Das Gleiche gilt für das Datenbankschema. Durch den Einsatz von MongoDB kann das Schema kontinuierlich überführt werden und braucht keine Migrationsscripts während der Installation. Neue Features sind über Feature Toggles gesteuert und dürfen erst aktiviert werden sobald alle Teile den gleichen Versionsstand haben. Detaillierte Information zu den genannten Konzepten finden sich im Kapitel \ref{software-update} Aktualisierung und Kapitel \ref{toggles} Feature Toggles.
 \newpage

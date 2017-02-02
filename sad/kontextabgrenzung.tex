@@ -26,7 +26,7 @@ Die Applikation MEON basiert auf Spring Boot für den Onboarding Server, Angular
 		Identifikation & URL\\ \hline
 		Bereitgestellte Resource & Erlaubt das Abfragen von Unternehmensdaten anhand der Unternehmesidentifikationsnummer. \\ \hline
 		Fehlerszenarien & Ist die Schnittstelle nicht verfügbar, muss der Händler die Daten selber eingeben welche falsch sein könntne.\\ \hline
-		Qualitätseigenschaften & Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können.\\ \hline
+		Qualitätseigenschaften & Maximal 20 Anfragen pro Minuten sonst wird der sender geblockt.  Gartantierte Verfügbarkeit von 362 Tagen \url{https://www.isb.admin.ch/isb/de/home/e-services-bund/services/uid-webservice.html}\\ \hline
 		Entwurfsentscheidungen & Falls die Schnittstelle nicht verfügbat ist, werden die Buttons im User Interface ausgeblendet.\\
 		\bottomrule
 	\end{tabular}
@@ -46,7 +46,6 @@ Siehe Spezifikation im Anhang.
 		Identifikation & URL\\ \hline
 		Bereitgestellte Resource & Abfrage des Handelsregisterauszugs \\ \hline
 		Fehlerszenarien & Ist die Schnittstelle nicht verfügbar, muss der Hänlder den Auszugs selber hochladen.\\ \hline
-		Qualitätseigenschaften & Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können.\\ \hline
 		Entwurfsentscheidungen & Falls die Schnittstelle nicht verfügbat ist, werden die Buttons im User Interface ausgeblendet.\\
 		\bottomrule
 	\end{tabular}
@@ -64,13 +63,14 @@ Siehe Spezifikation im Anhang.
 		{\textbf{Name}} & {\textbf{Beschreibung}} \\
 		\midrule
 		Identifikation & URL\\ \hline
-		Bereitgestellte Resource & Abfrage Plz/Ort und Strasse für die Autovervollständigung \\ \hline
+		Bereitgestellte Resource & Plz/Ort und Strasse für die Autovervollständigung im XML Format \\ \hline
 		Fehlerszenarien & Ist die Schnittstelle nicht verfügbar, muss der Hänlder die Addressdaten selber eingeben.\\ \hline
-		Qualitätseigenschaften & Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können.\\ \hline
 		Entwurfsentscheidungen & Falls die Schnittstelle nicht verfügbat ist, werden die Buttons im User Interface ausgeblendet.\\
 		\bottomrule
 	\end{tabular}
 \end{table}
+
+Siehe Dokument 'Benutzerhandbuch-Adresschecker-online-V4.pdf' im Anhang.
 
 \subsection{Mail Schnittstelle}
 
@@ -84,7 +84,6 @@ Siehe Spezifikation im Anhang.
 		Identifikation & URL\\ \hline
 		Bereitgestellte Resource & Versenden von E-Mails\\ \hline
 		Fehlerszenarien & Server nicht erreichbar, wodurch die Mail später nochmals gesendet werden muss.\\ \hline
-		Qualitätseigenschaften & Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können.\\ \hline
 		Entwurfsentscheidungen & Falls die Schnittstelle nicht verfügbat ist, werden die Buttons im User Interface ausgeblendet.\\
 		\bottomrule
 	\end{tabular}
@@ -102,7 +101,6 @@ Siehe Spezifikation im Anhang.
 		Identifikation & URL\\ \hline
 		Bereitgestellte Resource & Versenden von E-Mails\\ \hline
 		Fehlerszenarien & Server nicht erreichbar, wodurch die Mail später nochmals gesendet werden muss.\\ \hline
-		Qualitätseigenschaften & Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können.\\ \hline
 		Entwurfsentscheidungen & Falls die Schnittstelle nicht verfügbat ist, werden die Buttons im User Interface ausgeblendet.\\
 		\bottomrule
 	\end{tabular}
