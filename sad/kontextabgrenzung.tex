@@ -3,11 +3,10 @@
 \chapter{Kontextabgrenzung}
 
 \section{Fachlicher Kontext}
-\textcolor{red}{/* TODO hier abgebildet ist der Workflow, Grafik anpassen mit einer Box Kunde füllt Vertragsformular aus */}
-\begin{center}
-	\includegraphics[scale=0.7]{kontext.png}
-\end{center}
 
+\begin{center}
+	\includegraphics[scale=0.6]{Contextdiagramm.png}
+\end{center}
 
 \section{Technischer Kontext}
 
@@ -15,135 +14,96 @@ Die Applikation MEON basiert auf Spring Boot für den Onboarding Server, Angular
 
 \section{Externe Schnittstellen}
 
-\subsection{PASS Schnittstelle}
-		
-\subsubsection{Identifikation}
-
-REST Schnittstelle (URL)
-
-\subsubsection{Bereitgestellte Resourcen}
-
-\begin{itemize}
- \item Anlegen eines neuen Partners
- \item Unblock des Kontos, damit der Partner Zahlungen ausbezahlt bekommt
-\end{itemize}
-
-\subsubsection{Fehlerszenarien}
-
-\begin{itemize}
- \item Schnittstelle nicht verfügbar
- \item invalide Daten
-\end{itemize}
-Bei einem Fehler bleibt der Request im Workflow stehen. Bei einem technischen Fehler wird periodisch versucht den Request nochmals zu schicken. Bei einem Datenqualitätsfehler muss der Datensatz im Workflow korrigiert werden.
-
-\subsubsection{Variabilitität und Konfigurierbarkeit}
-
-Der Partner wird anhand eines hinterlegten Templates erstellt, nur die davon unterschiedlichen Felder müssen geliefert werden. Die Konfigurierbarkeit ist entsprechend in dem Template, für welches die Referenz über die Schnittstelle mitgegeben wird. Die Schnittstelle ist versioniert..
-Die URL zeigt auf eine VIP (Virtual IP). D.h. bei einem Ausfall wird (manuell) der Loadbalancer auf den Ausfallserver gerichtet. Da muss die Applikation ebenfalls laufen.
-
-\subsubsection{Qualitätseigenschaften}
-
-Hochverfügbar da über zwei Datenzentren mittels Hot Cold gesichert.
-Die Schnittstelle nimmt nur zwischen 07:00 und 19:00 Requests an (tagfertige Verarbeitung).
-	
-\subsubsection{Entwurfsentscheidungen} 
-
-Die Annahme der Request zwischen 7 und 19 Uhr basiert auf dem Modifizerungsmodus für die Benutzer. Theoretisch könnten auch ausserhalb dieser Zeiten neue Partner erstellt werden, da sie das laufende Business nicht beeinflussen. Modifikationen hingegen müssen auf diesen Modus schauen.
-
-\subsubsection{Benutzungshinweise} 
-
-User muss im PASS angelegt sein und die entsprechende Security Role für die Institution beistzen (ist ein technischer, aber auch ein normaler User könnte mit den Berechtigungen das Interface bedienen).
-Der Service liegt in der PCI Zone und kann aus der PubDMZ nicht angesprochen werden
-	
-\subsection{SCS Schnittstelle}
-
-\subsubsection{Identifikation}
-
-\subsubsection{Bereitgestellte Resourcen}
-
-\subsubsection{Fehlerszenarien}
-
-\begin{itemize}
-	\item Schnittstelle nicht verfügbar
-	\item invalide Daten
-\end{itemize}
-Im Fehlerfall bleibt der Request im Workflow stehen. Ist es ein technischer Fehler wird periodisch versucht den Request zu schicken, im Fall von falschen Daten muss der Datensatz im Workflow korrigiert werden.
-
-\subsubsection{Variabilitität und Konfigurierbarkeit}
-
-\subsubsection{Qualitätseigenschaften}
-
-\subsubsection{Entwurfsentscheidungen} 
-
-\subsubsection{Benutzungshinweise} 
-
 \subsection{UID Schnittstelle}
 
-\subsubsection{Identifikation}
-URL
+\begin{table}[H]
+	\centering
+	\caption{UID-Schnittstelle}
+	\begin{tabular}{ | p{4cm} | p{11cm} | }
+		\toprule
+		{\textbf{Name}} & {\textbf{Beschreibung}} \\
+		\midrule
+		Identifikation & URL\\ \hline
+		Bereitgestellte Resource & Erlaubt das Abfragen von Unternehmensdaten anhand der Unternehmesidentifikationsnummer. \\ \hline
+		Fehlerszenarien & Ist die Schnittstelle nicht verfügbar, muss der Händler die Daten selber eingeben welche falsch sein könntne.\\ \hline
+		Qualitätseigenschaften & Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können.\\ \hline
+		Entwurfsentscheidungen & Falls die Schnittstelle nicht verfügbat ist, werden die Buttons im User Interface ausgeblendet.\\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
-\subsubsection{Bereitgestellte Resourcen}
-Unternehmensdaten abfragen
-
-\subsubsection{Fehlerszenarien}
-\begin{itemize}
-	\item Service nicht verfügbar --> Der User muss von Hand die Daten in der Webapplikation erfassen
-	\item Invalide Daten 
-\end{itemize}
-
-
-
-\subsubsection{Variabilitität und Konfigurierbarkeit}
-Histerix
-
-\subsubsection{Qualitätseigenschaften}
-
-\subsubsection{Entwurfsentscheidungen} 
-
-\subsubsection{Benutzungshinweise} 
+Siehe Spezifikation im Anhang.
 
 \subsection{ZEFIX Schnittstelle}
 
-\subsubsection{Identifikation}
-URL
-\subsubsection{Bereitgestellte Resourcen}
-Abfrage Handelsregisterauszug
+\begin{table}[H]
+	\centering
+	\caption{ZEFIX-Schnittstelle}
+	\begin{tabular}{  | p{4cm} | p{11cm} | }
+		\toprule
+		{\textbf{Name}} & {\textbf{Beschreibung}} \\
+		\midrule
+		Identifikation & URL\\ \hline
+		Bereitgestellte Resource & Abfrage des Handelsregisterauszugs \\ \hline
+		Fehlerszenarien & Ist die Schnittstelle nicht verfügbar, muss der Hänlder den Auszugs selber hochladen.\\ \hline
+		Qualitätseigenschaften & Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können.\\ \hline
+		Entwurfsentscheidungen & Falls die Schnittstelle nicht verfügbat ist, werden die Buttons im User Interface ausgeblendet.\\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
-\subsubsection{Fehlerszenarien}
-\begin{itemize}
-	\item Unternehmen nicht vorhanden
-	\item Service nicht verfügbar
-\end{itemize}
-In beiden Fällen muss der Handelsregisterauszug manuell hochgeladen werden.
-
-\subsubsection{Variabilitität und Konfigurierbarkeit}
-Kantone haben unterschiedliche Zugangsurls und Provider
-Histerix
-
-\subsubsection{Qualitätseigenschaften}
-
-\subsubsection{Entwurfsentscheidungen} 
-
-\subsubsection{Benutzungshinweise} 
+Siehe Spezifikation im Anhang.
 
 \subsection{Adressen Schnittstelle}
 
-\subsubsection{Identifikation}
-URL
+\begin{table}[H]
+	\centering
+	\caption{Address-Schnittstelle}
+	\begin{tabular}{  | p{4cm} | p{11cm} |}
+		\toprule
+		{\textbf{Name}} & {\textbf{Beschreibung}} \\
+		\midrule
+		Identifikation & URL\\ \hline
+		Bereitgestellte Resource & Abfrage Plz/Ort und Strasse für die Autovervollständigung \\ \hline
+		Fehlerszenarien & Ist die Schnittstelle nicht verfügbar, muss der Hänlder die Addressdaten selber eingeben.\\ \hline
+		Qualitätseigenschaften & Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können.\\ \hline
+		Entwurfsentscheidungen & Falls die Schnittstelle nicht verfügbat ist, werden die Buttons im User Interface ausgeblendet.\\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
-\subsubsection{Bereitgestellte Resourcen}
-Abfrage Plz/Ort und Strasse
+\subsection{Mail Schnittstelle}
 
-\subsubsection{Fehlerszenarien}
-Falls der Service nicht verfügbar ist muss der User die Adresse ohne Autofill ausfüllen.
+\begin{table}[H]
+	\centering
+	\caption{Mail-Schnittstelle}
+	\begin{tabular}{ | p{4cm} | p{11cm} |}
+		\toprule
+		{\textbf{Name}} & {\textbf{Beschreibung}} \\
+		\midrule
+		Identifikation & URL\\ \hline
+		Bereitgestellte Resource & Versenden von E-Mails\\ \hline
+		Fehlerszenarien & Server nicht erreichbar, wodurch die Mail später nochmals gesendet werden muss.\\ \hline
+		Qualitätseigenschaften & Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können.\\ \hline
+		Entwurfsentscheidungen & Falls die Schnittstelle nicht verfügbat ist, werden die Buttons im User Interface ausgeblendet.\\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
-\subsubsection{Variabilitität und Konfigurierbarkeit}
-Histerix
+\subsection{ATMS Schnittstelle}
 
-\subsubsection{Qualitätseigenschaften}
-
-\subsubsection{Entwurfsentscheidungen} 
-
-\subsubsection{Benutzungshinweise} 
-
-
+\begin{table}[H]
+	\centering
+	\caption{ATMS-Schnittstelle}
+	\begin{tabular}{ | p{4cm} | p{11cm} | }
+		\toprule
+		{\textbf{Name}} & {\textbf{Beschreibung}} \\
+		\midrule
+		Identifikation & URL\\ \hline
+		Bereitgestellte Resource & Versenden von E-Mails\\ \hline
+		Fehlerszenarien & Server nicht erreichbar, wodurch die Mail später nochmals gesendet werden muss.\\ \hline
+		Qualitätseigenschaften & Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können.\\ \hline
+		Entwurfsentscheidungen & Falls die Schnittstelle nicht verfügbat ist, werden die Buttons im User Interface ausgeblendet.\\
+		\bottomrule
+	\end{tabular}
+\end{table}

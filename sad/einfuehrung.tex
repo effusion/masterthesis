@@ -8,43 +8,16 @@
 \section{Business Case}
 \label{businesscase}
 
-\textcolor{red}{/* TODO als ersten Schritt würde ich sowas wie "Merchant fills registration data" einführen, oder Start On-Boarding genauer erklären */}
-
-
-\textcolor{red}{/* TODO Macht das überhaupt Sinn so? Business Case und Kontextabgrenzung sind so ziemlich das gleich aktuell?*/}
-
-Die Applikation MEON dient der Registration neuer Händler für den mobilen Bezahldienst TWINT und zukünftig der Registrierung neuer Händler für Enabling(Terminal)/Acquiring Pakete.  Der Geschäftsprozess läuft in zwei Teilen ab welche durch verschiedene Teile der Applikation durchgeführt werden.
+Die Applikation MEON dient der Registration neuer Händler für den mobilen Bezahldienst TWINT und zukünftig der Registrierung neuer Händler für Enabling(Terminal)/Acquiring Pakete. Der Geschäftsprozess läuft in zwei Teilen ab welche durch verschiedene Teile der Applikation durchgeführt werden.  Dabei soll es einem Händler möglich sein, sich ohne direkten Kontakt mit der SIX einen gültigen Vertrag für den Einsatz des Dienstes zu erwerben. Sollte ein Kontakt notwendig sein, wird dieser seitens SIX durch das Risk Management iniziiert.\newline
+Die Anwendung soll eine moderne und intuitive Web Applikation sein und dem Benutzer möglichst viele Hilfestellung bieten. Nach der erfolgreichen Registierung und  eventuellen Prüfung soll der Dinest auf den notwendigen internen System der SIX automatisch aufgeschaltet werden. Hierzu zählen das System für die Verwaltung der Terminals (SCS) sowie das Transaktionsverarbeitungsystem(PASS).
 
 \begin{center}
-	\includegraphics[scale=0.4]{meon-workflow.png}
+	\includegraphics[scale=0.25]{meon-use-case.png}
 \end{center}
-
-Die folgende Tabelle beschreibt die einzelnen Teile des Prozesses genauer.
-
-\begin{table}[H]
-	\centering
-	\caption{Prozessteile}
-	\begin{tabular}{ | p{4cm} | p{11cm} | }
-		\toprule
-		{\textbf{Name}} & {\textbf{Beschreibung}} \\
-		\midrule
-		Merchant fills registrations data & Der Händler füllt alle notwendigen Daten aus für den Vetrag aus \\ \hline
-		Check preconditions & Überprüft Vorbedingungen wie techniusche Gültigkeit der Daten \textcolor{red}{/* TODO  hier bin ich nicht mehr sicher was alles überprüft wird} */ \\ \hline
-		enrich ZEFIX data & Reichert die erhaltenen Daten mit dem Handelsregisterauszug an \\ \hline
-		perform PEP Check & Prüft ob die Person politisch exponiert ist. \\ \hline
-		PASS create partner & Erstellt den Händler (Partner) im Acquiring System.\\ \hline
-		SCS setup merchant & Registriert den Händler im Enabling System für die Zahlungsterminals \\ \hline
-		risk review  & Risiko Abschätzung im Fall einer politisch exponierten Person und Abklärung, ob ein risikotechnisch gültiger Geschäftsbereich vorliegt \\ \hline
-	    PASS Unblock settling & Schaltet die Auszahlung der verarbeiteten Transaktionen im Acquiring System frei \\ \hline
-	    MEPO create user account&  Erstellt einen Account im Kundenportal \\ \hline
-	    generate contract PDF & Generiert ein ausgefülltes Vertrags-PDF und schickt es per E-Mail an den Händler \textcolor{red}{/* TODO Bei Paymit wurde der Vertrag nicht mehr unterschrieben */}  \\
-		\bottomrule
-	\end{tabular}
-\end{table}
 
 \section{Aufgabenstellung}
 
-Die neu Architektur der Applikation soll die kontinuierliche Installation erlauben ohne den Dienst zu unterbrechen(Continuous Deployment). Da die Anwendung bereits in Betrieb ist sollen Änderungen nur gemacht werden, wenn sie für die Umsetzunge unumgänglich sind. 
+Die neu Architektur der Applikation soll die kontinuierliche Installation des Onboarding Servers erlauben ohne den Dienst zu unterbrechen(Continuous Deployment). Da die Anwendung bereits in Betrieb ist sollen Änderungen nur gemacht werden, wenn sie für die Umsetzunge unumgänglich sind. \newline Die Workflow Engines ist ein Produkt der Firma Camuda wird jedoch in der Open Source version verwendet. Das Produkt hat bereits Mechanismen für Continuous Deployment, die SIX besitzt zur Zeit aber keinen Supportvertag um diese Feature in Betrieb zunehmen. Aus diesem Grund wird die Engine nicht in die Architektur aufgenommen der Onboarding Server muss jedoch den Umstand berücksichtigen um die Anforderungen zu erfüllen.
 
 \section{Anforderungen}
 
@@ -91,9 +64,6 @@ MEON hat folgende Schnittstellen zu Umsystemen welche lesend(ro) oder schreiben(
 	\item ATMS: SMS Service (w)
 	\item Email: Email Service (w)
 	\item Workflow: Workflow Engine Backoffice SIX (w)
-	\subitem PASS: Transaktionsverarbeitungssystem (w)
-	\subitem SCS: Verwaltung der Terminal geräte bei den Kunden (w)
-	\subitem PEP: Service zur Überprüfung politisch exponierter Personen (ro)
 \end{itemize}
 
 \section{Qualitätsziele}

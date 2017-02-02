@@ -25,9 +25,9 @@ Die Architektur für die Applikation wird mittel Schichten realisiert. Die Präs
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
 		ProductUI &  Stellt die einzelnen Produktoptionen von Paymit dar welche der Benutzer auswählen kann\\ \hline
-		RegistrationUI \textcolor{red}{TODO Abgrenzung RegistrationUI und MerchantUI nicht ganz klar, ev. musst du das noch genauer herausstreichen} &  Beinhaltet sämtliche Felder für die Registrierung wie Geschäftsdaten, Adresse, Händlerdaten, Kontoverbindung. Stellt die Eingabefelder für den MTAN Verifikationscode dar, welcher dem Benutzer zu gesendet wird.\\ \hline
+		RegistrationUI  &  Beinhaltet die Felder für den Start des Registrierungsprozesses sowie für die MTAN Verifikation.\\ \hline
 		LegalUI &  Zeigt rechtliche Dokumente wie Allgemeine Geschäftsbedienungen an \\ \hline
-		MerchantUI &  Zuständing für die Überprüfung des neuen Händlers\\
+		MerchantUI & Enthält das Formular für die Kooridinaten des Händler nach der erfolgreichen Verifikation des MTAN Codes und ist für den Abschluss der Registration zuständig.\\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -39,10 +39,10 @@ Die Architektur für die Applikation wird mittel Schichten realisiert. Die Präs
 		\toprule
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
-		RegistrationControllers &  Schnittstelle für den Registrierungsprozess und \textcolor{red}{ev. könnte dies in einen Security/Sessioncontroller erweitert werden. Der Händler hat nach der Email eine gewisse Zeit um auf den Link zu klicken, danach hat muss er den MTAN innerhalb von wenigen Minuten eingeben und hat bei korrekter Eingabe 30 Minuten um das Formular auszufüllen}die Verifikation des MTAN Codes \\ \hline
+		RegistrationControllers &  Schnittstelle für den Start des Registrierungsprozesses. Startet den Prozess und fürt die Verifikation des MTAN Codes durch.\\ \hline
 		LegalController &  Schnittstelle welche rechtliche Dokumente liefert \\ \hline
-		MerchantController &  Schnittstelle für die Prüfung von Händlern \\ \hline
-		FeatureControllers& Schnittstelle für das Abfragen der Features welche aktiv sind \\
+		MerchantController &  Schnittstelle für das Erfassen des Händler und Abschluss der Registration. \\ \hline
+		FeatureControllers & Schnittstelle für das Abfragen der Features welche aktiv sind \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -54,9 +54,9 @@ Die Architektur für die Applikation wird mittel Schichten realisiert. Die Präs
 		\toprule
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
-		RegistrationService &  Enthält sämtliche Logik für die Aufbereitung der Registrierungsanfrage an die Workflow Engine \textcolor{red}{Entsprechend dem Kommentar in der Tabelle davor, Security/Sessionservice}sowie die Überprüfung des MTAN Codes, welcher an den neuen Händer verschickt wurde\\ \hline
+		RegistrationService &  Enthält sämtliche Logik für die Aufbereitung der Registrierungsanfrage an die Workflow Engine. Für die Verifikation des MTAN Codes durch welcher via SMS versendet Wurde.\\ \hline
 		LegalService &  Stellt die Dienste für das Abfragen den rechtlichen Dokumente bereit \\ \hline
-		FeatureService &  Verwaltet die aktuell eingeschalteten Features welche aktiviert sind. Holt sich die neuen Konfigurationen automatisch nach einer Benachrichtigung durch die Message Queue \\ \hline
+		FeatureService &  Verwaltet die aktuell eingeschalteten Features welche aktiviert sind. Holt sich die neuen Konfigurationen automatisch nach einer Benachrichtigung durch die Message Queue. \\ \hline
 		External Services & Schnittstelle zu diversen externen WebServices der Post, des Schweizer Bundes und des Handelsregister \\
 		\bottomrule
 	\end{tabular}
