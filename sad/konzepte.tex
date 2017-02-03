@@ -134,11 +134,9 @@ Sämtliche Protokollierungsdaten, welche die Applikation generiert, werden auf d
 
 Das Deployment der Applikation kann wahlweise über das Web Interface oder die Konsolenapplikation durchgeführt werden. Die Anwendung selber verfügt über keine Möglichkeiten der Administration. Die Firma verfolgt mittlerweile den DevOps Ansatz weshalb die Administratoren nicht die Applikation direkt verwalten, sondern sich mehr um die Plattform selber kümmern.  Das Management fällt somit dem Entwickler zu. 
 
-\section{Monitoring}
+\section{Monitoring / Diagnose}
 
-\begin{quote}
-	\textcolor{red}{Diagnosalbe, Spring Boot Actuator}
-\end{quote}
+Die Applikation wird einerseits durch OpenShift überwacht durch Abfragen der Schnittstellen(Liveness Probe) und die Fehlerhaften Teile Notfalls neu gestartet. Zusätzlich hat die Anwendung einen separaten REST Endpoint wechler Informationen über die einzelnen Dienste bereitstellt. Dies wird erreicht durch die Implementation eines Interfaces welches bei Aufruf zuvor programmierte Aktionen ausführt und via JSON 
 
 \section{Migration}
 
