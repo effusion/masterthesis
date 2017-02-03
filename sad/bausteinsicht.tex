@@ -8,7 +8,7 @@ Die Architektur für die Applikation wird mittel Schichten realisiert. Die Präs
 
 \newgeometry{left=2.5cm, right=2.5cm, bottom=2.5cm, top=2.5cm}
 \begin{landscape}
-\section{Ebene 1}
+\section{Ebene 1 : Layer Architektur}
 
 \begin{center}
 	\includegraphics[scale=0.6]{ComponentLevel1.png}
@@ -94,19 +94,27 @@ Die Architektur für die Applikation wird mittel Schichten realisiert. Die Präs
 \end{table}
 \newpage
 
-\section{Ebene 2}
 
-\subsection{RegistrationUI}
+\section{Ebene 2 : RegistrationUI}
 Anhand des Registrierungsintefaces soll der generelle Aufbau illustiert werden. Sämtliche UI Teile besitzen eine View in Form eines HTML Files. Der Controller steuert die Interaktion des Benutzers und sendet die Daten via Services an den REST Controller auf dem Server. Der FeatureService enthält Methoden um zu Prüfen ob einzelne Features im Interface aktiv sind oder nicht. Siehe dazu auch Kapitel \ref{toggles} Feature Toogles.
 
 \begin{center}
 	\includegraphics[scale=0.8]{WebComponentLevel2.png}
 \end{center}
 \newpage
-\subsection{RegistrationService}
+\section{Ebene 2 : RegistrationServices}
 \label{reg-service}
 
-Der Registrierungsservice kümmert sich um die Aufbereitung der Daten für die Workflow Engine sowie die Übertragung der Daten. Er verwendet den SMS- und dem MailService um Nachrichten an den Händler zu schicken. Nach der Bestätigung des Benutzers speichert er die Daten in der Datenbank. Der SchedulerService prüft regelmässig, ob neue Registierungen pendent sind, und sendet sie an die BPM Engine. Sollte bei der Kommunikation ein Fehler auftreten, wird zu einem späteren Zeitpunkt nochmals versucht die Daten an den Workflow zu schicken. \textcolor{red}{MTAN verifikation fehlt.}
+Der Registrierungsservice kümmert sich um die Aufbereitung der Daten für die Workflow Engine sowie die Übertragung der Daten. Er verwendet den SMS- und dem MailService um Nachrichten an den Händler zu schicken. Nach der Bestätigung des Benutzers, druch den MTAN Code, speichert er die Daten in der Datenbank. Der SchedulerService prüft regelmässig, ob neue Registierungen pendent sind, und sendet sie an die BPM Engine. Sollte bei der Kommunikation ein Fehler auftreten, wird zu einem späteren Zeitpunkt nochmals versucht die Daten an den Workflow zu schicken. 
 \begin{center}
 	\includegraphics[scale=0.65]{RegistrationServicesLevel2.png}
 \end{center}
+\newpage
+\section{Ebene 2 : ExternalServices}
+
+Die ExternalServices bestehen aus den Diensten für die Unternehmensindentifikation, Handelsregisterauszug und Addressüberprüfungen. Sie erlauben eine vereinfachte Registierung des Händler welcher dadruch nicht alle Daten selber eingeben respektive zusammensuchen muss.
+
+\begin{center}
+	\includegraphics[scale=0.65]{ExternalServicesLevel2.png}
+\end{center}
+
