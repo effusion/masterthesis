@@ -4,17 +4,20 @@
 
 \section{Ebene 1 : Sequenz Registrierung}
 
-Die Registrierungssequenz ist ein mehrstufiger Prozess. Hat der neu Händler ein Produkt ausgewählt und seine Kontaktdaten, Mobile-Nummer und Emailadresse, eingegeben, werden diese in der Datenbank gespeichert. Gleichzeitig wird eine Mail mit einem Registrierungslink verschickt. Sobald der Händler diese Daten erhalten hat, kann er den Prozess fortführen indem er den Link öffnet. Das Öffnen des Links löst eine SMS in Form einer MTAN aus. Mit Hilfe dieses MTANs verifiziert der Händler eine gültige Mobile-Nummer und ist damit berechtigt alle registrierungsrelevanten Daten auszufüllen und diese zu übermitteln. Die Übermittlung der Daten an die Workflow Engine erfolgt asynchron.
+Die Registrierungssequenz ist ein mehrstufiger Prozess. Hat der neue Händler ein Produkt ausgewählt und seine Kontaktdaten, Mobile-Nummer und Emailadresse, eingegeben, werden diese in der Datenbank gespeichert. Gleichzeitig wird eine Mail mit einem Registrierungslink verschickt. Sobald der Händler diese Daten erhalten hat, kann er den Prozess fortführen indem er den Link öffnet. Das Öffnen des Links löst eine SMS in Form einer MTAN aus. Mit Hilfe dieses MTANs verifiziert der Händler eine gültige Mobile-Nummer und ist damit berechtigt alle registrierungsrelevanten Daten auszufüllen und diese zu übermitteln. Die Übermittlung der Daten an die Workflow Engine erfolgt asynchron.
 \begin{center}
 	\includegraphics[scale=0.44]{RegistrationSequenceLevel1.png}
 \end{center}
 \newpage
 
-\section{Ebene 1 : Activität Registrierung}
+\section{Ebene 1 : Aktivität Registrierung}
+ 
+ Bei der Registrierung durchläuft der neue Händler generell zwei Stati. Der erste ist abgeschlossen sobald die Verifikation der MTAN erfolgreich war. Ab diesem zwei Punkt befindet er sich im zweiten Status die Registration abschliesst. 
 
 \begin{center}
 	\includegraphics[scale=0.44]{RegistrationActivity.png}
 \end{center}
+\newpage
 
 \section{Ebene 1 : Sequenz Konfigurationsänderung}
 

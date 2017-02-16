@@ -15,26 +15,27 @@ Wie in der Einführung schon erwähnt geht es bei der Applikation um das Registr
 
 Die Aktualisierung der Software geschieht mit der neuen Architektur kontinuierlich. Damit dies problemlos funktioniert müssen gewisse Konzepte berücksichtigt werden. Generell sind folgende Regel zu beachten:
 \begin{itemize}
-	\item Anpassungen müssen rückwärts kompatibel sein. Felder müssen deshalb als 'deprecated' gekennzeichnet werden und sind erst zu entfernen wenn alle Teil der Applikation aktualisiert wurden.
+	\item Anpassungen müssen rückwärts kompatibel sein. Felder müssen deshalb als 'deprecated' gekennzeichnet werden und sind erst zu entfernen, wenn alle Teil der Applikation aktualisiert wurden.
 	\item Mappings auf andere Objekte, wie Datenbank oder Transferobjekte welche an umliegende System geschickt werden, müssen immer mit beiden Versionen funktionieren.
 \end{itemize}
 
 \subsection{Schnittstellen}
 
-Schnittstellen müssen im Pfad die Versionsnummer enthalten damit der Client die richtigen Endpunkte ansprechen kann. Müssen Änderungen gemacht werden welche sich nicht in die aktuelle Implementierung kombinieren lassen, gilt es, einen neue URL mit neuer Version zu erstellen.
-
-\textcolor{red}{TODO}beispiel verweiss auf Schnittstellen guide von SIX
+Schnittstellen müssen im Pfad die Versionsnummer enthalten damit der Client die richtigen Endpunkte ansprechen kann. Müssen Änderungen gemacht werden welche sich nicht in die aktuelle Implementierung kombinieren lassen, gilt es, einen neue URL mit neuer Version zu erstellen. Im Dokument '2014-01-23-Specification for Web Services-1.3.pdf' im Kapitel 4.3 finden sich mehr Informationen dazu.
 
 \subsection{Persistenz}
 
-Datenbankobjekte müssen wie Schnittstellen ebenfalls rückwärtss kompatibel sein, so dass eine kontinuierliche Aktualisierung erfolgen kann. Alte Versionen können nach Bedarf später mittels eines Migrationsskipts auf die neue Version angehoben werden. Siehe dazu auch Kapitel \ref{persistenz}
-\textcolor{red}{TODO}Bild damit es klare wird
+Datenbankobjekte müssen wie Schnittstellen ebenfalls rückwärts kompatibel sein, so dass eine kontinuierliche Aktualisierung erfolgen kann. Alte Versionen können nach Bedarf später mittels eines Migrationsskripts auf die neue Version angehoben werden. Das folgende Diagramm zeigt ein Beispiel von Persistenz Klassen wie sie überführt werden. 
+\begin{center}
+	\includegraphics[scale=0.6]{ClassMigration.png}\newline
+\end{center}
+Die Attribute müssen durch die Service Klassen korrekt abgefüllt werden, so dass während der Aktualisierung die Daten korrekt vorliegen. Weitere Informationen zur Persistenz finden sich in Kapitel \ref{persistenz}.
 
 \section{Typische Muster und Strukturen}
 
 \subsection{Dependency Injection}
 
-Dieser Mechanismus stellt die korrekte Zusammensetzung von Komponenten im Code sicher. Die Abhängigkeiten und Objektinstanzierungen  müssen deshalb nicht durch den Entwickler im Code programmiert werden, sondern das Framework übernimmt diese Aufgabe. Die Basis der Server Applikation bildet Spring Boot. Klassen welche von Spring automatisch iniziert werden sollen, brauchen die passande Annotation.
+Dieser Mechanismus stellt die korrekte Zusammensetzung von Komponenten im Code sicher. Die Abhängigkeiten und Objektinstanzierungen  müssen deshalb nicht durch den Entwickler im Code programmiert werden, sondern das Framework übernimmt diese Aufgabe. Die Basis der Server Applikation bildet Spring Boot. Klassen welche von Spring automatisch iniziert werden sollen, brauchen die passende Annotation.
 Damit Spring die Klassen beim Starten findet, muss entweder eine XML oder eine Java Konfiguration des Kontextes vorliegen. Darin werden die entsprechen Packages aufgelistet in welchen gesucht werden soll. Eine ausführliche Erklärung der Funktionsweise findet sich unter \url{https://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html}\newline
 Im Spring Kontext wird auch oft der Name Beans verwendet wobei diese verschiedene Ausprägungen haben können. In den folgenden Unterkapiteln werden einzelne Ausprägungen genauer erklärt.\newline
 Das Web Framework AngularJS verwendet ebenfalls Dependency Injection hat dafür auf Grund der Programmier Sprache JavaScript andere Modelle. Um die Abhängigkeiten aufzulösen können verschiedene Methoden verwendet werden. Eine genaue Erklärung dazu findet sich unter \url{https://docs.angularjs.org/guide/di}
@@ -49,7 +50,7 @@ Controller dienen als Schnittstelle zwischen einem Web Framework und einer Serve
 
 \subsection{Services}
 
-Serverseitig spricht man bei Services von Klassen welche Business Logik ausführen und somit die Fachlichkeit der Applikation abbilden. Sie befinden sich in einer Schichtenarchitektur zwischen den Controllern und den Repositories. Auf der Frontend Seite sind Services die Abstraktionsschicht welche den Zugriff auf die URL auf Serverseite kapselt.
+Serverseitig spricht man bei Services von Klassen welche Business Logik ausführen und somit die Fachlichkeit der Applikation abbilden. Sie befinden sich in einer Schichtenarchitektur zwischen den Controllern und den Repositories. Auf der Frontend Seite sind Services die Abstraktionsschicht welche den Zugriff auf die URL auf Serverseite kapselt. Siehe auch Kapitel \ref{hystrix}
 
 \subsection{Router}
 
@@ -67,21 +68,23 @@ Dienste welche nicht von der SIX zu Verfügung gestellt werden, sind meistens au
 
 \section{Build Management}
 \label{build}
-\begin{quote}
-  \textcolor{red}{TODO textapassung openshift, image scan push gitflow bild}
-\end{quote}
 
-Um die Applikation zu bauen und neue Funktionen ausrollen zu können, braucht es eine konfigurierte Build Pipeline. Da bei diesem Projekt GIT zum Einsatz kommt, gibt es mehrere Branches welche den Code für das dazugehörige Stages enthalten. Im Generellen gibt es zwe wichtige Branches:
+
+Um die Applikation zu bauen und neue Funktionen ausrollen zu können, braucht es eine konfigurierte Build Pipeline. Da bei diesem Projekt GIT zum Einsatz kommt, gibt es mehrere Branches welche den Code für das dazugehörige Stages enthält. Im Generellen gibt es zwei wichtige Branches:
 \begin{itemize}
-	\item develop: Startpunkt für den Build
+	\item develop: Startpunkt für den Build sowie für die Unit und Integrationstests
 	\item master: Enthält den produktiven Code
 \end{itemize}
-Sämtliche neuen Funktionen und Fehlerbehebungen werden auf einem separaten \Gls{FEBA}Feature Branch erledigt und erst nach Abschluss in den Development Branch gemerged. Dadurch können die Änderungen unabhängig voneinander durchgeführt werden.\newline
-Der Build Job ist als Jenkinsfile eingecheckt und erhält die Beschreibung wie die Pipeline und Ihre Stages definiert sind. Siehe dazu auch \url{https://jenkins.io/doc/book/pipeline/}. In den einzelen Stages werden \textcolor{red}{TODO es wird Code und Container gebaut. Aktuell werden die Container in einem Stage gebaut und in einem weiteren gepusht} Docker Container gebaut welche dann ins Firmen interne Repository hochgeladen werden. Durch das OpenShift Plugin können die Container dann in den entsprechenden Projekten neu ausgerollt werden.
+Sämtliche neuen Funktionen und Fehlerbehebungen werden auf einem separaten \Gls{FEBA}Feature Branch erledigt und erst nach Abschluss in den Development Branch gemerged. Dadurch können die Änderungen unabhängig voneinander durchgeführt werden. Die folgende Grafik zeigt den Ablauf.
+\begin{center}
+	\includegraphics[scale=0.6]{gitflow}\newline
+	Quelle: \url{https://blog.seibert-media.net/blog/2014/03/31/git-workflows-der-gitflow-workflow-teil-1/}
+\end{center}
+Der Build Job ist als Jenkinsfile eingecheckt und erhält die Beschreibung wie die Pipeline und Ihre Stages definiert sind. Siehe dazu auch \url{https://jenkins.io/doc/book/pipeline/}. Die Pipeline besteht aus verschiedenen Stages welche nacheinander durchlaufen werden so fern es keine Fehler gibt. Für jedes deployment stage gibt es auf OpenShift ein dazugehöriges Projekt in welche die Container ausgerollt werden. Für den finalen Übergang in die produktive Umgebung gibt es einen manuellen Schritt welches ausgeführt wird sobald das Change Management die Änderung bewilligt.
 
 \section{Codegenerierung}
 
-Die AngularJS Services welche die Anfragen an den Server schicken werden anhand von Swagger und den RestController automatisch während dem Build Prozess generiert. Sie können durch den Entwickler auch lokal erstellt werden wenn Änderungen gemacht wurden.
+Die AngularJS Services, welche die Anfragen an den Server schicken, werden anhand von Swagger und den RestController automatisch während dem Build Prozess generiert. Sie können durch den Entwickler auch lokal erstellt werden wenn Änderungen gemacht wurden.
 
 \section{Docker Container}
 \label{container}
@@ -110,6 +113,11 @@ Das Web Interface ist mehrsprachig ausgelegt und die Sprache kann durch den Benu
 Als Kommunikationsmittel zwischen den einzelnen Teilen der Applikation kommen \gls{REST} und Messaging zum Einsatz. REST ist eine Art um Daten zwischen zwei System auszutauschen. Dabei werden die gängigen HTTP Methoden GET, PUT, POST  verwendet um entsprechende Aktionen auf dem Schnittstelle des Zielsystems auszuführen. Als Übertragungsformat wirde JSON verwendet. Weitere Informationen finden sind unter \url{https://en.wikipedia.org/wiki/Representational_state_transfer}.\newline
 Das Konfigurationmanagement von Spring Cloud Config verwendet für die Benachrichtigung der Komponenten bei einer Konfigurationsänderung, das Messaging Protokoll \Gls{AMQP}. Die Queues werden dabei auf einem separaten RabbitMQ Server gehalten vorauf sich der Config Server und die Clients verbinden.
 
+\section{Hystrix}
+\label{hystrix}
+
+Hystrix ist eine Bibliothek der Firma Netflix welche für die Kontroller von Anfragen an andere Dienste(REST, SOAP usw,) verwendet wird. Die Library kümmert sich dabei um Fehlerbehandlung, Wiederholung und Fallback wenn ein Services nicht verfügbar sein sollte. Sämtliche Aufrufe von anderen Diensten innerhalb des Onboarding Server werden mit Hystrix abstrahiert und gekapselt. Siehe auch \url{https://github.com/Netflix/Hystrix/wiki}
+
 \section{Konfiguration}
 \label{config}
 
@@ -124,7 +132,7 @@ Um die Anwendung  auszurollen benötigt es neben Services und Containern eine Be
 \end{itemize}
 
 Ist die Konfiguration erstellt und in einer Datei gespeichert, kann die Anwendung jederzeit in einem neuen Projekt mit angepassten Parametern ausgerollt werden.\newline
-Der zweite Teil bildet Spring Cloud Config womit Konfigurationsänderungen zu Laufzeit ohne Neustart der Applikation möglich sind. Dafür verwendet die Bibliothek einen zentralen Server welcher die Konfigurationen aus einem GIT Repository liest. Die Dateinamen sind nach dem Schema 'applicationname.properties' abgelegt und werden periodisch auf Änderungen überprüft. Die Client Applikation braucht ein Datei bootstrap.yml im Klassenpfad wo der Name der Applikation steht, welche mit dem Namen des Propertyfiles übereinstimmen muss. Dadurch weiss der Config Server welche Einstellungen an die Anwendung zu übermitteln sind. Damit Properties aktualisiert werden, muss die Klasse die Annotation '@RefreshScope' haben. Zusätzlich wird noch ein Bus mittels Queue, basierend auf RabbitMQ, verwendet um die Anwendungen zu benachrichtigen wenn eine Einstellung geändert hat.
+Der zweite Teil bildet Spring Cloud Config womit Konfigurationsänderungen zu Laufzeit ohne Neustart der Applikation möglich sind. Dafür verwendet die Bibliothek einen zentralen Server welcher die Konfigurationen aus einem GIT Repository liest. Die Dateinamen sind nach dem Schema 'applicationname.properties' abgelegt und werden periodisch auf Änderungen überprüft. Die Client Applikation braucht eine Datei 'bootstrap.yml' im Klassenpfad wo der Name der Applikation steht, welche mit dem Namen des Propertyfiles übereinstimmen muss. Dadurch weiss der Config Server welche Einstellungen an die Anwendung zu übermitteln sind. Damit Properties aktualisiert werden, muss die Klasse die Annotation '@RefreshScope' haben. Zusätzlich wird noch ein Bus mittels Queue, basierend auf RabbitMQ, verwendet um die Anwendungen zu benachrichtigen, wenn eine Einstellung geändert hat.
 
 \section{Logging, Protokollierung}
 
@@ -136,7 +144,7 @@ Das Deployment der Applikation kann wahlweise über das Web Interface oder die K
 
 \section{Monitoring / Diagnose}
 
-Die Applikation wird einerseits durch OpenShift überwacht durch Abfragen der Schnittstellen(Liveness Probe) und die Fehlerhaften Teile Notfalls neu gestartet. Zusätzlich hat die Anwendung einen separaten REST Endpoint wechler Informationen über die einzelnen Dienste bereitstellt. Dies wird erreicht durch die Implementation eines Interfaces welches bei Aufruf zuvor programmierte Aktionen ausführt und via JSON 
+Die Applikation wird einerseits durch OpenShift überwacht mittels Abfragen der Schnittstellen(Liveness Probe) und die Fehlerhaften Teile Notfalls neu gestartet. Zusätzlich hat die Anwendung einen separaten REST Endpoint welcher Informationen über die einzelnen Dienste bereitstellt. Dies wird erreicht durch die Implementation eines Interfaces welches bei Aufruf zuvor programmierte Aktionen ausführt und via JSON 
 
 \section{Migration}
 
@@ -165,12 +173,12 @@ Auf dem Formular des Web Interfaces sollen Daten wie Händlername via des Untern
 
 \section{Sessionbehandlung}
 
-Die Applikation hat ein einmaliges Sessionhandling während der Registrierung eines neuen Händler. Nach dem ersten Schritt der Registrierung wird ein MTAN Code und eine Link mittels Mail an den Händer verschickt. Nach dem Klick auf den Link und er korrekten Eingabe des Codes hat der Händler 30 Minuten Zeit um den Prozess abzuschliessen.
-Tut er dies nicht, wird die Registierung abgebrochen und er muss nochmals von vorne beginnen. Ziel der Zeitbegrenzung ist die Verhinderungen von \Gls{DDoS} Attacken.
+Die Applikation hat ein einmaliges Sessionhandling während der Registrierung eines neuen Händlers. Nach dem ersten Schritt der Registrierung wird ein MTAN Code und eine Link mittels Mail an den Händer verschickt. Nach dem Klick auf den Link und er korrekten Eingabe des Codes hat der Händler 30 Minuten Zeit um den Prozess abzuschliessen.
+Tut er dies nicht, wird die Registrierung abgebrochen und er muss nochmals von vorne beginnen. Ziel der Zeitbegrenzung ist die Verhinderungen von \Gls{DDoS} Attacken.
 
 \section{Sicherheit}
 
-Die Applikation befindet sich, wie im Kapitel \ref{deploy-dia} dargestellt, in zwei verschiedenen Zonen. Der Teil in der öffentlichen Zone hält keine sensitiven Informationen, welche speziell geschützt werden müssten, sondern Adressdaten der neuen Händler. Diese werden nur kurzzeitig für die Übertragung an die Workflow Engine gespeichert. Der Teil in der PCI Zone steht unter den gleichnamigen Compliance Anforderungen da im gleichen Bereich auch Systeme sind, welche mit Kartendaten arbeiten. Aus diesem Grund ist eine entsprechende Firewall dazwischen. Diese Firewall kann jedoch kein Content Scanning durchführen weshalb vor der Workflow Engine eine Apache WebServer mit einem Security Modul steht. Der Config Server steht ebenfalls in der sicheren Zone um Passwörter zu schützen. Die ganze Kommunikation muss verschlüsselt erfolgen. Durch dem Umstieg auf OpenShift ist jedoch noch nicht klar wie die ganzen Zertifikate verwaltet werden resp. ob nur am Eingang ein offizielles verwendet wird oder ob die ganze Kommunikation verschlüsselt sein muss.
+Die Applikation befindet sich, wie im Kapitel \ref{deploy-dia} dargestellt, in zwei verschiedenen Zonen. Der Teil in der öffentlichen Zone hält keine sensitiven Informationen, welche speziell geschützt werden müssten, sondern Adressdaten der neuen Händler. Diese werden nur kurzzeitig für die Übertragung an die Workflow Engine gespeichert. Der Teil in der PCI Zone steht unter den gleichnamigen Compliance Anforderungen da im gleichen Bereich auch Systeme sind, welche mit Kartendaten arbeiten. Aus diesem Grund ist eine entsprechende Firewall dazwischen. Diese Firewall kann jedoch kein Content Scanning durchführen weshalb vor der Workflow Engine eine Apache WebServer mit einem Security Modul steht. Der Config Server steht ebenfalls in der sicheren Zone um Passwörter zu schützen. Die ganze Kommunikation muss verschlüsselt erfolgen. Durch den Umstieg auf OpenShift ist jedoch noch nicht klar wie die ganzen Zertifikate verwaltet werden resp. ob nur am Eingang ein offizielles verwendet wird oder ob die ganze Kommunikation verschlüsselt sein muss.
 
 \section{Skalierung / Clusterung}
 
@@ -178,5 +186,5 @@ Wie bereits im Kapitel \ref{deploy} angesprochen, können auf der OpenShift Plat
 
 \section{Transaktionsbehandlung}
 \label{transactions}
-Im Vergleich zu klassischen \Gls{RDBMS} welche sich an die \Gls{ACID} Prinzipien halten, hat MongoDB andere Mechanismen wie Transaktionen gehandhabt werden. Schreiboperation welche nur ein einzelnes Dokument aktualisieren sind on MongoBD atomar. WriteConcerns definieren wann MongoDB eine erfolgreiche Speicherung der Daten quittiert. Die zwei vorhanden Einstellungen sind On-Disk und In-Memory. Um keine Daten zu verlieren wird On-Disk aktiviert.\newline
+Im Vergleich zu klassischen \Gls{RDBMS} welche sich an die \Gls{ACID} Prinzipien halten, hat MongoDB andere Mechanismen wie Transaktionen gehandhabt werden. Schreiboperation welche nur ein einzelnes Dokument aktualisieren sind on MongoBD atomar. WriteConcerns definieren wann MongoDB eine erfolgreiche Speicherung der Daten quittiert. Die zwei vorhandenen Einstellungen sind On-Disk und In-Memory. Um keine Daten zu verlieren wird On-Disk aktiviert.\newline
 Da MongoDB als Replica Set aufgebaut wird um einen Ausfall des Primaries zu kompensieren gibt es eine weitere Einstellung mit welcher definiert werden kann, auf wie vielen Replicas der Datensatz ebenfalls gespeichert wird. Für den Anwendungsfall von MEON ist dies nicht notwendig da der Registrierungsprozess mit dem verschicken der SMS Nachricht und der Mail bereits Asynchronität beinhaltet welche genug Zeit für eine Synchronisation der Replicas ermöglicht. Weitere Informationen finden sich in der MongoDB Dokumentation unter \url{https://docs.mongodb.com/manual/reference/write-concern/}.

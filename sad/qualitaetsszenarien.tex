@@ -23,7 +23,7 @@ Damit die angepasste Architektur bewertet werden kann, wurden folgenden Bewertun
 
 \subsection{Szenario: Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein}
 %% https://www.pcisecuritystandards.org/document_library
-Nach PCI Standard müssen Kartendaten geschützt werden und dürfen nicht unberechtigt zugegriffen werden. Die Applikation selber hält keine Kartendaten sondern hat Schittstellen zu Systeme welche dies tun. Obschon diese Anwendungen in einer separat geschützten Zone stehen, ist die Firewall für einige Systeme geöffnet, welche es einem Angreifer ermöglichen könnten an Daten zu kommen.
+Nach PCI Standard müssen Kartendaten geschützt werden und dürfen nicht unberechtigt zugegriffen werden. Die Applikation selber hält keine Kartendaten sondern hat Schnittstellen zu Systeme welche dies tun. Obschon diese Anwendungen in einer separat geschützten Zone stehen, ist die Firewall für einige Systeme geöffnet, welche es einem Angreifer ermöglichen könnten an Daten zu kommen.
 
 \begin{table}[H]
 	\centering
@@ -69,7 +69,7 @@ Die Applikation soll sowohl intern für Tester als auch extern für Businessabna
 	\end{tabular}
 \end{table}
 
-\subsection{Szenario: Der \Gls{Kunde} soll bei korrektem Ausfüllen der Daten sich registrieren können}
+\subsection{Szenario: Der Kunde soll bei korrektem Ausfüllen der Daten sich registrieren können}
 
 Das Abschicken der Registrierungsdaten soll bei validem Inhalt jederzeit möglich sein auch wenn die Software gerade neu installiert wird oder eine Komponente einen Fehler/Ausfall hatte.
 
@@ -78,12 +78,13 @@ Das Abschicken der Registrierungsdaten soll bei validem Inhalt jederzeit möglic
 	\begin{tabular}{ | p{3cm} | p{11cm} | }
 		\toprule
 		Geschäftsziel & Der Benutzer füllt das Formular korrekt aus und meldet sich damit bei der SIX als Kunde an. \\ \hline
-		Auslöser & Der Kunde drückt den Registrierungsknopf am Ende des Pagewizards \\  \hline
+		Auslöser & Der \Gls{Kunde} drückt den Registrierungsknopf am Ende des Pagewizards \\  \hline
 		Reaktion & Der Kunde kriegt eine Bestätigung, dass sein Formular bearbeitet wird. \\ \hline
 		Zielwerte & Unabhängig der Verfügbarkeit der Umsysteme muss ein Kunde erfolgreich die Registrierung abschliessen können \\
 		\bottomrule
 	\end{tabular}
 \end{table}
+\newpage
 
 \subsection{Szenario: Konfigurationsänderungen an der Applikation können ohne Unterbruch durchgeführt werden}
 
@@ -93,10 +94,10 @@ Auf dem produktiven System können Konfigurationsänderungen an der Applikation 
 	\centering
 	\begin{tabular}{ | p{3cm} | p{11cm} | }
 		\toprule
-		Geschäftsziel & ... \\ \hline
-		Auslöser & ... \\ \hline
-		Reaktion & ... \\ \hline
-		Zielwerte & ... \\
+		Geschäftsziel & Eine Änderung an einer Einstellung muss geändert oder ein Feature aktiviert werden. \\ \hline
+		Auslöser & Der Entwickler macht einen Commit in das Konfigurationsrepository\\ \hline
+		Reaktion & Die Anwendungen werden via Message Bus benachrichtig und aktualisieren die Einstellungen \\ \hline
+		Zielwerte & Wurden übernommen und sind aktiv. \\
 		\bottomrule
 	\end{tabular}
 \end{table}

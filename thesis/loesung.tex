@@ -1,32 +1,59 @@
+\graphicspath{{./images/}}
+
 \chapter{Lösung}
 
-\section{Requirements}
-
-Unternehmensarchitekten zu weit weg vom geschene deshalb als Stakeholder weg
+Wie bereits in der Ausgangslage beschrieben wurde für die Lösungsfindung Scrum und Prototyping verwendet. Trotz der interativen Natur, zieht sich ein roter Faden durch den Ablauf welcher der Arbeit. Gewisse Teile wurden gleichzeitig bearbeitet, werden im Text jedoch aufeinander folgend beschrieben.
 
 \section{Kontextabgrenzung}
 
-Wie wurde die Lösung erarbeitet. Das Was ist im SAD obschon gewisse Teile zusammengefasst hier aufgeführt werden müssen.
+Als erster Schritt musste der Umfang der Arbeit definiert werden. Die Applikation MEON besteht aus mehreren Teilen und benötigt diverse Umsysteme um den Anwendungsfall bereits zu stellen. Sämtliche internen Umsysteme wurde deshalb aus für die Erarbeitung der Lösung nicht berücksichtigt. Diese Systeme sind unternehmenskritisch und unterliegen deshalb restriktiven Vorgaben. Die Workflow Engine welche eigentlich Teil der Applikation ist, wurde ebenfalls ausgeklammert da es sich um ein Produkt einer externen Firma handelt welche nicht direkt beeinflusst werden kann. Obschon das Produkt mittlerweile Funktionen bereitstellt welche sich mit den Anforderungen decken, ist dafür ein Supportvertrag nötig. Diese Entscheidungen sind noch hängig und werden nicht bis zum Ende der Thesis erwartet.
 
-erarbeiten der Anforderungen und den Qualitätszielen. MEON exisitiert bereits keine alten Anforderungen vorhanden. 
+\section{Anforderungen}
 
-Qualitätsziele und neue Anforderungen nicht einfach definierbar da aktuell gar nicht klar wie das überhaupt ausehen soll. Anforderungen deshalb pro forma mal aufgenommen mit der Möglichkeit diese später anzupassen.
-Organisatorischer Teil impact weitgehend unklar da das Projekt dies bezüglich grössere freiheiten genossen hat. 
+Bevor eine Lösung erarbeitet werden konnte, mussten die Anforderungen an die neue Software Architektur definiert werden. Leider waren die aktuellen Anforderungen ebenfalls nicht in einer schriftlichen Form vorhanden wodurch diese zusätzlich erfasst werden mussten. Da die Funktionen der Applikation hauptsächlich durch die Software Entwicklung getrieben wurde, konnte der Product Owner des Projektes direkt zu den Anforderungen befragt werden. Vor allem bei den neuen hat sich gezeigt, dass sich funktional an der Applikation nichts ändern sollte, sondern nur an den nicht funktionalen. Durch die Problemstellung resultiert daraus die Hauptanforderung, dass der Benutzer von einer Aktualisierung der Anwendung nichts merkt und dadurch der Dienst selber verfügbar bleibt. Aufgrund von Wartungsarbeiten an Netzwerkkomponenten, Datenbanken, oder an Betriebssystemen kann es dennoch zu Unterbrüchen kommen welche jedoch nicht Gegenstand der Lösung sind. Alle Anforderungen finden sich im SAD im Kapitel 1.3
 
 \section{Qualitätsziele}
 
+Anhand der Anforderungen haben der Product Owner und Systemverantwortliche mittels des Schemas aus \cite[p.305-311]{esa} in einer ersten Version beschrieben. In einem zweiten Schritt wurden die Ziele zusammen besprochen und angepasst. Vor allem das Ziel bezüglich PCI Compliance erhält eine hohe Gewichtung. Die Applikation selber hält zwar keine relevanten Daten welche unter die Vorgaben fallen und ist durch die Netzwerksegmentierung getrennt. Durch das hohe Risiko wurde das Szenario dennoch aufgeführt. Sämtliche Ziele und die dazugehörigen Szenarien sind im SAD im Kapitel 10.2 aufgeführt.
+
+\section{Problematik}
+
+Schon während die Anforderungen und Qualitätsziele in der Ausarbeitung waren, musste ein Verständnis für die Probleme welche sich mit Continuous Deplomyent ergeben, erworben werden. Als Startpunkt wurde \cite{cd} verwendet. Die Begrifflichkeiten haben sich in der zwischen Zeit geändert und neue Technologien wie die der Docker Container erlauben heute andere Lösungsansätze. Daher galt es als erste die zu definieren was Continuous Deployment ist. Dafür wurde mittels Internet Recherche nach dem Begriff gesucht um sich ein Bild zu machen. Ein erste gute Definition fand sich unter \cite{atlassiancd} welche zusätzlich diverse Vorschläge für die Umsetztung enthielt. Auch der Blogeintrag von Thoughtworks \cite{thoughtcd} hatte wertvolle und zeitgemässere Informationen zum Theme. Nach gründliche Studie der Einträge konnte die generelle Definiton auf "Software jederzeit und ohne Unterbruch des Diensts aktualisieren zu können" festgelegt werden. Für die Umwälzung auf eine Lösung ist die Definition sehr weit gefasst und wird teils verschieden Verwendet wie die Internet Recherche gezeigt hat. Ein weiterer Begriff welcher man im Zusammenhang mit Continuous Deployment antrifft, ist 'Zero Down Time' \footnote{Kann teils als Synonym für Continuous Deployment gesehen werden wobei der Begriff je nach Betrachtungsweise andere Implikationen hat.}. Das erreichen einer hundertprozentigen Verfügbarkeit kann nicht alleine durch eine entsprechende Software Architektur erreicht werden da diese immer Abhängigkeiten von anderen Komponenten wie Betriebssystem, Netzwerk etc. hat. Dafür muss die komplette Infrastruktur entsprechend ausgelegt werden und auch dann ist der aktuelle Standart 'five nine' was einer Verfügbarkeit von 99.999\% was einem jährlichen Unterbruch von ungefähr 10 Minuten entspricht. Dies hat entsprechend hohe Kosten zur Folge welche sich nicht jede Firma leisten kann und auch nicht muss.\newline
+Nach dem die Begrifflichkeiten klar waren, musste das generelle zu lösende Problem identifiziert werden. Bei der fortlaufenden Aktualisierung von Software gibt es immer einen Zeitpunkt bei welchem mehrere Versionen der Anwendung in Betrieb sind. Das folgende Diagramm veranschaulicht das Problem.
+
+\begin{center}
+	\includegraphics[scale=0.55]{MultiVersion.png}
+\end{center}
+
+Daraus lässt sich schliessen, dass die neue Architektur den gleichzeitigen Betrieb von mehreren Versionen unterstützen muss. Dies gilt vor allem für die Schnittstellen und die Datenspeicherung. Da die Applikation nicht geschäftskritisch ist, könnte die Aktualisierung auch in der Nacht durchgeführt werden wenn sich tendenziell kein Benutzer auf der Webseite befinden. So könnten die Probleme mit der Versionierung der Schnittstelle umgangen werden, für die Datenbank braucht es dennoch eine Lösung.	
+
 \section{Teilprobleme}
 
-- Pipeline
-- Versionierung
-- Asynchronität
-- Datenspeicherung
-- Konfigurationsmanagement
+Mit dem generellen Verständnis und den Anforderungen konnten nun die Teilprobleme identifiziert und entsprechende Lösungsvarianten gesucht werden. Diese sind in der Arc42 Vorlage nicht explizit ausgewiesen haben sich im Workshop des CAS Software Architektur als hilfreiches Mittel erwiesen das Gesamtproblem in kleinere aufzuteilen und wenn möglich austauschbare Lösungsvarianten zu erarbeiten.
+
+\subsection{Versionierung}
+
+Wie bereits in der Problematik erwähnt, müssen Schnittstellen versioniert werden und abwärts kompatibel sein damit der Benutzer von einer Änderung nichts merkt. Hier geht es vor allem um die REST Endpunkte welche der Onboarding Server der Webseite zur Verfügung stellt.
+
+\subsection{Datenspeicherung}
+
+Ebenfalls in der Problematik erwähnt, ist die Datenspeicherung. Aktuell wird für die Applikation eine relationale Datenbank verwendet. Die Datenbanken habe ein definiertes Schema welche Datentypen in den entsprechenden Feldern abgelegt werden dürfen und wie die Tabellen miteinander in Beziehung stehen. Hier stellt sich die Frage ob es Lösungen gibt welche den weiteren Einsatz der Technologie erlauben unter der Berücksichtigung der zusätzlichen Anforderung der Replikation. Soll die Applikation unterbruchsfrei aktualisiert werden können, muss die Datenbank hochverfügbar sein und automatische Mechanismen für den Fehlerfall bereitstellen.
+
+\subsection{Kommunikationsentkopplung}
+
+Soll der Benutzer sich auch bei der Aktualisierung der Applikation für TWINT registieren können, dürfen die Anfragen nicht verloren gehen respektive ein Fehler auftreten wenn eine Komponente wegen dem Update nicht verfügbar ist. Dies gilt vor allem zwischen Onboarding Server und der Workflow Engine. Obschon diese wie bereits erwähnt selber nicht berücksichtigt wird, sind die Schnittstellen zur Engine davon betroffen.
+
+\subsection{Konfigurationsmanagement}
+
+Im Ist-Zustand wurde das aktuelle Konfigurationsmanagement mittels Docker und Docker Compose bereits erwähnt. Für die neuen Anforderungen muss die aktuelle Lösung geprüft und gegebenenfalls ein andere Ansatz verfolgt werden. Die Änderung der Konfiguration zur Laufzeit als neue Anforderung ist bei einer Applikation die immer wieder ausgerollt werden soll, zwingend notwending um die einzelnen Funktionen besser steuern zu können.
+
+\subsection{Deployment Pipeline}
+
+Die Build Pipeline\footnote{Eine Pipeline ist eine Abfolge von Buildäufträgen(Stages) welche parallel und sequenziell ablaufen können. } welche im Antrag erwähnt wurde wegen ihrer Wichtigkeit für das Bauen und Installieren der Applikation wurde nicht weiterverfolgt. Der Grund darin liegt in dem Fortschritt der Methodik welche das Projekt seit dem Antrag gemacht hat. Wie in\cite{atlassiancd} beschrieben, sind verschieden Stages in der Pipeline sowie Feature Brachens in GIT eine Voraussetzung um eine Applikation zeitnahe in Betrieb zu bringen. Diese Praktiken werden aktuell im normalen Arbeitstag verwendet und müssen deshalb nicht nochmals evaluiert werden.
 
 \section{Bewertungskriterien}
 
-Erstellen der Bewertungskriterien.
-Bewerungskriterien erstellt und entsprechend aufgeführt.
+Die auszuarbeitenden Lösungsvarianten müssen auf ihre Verwendbarkeit geprüft und bewertet werden. Obschon Qualitätsziele für die Architektur definiert sind, eignen sie sich für die Bewertung von Bibliotheken und Lösungsvarianten nur bedingt. Weder das Arc42 Template noch \cite{esa} haben angemessen Metriken und Methoden im Angebot. Aus diesem Grund wird eine Bewertungsmatrix erstelle welche im CAS Software Architkur Workshop Modul bereits angewendet wurde. Dabei sind die einzelnen Kriterien mit dem Product Owner abgesprochen und gewichtet worden. Dabei lag der Fokus mehr auf Eigenschaften der Einzelnen Bibliotheken und Produkte wie Maturität, vorhandenes Wissen, oder auf Aufwand. Die Kriterien überlappen sich an einigen Stellen mit den Qualitätszielen was jedoch nicht als Nachteil gewertet wurde. Die Kritieren sind gezielt vor der Lösungsfindung erstellt worden, sodass diese zu stark durch die Variante beeinflusst wurden. Spätere Anpassungen mussten trotzdem gemacht werden da nicht alles von Beginn an klar war. Die Kriterien für sind im SAD im Kapitel 9.2 detailiert aufgeführt.
 
 \section{Teillösungen}
 
@@ -56,15 +83,9 @@ Erweitern der Bewerungskriterien anhan der erkenntnisse aus den Prototypen.
 
 MongoDB, OpenShift Spring Cloud Config, Spring Bus
 
+\section{Prototyp}
+
 \section{Bewertung}
-
-http://blogs.atlassian.com/2014/04/practical-continuous-deployment/
-
-https://www.thoughtworks.com/insights/blog/architecting-continuous-delivery
-
-https://www.airpair.com/continuous-deployment/posts/continuous-deployment-for-practical-people
-
-https://www.thoughtworks.com/insights/blog/architecting-continuous-delivery
 
 https://www.innoq.com/de/blog/why-restful-communication-between-microservices-can-be-perfectly-fine/
 

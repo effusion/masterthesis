@@ -1,4 +1,4 @@
-\newcounter{bk} \stepcounter{bk} %Bewertungskriterien counter
+	\newcounter{bk} \stepcounter{bk} %Bewertungskriterien counter
 
 \chapter{Entwurfsentscheidungen}
 \label{entwurfsentscheidungen}
@@ -12,7 +12,7 @@ Die Versionierung der Schnittstelle zwischen der Webseite und dem Onboarding Ser
 
 \subsubsection{Versionierung mittels Pfad}
 
-Sollte es nötig sein eine neue Version der \Gls{REST} Schnittstelle zu veröffentliche, kann dies über Versionsnummer im Pfad erreicht werden. Hierfür wird die URL für den Rest-Endpoint mit einer Versionsnummer versehen z.B 'servername/meon/api/v2/'.
+Sollte es nötig sein eine neue Version der \Gls{REST} Schnittstelle zu veröffentlichen, kann dies über Versionsnummer im Pfad erreicht werden. Hierfür wird die URL für den Rest-Endpoint mit einer Versionsnummer versehen z.B 'servername/meon/api/v2/'.
 \newline
 \newline
 \textbf{Vorteile}
@@ -64,7 +64,7 @@ Anstelle der klassischen Ansätze der Versionierung über Pfade und Content-Nego
 
 \subsection{Kommunikationsentkopplung}
 
-Durch die geänderten Anforderungen bezüglich Ausrollung der Software ist ein Unterbruch zwischen Server und der Business Process Engine unausweichlich. Damit keine Anfragen der Benutzer verloren gehen müssen die Nachrichten entweder gespeichert werden oder es braucht eine Asynchrone Kommunikation. Aktuell werden zwischen dem Server und der \Gls{BPM} Engine \gls{REST} Call mittels Hystrix abgesetzt.
+Durch die geänderten Anforderungen bezüglich Ausrollung der Software ist ein Unterbruch zwischen Server und der Workflow Engine unausweichlich. Damit keine Anfragen der Benutzer verloren gehen müssen die Nachrichten entweder gespeichert werden oder es braucht eine Asynchrone Kommunikation. Aktuell werden zwischen dem Server und der \Gls{BPM} Engine \gls{REST} Call mittels Hystrix abgesetzt.
 
 \subsubsection{Message Queue mit JMS}
 
@@ -150,7 +150,7 @@ Aktuell werden die Requests an die BPM Engine mittels Hystrix\footnote{https://g
 
 \subsection{Datenspeicherung}
 \label{ent-db}
-Aktuell wir eine MySQL als Datenbank verwendet welche zur Zeit nur Requests speichert und kleinere Abfragen ausführt.. Die neuen Anforderungen an die Datenbank bezüglich Continuous Deployment sind:
+Aktuell wir eine MySQL als Datenbank verwendet welche zur Zeit nur Requests speichert und kleinere Abfragen ausführt. Die neuen Anforderungen an die Datenbank bezüglich Continuous Deployment sind:
 \begin{itemize}
 	\item Replikation wird unterstützt und kann auf dem Client konfiguriert werden.
 	\item Es ist möglich mit mehreren Applikationsversionen auf die gleiche Datenbank zuzugreifen.
@@ -165,8 +165,8 @@ Oracle ist bei vielen Firmen die Standard Software für Datenbank. Sie bietet s�
 \textbf{Vorteile}
 \begin{itemize}
 	\item Sehr gutes und verbreitetes Know-how bezüglich Betrieb, erstellen von Anfragen, Optimierung usw.
-	\item Baisert auf \Gls{ACID} und gewährleistet deshalb die Datenkonsistenz.
-	\item Bietet enterprisefähige Replikationsmechanismen.
+	\item Basiert auf \Gls{ACID} und gewährleistet deshalb die Datenkonsistenz.
+	\item Bietet Enterprise fähige Replikationsmechanismen.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
@@ -182,7 +182,7 @@ Oracle ist bei vielen Firmen die Standard Software für Datenbank. Sie bietet s�
 
 \subsubsection{Relationale Datenbank mit MySQL}
 
-MySQL wird bereits aktuell verwendet. Es bietet die klassischen Funktionen einer relationalen Datenbank. MySQL wird meistens verwendet wenn Oracle zu teuer ist resp. die Anforderungen an die Datenhaltung nicht so hoch sind. MySQL bietet aktuell auch Replikation mittels Master-Slave und Tools für eine automatische Umschaltung an
+MySQL wird bereits aktuell verwendet. Es bietet die klassischen Funktionen einer relationalen Datenbank. MySQL wird meistens verwendet, wenn Oracle zu teuer ist resp. die Anforderungen an die Datenhaltung nicht so hoch sind. MySQL bietet aktuell auch Replikation mittels Master-Slave und Tools für eine automatische Umschaltung an
 \newline
 \newline
 \textbf{Vorteile}
@@ -312,7 +312,7 @@ Spring Cloud Config\footnote{https://cloud.spring.io/spring-cloud-config/} biete
 
 \subsubsection{Saltstack}
 
-Saltstack ist ein Konfigurationmanagement mit welchem sich Server und deren Applikationen auf verschiedenen physischen oder virtuellen Rechnern konfigurieren lassen. Zusätzlich können die Server gruppiert werden um logische Einheiten wie Entwicklung, Test, Produktion zu modellieren.\newline
+Saltstack ist ein Konfigurationsmanagement mit welchem sich Server und deren Applikationen auf verschiedenen physischen oder virtuellen Rechnern konfigurieren lassen. Zusätzlich können die Server gruppiert werden um logische Einheiten wie Entwicklung, Test, Produktion zu modellieren.\newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
@@ -350,7 +350,7 @@ Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis
 		BK-\arabic{bk} \stepcounter{bk} & Interportabilität & Die Komponente ist technologisch unabhängig und lässt sich einfach mit anderen integrieren. & 3 & Die Software sollte sich mit den wichtigsten Technologien verwenden lassen. Die Applikation selber ist jedoch sehr spezifisch weshalb dies weniger gewertet wird.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Lernkurve & Die Konzepte, API's, Konfigurationsmöglichkeiten sind einfach verständlich und sind für den Entwickler und Administrator schnell erlernbar. & 4 & Die neue Architektur besitzt als ganzes bereits eine gewisse Komplexität. Sind die neuen Teile selber komplex wird dadurch das ganze System automatisch schwerer zu verstehen.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Strategisch & Der Einsatz der Software/Plattform wurde auf Firmenebene als strategisch definiert. & 5 & Der Einsatz einer anderen Lösung ist nach wie vor gestattet, muss jedoch begründet werden und fällt in die Kategorie 'Special Solutions', für welche die verantwortliche Abteilung später die Kosten tragen muss.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Know-How & Wissen was bereits über die Technologie vorhanden ist respektive wie diese eingesetzt werden kann & 2 & Obschon dadurch Kosten und Zeit gespart werden können, ist es auch ein Hindernis bei der Suche eine passenden Lösung. Vor allem in Anbetracht der Anforderungen welche neue Denkansätze verlangt.\\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Know-How & Wissen was bereits über die Technologie vorhanden ist respektive wie diese eingesetzt werden kann & 2 & Obschon dadurch Kosten und Zeit gespart werden können, ist es auch ein Hindernis bei der Suche einer passender Lösung. Vor allem in Anbetracht der Anforderungen welche neue Denkansätze verlangt.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Konfigurations- änderung & Massstab wie einfach es ist die Konfiguration der Applikation mit der Software zu ändern. & 5 & Nicht-funktionale Anforderung, dass gewissen Eigenschaften ohne einen Neustart geändert werden können.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Multi Version & Wie einfach kann die Datenbank mit mehrere Version umgehen und wie einfach sind die Konzepte dafür diese umzusetzen. & 5 & Die Umsetzung von Continuous Deployment ein sehr zentraler Punkt da die Applikation zu jederzeit mit mehreren Version auskommen muss.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Anpassungen & Gewisse Codeteile müssen unweigerlich angepasst werden und verursachen daher Aufwand. Hier sind vor allem Schnittstellen und die Persistenz betroffen. & 3 & Für die Erfüllung der Ziele kann dies in kauf genommen werden solange der Aufwand nicht zu hoch wird.\\
@@ -367,7 +367,7 @@ Folgend die Prototypen welche erstellt wurden um die Risiken und Unsicherheiten 
 
 \subsection{MySQL, MongoDB Schema Migration}
 
-Um die Möglichkeiten einer Schema Migration ohne Unterbruch zu evaluieren,wurden folgende zwei Use Cases ausgewählt:
+Um die Möglichkeiten einer Schema Migration ohne Unterbruch zu evaluieren, wurden folgende zwei Use Cases ausgewählt:
 \newline
 \begin{itemize}
 	\item Änderung einer Spalte
@@ -380,7 +380,7 @@ Beide Varianten bieten entsprechende Möglichkeiten dem Problem zu begegnen.
 
 \subsection{MySQL, MongoDB Replikation}
 
-Um Continuouse Delivery zu erreichen, müssen die Datenspeicher entsprechend hochverfügbar ausgelegt werden. MySQL als klassische \Gls{RDBMS} Datenbank bietet Replikation von Haus aus an. Gleiches gilt für MongoDB. Bei beiden kann ebenfalls der Grad der Replikation stückweit definiert werden. Die Daten werden bei beiden Datenbanken in der Standarteinstellung asynchron repliziert. Dies wird vor allem aus Performanzgründen gemacht, da Two-Phase Commits\Gls{2PC} über mehrere Standorte die Performanz eines Systems stark beeinflussen kann. Es gibt dennoch bei beiden Datenbanken die Möglichkeit das Schreiben auf einen Slave zu verlagern. Unter MySQL heisst das Semisynchron, bei MongoDB geht das unter dem Namen WriteConcerns. Gemäss CAP-Theorem\Gls{CAP} ist MySQL als konsistent und verfügbar deklariert und MongoDB als konsistent und partitions tolerant. Die Replikation kann daher produktabhängig gewährleistet werden, wobei MongoDB durch die Architektur besser geeignet ist, da der Handover zwischen den Servern voll automatisch geschieht und nicht ein Umschaltung gemacht werden muss.
+Um Continuouse Delivery zu erreichen, müssen die Datenspeicher entsprechend hochverfügbar ausgelegt werden. MySQL als klassische \Gls{RDBMS} Datenbank bietet Replikation von Haus aus an. Gleiches gilt für MongoDB. Bei beiden kann ebenfalls der Grad der Replikation stückweit definiert werden. Die Daten werden bei beiden Datenbanken in der Standarteinstellung asynchron repliziert. Dies wird vor allem aus Performanz Gründen gemacht, da Two-Phase Commits\Gls{2PC} über mehrere Standorte die Performanz eines Systems stark beeinflussen kann. Es gibt dennoch bei beiden Datenbanken die Möglichkeit das Schreiben auf einen Slave zu verlagern. Unter MySQL heisst das Semisynchron, bei MongoDB geht das unter dem Namen WriteConcerns. Gemäss CAP-Theorem\Gls{CAP} ist MySQL als konsistent und verfügbar deklariert und MongoDB als konsistent und partitions tolerant. Die Replikation kann daher produktabhängig gewährleistet werden, wobei MongoDB durch die Architektur besser geeignet ist, da der Handover zwischen den Servern voll automatisch geschieht und nicht ein Umschaltung gemacht werden muss.
 
 \subsection{Graphql}
 
@@ -395,7 +395,7 @@ Die Library wurde von Facebook für dynamische Sprachen entwickelt und ist für 
 
 \subsection{Spring Cloud Config}
 
-Spring Cloud Config erlaubt es, Änderungen an der Konfiguration der Applikation zu Lauftzeit durchzuführen. Auf der Clientseite werden Klassen welche Properties haben entsprechend annotiert und beim Start der Applikation oder wenn die entsprechende URL aufgerufen wird, aktualisiert. Der Server überprüft dabei regelmässig das Git Repository auf Änderungen und kann wahlweise auf mittels eines Hook auf dem Repositoryserver angestossen werden. Für kleinere Applikationen mag das Ausführen einer URL noch praktikabel sein, für grössere Deployments ist dies hingegen sehr umständlich. Deshalb kann durch hinzufügen von Spring Cloud Bus und einer Messagequeue, wie RabbitMQ, dieser Prozess vereinfacht werden. Die Clients und der Server verbinden sich auf den entsprechenden Message Server und erhalten bei einer Konfigurationänderung eine Nachricht die entsprechenden Properties zu aktualisieren.
+Spring Cloud Config erlaubt es, Änderungen an der Konfiguration der Applikation zu Lauftzeit durchzuführen. Auf der Clientseite werden Klassen welche Properties haben entsprechend annotiert und beim Start der Applikation oder wenn die entsprechende URL aufgerufen wird, aktualisiert. Der Server überprüft dabei regelmässig das Git Repository auf Änderungen und kann wahlweise auf mittels eines Hook auf dem Repositoryserver angestossen werden. Für kleinere Applikationen mag das Ausführen einer URL noch praktikabel sein, für grössere Deployments ist dies hingegen sehr umständlich. Deshalb kann durch hinzufügen von Spring Cloud Bus und einer Messagequeue, wie RabbitMQ, dieser Prozess vereinfacht werden. Die Clients und der Server verbinden sich auf den entsprechenden Message Server und erhalten bei einer Konfigurationsänderung eine Nachricht die entsprechenden Properties zu aktualisieren.
 
 \subsection{OpenShift}
 
@@ -418,7 +418,7 @@ Schlussendlich wird die aktuelle Lösung mittels Spring REST weiterverwendet wel
 
 Für die Datenspeicherung standen Oracle, Mysql, MongoDB und Redis zu Auswahl(Siehe Kapitel \ref{ent-db}). \newline
 Oracle hat die höchste Bewertung erhalten, da die Firma mit dieser Datenbank schon viele Jahre Erfahrung hat und dementsprechend die relationalen Konzepte bestens versteht. Auf Grund von Lizenzbestimmungen seitens Oracles hat SIX keine Lizenzen welche es erlaubt Oracle Instanzen auf einer virtualisierten Umgebung zu installieren. Oracle kann deshalb nicht als Datenspeicher berücksichtigt werden.\newline
-Redis wird teils in der Firma schon verwendet, jedoch ist die Datenbank nicht wirklich passend für den Use Case und die Lernkurve um alles nur in einer Map zu speichern macht die Datenbank zu der am wenigsten passenden Option. Auch deshalb, da für die Datenbank nur der Support der Community verfügbat ist.\newline
+Redis wird teils in der Firma schon verwendet, jedoch ist die Datenbank nicht wirklich passend für den Use Case und die Lernkurve um alles nur in einer Map zu speichern macht die Datenbank zu der am wenigsten passenden Option. Auch deshalb, da für die Datenbank nur der Support der Community verfügbar ist.\newline
 MySQL erhielt die zweitbeste Bewertung und liegt vor MongoDB. Obschon die relationalen Konzepte besser bekannt sind, wurde entschieden für beide einen Prototypen zu machen um den Umgang mit mehrere Schemaversionen zu evaluieren da. Für MongoDB müssen noch Themen wie Replikation und der Aufwand für die Umstellung der Repositories berücksichtigt werden.
 
 \subsection{Konfigurationsmanagement}

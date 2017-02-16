@@ -2,7 +2,7 @@
 
 \section{Problemstellung}
 
-Im Zuge der Digitalisierung ist es für Finanzdienstleister unerlässlich die angebotenen Dienstleistungen schneller weiterzuentwickeln und der Kundschaft bereitzustellen. Vor Allem bei Online-Diensten wird diese immer wichtiger. Mit der Entwicklung von Paymit war eine Lösung notwendig welche es potenziellen neuen Händler einfach erlaubt sich für den neuen Dienst anzumelden. Aus dieser Anforderung ist die Applikation Merchant Onboarding entstanden welches einem neuen Kunde erlaubt sich einfach über eine Web-Oberfläche zu registrieren.
+Im Zuge der Digitalisierung ist es für Finanzdienstleister unerlässlich die angebotenen Dienstleistungen schneller weiterzuentwickeln und der Kundschaft bereitzustellen. Vor Allem bei Online-Diensten wird diese immer wichtiger. Mit der Entwicklung von TWINT war eine Lösung notwendig welche es potenziellen neuen Händler einfach erlaubt sich für den neuen Dienst anzumelden. Aus dieser Anforderung ist die Applikation Merchant Onboarding entstanden welches einem neuen Kunde erlaubt sich einfach über eine Web-Oberfläche zu registrieren.
 
 Die Applikation wurde basierend auf neueren Technologien und Methoden entwickelt, welche es erlauben die Applikation schneller von der Entwicklung in die Produktion zu bringen. Im Vergleich zu normalen Releasezyklen von drei Monaten ist diese ein grosser Schritt forwärt.
 
@@ -11,23 +11,20 @@ Der Vorteil dieses Ansatzes erlaubt es, Fehler oder Erweiterungen nach einem sta
 
 
 \section{Systemabgrenzung}
+\label{Abgrenzung}
 
-Finanzdienstleiter wie die SIX haben für die Abwicklung ihres Geschäfts eine grosse Anzahl Applikation welche verschiedene Geschäftstätikeiten abdecken. Auch das Merchant Onboarding ist ein Teil dieser Landschaft und kann nur durch Interaktion mit diesen System seine Aufgabe erledigen. In der folgenden Tabelle sind kurz die Systeme aufgeführt welche Merchant Onboaring verwendet, jedoch nicht Teil der Problemstellung und Lösung sind.
+Finanzdienstleiter wie die SIX haben für die Abwicklung ihres Geschäfts eine grosse Anzahl Applikation welche verschiedene Geschäftstätikeiten abdecken. Auch das Merchant Onboarding ist ein Teil dieser Landschaft und kann nur durch Interaktion mit diesen System seine Aufgabe erledigen. In der folgenden Tabelle sind kurz die internen Systeme aufgeführt welche Merchant Onboaring verwendet, jedoch nicht Teil der Problemstellung und Lösung sind.
 
 \begin{table}[H]
 	\centering
 	\caption{Verwendete Applikationen}
-	\begin{tabular}{ | p{2cm} | p{14cm} | }
+	\begin{tabular}{ | p{3cm} | p{11cm} | }
 		\toprule
 		{\textbf{Applikation}} & {\textbf{Beschreibung}} \\
 		\midrule
 		PASS & \textbf{P}ayment \textbf{A}cquiring \textbf{S}ervices \textbf{S}ystem. Applikation welche die Transaktionen verarbeitet und Händlerauszahlungen auslöst. \\ \hline
 		Workflow Engine & Business Process Engine welche sich die Erstellung des Kundenkontos kümmert.\\ \hline
-		SCS & Registrationstelle für neue Zahlungsterminal.\\ \hline
-		ZEFIX & Schnittstelle zum Handelsregister\\ \hline
-		AddressService Post\\ \hline
-		Google Maps\\ \hline
-		ATMS Service (MTAN)\\
+		SCS & Registrationstelle für neue Zahlungsterminal.\\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -37,14 +34,13 @@ Des Weiteren gibt es Teile der Infrastruktur welche die Lösung tangieren im Hin
 \begin{table}[H]
 	\centering
 	\caption{Infrastruktur}
-	\begin{tabular}{ | p{2cm} | p{14cm} | }
+	\begin{tabular}{ | p{3cm} | p{11cm} | }
 		\toprule
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
 		Betriebsystem & Die Basis auf welcher die Applikaton läuft ist nicht Bestandteil der Architektur. \\ \hline
 		Netzwerk & Netzwerkkomponenten wie Switches, Router, Storage und der gleiche sind auch mit Software augestattet, werden jedoch nicht berücksichtigt.\\ \hline
-		Datenbank Software & Die automatische Aktualisierung ist nicht Teil der Architektur. Obschon patches meist automatisch eingespielt werden können, ist bei Major Versionen dies meistens mit mehr Aufwand verbunden. \\ \hline
-		BPM Engine & Die Prozess Verarbeitung basiert auf einem Produkt welches akutell noch nicht die Möglichkeit für Continuous Delivery besitzt. Deshalb wird diese Komponente nur bezüglich Schnittstellen berücksichtigt.\\
+		Datenbank Software & Die automatische Aktualisierung ist nicht Teil der Architektur. Obschon patches meist automatisch eingespielt werden können, ist bei Major Versionen dies meistens mit mehr Aufwand verbunden. \\
 		\bottomrule
 	\end{tabular}
 \end{table}

@@ -8,8 +8,8 @@
 \section{Business Case}
 \label{businesscase}
 
-Die Applikation MEON dient der Registration neuer Händler für den mobilen Bezahldienst TWINT und zukünftig der Registrierung neuer Händler für Enabling(Terminal)/Acquiring Pakete. Der Geschäftsprozess läuft in zwei Teilen ab welche durch verschiedene Teile der Applikation durchgeführt werden.  Dabei soll es einem Händler möglich sein, sich ohne direkten Kontakt mit der SIX einen gültigen Vertrag für den Einsatz des Dienstes zu erwerben. Sollte ein Kontakt notwendig sein, wird dieser seitens SIX durch das Risk Management iniziiert.\newline
-Die Anwendung soll eine moderne und intuitive Web Applikation sein und dem Benutzer möglichst viele Hilfestellung bieten. Nach der erfolgreichen Registierung und  eventuellen Prüfung soll der Dinest auf den notwendigen internen System der SIX automatisch aufgeschaltet werden. Hierzu zählen das System für die Verwaltung der Terminals (SCS) sowie das Transaktionsverarbeitungsystem(PASS).
+Die Applikation MEON dient der Registration neuer Händler für den mobilen Bezahldienst TWINT und zukünftig der Registrierung neuer Händler für Enabling(Terminal)/Acquiring Pakete. Der Geschäftsprozess läuft in zwei Teilen ab welche durch verschiedene Teile der Applikation durchgeführt werden.  Dabei soll es einem Händler möglich sein, sich ohne direkten Kontakt mit der SIX einen gültigen Vertrag für den Einsatz des Dienstes zu erwerben. Sollte ein Kontakt notwendig sein, wird dieser seitens SIX durch das Risk Management initiiert.\newline
+Die Anwendung soll eine moderne und intuitive Web Applikation sein und dem Benutzer möglichst viele Hilfestellung bieten. Nach der erfolgreichen Registrierung und  eventuellen Prüfung soll der Dienst auf den notwendigen internen System der SIX automatisch aufgeschaltet werden. Hierzu zählen das System für die Verwaltung der Terminals (SCS) sowie das Transaktionsverarbeitungsystem(PASS).
 
 \begin{center}
 	\includegraphics[scale=0.25]{meon-use-case.png}
@@ -17,7 +17,7 @@ Die Anwendung soll eine moderne und intuitive Web Applikation sein und dem Benut
 
 \section{Aufgabenstellung}
 
-Die neu Architektur der Applikation soll die kontinuierliche Installation des Onboarding Servers erlauben ohne den Dienst zu unterbrechen(Continuous Deployment). Da die Anwendung bereits in Betrieb ist sollen Änderungen nur gemacht werden, wenn sie für die Umsetzunge unumgänglich sind. \newline Die Workflow Engines ist ein Produkt der Firma Camuda wird jedoch in der Open Source version verwendet. Das Produkt hat bereits Mechanismen für Continuous Deployment, die SIX besitzt zur Zeit aber keinen Supportvertag um diese Feature in Betrieb zunehmen. Aus diesem Grund wird die Engine nicht in die Architektur aufgenommen der Onboarding Server muss jedoch den Umstand berücksichtigen um die Anforderungen zu erfüllen.
+Die neu Architektur der Applikation soll die kontinuierliche Installation des Onboarding Servers erlauben ohne den Dienst zu unterbrechen(Continuous Deployment). Da die Anwendung bereits in Betrieb ist sollen Änderungen nur gemacht werden, wenn sie für die Umsetzung unumgänglich sind. \newline Die Workflow Engines ist ein Produkt der Firma Camuda wird jedoch in der Open Source version verwendet. Das Produkt hat bereits Mechanismen für Continuous Deployment, die SIX besitzt zur Zeit aber keinen Supportvertag um diese Feature in Betrieb zunehmen. Aus diesem Grund wird die Engine nicht in die Architektur aufgenommen der Onboarding Server muss jedoch den Umstand berücksichtigen um die Anforderungen zu erfüllen.
 
 \section{Anforderungen}
 
@@ -32,7 +32,7 @@ Alle funktionalen Anforderungen sind bereits umgesetzt. Durch die Anpassung der 
 		\midrule
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Kunde merkt nicht wenn neue Komponenten der Applikation ausgetauscht werden. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Verfügbarkeit der Frontend-Anwendung ist 24x7 (SLA). \\ \hline
-		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Einhaltung der PCI DSS Anforderung bezüglich Umgang mit Daten resp. deren Zugriffsschutz durch Authentifizierung, Authorisierung und Netzwerksegmentierung. \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Einhaltung der PCI DSS Anforderung bezüglich Umgang mit Daten resp. deren Zugriffsschutz durch Authentifizierung, Autorisierung und Netzwerksegmentierung. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Applikation muss einfach skalierbar sein. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Anwendung muss eine hohe Ausfallsicherheit für Server und die Datenbank aufweisen. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Bugfixing geschieht mittels vorwärts committen, anstelle von Hotfixes wird immer die ganze Applikation neu ausgerollt. \\ \hline
@@ -44,7 +44,7 @@ Alle funktionalen Anforderungen sind bereits umgesetzt. Durch die Anpassung der 
 
 \subsection{Kernaufgabe}
 
-Ziel ist die aquirierung neuer Händler für das mobile Bezahlsystem TWINT.
+Ziel ist die Akquirierung neuer Händler für das mobile Bezahlsystem TWINT.
 
 \subsection{Art des Systems}
 
@@ -60,7 +60,7 @@ MEON hat folgende Schnittstellen zu Umsystemen welche lesend(ro) oder schreiben(
 \begin{itemize}
 	\item AddressService: Adressen Service der Post (ro)
 	\item UID: Schweizer Unternehmens-Identifikationsnummer (ro) 
-	\item ZEFIX: Handelsregsiteranbindung (ro)
+	\item ZEFIX: Handelsregisteranbindung (ro)
 	\item ATMS: SMS Service (w)
 	\item Email: Email Service (w)
 	\item Workflow: Workflow Engine Backoffice SIX (w)

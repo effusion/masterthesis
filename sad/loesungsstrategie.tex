@@ -11,8 +11,8 @@ Anhand der nicht funktionalen Anforderungen und den Qualitätszielen wurden folg
 		\toprule
 		{\textbf{Qualitätsziel}} & {\textbf{Entscheidung}} \\
 		\midrule
-		Funktionalität, Sicherheit &  Damit der Benuzter nicht merkt, dass die Applikation aktualisiert wird, muss die sie gleichzeitig mit mehreren Versionen lauffähig sein. Hierfür werden die Schnittstellen und das Datenbankschema versioniert. Funktionalität wird über sogenannte Feature Toggles gesteuert.\\ \hline
-		Änderbarkeit, Modifizierbarkeit & Entwicklers sollen einfach neue Anforderungen der Stakeholder umsetzten können. Deshalb werden bestehende Konzepte angewandt und bereits bekannte Libraries verwendet. Eine Komplexitäterhöhnung wird für die Umsetztung von Continuous Deployment hingenommen. \\ \hline
+		Funktionalität, Sicherheit &  Damit der Benutzer nicht merkt, dass die Applikation aktualisiert wird, muss die sie gleichzeitig mit mehreren Versionen lauffähig sein. Hierfür werden die Schnittstellen und das Datenbankschema versioniert. Funktionalität wird über sogenannte Feature Toggles gesteuert.\\ \hline
+		Änderbarkeit, Modifizierbarkeit & Entwicklers sollen einfach neue Anforderungen der Stakeholder umsetzten können. Deshalb werden bestehende Konzepte angewandt und bereits bekannte Libraries verwendet. Eine Komplexitäterhöhung wird für die Umsetzung von Continuous Deployment hingenommen. \\ \hline
 		Übertragbarkeit, Installierbarkeit &  Um Änderungen und Erweiterungen zeitnahe in Betrieb nehmen zu können, ist ein hoher Automatisierungsgrad notwendig. Daher wird die Applikation mittels Konfigurationsmanagement- und Orchestrierungstools verwaltet. Die Build Server sollen nach erfolgreicher Ausführung aller Tests die Applikation automatisch ausrollen, mit der Ausnahme eines manuellen Eingriffs für die Freigabe.\\ \hline
 		Zuverlässigkeit, Fehlertoleranz &  Die Architektur soll Hochverfügbarkeit und Replikation vorsehen, damit ein Ausfall einer Komponente keine Auswirkungen auf die Verfügbarkeit der Applikation hat. Des Weiteren soll eine Änderung am Code, der Konfiguration oder an der Verteilung keinen Unterbruch des Dienstes zur Folge haben.\\
 		\bottomrule
@@ -51,13 +51,13 @@ Für die einzelnen Teilprobleme wurden diverse Lösungsvarianten ausprobiert, pr
 		\midrule
 		Schnittstellen Versionierung & REST Schnittstellen müssen die Versionsnummer im Pfad enthalten und müssen abwärtskompatible sein.\\ \hline
 		Kommunikations- entkopplung &  Die Registrierungsanfragen werden in der Datenbank gespeichert und von einem Scheduler asynchron an die Worflow Engine weitergeleitet.\\ \hline
-		Datenspeicherung & Die Daten des Onboarding Servers werden in einer MongoDB gespeichert. Die Schemalosenatur der Datenbank erlauben eine einfachere Migration. Durch die Paritionstoleranz ist kann die Verfügbarkeit einfacher gewährleistet werden.\\ \hline
-		Konfigurations- management &  Die Orchestrierung der und der Betrieb der Docker Container wird mittels OpenShift realisiert. Spring Cloud Config dient des Konfiguration Applikations interner Einstellungen.\\
+		Datenspeicherung & Die Daten des Onboarding Servers werden in einer MongoDB gespeichert. Die schemalose Natur der Datenbank erlauben eine einfachere Migration. Durch die Paritionstoleranz, kann die Verfügbarkeit einfacher gewährleistet werden.\\ \hline
+		Konfigurations- management &  Die Orchestrierung der und der Betrieb der Docker Container wird mittels OpenShift realisiert. Spring Cloud Config dient der Konfiguration applikationsinterner Einstellungen.\\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 \section{Lösung}
 
-Die Architektur wird in den folgenden Kapiteln genauer erläutert. Ein Konzept was sich durch die ganze Applikation zieht ist, dass die ganze Anwendung mit mehreren Versionen von Schnittstellen und Datenbankschemata umgehen muss. Änderungen werden, im Vergleich zu klassischen Applikationen, immer in mehreren Schritten durchgeführt. Wird eine neuer REST Endpunkt hinzugefügt, muss der alte Pfad solange verfügbar sein bis alle Teile der Applikation aktualisiert sind. Das Gleiche gilt für das Datenbankschema. Durch den Einsatz von MongoDB kann das Schema kontinuierlich überführt werden und braucht keine Migrationsscripts während der Installation. Neue Features sind über Feature Toggles gesteuert und dürfen erst aktiviert werden sobald alle Teile den gleichen Versionsstand haben. Detaillierte Information zu den genannten Konzepten finden sich im Kapitel \ref{software-update} Aktualisierung und Kapitel \ref{toggles} Feature Toggles.
+Die Architektur wird in den folgenden Kapiteln genauer erläutert. Ein Konzept was sich durch die ganze Applikation zieht ist, dass die ganze Anwendung mit mehreren Versionen von Schnittstellen und Datenbankschemata umgehen muss. Änderungen werden, im Vergleich zu klassischen Applikationen, immer in mehreren Schritten durchgeführt. Wird eine neuer REST Endpunkt hinzugefügt, muss der alte Pfad solange verfügbar sein bis alle Teile der Applikation aktualisiert sind. Das Gleiche gilt für das Datenbankschema. Durch den Einsatz von MongoDB kann das Schema kontinuierlich überführt werden und braucht keine Migrationsskripts während der Installation. Neue Features sind über Feature Toggles gesteuert und dürfen erst aktiviert werden sobald alle Teile den gleichen Versionsstand haben. Detaillierte Information zu den genannten Konzepten finden sich im Kapitel \ref{software-update} Aktualisierung und Kapitel \ref{toggles} Feature Toggles.
 \newpage
