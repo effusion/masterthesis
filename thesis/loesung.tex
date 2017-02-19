@@ -53,57 +53,253 @@ Die Build Pipeline\footnote{Eine Pipeline ist eine Abfolge von Buildäufträgen(
 
 \section{Bewertungskriterien}
 
-Die auszuarbeitenden Lösungsvarianten müssen auf ihre Verwendbarkeit geprüft und bewertet werden. Obschon Qualitätsziele für die Architektur definiert sind, eignen sie sich für die Bewertung von Bibliotheken und Lösungsvarianten nur bedingt. Weder das Arc42 Template noch \cite{esa} haben angemessen Metriken und Methoden im Angebot. Aus diesem Grund wird eine Bewertungsmatrix erstelle welche im CAS Software Architkur Workshop Modul bereits angewendet wurde. Dabei sind die einzelnen Kriterien mit dem Product Owner abgesprochen und gewichtet worden. Dabei lag der Fokus mehr auf Eigenschaften der Einzelnen Bibliotheken und Produkte wie Maturität, vorhandenes Wissen, oder auf Aufwand. Die Kriterien überlappen sich an einigen Stellen mit den Qualitätszielen was jedoch nicht als Nachteil gewertet wurde. Die Kritieren sind gezielt vor der Lösungsfindung erstellt worden, sodass diese zu stark durch die Variante beeinflusst wurden. Spätere Anpassungen mussten trotzdem gemacht werden da nicht alles von Beginn an klar war. Die Kriterien für sind im SAD im Kapitel 9.2 detailiert aufgeführt.
+Die auszuarbeitenden Lösungsvarianten müssen auf ihre Verwendbarkeit geprüft und bewertet werden. Obschon Qualitätsziele für die Architektur definiert sind, eignen sie sich für die Bewertung von Bibliotheken und Lösungsvarianten nur bedingt. Weder das Arc42 Template noch \cite{esa} haben angemessen Metriken und Methoden im Angebot. Aus diesem Grund wird eine Bewertungsmatrix erstelle welche im CAS Software Architkur Workshop Modul bereits angewendet wurde. Dabei sind die einzelnen Kriterien mit dem Product Owner abgesprochen und gewichtet worden. Dabei lag der Fokus mehr auf Eigenschaften der Einzelnen Bibliotheken und Produkte wie Maturität, vorhandenes Wissen, oder auf Aufwand. Die Kriterien überlappen sich an einigen Stellen mit den Qualitätszielen was jedoch nicht als Nachteil gewertet wurde. Die Kritieren sind gezielt vor der Lösungsfindung erstellt worden um den Prozess möglichst objektiv zu halten. Spätere Anpassungen mussten trotzdem gemacht werden da nicht alles von Beginn an klar war. Die Kriterien für sind im SAD im Kapitel 9.2 detailiert aufgeführt.
 
-\section{Teillösungen}
+\section{Teillösungensvarianten}
 
-Diverse Teilösungen indentifiziert anhand der bis zu diesem Zeitpunkt vorhandenen Requirements -> Qualitätsziele nach wievor nicht komplett klar.
-Möglichst grosser Lösungsraum an Teilprobleme um eine gute Sicht auf das zu lösende Problem zu bekommen.
+Mit den definierten Kriterien sollten verschiedene Varianten für die einzelnen Teilprobleme gesucht werden. Dabei war das Ziel den Lösungsraum möglichst gross zu gestalten um die verschiedenen Ansätze aus verschiedenen Betrachtungsweisen bewerten zu können. Die Ausarbeitung wurde mittels Recherche zu den einzelnen Themen durchgeführt wobei noch keine technische Prototypen erstellt worden sind. Für alle Varianten wurden Vor-, Nachteile sowie Risiken erfasst und festgehalten. Sämtliche Details zu den Varianten finden sich im SAD im Kapitel 9.1.
 
-Prototypen erstellen für die Unklarheiten der ausgewählen Teillösungen.
+\subsection{Versionierung}
 
-Bild erstellen für Problem der Datenmigration resp. der unterstützung von zwei gleichzeitig laufenden versionen.
-RDBMS -> trigger recursion, migration
-NoSQL -> kein schema jedoch gleiches problem
+Damit die Schnittstellen mehrere Versionen anbieten können, muss ein weg gefunden werden die in einer Art zu definieren. \newline Eine erste Variante ist die URL mit einer Versionsvariable zu versehen. Dadurch kann der Client den passenden Endpunkt ansprechen welche die gewünschte Funktionalität bereitstellt. Die ist ein Standardansatz welcher oft verwendet wird.\newline
+Die zweite Möglichkeit ist die in \cite{contneg} beschriebene Variante. Dabei wird mittels des Accept-Headers im HTTP-Request die Version mitgegeben. Diese kann auf der REST Schnittstelle als Routinginformation verwendet werden um den Aufruf an eine bestimmte Methode weiter zu leiten. Dieser Ansatz ist ebenfalls ein gängiges Mittel um einen Endpunkt zu versionieren.\newline
+Als letzte Variante wäre die Verwendung der \cite{gq} Bibliothek welche von Facebook entwickelt wurde um das Problem mit verschiedenen Client Versionen zu lösen. Es gibt mehrere Implementation von GraphQL für diverse Sprachen darunter JavaScript und Java welche im Projekt verwendet wurden. Die Library wird in einem anderen Projekt bei der SIX, welches vom gleichen Team entwickelt wird wie MEON, bereits eingesetzt.
 
-CAP Theorem
+\subsection{Datenspeicherung}
 
-MySQL CA, Mongo CP
+\subsubsection{CAP-Theorem}
+Die Anforderungen an die Applikation fordern, dass für die Datenspeicherung Replikation verwendet wird. Im Zusammenhang von verteilten System hört man immer wieder vom CAP-Theorem welches 1998 von Eric Brewer definit wurde. Es besagt, dass Systeme nur zwei der drei Eigenschaften, Konsistenz, Verfügbarkeit und Partitions Toleranz haben können. Das Theorem wurde vor allem durch die NoSQL Datenbanken wieder aktuell da diese auf andere Weise funktionieren wie relationale Datenbanken. Die Folgende Grafik zeigt wie die Datenbanken kategorisiert sind.
+\begin{center}
+	\includegraphics[scale=0.60]{cap.png}\newline
+	\cite{cap}
+\end{center}
+Für einfache Kategorisierung ist diese Grafik hilfreich jedoch hat sich die Technologie in der Zwischenzeit weiterentwickelt was Eric Brewer selber in \cite{capnew} mit diversen Beispielen beschreibt. Gewisse Produkte welche auf dem Markt sind lassen sich je nach Bedarf anders konfigurieren und können so andere Eigenschaften annehmen. Ein Beispiel hierfür ist die Oracle Datenbank. Oracle RAC zielt auf Verfügbarkeit und Konsistenz und hat entsprechende Anforderungen an die Hardware. Es gibt aber auch die Möglichkeit die Replikation asynchron zu konfigurieren wodurch sich die Eigenschaften nach Konsistenz und Paritions Toleranz verschieben. 
 
-Beide Datenbankentypen erlauben das Problem zu lösen. RDBMS braucht die ändernung an zwei stellen-> Buch über alle möglichen Variationen. Zyrkuläre Trigger tükisch. Mongo: alle muss in Code gemacht werden. Ermöglich schrittweise migration
+\subsubsection{Varianten}
+Bei der Datenspeicherung war die Frage ob der aktuelle Ansatz mit einer relationalen Datenbank der richtige weg ist oder ob sich die neuen schemalosen NoSQL Datenbank für die Lösung des Problems besser eigenen.\newline
+Bei der SIX wird Oracle seit langer Zeit eingesetzt und ist in der Standard für Datenspeicherung jeglicher Art. Aus diesem Grund wurde logischerweise als Variante in Betracht gezogen. Sie bietet alle Features welche für den um Anwendungen im Geschäftsbereich zu betreiben.\newline
+Zweitens in der Liste ist die MySQL Datenbank. Diese wird aktuell in der produktiven Version verwendet was sie ebenfalls als Kandidaten für die Speicherung der Daten empfiehlt.
+MySQL bietet wie Oracle diverse Mechanismen welche für Geschäftsanwendungen un umgänglich sind. Das Know-how für den Betrieb ist jedoch nicht auf dem gleichen Stand wie bei Oracle.\newline
+Als neue Möglichkeit für die Datenspeicherung sind NoSQL\footnote{NoSQL steht für Not Only SQL und kategorisiert Datenbanken welche schemalos sind und nicht nach dem ACID Prinzip arbeiten.} Datenbanken. Die Idee für deren Verwendung stammt vom CAS Big Data und den dazu gehörigen Folien \cite{nosqlintro}. Dabei geht es nicht nur um den Umstand, dass die NoSQL Datenbanken kein Schema haben sondern im Kontext des CAP-Theorems, welches im vorgängigen Kapitel erläutert wurde. 
+Daraus ergab sich die dritte Variante die Speicherung mit MongoDB zu realisieren. Die Datenbank arbeiten im Vergleich zu relationalen Datenbanken nicht mit Tabellen sondern mit Dokumenten. Diese sind schemalos und können deshalb gleichzeitig in mehreren Versionen vorliegen. Dadurch ist bei einem Update der Anwendung keine Schemamigration notwendig.\newline
+Als letzte Variante wurde Redis in Betracht gezogen. Es handelt sich dabei ebenfalls um eine NoSQL Datenbank welche jedoch ein Key-Value Store ist. Sie verfügt über eine Abfrage Sprache um Daten zu finden und wird auch bereits in der SIX verwendet.
+
+\subsection{Kommunikationsentkopplung}
+
+Damit Anfragen nicht verloren gehen, muss eine Art der Zwischenspeicherung oder der asynchronen Kommunikation gefunden werden. In der Java Welt existieren diverse Technologien dies zu erreichen.\newline
+Die Entkopplung der zwischen dem Onboarding Server und der Workflow Engine könnte wie JMS erreicht werden. Hierzu wird auf dem Server eine Queue angelegt welche auf dem Dateisystem gespeichert und vor der Workflow Engine regelmässig abgefragt wird. Eine Option wäre die zentrale Messaging Infrastruktur der SIX zu verwendent. JMS wird in diverse Projekten verwendet und ist deshalb in seiner Verwendung bekannt.\newline
+Im CAS Big Data wurde Kafka vorgestellt welche als weitere Lösung in Betracht kommt. Ursprünglich bei Linkedin entwickelt, wurde der Source Code 2011 veröffentlicht und wird mittlerweile von der Apache Foundation verwaltet. Kafka wurde für High Performance Messaging entwickelt ist bei diversen anderen Internetfirmen in Betrieb.\newline
+Eine weitere Variante ist die Verwendung von Redis als Queue für die Kommunikation. Die Datenbank hat spezifische Kommandos für die Funktion wie in \cite{redisqueue} beschrieben. Da sie ebenfalls als Datenspeicher eine Variante ist, könnten hier Synergien genutzt werden.\newline
+Anstelle eines neuen Frameworks oder Technologie könnte die aktuelle Implementation mit Spring Rest und Hystrix weiterverwendet werden. Hierfür bräuchte es eine Art Zwischenspeicher für die Anfragen damit diese asynchron weiter geschickt werden könnten. Die verwendete Datenbank könnte diese Aufgabe übernehmen und würde dadurch zu Queue werden.
+
+\subsection{Konfigurationsmanagement}
+
+Als letztes Teilproblem ist das Verwalten der Konfiguration der Applikation. Mit Docker und Docker Compose sind bereits Tools in Betrieb welche Konfigurationsmanagement erlauben. Als Zusatz käme Docker Swarm zum Einsatz welches es die dynamische Skalierung der Applikation erlaubt.\newline
+OpenShift ist ein Produkt der Firma Red Hat welche auf dem Kubernetes Framework von Google basiert. Es handelt sich dabei um eine Plattform as a Service\footnote{Plattform as a Service, kurz PaaS, ist eine Art Cloud dienst, welcher lokal oder remote, bezogen werden kann. Dabei soll eine einheitliche Plattform für alle Anwendungen bereitgestellt werden damit die Entwicklung und der Betrieb nicht immer das ganze Setup für eine Applikation machen müssen.} welche die Infrastruktur für Docker Container bereitstellt. Die bereits vorhandenen Container könnten dabei wieder verwendet werden.\newline
+Spring Cloud Config, als nächste Variante, bieten die Möglichkeit Konfigurationen einer Applikation zur Laufzeit anzupassen. Dabei werden die Einstellungen in einem GIT Repository gepeichert und vom Config Server ausgelesen. Clients laden die Konfiguration beim Start oder dynamisch bei einer Benachrichtigung über eine Queue.
+Saltstack als letzte Variante wird aktuell in der SIX für das Konfigurationsmanagement der Linux Server verwendet und ist aktuell das Standard Tool. Saltstack hat dabei einen Master Server welche die Serverdefinitionen in einer Datei abgelegt hat und diese entweder über SSH oder Python Client verteilt.
+
+\section{Erste Bewertung der Varianten}
+
+Nachdem für alle Teilprobleme verschiedene Lösungsvariaten definiert wurden, galt es diese zu bewerten um zu entscheiden für welche Prototypen erstellt werden sollten. Die Bewertung wurde zusammen mit dem Product Owner durchgeführt um eine zu einseitige Bewertung zu verhindern. Dabei wurde vor allem auf persönliche Erfahrung mit Technologien und logische Abschätzung gesetzt. Die Entscheidung einen Prototypen zu erstellen war einerseits die Verfifikation ob die Lösungsvariante auch die richtige ist respektive um Unklarheiten aus dem Weg zu räumen. Die Bewertungen finden sich in der Datei 'Bewertungsmatrix.xslx'. 
+
+\subsection{Versionierung}
+
+Bei der Versionierung haben sich Content-Negotiation und die Versionierung mittels Pfad als gleichwertig herausgestellt. GraphQL als Variante konnte nur schwer bewertet werden da der existierende Prototyp nicht wirklich aussagekräftig war. Aus diesem Grund wurde entschieden für GraphQL einen Prototypen zu erstellen um die Angemessenheit zu beweisen.
+
+\subsection{Datenspeicherung}
+
+Die beste Bewertung für die Speicherung der Daten hat Oracle erhalte da diese durch den langen Einsatz in der Firma bestens bekannt ist. In einem Gespräch mit dem Betrieb kamm heraus, dass die SIX keine Lizenzen um die Datenbank auf der virtuellen Umgebung zu betreiben. Der Grund hierfür ist das Lizenzmodell von Oracle bei welchem sämtliche CPU Cores der virtuellen Umgebung lizenziert werden müssen. Dies hätte sehr hohe Kosten zu folge. Im Gespräch kam heraus, dass nur eine physiche Maschine in Frage kämme. 
+Durch die Anforderung der Replikation hätte weitere Kosten zu folge welche für die wenigen Tabellen der Applikation keinen Sinn ergeben.
+Die Variante Redis wurde früh verworfen weil die Funktionsweise der Datenbank nicht sonderlich gut mit der Applikation zusammen passt. Der Grund ist hauptsächliche das Speichermodell von Key-Value.
+Durch die Bewertung blieben nur MySQL und MongoDB übrig. Leider konnten für beide die Tauglichkeit bezüglich Replikation und Schemamigration nicht ausreichend beantwortet werden weshalb die Entscheidung für je zwei Prototypen respektive entsprechende Nachforschungen getroffen wurde.
+
+\subsection{Konfigurationsmanagement}
+
+Docker Compose wurde bei einem Interview mit den Entwicklern als ungenügend Dokumentiert und schwerfällig bezeichnet weshalb es als künftige Variante nicht in Frage kommt. Die Docker Container selber wurde als angemessene Lösung empfunden und sollten deshalb, wenn möglich, weiterverwendet werden. Saltstack arbeitet generell mit anderen Konzepten als die jetzt verwendeten Container was einen Einsatz nicht sinnvoll macht obschon die Bewertung eher hoch ausgefallen ist. OpenShift als Variante hat eine schlechtere Bewertung als SaltStack ist für die Firma mittlerweile aber von strategischer Bedeutung was aussagen des Product Owner auch belegen. Daher ist eine Verwendung unumgänglich. Hierfür musste jedoch weitere Recherchen gemacht werden um den Einsatz besser abzuschätzen. Beste Bewertung hat Spring Cloud Config erhalten vor allem wegen des guten Know-how und der Bekanntheit von Spring. Nichts desto trotz wurde entschieden ein Prototypen zu machen um die Funktionsweise verifizieren zu können.
+
+\subsection{Kommunikationsentkopplung}
+
+Die Bewertung der Entkopplung wurde in einem erste Durchgang ausgelassen da zu dieser Zeit das Team, welches die Applikation betreut, Änderungen an diesem Teil am implementieren ist. In Absprache mit dem Product Owner wurde diese Entscheidung deshalb zurückgestellt.
+
+\section{Prototypen}
+
+Mit den erstellten Bewertungen sollten nur die Prototypen umgesetzt werden um in einem zweiten Schritt die Bewertungen für die offenen Punkte abzuschliessen. Weitere Informationen zu den Prototypen finden sich im SAD im Kapitel 9.3
+
+\subsection{MySQL, MongoDB Schema Migration}
+
+Um die Migration des Schemas zu testen, mussten zuerst Use Cases definiert werden welche eine gewisse Komplexität aufweisen um eine sinnvolle Evaluation durch zu führen. Die Wahl fiel dabei auf die zwei folgenden Szenarien:
+\begin{itemize}
+	\item Änderung einer Spalte
+	\item 'Split Table' bei welcher eine Tabelle in mehrere aufgeteilt werden.
+\end{itemize}
+\newpage
+\subsubsection{MySQL}
+
+Das Team welches bis jetzt die MEON Applikation entwickelt, hatte letztes Jahr ein Kurs zu FlywayDB mit deren Erfinder Axel Fontaine  welcher das Thema Continuous Deployment damals schon ansprach. Er hat dabei auf \cite{rd} verwiesen welche für alle Fälle eine passende Lösung hat. Darin sind die ausgewählten Fälle auf den Seiten 109-113 und 145-151 beschrieben. Das Beispiele Rename Column wurde kurz im Gesetzt um zu sehen wie dies bei MySQL funktioniert. Hierfür wird auf den Tabelle die Daten mittels Trigger in die jeweils andere kopiert und so sicher gestellt die Applikation mit verschiedenen Versionen zugreifen kann. Der folgende Codeausschnitt illustiert das Beispiel.
+
+\begin{lstlisting}[language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=left, numberstyle=\tiny, commentstyle=\color{gray}]
+
+DROP TRIGGER IF EXISTS ins_lastname;
+DROP TRIGGER IF EXISTS up_lastname;
+
+DELIMITER $$
+
+create trigger ins_lastname BEFORE INSERT on t_person 
+	for EACH ROW
+	BEGIN
+		IF new.last_name is not null then
+			set NEW.sur_name = NEW.last_name;
+		else
+			set NEW.last_name = NEW.sur_name;
+		end if;
+	END $$
+
+create trigger up_lastname BEFORE UPDATE on t_person
+	for EACH ROW
+	BEGIN
+		IF new.last_name is not null then
+			set NEW.sur_name = NEW.last_name;
+		else
+			set NEW.last_name = NEW.sur_name;
+		end if;
+	END $$
+
+DELIMITER ;
+
+\end{lstlisting}
+Somit hat MySQL die Möglichkeiten welche für das Erfüllen der Ziele notwendig sind.
+\newpage
+\subsubsection{MongoDB}
+
+Für MongoDB musste zuerst recherchiert was die beste Methode ist um verschiedenen Dokumenteversionen zu verwalten. In \cite{mongoschema} wurde einfach aufgezeigt wie dieses Problem gelöst werden kann. Dokumente werden einfach mit einer Attribute für die Version versehen welche durch die Entwicklung angehoben wird falls Änderungen gemacht wurden. Des weiteren werden Felder nicht gleich gelöscht sondern 'Deprecated' markiert und erst zu einem späteren Zeitpunkt entfernt. Um den Prototypen zu verifizieren wurde eine kleine Spring Boot Applikation geschrieben welche unter \url{https://github.com/effusion/prototyps/tree/master/springmongo} zu finden ist. Dabei wurden zwei Branches erstellt und entsprechende Docker Images gebaut. Dadruch konnten zwei Versionen der Applikation laufen und gleichzeitig auf die Datenbank zugegriffen werden. 
+Eine Abfrage auf der Datenbank liefert folgendes Resultat.
 
 
-Evaluation Graphql
-Content Negogiation und Versionierung nicht im Prototyp abgebildet da bereits hinreichend bekannt.
-Graphql sehr mühesam für Mutationen nicht die gleiche Konfiguration wie für die Abfragen verwendet werden kann.Übergabe wie MAp was sehr viel casten verursacht.. Library nicht von einer Organisation entwickelt sondern von 36 Entwicklern über Github. Gelegentliche Commits jedoch nicht wirk lebendig. 
+\lstset{
+	string=[s]{"}{"},
+	stringstyle=\color{blue},
+	comment=[l]{:},
+	commentstyle=\color{black},
+}
+\begin{lstlisting}
+{
+	"_id" : ObjectId("586bee9446e0fb000606b7c4"),
+	"_class" : "ch.andreas.thesis.mongo.data.Person",
+	"documentVersion" : NumberLong(1),
+	"surName" : "Heubeck",
+	"firstName" : "Anita",
+	"streetName" : "Riedweg",
+	"houseNumber" : 14,
+	"town" : "Dübendorf",
+	"zip" : 8600,
+	"country" : "Schweiz"
+	},
+	{
+	"_id" : ObjectId("586c09229d669165fd903240"),
+	"_class" : "ch.andreas.thesis.mongo.data.Person",
+	"documentVersion" : NumberLong(2),
+	"surName" : "Heubeck",
+	"firstName" : "Anita",
+	"addressList" : [
+	{
+		"documentVersion" : NumberLong(1),
+		"streetName" : "Riedweg",
+		"houseNumber" : 14,
+		"town" : "Dübendorf",
+		"zip" : 8600,
+		"country" : "Schweiz"
+	}	
+	],
+	"houseNumber" : 0,
+	"zip" : 0
+}
+\end{lstlisting}
+Im Result ist ersichtlich, dass zwei Versionen des Dokuments in der Datenbank gespeichert wurden. Die Applikation muss die Daten dann passend für die Version über die REST Schnittstelle konvertieren. Auch MongoDB kann mit diesem Beweis die Anforderungen erfüllen.
 
-Erweitern der Bewerungskriterien anhan der erkenntnisse aus den Prototypen.
+\subsection{MySQL, MongoDB Replikation}
+
+\subsubsection{MySQL}
+
+Die Datenbank wird aktuell schon mit einem Master-Slave verfahren betrieben hat aber keinen automatischen Failover und eine Anpassung der Verbindung in der Applikation ist ebenfalls nötig. Die Recherche hat ergeben das es eine Möglichkeit gibt die Umschaltung automatisch zu machen wie im Artikeln \cite{mysqlrep} beschrieben. Dabei wird ein separates Programm installiert welche die einzelnen Instanzen überprüft und entsprechend neu startet. Damit die Applikation nicht neu gestartet werden muss kann der Datenbankverbindung wie in der Anleitung \cite{mysqljdbc} beschrieben, konfiguriert werden. Für MySQL gibt es noch eine weitere Replikationsvariante mit einem Cluster wie in \cite{mysqlcluster} beschrieben. Dies wurde auf Grund von mangelndem Wissen auch Seitens des Betriebs nicht berücksichtigt. Die Recherchen sind gemäss Ansichten des Product Owners ausreichend um zu beweisen, dass MySQL die Anforderungen erfüllt.
+
+\subsubsection{MongoDB}
+
+Da MongoDB noch nicht im Einsatz war wurde auch hier eine Recherche zu Replikationsmöglichkeiten gemacht. Die Datenbank hat in der Anleitung ein Kapitel \cite{mongorep} welches die genaue Konfiguration beschreibt. Im Vergleich zu MySQL gibt es wenig know-how für MongoDB zur Replikation. Deshalb wurde neben den offiziellen Quellen eine einfache Anleitung gesucht und mit \cite{mongorep2} auf gefunden. Das Tutorial ist simpel gehalten ermöglichte aber die einfache Verifikation der Replikationsfähigkeiten von MongoDB und damit die Erfüllung der Anforderungen.
+\newpage
+
+\subsection{GraphQL}
+
+Um GraphQL besser verifizieren zu können, wurden ebenfalls einige Anwendungsfälle mittels eines einfachen Prototypen umgesetzt. Der Source Code dazu findet sich unter \url{https://github.com/effusion/prototyps/tree/master/graphql}. Die Use Cases wurden in JUnit definiert und gegen das erstellte GraphQL Schema getestet welches mit Hilfe der Beispiele von \url{https://github.com/graphql-java/graphql-java/blob/master/src/test/groovy/graphql/StarWarsSchema.java} erstellt wurde. Dabei hat sich herausgestellt, dass vor allem die Konvertierung der Daten beim schreiben einen hohen Aufwand und viel Typen Casting benötigt. Je verschachtelter die Datenstruktur ist, desto mehr muss auch für die Konvertierung gemacht werden. Dies kann durch eine geschickte Definition der REST Schnittstelle teilweise kompensiert werden, verschiebt das Problem jedoch nur. Der folgende Codeauschnitt zeigt die Problematik:
+
+\begin{lstlisting}[language=Java, showspaces=false, basicstyle=\ttfamily, numbers=left, numberstyle=\tiny, commentstyle=\color{gray}]
+/*Converter methods to fetch all the data out of the map*/
+private Object addPerson(Map<String, Object> envMap) {
+	Person person = new Person();
+	person.setFirstName( (String) envMap.get("firstName"));
+	person.setLastName( (String) envMap.get("lastName"));
+	convertAddress(person,(ArrayList<Object>) envMap.get("newAddresses"));
+	personRepository.createPerson(person);
+	return person;
+}
+
+	private void convertAddress(Person person, ArrayList<Object> newAddresses) {
+	final List<Address> addressList = new ArrayList<>();
+	newAddresses.forEach(entry -> {
+		LinkedHashMap<Object,Object> addressAttributes = (LinkedHashMap<Object,Object>) entry;
+		createAddress(addressList, addressAttributes);
+	});
+	person.setAddresses(addressList);
+}
+
+private void createAddress(List<Address> addressList, LinkedHashMap<Object,Object> addressAttributes) {
+	Address address = new Address();
+	address.setStreetName((String) addressAttributes.get("streetName"));
+	address.setHouseNumber((long) addressAttributes.get("houseNumber"));
+	address.setTown((String) addressAttributes.get("town"));
+	addressList.add(address);
+}
+\end{lstlisting}
+GraphQL kommt ursprünglich aus der Welt der dynamischen Sprachen wo die Konvertierungen nicht gemacht werden müssen. Der Prototyp hat gezeigt das die Bibliothek die Anforderungen zwar erfüllen würde, die Umsetzung jedoch zu umständlich ist.
+
+\subsection{Spring Cloud Config}
+
+Um die Verwendbarkeit von Spring Cloud Config zu evaluieren wurde wiederum ein Prototyp mit einem Client und einem Server gemacht. Der Sourcecode findet sich unter \url{https://github.com/effusion/prototyps/tree/master/springconfig}. Der Prototyp wurde mit hilfe von dem Getting Started Guide \cite{gsspringcloudconfig} umgesetzt. Diesem fehlte jedoch noch die Komponente der automatischen Verteilung der Konfigurationen bei einer Änderung. Durch weitere Internet Recherchen konnte ein Tutorial \cite{springcloudpush} eines Pivotal Mitarbeiters gefunden werden welches genau diesen Teil erklärt. Nach Anpassung des Prototypen funktionierte auch die Benachrichtigung.
+Das Framework kann die geforderte Anforderungen somit erfüllen.
+
+\subsection{OpenShift}
+
+Um einen ersten Eindruck von OpenShift zu gewinnen, musste zuerst das Konzept der Plattform verstanden werden. Mit der neuen OpenShift Version 3 wurde die Plattform faktisch neu implementiert auf Basis von Docker und Kubernetes. Der Startpunkt war \cite{openshiftintro} welches die Grundkonzepte genauer erklärte. Mit diesem Verständnis konnten erste Gehversuche mit der Online Preview für Entwickler gemacht werden. Einfache Container wie MongoDB oder auch Applikationsserver zu starten und mit einander zu verbinden war dank der Template, welche bereits auf der Plattform verfügbar, ohne Probleme zu bewältigen. Eigene Container auf der Umgebung zu deployen hat dann schon einiges mehr Mühe bereitet vor allem da die Template in yaml Format voller Parameter sind welche zu erst verstanden werden müssen. Da die SIX intern ja bereits eine Plattform aufgebaut hat, war der nächste logische Schritt die Administratoren zu kontaktieren. In einem ersten Meeting konnten Verständnislücken geschlossen und eine erste Idee für das Deployment auf OpenShift entwickelt werden. Mitte Januar war ein Solution Architekt von Red Hat zu Schulungszwecken bei der SIX welcher bei einem Meeting ebenfalls wertvolle Tipps geben konnten. Zu diesem Zeitpunkt war klar, dass die Plattform die Anforderungen erfüllen kann.
+\newpage
+
+\section{Finale Bewertung der Varianten}
+
+Nach Abschluss sämtliche Prototypen erledigt und mit den gefundenen Antworten, konnte nun die abschliessende Bewertung durchgeführt werden. Für die Punkte der Datenspeicherung mussten noch zwei weitere Bewertungskriterien hinzugefügt werden welche erst mit der Evaluation aufgefallen sind. Wie bereits beim ersten Durchgang wurden die Bewertungen erneut mit dem Product Owner besprochen. Sämtliche Entwurfsentscheidungen finden sich im SAD im Kapitel 9.4
+
+\subsection{Kommunikationsentkopplung}
+
+Die bei der ersten Iteration zurückgestellten Bewertung konnte, nach Abschluss der Arbeiten nun gemacht werden. Die Kommunikation ist mittlerweile asynchrone jedoch verwendet sie dafür die Datenbank als Queue und verschickt die Anfragen mit einem Scheduler regelmässig an die Workflow Engine.
+
+\section{Software Architektur Dokument}
+
+Das Software Architektur Dokument wurde schon während den Evaluationen und dem Prototyping mit den Ergebnissen befühlt. Diese Information sind für eine eventuelle spätere Anpassung der Architektur sehr wichtig um die Entscheidungsvorgänge und Abwägungen welche getroffen wurden zu verstehen. Die Applikation ist aktuell in Betrieb und hat auch eine Architektur welche leider sehr knapp Dokumentiert ist. Der generelle Aufbau der Applikation war durch die Vorarbeiten für den Antrag bekannt und musste nun mit den restlichen Teilen kombiniert werden. Die ständige Kommunikation mit dem Verantwortlichen der Applikation hat dazu beigetragen, dass keine Überraschungen zu Tage traten.
+
+\subsection{Bausteinsicht}
+
+\subsection{Laufzeitsicht}
+
+\subsection{Verteilungssicht}
+
+\subsection{Konzepte}
 
 \section{Lösungsvariante}
 
-MongoDB, OpenShift Spring Cloud Config, Spring Bus
-
-\section{Prototyp}
 
 \section{Bewertung}
 
-https://www.innoq.com/de/blog/why-restful-communication-between-microservices-can-be-perfectly-fine/
-
-http://microservices.io/patterns/microservices.html
-
-http://scs-architecture.org/vs-ms.html
-
-http://de.slideshare.net/ewolff/rest-vs-messaging-for-microservices
-
 https://www.symfony.fi/entry/versioning-an-api-in-graphql-vs-rest
 
-https://redis.io/commands/rpoplpush
-
-https://redis.io/topics/replication
-
 http://blog.kubernetes.io/2016/04/configuration-management-with-containers.html
-
-https://docs.mongodb.com/v3.2/replication/
 
 https://dzone.com/articles/netflix-oss-spring-cloud-or-kubernetes-how-about-a
 
@@ -116,8 +312,6 @@ http://de.slideshare.net/ewolff/rest-vs-messaging-for-microservices
 https://www.innoq.com/de/blog/why-restful-communication-between-microservices-can-be-perfectly-fine/
 
 https://vimeo.com/144746079
-
-https://spring.io/guides/gs/messaging-redis/
 
 https://seanmcgary.com/posts/how-to-build-a-fault-tolerant-redis-cluster-with-sentinel
 
@@ -137,8 +331,6 @@ https://spring.io/guides/gs/spring-boot-docker/
 
 https://github.com/OpenShiftDemos/openshift-cd-demo
 
-http://www.sohamkamani.com/blog/2016/06/30/docker-mongo-replica-set/
-
 \url{https://docs.openshift.com/online/using_images/db_images/mysql.html#using-mysql-replication}
 
 https://blog.openshift.com/openshift-3-demo-part-8-rolling-deployments/
@@ -154,12 +346,6 @@ http://dev.mysql.com/doc/refman/5.7/en/trigger-syntax.html
 \url{https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-2}
 
 \url{https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-3}
-
-https://github.com/graphql-java/todomvc-relay-java
-
-https://github.com/graphql-java/graphql-java
-
-http://www.sohamkamani.com/blog/2016/06/30/docker-mongo-replica-set/
 
 https://kubernetes.io/docs/user-guide/pods/
 
