@@ -49,7 +49,7 @@ Für die einzelnen Teilprobleme wurden diverse Lösungsvarianten ausprobiert, pr
 		\toprule
 		{\textbf{Name}} & {\textbf{Beschreibung}} \\
 		\midrule
-		Schnittstellen Versionierung & REST Schnittstellen müssen die Versionsnummer im Pfad enthalten und müssen abwärtskompatible sein.\\ \hline
+		Schnittstellen Versionierung & \emph{\gls{REST}} Schnittstellen müssen die Versionsnummer im Pfad enthalten und müssen abwärtskompatible sein.\\ \hline
 		Kommunikations- entkopplung &  Die Registrierungsanfragen werden in der Datenbank gespeichert und von einem Scheduler asynchron an die Worflow Engine weitergeleitet.\\ \hline
 		Datenspeicherung & Die Daten des Onboarding Servers werden in einer MongoDB gespeichert. Die schemalose Natur der Datenbank erlauben eine einfachere Migration. Durch die Paritionstoleranz, kann die Verfügbarkeit einfacher gewährleistet werden.\\ \hline
 		Konfigurations- management &  Die Orchestrierung der und der Betrieb der Docker Container wird mittels OpenShift realisiert. Spring Cloud Config dient der Konfiguration applikationsinterner Einstellungen.\\
