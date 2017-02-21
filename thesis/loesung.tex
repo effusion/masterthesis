@@ -282,13 +282,20 @@ Die bei der ersten Iteration zurückgestellten Bewertung konnte, nach Abschluss 
 
 \section{Software Architektur Dokument}
 
-Das Software Architektur Dokument wurde schon während den Evaluationen und dem Prototyping mit den Ergebnissen befühlt. Diese Information sind für eine eventuelle spätere Anpassung der Architektur sehr wichtig um die Entscheidungsvorgänge und Abwägungen welche getroffen wurden zu verstehen. Die Applikation ist aktuell in Betrieb und hat auch eine Architektur welche leider sehr knapp Dokumentiert ist. Der generelle Aufbau der Applikation war durch die Vorarbeiten für den Antrag bekannt und musste nun mit den restlichen Teilen kombiniert werden. Die ständige Kommunikation mit dem Verantwortlichen der Applikation hat dazu beigetragen, dass keine Überraschungen zu Tage traten.
+Das Software Architektur Dokument wurde schon während den Evaluationen und dem Prototyping mit den Ergebnissen befühlt. Diese Information sind für eine eventuelle spätere Anpassung der Architektur sehr wichtig um die Entscheidungsvorgänge und Abwägungen, welche getroffen wurden, zu verstehen. Die Applikation ist aktuell in Betrieb und hat auch eine Architektur welche leider sehr knapp Dokumentiert ist. Der generelle Aufbau der Applikation war durch die Vorarbeiten für den Antrag bekannt und musste nun mit den restlichen Teilen kombiniert werden. Die ständige Kommunikation mit dem Verantwortlichen der Applikation hat dazu beigetragen, dass keine Überraschungen zu Tage traten.
 
 \subsection{Bausteinsicht}
 
+Von Vorarbeiten her war bekannt, dass die Applikation mit einer Schichtenarchitektur umgesetzt wurde und wie die Schichten auf die einzelnen Komponenten verteilt sind. Der interne Aufbau war hingegen nicht bekannt und musste deshalb zuerst herausgefunden werden. Hierfür wurde einerseits der Source code verwendet und andererseits die beteiligten Entwickler direkt befragt. Eine Schwierigkeit war es, die Komponenten dem Ebene entsprechend zu kategorisieren und zusammen zu fassen. Zusätzlich musste der neue Teil mit der Konfiguration vermerkt werden. Damit die auf der ersten Ebene die Übersicht nicht verloren ging, wurden auf der zweiten Ebene die wichtigsten Teile genauer ausgearbeitet und mit den Entwicklern verifiziert. Auf eine noch genauere Ebene wurde verzichtet da die gelieferten Informationen die wichtigsten Aspekte beschreiben.
+
 \subsection{Laufzeitsicht}
 
+Wie bereits bei der Bausteinsicht, musste auch die Laufzeitsicht nachdokumentiert werden. Der Geschäftsfall war vom Ablauf her klar nicht jedoch wie die einzelnen System daran beteiligt waren. Um die Informationen zu bekommen, mussten wieder die Entwickler befrage werden da der Ablauf schwieriger aus dem Source Code rauszulesen war. Diese Informationen wurden dann in der ersten Ebene der Sicht aufgezeichnet. Diese war aber noch zu generell weshalb ein weiteres Sequenzdiagramm gezeichnet wurde, welches die Komponenten der einzelnen Schichten enthält. Die Laufzeitsicht für die Registrierung konnte nicht alle Aspekte darstellen weshalb zusätzlich, erneut durch Befragung, ein Aktivitätsdiagramm erstellt wurde. Damit konnte eine komplette Sicht auf den Prozess des Registrierens gewonnen werden.\newline\newline
+Durch die Verwendung von Spring Cloud Config ist der Ablauf der Konfigurationsänderung hinzugekommen. Der Prozess ist durch die gute Abstraktion seitens der Bibliothek sehr einfach zu verstehen und benötigt vom Entwickler keinen Programmieraufwand sondern beschränkt sich auf die Konfiguration.
+
 \subsection{Verteilungssicht}
+
+Im Vergleich zu der Baustein- und Laufzeitsicht, musste die Verteilungssicht neu erarbeitet und gezeichnet werden weil nicht mehr Docker und Docker Compose sondern neu OpenShift als Plattform verwendet wurde.
 
 \subsection{Konzepte}
 
