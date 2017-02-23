@@ -276,6 +276,10 @@ Um einen ersten Eindruck von OpenShift zu gewinnen, musste zuerst das Konzept de
 
 Nach Abschluss sämtliche Prototypen erledigt und mit den gefundenen Antworten, konnte nun die abschliessende Bewertung durchgeführt werden. Für die Punkte der Datenspeicherung mussten noch zwei weitere Bewertungskriterien hinzugefügt werden welche erst mit der Evaluation aufgefallen sind. Wie bereits beim ersten Durchgang wurden die Bewertungen erneut mit dem Product Owner besprochen. Sämtliche Entwurfsentscheidungen finden sich im SAD im Kapitel 9.4
 
+\subsection{Datenspeicherung}
+
+Beide Varianten, MySQL und MongoDB konnten die Anforderungen erfüllen. SIX hat mit NoSQL Datenbank aus Betriebssicht wenig Erfahrung weshalb in einem Meeting mit der Datenbankabteilung die Lösungsvariante besprochen wurde. Durch die hohe Auslastung und das aktuelle Thema Database as a Service hat der Betrieb in der Schweiz aktuell wenig Möglichkeiten und Kapazitäten die Datenbank zu betreiben. Durch diverse Initiativen innerhalb von SIX sind die involvierten Personen jedoch daran interessiert sich auch in diesen Themen Know-how anzueignen und Unterstützung zu liefern. Dank internen Kontakte konnte ausserdem in Erfahrung gebracht werden, dass SIX USA MongoDB bereits für produktiv verwendet. Der Onboarding Server braucht aktuell nur wenige Tabelle was das Risiko senkt und mit Blick auf die DevOps Initiative wurde die Entscheidung zu Gunsten von MongoDB getroffen.
+
 \subsection{Kommunikationsentkopplung}
 
 Die bei der ersten Iteration zurückgestellten Bewertung konnte, nach Abschluss der Arbeiten nun gemacht werden. Die Kommunikation ist mittlerweile asynchrone jedoch verwendet sie dafür die Datenbank als Queue und verschickt die Anfragen mit einem Scheduler regelmässig an die Workflow Engine.
@@ -286,21 +290,37 @@ Das Software Architektur Dokument wurde schon während den Evaluationen und dem 
 
 \subsection{Bausteinsicht}
 
-Von Vorarbeiten her war bekannt, dass die Applikation mit einer Schichtenarchitektur umgesetzt wurde und wie die Schichten auf die einzelnen Komponenten verteilt sind. Der interne Aufbau war hingegen nicht bekannt und musste deshalb zuerst herausgefunden werden. Hierfür wurde einerseits der Source code verwendet und andererseits die beteiligten Entwickler direkt befragt. Eine Schwierigkeit war es, die Komponenten dem Ebene entsprechend zu kategorisieren und zusammen zu fassen. Zusätzlich musste der neue Teil mit der Konfiguration vermerkt werden. Damit die auf der ersten Ebene die Übersicht nicht verloren ging, wurden auf der zweiten Ebene die wichtigsten Teile genauer ausgearbeitet und mit den Entwicklern verifiziert. Auf eine noch genauere Ebene wurde verzichtet da die gelieferten Informationen die wichtigsten Aspekte beschreiben.
+Von Vorarbeiten her war bekannt, dass die Applikation mit einer Schichtenarchitektur umgesetzt wurde und wie die Schichten auf die einzelnen Komponenten verteilt sind. Der interne Aufbau war hingegen nicht bekannt und musste deshalb zuerst herausgefunden werden. Hierfür wurde einerseits der Source code verwendet und andererseits die beteiligten Entwickler direkt befragt. Eine Schwierigkeit war es, die Komponenten dem Ebene entsprechend zu kategorisieren und zusammen zu fassen. Zusätzlich musste der neue Teil mit der Konfiguration vermerkt werden. Damit die auf der ersten Ebene die Übersicht nicht verloren ging, wurden auf der zweiten Ebene die wichtigsten Teile genauer ausgearbeitet und mit den Entwicklern verifiziert. Auf eine noch genauere Ebene wurde verzichtet da die gelieferten Informationen die wichtigsten Aspekte beschreiben. Die Bausteinsicht befindet sich im SAD im Kapitel 6.
 
 \subsection{Laufzeitsicht}
 
 Wie bereits bei der Bausteinsicht, musste auch die Laufzeitsicht nachdokumentiert werden. Der Geschäftsfall war vom Ablauf her klar nicht jedoch wie die einzelnen System daran beteiligt waren. Um die Informationen zu bekommen, mussten wieder die Entwickler befrage werden da der Ablauf schwieriger aus dem Source Code rauszulesen war. Diese Informationen wurden dann in der ersten Ebene der Sicht aufgezeichnet. Diese war aber noch zu generell weshalb ein weiteres Sequenzdiagramm gezeichnet wurde, welches die Komponenten der einzelnen Schichten enthält. Die Laufzeitsicht für die Registrierung konnte nicht alle Aspekte darstellen weshalb zusätzlich, erneut durch Befragung, ein Aktivitätsdiagramm erstellt wurde. Damit konnte eine komplette Sicht auf den Prozess des Registrierens gewonnen werden.\newline\newline
-Durch die Verwendung von Spring Cloud Config ist der Ablauf der Konfigurationsänderung hinzugekommen. Der Prozess ist durch die gute Abstraktion seitens der Bibliothek sehr einfach zu verstehen und benötigt vom Entwickler keinen Programmieraufwand sondern beschränkt sich auf die Konfiguration.
+Durch die Verwendung von Spring Cloud Config ist der Ablauf der Konfigurationsänderung hinzugekommen. Der Prozess ist durch die gute Abstraktion seitens der Bibliothek sehr einfach zu verstehen und benötigt vom Entwickler keinen Programmieraufwand sondern beschränkt sich auf die Konfiguration. Die Laufzeitsicht befindet sich im SAD im Kapitel 7.
 
 \subsection{Verteilungssicht}
 
-Im Vergleich zu der Baustein- und Laufzeitsicht, musste die Verteilungssicht neu erarbeitet und gezeichnet werden weil nicht mehr Docker und Docker Compose sondern neu OpenShift als Plattform verwendet wurde.
+Mit dem Entscheid OpenShift als Plattform zu verwendet anstelle von Docker Compose, musste die Art wie die Applikation verteilt wird neu definiert werden. Vor allem musste Klarheit über die einzelnen Komponenten von OpenShift sowie das Deployment der Plattform selber verstanden werden. Durch SIX interne Kurse mit Red Hat sowie in enger Absprache mit den Administratoren konnte eine erste Idee gewonnen werden. Aktuell ist das Ziel die Plattform in beiden Rechenzentren in Zürich und Lupfig zu installieren und dies jeweils in der DMZ und PCI Zone. Die Applikation selber weiss nicht wo die einzelnen Teile laufen sonder überlässt das ganze Routing OpenShift welches im Endeffekt ein Software Defined Network\footnote{Ein Software Defined Network oder kurz SDN ist eine Technik mit der sich Netzwerktopologien mittels Software definieren und steuern lassen. Somit ist es nicht mehr nötig die Netzwerkkomponenten von Hand zu konfigurieren. } ist. Mit diesem Wissen konnte die Verteilungssicht erstellt und beschrieben werden. Mit OpenShift kommen zusätzliche neue Begriffe hinzu welche angemessen erklärt werden mussten. Diese wurde direkt aus der Dokumentation von \cite{osservicepod} extrahiert. Die Bausteinsicht befindet sich im SAD im Kapitel 8.
 
 \subsection{Konzepte}
 
-\section{Lösungsvariante}
+Die einzelnen Komponenten der Architektur verwenden verschieden Konzepte welche für das Verständnis wichtig sind. Gewisse Konzepte wurden bereits verwendet und mussten nachdokumentiert werden andere kamen durch die Verwendung neuer Komponenten hinzu. Wie bereits bei den Sichten wurden die bekannten Konzepte durch Befragungen der Entwickler erfasst.
 
+\section{Finaler Prototyp}
+
+Die einzelnen Prototypen haben gezeigt, dass die Architektur in der vorgeschlagenen Form umgesetzt werden kann. Da vor allem die OpenShift Plattform für alle Entwickler neu ist, hat man sich entschieden die einzelnen Teilprototypen zu einem End-zu-End Beispiel zusammen zu fügen. Dadurch kann ein vertiefter Einblick in Verwendung der Plattform gewonnen werden und eventuell bis jetzt übersehene Probleme aufgedeckt werden. Dies auch mit dem Hintergrund das die Plattform aktuell nur auf Testservern installiert sind und die finale Installation erste gemacht werden muss. Ein weitere Punkt ist, dass auf höherer Ebene Entschieden wurde die ganze MEON Applikation als erste Anwendung produktiv auf OpenShift auszurollen.\newline\newline
+Der Prototyp wurde auf Grund des Testserver Setups im Vergleich zur Installation welche im SAD Kapitel 8 beschrieben wurde vereinfacht. Das folgende Darstellung zeigt den Aufbau.
+
+{\color{red} Bildli}
+
+Mit Hilfe des OpenShift Administrators und des Build Managers von MEON konnten, durch die Erfahrungen, die nötigen Build Prozesse angeschaut und definiert werden.
+
+\section{Change Management}
+
+{\color{red} Kapitel erst am Montag 27.2 gemacht werden weil erst dann das Meeting ist.}
+
+\section{Präsentation für Entwicklungsteam}
+
+{\color{red} Kapitel erst am Donnerstag 2.3 gemacht werden weil erst dann das Meeting ist.}
 
 \section{Bewertung}
 

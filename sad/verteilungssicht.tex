@@ -33,5 +33,5 @@ Aus Compliance-Gründen befindet sich die Workflow Engine sowie die Config Serve
 
 \section{Installation}
 
-Die Anwendung wird mittels einer Jenkins Pipeline(Siehe Kapitel \ref{build} Build Management) gebaut und in Docker Images verpackt. OpenShift bietet die Möglichkeit mehrere getrennte Projekte voneinander zu verwalten. Dies wird genutzt um die verschiedenen Umgebungen Entwicklung, Integration und Produktion voneinander zu Trennen. Die Docker Images werden dann je in andere Repositories verschoben und auf den Umgebungen ausgerollt.
+Die Anwendung wird mittels einer Jenkins Pipeline(Siehe Kapitel \ref{build} Build Management) gebaut und in Docker Images verpackt. OpenShift bietet die Möglichkeit mehrere getrennte Projekte voneinander zu verwalten. Dies wird genutzt um die verschiedenen Umgebungen Entwicklung, Integration und Produktion voneinander zu Trennen. Die Docker Images werden dann je in andere Repositories verschoben und auf den Umgebungen ausgerollt. {\color{red}Das Deployment auf OpenShift sind mit der Strategie 'Rolling' konfiguriert wodurch die einzelnen Container nacheinander aktualisiert werden. Damit dieser Prozess funktioniert, müssen für die Deployment Konfigurationen die HealthCheck eingeschaltet werden.}
 
