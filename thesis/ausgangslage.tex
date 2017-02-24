@@ -25,17 +25,17 @@ Die Applikation wurde mit aktuellen Frameworks entwickelt. In der folgenden Tabe
 		JBoss 10 & Applikations Server welcher die Laufzeitumgebung für die Applikation bereitstellt. \\ \hline
 		Apache Webserver & HTTP Server für den statischen Inhalt. \\ \hline
 		Camunda BPM & Workflow-Management-System welches die Prozesse für die Anmeldung eines neuen Händlers steuert. \\ \hline
-		RDBMS: Oracle, MySQL / NoSQL: MongoDB & Speichern der Daten. \\
+		Red Hat Enterprise Linux & Basis Betriebssystem für Server und Container.\\ \hline
+		Oracle, MongoDB & Speichern der Daten. \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 Die Anwendung ist technologisch auf einem sehr modernen Stand. Der Einsatz der Containertechnologie Docker hat sich bewährt und wird auch in anderen Projekten eingesetzt. Ob der weitere Einsatz von JBoss respektive Applikationserver weiterhin notwending ist, kann zur Disposition gestellt werden. Dies vor allem durch die teilweise Unklarheit der Stossrichtung der Java Enterprise Edition. Obschon Oracle mitterweile Pläne vorgelegt hat, sind nicht alle Zweifel über die Zukunft ausgeräumt. Da die Applikation bereits auf Spring basiert könnte hier der Schritt Richtung Spring Boot mit verhältnismässig geringem Aufwand durchgeführt werden.
-
 Im folgenden Bild ist die Architektur von MEON abgebildet.
 
 \begin{center}
-	\includegraphics[scale=0.55]{meon_arch.png}
+	\includegraphics[scale=0.6]{CurrentDeployment.png}
 \end{center}
 Der Onboarding Teil ist mit Hilfe einer Schichtenarchitektur umgesetzt wobei die Präsentationsschicht auf dem WebServer liegt die Business, Presistent- und Integrationsschicht auf dem Server. Die Workflow Engine ist eine Produkt der Firma Camunda und ist als Anwendungsarchiv vorhanden welches zusammen mit dem WildFly Server ausgerollt wird.
 
