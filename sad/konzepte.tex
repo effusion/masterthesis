@@ -19,6 +19,8 @@ Die Aktualisierung der Software geschieht mit der neuen Architektur kontinuierli
 	\item Mappings auf andere Objekte, wie Datenbank oder Transferobjekte welche an umliegende System geschickt werden, müssen immer mit beiden Versionen funktionieren.
 \end{itemize}
 
+Für neue Features welche Änderungen auf mehreren Komponenten zur Folge hat, müssen Feature Toggels verwendet werden. Siehe dazu Kapitel \ref{toggles}.
+
 \subsection{Schnittstellen}
 
 Schnittstellen müssen im Pfad die Versionsnummer enthalten damit der Client die richtigen Endpunkte ansprechen kann. Müssen Änderungen gemacht werden welche sich nicht in die aktuelle Implementierung kombinieren lassen, gilt es, einen neue URL mit neuer Version zu erstellen. Im Dokument '2014-01-23-Specification for Web Services-1.3.pdf' im Kapitel 4.3 finden sich mehr Informationen dazu.
@@ -157,6 +159,8 @@ obsolet werden und nur wenig Laufdaten gespeichert sind, können die Daten relat
 \subsection{Datenspeicherung}
 Für die Speicherung der Daten wird die NoSQL Datenbank MongoDB eingesetzt. Anstelle von Tabellen mit einem definierten Schema, werden Dokumente verwendet welche schemalos sind. Dadurch können mehrere Versionen desselben Dokumentes in der Datenbank gespeichert werden. Der Treiber für MongoDB wird beim Mapping nicht vorhandener Attribute ,welche sich im Dokument, jedoch nicht auf der Klasse befinden, nicht umwandeln.\newline
 Dokumentenklasse in Java müssen ein Attribut haben welches die Version des Dokumentes widerspiegelt. Die Nummer ist bei jeder Änderung der Klasse anzupassen. Dadurch können bei einer Migration die entsprechenden Serviceklassen die Daten gemäss des neuen Dokumentes speichern.
+\textcolor{red}{TODO Dokumentedesign erklären}
+
 
 \subsection{Ausfallsicherheit}
 

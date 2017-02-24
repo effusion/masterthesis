@@ -51,9 +51,18 @@ Im Ist-Zustand wurde das aktuelle Konfigurationsmanagement mittels Docker und Do
 
 Die Build Pipeline\footnote{Eine Pipeline ist eine Abfolge von Buildäufträgen(Stages) welche parallel und sequenziell ablaufen können. } welche im Antrag erwähnt wurde wegen ihrer Wichtigkeit für das Bauen und Installieren der Applikation wurde nicht weiterverfolgt. Der Grund darin liegt in dem Fortschritt der Methodik welche das Projekt seit dem Antrag gemacht hat. Wie in\cite{atlassiancd} beschrieben, sind verschieden Stages in der Pipeline sowie Feature Brachens in GIT eine Voraussetzung um eine Applikation zeitnahe in Betrieb zu bringen. Diese Praktiken werden aktuell im normalen Arbeitstag verwendet und müssen deshalb nicht nochmals evaluiert werden.
 
+\subsection{Fazit}
+
+Eine Aufteilung der Problematik in Teilprobleme hat geholfen ein bessere Verständnis zu erlangen welche Aspekte der aktuellen Architektur betroffen sind. Dadurch ist eine bessere fokusierung auf die auf die Variantenfindung möglich und verhindert, dass Zeit mit nicht relevanten Themen verschwendet wird.
+
 \section{Bewertungskriterien}
 
-Die auszuarbeitenden Lösungsvarianten müssen auf ihre Verwendbarkeit geprüft und bewertet werden. Obschon Qualitätsziele für die Architektur definiert sind, eignen sie sich für die Bewertung von Bibliotheken und Lösungsvarianten nur bedingt. Weder das Arc42 Template noch \cite{esa} haben angemessen Metriken und Methoden im Angebot. Aus diesem Grund wird eine Bewertungsmatrix erstelle welche im CAS Software Architkur Workshop Modul bereits angewendet wurde. Dabei sind die einzelnen Kriterien mit dem Product Owner abgesprochen und gewichtet worden. Dabei lag der Fokus mehr auf Eigenschaften der Einzelnen Bibliotheken und Produkte wie Maturität, vorhandenes Wissen, oder auf Aufwand. Die Kriterien überlappen sich an einigen Stellen mit den Qualitätszielen was jedoch nicht als Nachteil gewertet wurde. Die Kritieren sind gezielt vor der Lösungsfindung erstellt worden um den Prozess möglichst objektiv zu halten. Spätere Anpassungen mussten trotzdem gemacht werden da nicht alles von Beginn an klar war. Die Kriterien für sind im SAD im Kapitel 9.2 detailiert aufgeführt.
+Die auszuarbeitenden Lösungsvarianten müssen auf ihre Verwendbarkeit geprüft und bewertet werden. Obschon Qualitätsziele für die Architektur definiert sind, eignen sie sich für die Bewertung von Bibliotheken und Lösungsvarianten nur bedingt. Weder das Arc42 Template noch \cite{esa} haben angemessen Metriken und Methoden im Angebot. Aus diesem Grund wird eine Bewertungsmatrix erstelle welche im CAS Software Architkur Workshop Modul bereits angewendet wurde. Dabei sind die einzelnen Kriterien mit dem Product Owner abgesprochen und gewichtet worden. Dabei lag der Fokus mehr auf Eigenschaften der einzelnen Bibliotheken und Produkte wie Maturität, vorhandenes Wissen, oder auf Aufwand. Die Kriterien überlappen sich an einigen Stellen mit den Qualitätszielen was jedoch nicht als Nachteil gewertet wurde. Die Kritieren sind gezielt vor der Lösungsfindung erstellt worden um den Prozess möglichst objektiv zu halten. Spätere Anpassungen mussten trotzdem gemacht werden da nicht alles von Beginn an klar war. Die Kriterien für sind im SAD im Kapitel 9.2 detailiert aufgeführt.
+
+\subsection{Fazit}
+
+Das erstellen der Bewertungskriterien hat den Vorteil die Bewertungen nicht den Lösungen anzupassen. Der Nachteil ist, dass Kriterien vergessen gehen wie was zu einer erneuten Bewertung oder Anpassung führt.
+
 
 \section{Teillösungensvarianten}
 
@@ -99,6 +108,10 @@ OpenShift ist ein Produkt der Firma Red Hat welche auf dem Kubernetes Framework 
 Spring Cloud Config, als nächste Variante, bieten die Möglichkeit Konfigurationen einer Applikation zur Laufzeit anzupassen. Dabei werden die Einstellungen in einem GIT Repository gepeichert und vom Config Server ausgelesen. Clients laden die Konfiguration beim Start oder dynamisch bei einer Benachrichtigung über eine Queue.
 Saltstack als letzte Variante wird aktuell bei SIX für das Konfigurationsmanagement der Linux Server verwendet und ist aktuell das Standard Tool. Saltstack hat dabei einen Master Server welche die Serverdefinitionen in einer Datei abgelegt hat und diese entweder über SSH oder Python Client verteilt.
 
+\subsection{Fazit}
+
+Ein möglichst grosser Lösungsraum an Varianten wie er durch Recherchen, persönliche und Erfahrungen von Dritten erschaffen wurde, hilft die Ideen mittels verschiedenen Perspektiven zu beleuchten. Dadurch können Vor- und Nachteile besser bewertet werden und verhindern falsche Schlüsse. Die Methode bedarf aber einer gewissen Reife und Kenntnisse diverser Konzepte. Ohne diese Voraussetzung besteht die Gefahr das der Lösungsraum zu klein wird oder man Technologien und Methoden verwendet welche einem am besten vertraut sind.
+
 \section{Erste Bewertung der Varianten}
 
 Nachdem für alle Teilprobleme verschiedene Lösungsvariaten definiert wurden, galt es diese zu bewerten um zu entscheiden für welche Prototypen erstellt werden sollten. Die Bewertung wurde zusammen mit dem Product Owner durchgeführt um eine zu einseitige Bewertung zu verhindern. Dabei wurde vor allem auf persönliche Erfahrung mit Technologien und logische Abschätzung gesetzt. Die Entscheidung einen Prototypen zu erstellen war einerseits die Verfifikation ob die Lösungsvariante auch die richtige ist respektive um Unklarheiten aus dem Weg zu räumen. Die Bewertungen finden sich in der Datei 'Bewertungsmatrix.xslx'. 
@@ -122,6 +135,10 @@ Docker Compose wurde bei einem Interview mit den Entwicklern als ungenügend Dok
 
 Die Bewertung der Entkopplung wurde in einem erste Durchgang ausgelassen da zu dieser Zeit das Team, welches die Applikation betreut, Änderungen an diesem Teil am implementieren ist. In Absprache mit dem Product Owner wurde diese Entscheidung deshalb zurückgestellt.
 
+\subsection{Fazit}
+
+Eine erste Bewertungsrunde hat geholfen die absehbar unpassendsten Lösungen von vornherein auszuschliessen. Es zeigt aber auch das die Skalierung und Summe der Ergebnisse teilweise durch die Menge die Resultate verwässern respektive die Skalierung einzelner Kriterien nicht in den Raster passt. Dies ist am Beispiel von Oracle gut zu sehen hat sie doch die beste Bewertung erhalte konnte aber auf Grund von Lizenz Bestimmungen nicht verwendet werden. Dies ist sicher auch dem Umstand geschuldet, dass diese Information sich erst später aufgezeigt hat.
+
 \section{Prototypen}
 
 Mit den erstellten Bewertungen sollten nur die Prototypen umgesetzt werden um in einem zweiten Schritt die Bewertungen für die offenen Punkte abzuschliessen. Weitere Informationen zu den Prototypen finden sich im SAD im Kapitel 9.3
@@ -136,7 +153,7 @@ Um die Migration des Schemas zu testen, mussten zuerst Use Cases definiert werde
 \newpage
 \subsubsection{MySQL}
 
-Das Team welches bis jetzt die MEON Applikation entwickelt, hatte letztes Jahr ein Kurs zu FlywayDB mit deren Erfinder Axel Fontaine  welcher das Thema Continuous Deployment damals schon ansprach. Er hat dabei auf \cite{rd} verwiesen welche für alle Fälle eine passende Lösung hat. Darin sind die ausgewählten Fälle auf den Seiten 109-113 und 145-151 beschrieben. Das Beispiele Rename Column wurde kurz im Gesetzt um zu sehen wie dies bei MySQL funktioniert. Hierfür wird auf den Tabelle die Daten mittels Trigger in die jeweils andere kopiert und so sicher gestellt die Applikation mit verschiedenen Versionen zugreifen kann. Der folgende Codeausschnitt illustiert das Beispiel.
+Das Team welches bis jetzt die MEON Applikation entwickelt, hatte letztes Jahr ein Kurs zu FlywayDB mit deren Erfinder Axel Fontaine  welcher das Thema Continuous Deployment damals schon ansprach. Er hat dabei auf \cite{rd} verwiesen welche für alle Fälle eine passende Lösung hat. Darin sind die ausgewählten Fälle auf den Seiten 109-113 und 145-151 beschrieben. Das Beispiele Rename Column wurde kurz im Gesetzt um zu sehen wie dies bei MySQL funktioniert. Hierfür wird auf den Tabelle die Daten mittels Trigger in die jeweils andere kopiert und so sicher gestellt die Applikation mit verschiedenen Versionen zugreifen kann. Der folgende Codeausschnitt illustiert das Beispiel welches mit Hilfe von \cite{mysqltrigger} erstellt wurde.
 
 \begin{lstlisting}[language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=left, numberstyle=\tiny, commentstyle=\color{gray}]
 
@@ -270,6 +287,11 @@ Das Framework kann die geforderte Anforderungen somit erfüllen.
 \subsection{OpenShift}
 
 Um einen ersten Eindruck von OpenShift zu gewinnen, musste zuerst das Konzept der Plattform verstanden werden. Mit der neuen OpenShift Version 3 wurde die Plattform faktisch neu implementiert auf Basis von Docker und Kubernetes. Der Startpunkt war \cite{openshiftintro} welches die Grundkonzepte genauer erklärte. Mit diesem Verständnis konnten erste Gehversuche mit der Online Preview für Entwickler gemacht werden. Einfache Container wie MongoDB oder auch Applikationsserver zu starten und mit einander zu verbinden war dank der Template, welche bereits auf der Plattform verfügbar, ohne Probleme zu bewältigen. Eigene Container auf der Umgebung zu deployen hat dann schon einiges mehr Mühe bereitet vor allem da die Template in yaml Format voller Parameter sind welche zu erst verstanden werden müssen. Da SIX intern ja bereits eine Plattform aufgebaut hat, war der nächste logische Schritt die Administratoren zu kontaktieren. In einem ersten Meeting konnten Verständnislücken geschlossen und eine erste Idee für das Deployment auf OpenShift entwickelt werden. Mitte Januar war ein Solution Architekt von Red Hat zu Schulungszwecken bei SIX welcher bei einem Meeting ebenfalls wertvolle Tipps geben konnten. Zu diesem Zeitpunkt war klar, dass die Plattform die Anforderungen erfüllen kann.
+
+\subsection{Fazit}
+
+Das erstellen einzelner Prototypen für die Verifikation der ausgewählte Varianten hat sich als richtiges Mittel erwiesen um die getroffenen Entscheidungen zu verifizieren respektive Annahmen zu wiederlegen. Durch die daraus gewonnen Erkenntnisse konnte eine revidierte Bewertung gemacht werden.
+
 \newpage
 
 \section{Finale Bewertung der Varianten}
@@ -283,6 +305,10 @@ Beide Varianten, MySQL und MongoDB konnten die Anforderungen erfüllen. SIX hat 
 \subsection{Kommunikationsentkopplung}
 
 Die bei der ersten Iteration zurückgestellten Bewertung konnte, nach Abschluss der Arbeiten nun gemacht werden. Die Kommunikation ist mittlerweile asynchrone jedoch verwendet sie dafür die Datenbank als Queue und verschickt die Anfragen mit einem Scheduler regelmässig an die Workflow Engine.
+
+\subsection{Fazit}
+
+Durch das wissen der Prototypen war es folgerichtig die Bewertung nochmals zu besprechen um sich für eine Variante zu entscheiden. Nur durch Recherchen eine Entscheidung zu treffe hätte zu einem späteren Zeitpunkt zu Probleme führen können. Vor allem mit dem Blick auf die neuen Technologien und Methoden welche verwendet werden.
 
 \section{Software Architektur Dokument}
 
@@ -303,9 +329,29 @@ Mit dem Entscheid OpenShift als Plattform zu verwendet anstelle von Docker Compo
 
 \subsection{Konzepte}
 
-Die einzelnen Komponenten der Architektur verwenden verschieden Konzepte welche für das Verständnis wichtig sind. Gewisse Konzepte wurden bereits verwendet und mussten nachdokumentiert werden andere kamen durch die Verwendung neuer Komponenten hinzu. Wie bereits bei den Sichten wurden die bekannten Konzepte durch Befragungen der Entwickler erfasst. Die neuen musste 
+Die einzelnen Komponenten der Architektur verwenden verschieden Konzepte welche für das Verständnis wichtig sind. Die bereits bekannten Konzepte wurden wiederum durch Befragung mit den Entwicklern nach dokumentiert. Das Vorgehen für die neuen Konzepte wird in den folgenden Kapiteln erläutert. Sämtliche Konzepte welche für die Architektur verwendet werden, sind im SAD im Kapitel 9 erklärt.
 
-\section{Finaler Prototyp}
+\subsubsection{Software Aktualisierung}
+
+Mit dem Umbau der Architektur in Richtig kontinuierliche Aktualisierung ist das dahinter stehende Konzept wie der Entwickler Änderungen macht integraler Bestandteil. Aus diesem Grund wurde das Kapitel früh im Dokument aufgeführt und mit den wichtigsten Regeln versehen. Die Schnittstellen und die Persistenz sind von der Methode stark betroffen weshalb ein Beispiel eingefügt worden ist.
+
+\subsubsection{Build Management}
+
+Wie die Software gebaut wird, ist meistens nicht Teil eine Software Architektur und wenn dann höchstens die verwendeten Tools. Im Bezug auf Continuous Deployment ist es wichtig, dass der Entwickler nicht nur die Architektur versteht sondern ebenfalls wie die Applikation ausgerollt wird. Mit dem Einsatz von OpenShift ändert sich die Art der Installation welche an Komplexität zugenommen hat.
+
+\subsubsection{Konfiguration}
+
+Durch den kombinierten Einsatz von OpenShift und Spring Cloud Config hat sich die Art wie die Applikation konfiguriert wird, geändert. Der Entwickler muss deshalb wissen wo welche Konfiguration gemacht werden müssen.
+
+\subsubsection{Persistenz}
+
+Mit der Verwendung von MongoDB für die Speicherung der Daten auf dem Onboarding Server, braucht es eine Erklärung wie der neue Datenspeicher funktioniert. Einerseits galt es zu erklären was der Unterschied zur zwischen Tabellen und Dokumenten ist als auch ein Verständnis dafür wie diese definiert werden müssen. Durch die andere Art der Speicherung sind gibt es mehrere Möglichkeit wie die Daten und Beziehungen dazwischen gemacht werden können. MongoDB hat für diesen Fall eine Beitragsreihe \cite{mongoschema1}, \cite{mongoschema2} und \cite{mongoschema3} ins Internet gestellt welche mittels Beispielen die verschiedenen Möglichkeiten aufzeigt.
+
+\subsubsection{Transaktionsbehandlung}
+
+Als letzten Punkt ist es wichtig zu verstehen wie MongoDB mit Transaktionen umgeht und die Daten im Replica Set verteilt werden. Alle Angaben dazu finden sich in der Dokumentation \cite{wirteconcern} und wurden, zum Anwendungsfall passend, beschrieben.
+
+\subsection{Finaler Prototyp}
 
 Die einzelnen Prototypen haben gezeigt, dass die Architektur in der vorgeschlagenen Form umgesetzt werden kann. Da vor allem die OpenShift Plattform für alle Entwickler neu ist, hat man sich entschieden die einzelnen Teilprototypen zu einem End-zu-End Beispiel zusammen zu fügen. Dadurch kann ein vertiefter Einblick in Verwendung der Plattform gewonnen und eventuell bis jetzt übersehene Probleme aufgedeckt werden. Dies auch mit dem Hintergrund das die Plattform aktuell nur auf Testservern installiert sind und die finale Installation erste gemacht werden muss. Ein weitere Punkt ist, dass auf höherer Ebene Entschieden wurde die ganze MEON Applikation als erste Anwendung produktiv auf OpenShift auszurollen.\newline\newline
 Der Prototyp wurde auf Grund des Testserver Setups im Vergleich zur Installation welche im SAD Kapitel 8 beschrieben vereinfacht. Das folgende Darstellung zeigt den Aufbau.
@@ -314,17 +360,25 @@ Der Prototyp wurde auf Grund des Testserver Setups im Vergleich zur Installation
 	\includegraphics[scale=0.60]{PrototypDeployment.png}
 \end{center}
 
-\section{Change Management}
+\subsection{Change Management}
 
 {\color{red} Erledigen nach dem Meeting mit Change Management am Montag 27.2}
 
-\section{Präsentation für Entwicklungsteam}
+\subsection{Fazit Software Architektur Dokument}
 
-{\color{red} Erledigen nach der Präsentation am 2.3}
+Das Software Architektur Dokument ist ein gutes Mittel und auch Leitfaden um ein System und seine Architektur zu beschreiben. Gernot Starke hat mit dem Arc42 eine gute Basis geschaffen welche Architekten bei ihrer Arbeit hilft. Es hat sich aber auch gezeigt es sich um ein Grundgerüst handelt welche Stellenweise erweitert werden muss. Das Kapitel Entwurfsentscheidung sei hier erwähnt da es doch eine detailierte Beschreibung der getroffenen Entscheidungen zeigt. Ohne diese ist eine spätere Anpassung der Architektur schwierig und mit Aufwand verbunden.
 
-\section{Bewertung}
+{\color{red} Gibt hier vllt noch Anpassungen nach dem Feedback von Werni}
+
+\section{Architektur Bewertung}
 
 {\color{red} Erledigen am Montag nach dem normalen Meeting.}
+
+\section{Ergebnis}
+
+{\color{red} Ich muss mir das noch kurz zusammenreimen wie ich das ganze SAD auf ein kurzes Kapitel zusammendrücke.}
+
+
 
 
 
