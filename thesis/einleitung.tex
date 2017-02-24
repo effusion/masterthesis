@@ -4,16 +4,16 @@
 
 Im Zuge der Digitalisierung ist es für Finanzdienstleister unerlässlich die angebotenen Dienstleistungen schneller weiterzuentwickeln und der Kundschaft bereitzustellen. Vor allem bei Online-Diensten wird dies immer wichtiger. Mit der Entwicklung von TWINT war eine Lösung notwendig welche es potenziell neuen Händler einfach erlaubt sich für den neuen Dienst anzumelden. Aus dieser Anforderung ist die Applikation Merchant Onboarding entstanden, welches einem neuen Kunde erlaubt sich einfach über eine Web-Oberfläche zu registrieren.
 
-Die Applikation wurde basierend auf neueren Technologien und Methoden entwickelt, welche es erlauben die Applikation schneller von der Entwicklung in die Produktion zu bringen. Im Vergleich zu den aktuell üblichen Releasezyklen von drei Monaten ist diese ein grosser Schritt vorwärts.
+Die Applikation wurde basierend auf neuen \textcolor{red}{TODO neueren bräuchte einen Vergleich, neuer als was. Alternativ könnte man aktuell benutzen)} Technologien und Methoden entwickelt, welche es erlauben die Applikation schneller von der Entwicklung in die Produktion zu bringen. Im Vergleich zu den aktuell üblichen Releasezyklen von drei Monaten ist dies ein grosser Schritt vorwärts.
 
-Obschon die Applikation mittlerweile innert Tagesfrist ausgerollt werden kann, soll mit der Anpassung der Architektur auf Continuous Deployment \footnote{Methode welche es der Entwicklung und dem Betrieb erlaubt, eine Applikation automatisch nach jedem Code Commit neu auf den produktiven System zu installieren.} noch einen Schritt weiter gegangen werden. Um dieses Ziel zu erreichen, muss die Architektur der Applikation, mit dem Schwerpunkt Kommunikation zwischen der \textcolor{red} {Komponenten/Service?}, angepasst werden. Des Weiteren sind gegebenenfalls Änderungen an Prozessen, wie zum Beispiel im Change Management, notwendig.
+Obschon die Applikation mittlerweile innert Tagesfrist ausgerollt werden kann, soll mit der Anpassung der Architektur auf Continuous Deployment \footnote{Methode welche es der Entwicklung und dem Betrieb erlaubt eine Applikation automatisch nach jedem Codecommit neu auf den produktiven Systemen zu installieren.} noch einen Schritt weiter gegangen werden. Um dieses Ziel zu erreichen muss die Architektur der Applikation, mit dem Schwerpunkt Kommunikation zwischen der \textcolor{red} {TODO Komponenten/Service?}, angepasst werden. Des Weiteren sind gegebenenfalls Änderungen an Prozessen, wie zum Beispiel im Change Management, notwendig.
 Der Vorteil dieses Ansatzes erlaubt es, Fehler oder Erweiterungen nach einem standardisierten und automatischen Prozess ohne menschliche Intervention zu installieren. Dadurch kann die Firma sehr schnell auf sich ändernde Anforderungen reagieren.
 
 
 \section{Systemabgrenzung}
 \label{Abgrenzung}
 
-Finanzdienstleiter wie SIX haben für die Abwicklung ihres Geschäfts eine grosse Anzahl Applikation welche verschiedene Geschäftstätigkeiten abdecken. Auch das Merchant Onboarding ist ein Teil dieser Landschaft und kann nur durch Interaktion mit diesen Systemen seine Aufgabe erledigen. In der folgenden Tabelle sind kurz die internen Systeme aufgeführt welche Merchant Onboaring verwendet, jedoch nicht Teil der Problemstellung und Lösung sind.
+Finanzdienstleiter wie SIX haben für die Abwicklung ihres Geschäfts eine grosse Anzahl Applikation welche verschiedene Geschäftstätigkeiten abdecken. Auch das Merchant Onboarding ist ein Teil dieser Landschaft und kann nur durch Interaktion mit einigen dieser Systeme seine Aufgabe erledigen. In der folgenden Tabelle sind die internen Systeme aufgeführt welche Merchant Onboaring verwendet, jedoch nicht Teil der Problemstellung und Lösung sind.
 
 \begin{table}[H]
 	\centering
@@ -23,8 +23,9 @@ Finanzdienstleiter wie SIX haben für die Abwicklung ihres Geschäfts eine gross
 		{\textbf{Applikation}} & {\textbf{Beschreibung}} \\
 		\midrule
 		PASS & \textbf{P}ayment \textbf{A}cquiring \textbf{S}ervices \textbf{S}ystem. Applikation welche die Transaktionen verarbeitet und Händlerauszahlungen auslöst. \\ \hline
-		Workflow Engine & Business Process Engine welche sich die Erstellung des Kundenkontos kümmert.\\ \hline
-		SCS & Registrationstelle für neue Zahlungsterminal.\\
+		Workflow Engine & Business Process Engine welche sich um die Erstellung des Kundenkontos in den Umsystemen kümmert.\\ \hline
+		SCS & Registrationstelle für neue Zahlungsterminal.\\ \hline
+		myPayments & Kundenportal in welchem der Kunde seine Transaktionen und Dokumente sieht \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -38,9 +39,9 @@ Des Weiteren gibt es Teile der Infrastruktur, welche die Lösung im Hinblick auf
 		\toprule
 		{\textbf{Komponente}} & {\textbf{Beschreibung}} \\
 		\midrule
-		Betriebsystem & Die Basis auf welcher die Applikaton läuft ist nicht Bestandteil der Architektur. \\ \hline
-		Netzwerk & Netzwerkkomponenten wie Switches, Router, Storage und der gleichen sind auch mit Software ausgestattet, werden jedoch nicht berücksichtigt.\\ \hline
-		Datenbank Software & Die automatische Aktualisierung ist nicht Teil der Architektur. Obschon Patches meist automatisch eingespielt werden können ist bei Major Versionen dies meistens mit mehr Aufwand verbunden. \\
+		Betriebssystem & Die Basis auf welcher die Applikation läuft ist nicht Bestandteil der Architektur. \\ \hline
+		Netzwerk & Netzwerkkomponenten wie Switches, Router, Storage und dergleichen sind auch mit Software ausgestattet, werden jedoch nicht berücksichtigt.\\ \hline
+		Datenbank Software & \textcolor{red}{TODO hier geht es wohl um die Datenbankversion und nicht um die Applikationsversion. Ich würde in dem Fall nicht von automatisch sprechen, auch Patchversionen bedingen bei der Datenbank einen Reboot, zumindest bei Oracle}Die automatische Aktualisierung ist nicht Teil der Architektur. Obschon Patches meist automatisch eingespielt werden können ist bei Major Versionen dies meistens mit mehr Aufwand verbunden. \\
 		\bottomrule
 	\end{tabular}
 \end{table}
