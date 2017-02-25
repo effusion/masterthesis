@@ -13,7 +13,7 @@ Die Applikation wurde mit aktuellen Frameworks entwickelt. In der folgenden Tabe
 \begin{table}[H]
 	\centering
 	\caption{Technische Rahmenbedienungen}
-	\begin{tabular}{ | p{4cm} | p{12cm} | }
+	\begin{tabular}{ | p{4cm} | p{10cm} | }
 		\toprule
 		{\textbf{Technologie / Tool}} & {\textbf{Einsatzzweck}} \\
 		\midrule
@@ -37,23 +37,23 @@ Im folgenden Bild ist die Architektur von MEON abgebildet.
 \begin{center}
 	\includegraphics[scale=0.6]{CurrentDeployment.png}
 \end{center}
-Der Onboarding Teil ist mit Hilfe einer Schichtenarchitektur umgesetzt wobei die Präsentationsschicht auf dem WebServer liegt, die Business, Persistent- und Integrationsschicht auf dem Applikationsserver. Die Workflow Engine ist eine Produkt der Firma Camunda und ist als Anwendungsarchiv vorhanden welches zusammen mit dem WildFly Server ausgerollt wird.
+Der Onboarding Teil ist mit Hilfe einer Schichtenarchitektur umgesetzt wobei die Präsentationsschicht auf dem WebServer liegt, die Business, Persistent- und Integrationsschicht auf dem Applikationsserver. Die Workflow Engine ist ein Produkt der Firma Camunda und ist als Anwendungsarchiv vorhanden welches zusammen mit dem WildFly Server ausgerollt wird.
 
 \subsection{Organisatorisch}
 
-Da SIX im Finanzbereich tätig ist, gibt es Richtlinien und Prozesse wann, wie und ob Änderungen überhaupt in Produktion gehen dürfen. Aktuell werden die Changes im Issue Trackingsystem Jira erfasst und mit einer Release Version versehen. Durch die Anbindung an Fisheye und SVN ist jederzeit ersichtlich mit welchem Ticket welche Codeteile betroffen waren. Da das Projekt unter erleichterten Bedingungen umgesetzt wurde ist ein Eintrag im ITSM \footnote{Change Management Applikation welche \textcolor{red} {TODO eigentlich ist im ITSM ITIL \url{https://de.wikipedia.org/wiki/IT_Infrastructure_Library} abgebildet, das Change Management ist ein Teil davon} für das Erfassen von Änderungen an Systemen verwendet wird.} System aktuell nicht Pflicht obschon das gemäss normalen Richtlinien der Fall wäre. Mittlerweile können Änderungen mit einem Prozess von Jira ins ITSM automatisch übertragen werden.
+Da SIX im Finanzbereich tätig ist, gibt es Richtlinien und Prozesse wann, wie und ob Änderungen überhaupt in Produktion gehen dürfen. Aktuell werden die Changes im Issue Trackingsystem Jira erfasst und mit einer Release Version versehen. Durch die Anbindung an Fisheye und SVN ist jederzeit ersichtlich mit welchem Ticket welche Codeteile betroffen waren. Da das Projekt unter erleichterten Bedingungen umgesetzt wurde ist ein Eintrag im ITSM \footnote{Anwendung für ITIL \url{https://de.wikipedia.org/wiki/IT_Infrastructure_Library} welches auch das Change Management enthält.} System aktuell nicht Pflicht obschon das gemäss normalen Richtlinien der Fall wäre. Mittlerweile können Änderungen mit einem Prozess von Jira ins ITSM automatisch übertragen werden.
 Gemäss den Richtlinien müsste eine Änderung fünf Personentage vor Going live eingetragen und freigegeben sein. Die Praxis ist wie erwähnt auf die Branche der SIX zurückzuführen und hat unter genauerer Betrachtung eher formellen Nutzen. Die Freigabe im System wird meistens von Personen gemacht welche nicht an der Entwicklung und dem Betrieb der Applikation beteiligt sind. Für diese Personen ist eine Beurteilung der Änderungen meist nicht möglich. Hier wäre wohl eine Kategorisierung der Applikation, welche einen solchen Prozess benötigen, sinnvoll, um nicht unnötige Prozesse für kleine nicht zwingen kritische Applikation zu forcieren.
 
 \section{Situationsanalyse}
 
-SIX befindet sich aktuell im Bezug auf Betrieb und Entwicklung von Applikationen im Wandel. Die bereits erwähnten DevOps Initiativen laufen und werden von immer mehr Projekten angewendet, ja sogar gelebt. In diesem Zug ist aktuell auch eine OpenShift 3 \footnote{Software welche eine Cloud Umgebung für Container bereitstellt. Als Container Technologie wird Docker verwendent. Für die Orchestration der Container, wird Kubernetes von Google verwendet.} Installation im Gange, welche die Bereitstellung neuer Applikationen mit einem Cloud Ansatz noch weiter vereinfachen soll.
+SIX befindet sich aktuell im Bezug auf Betrieb und Entwicklung von Applikationen im Wandel. Die bereits erwähnten DevOps Initiativen laufen und werden von immer mehr Projekten angewendet, ja sogar gelebt. In diesem Zug ist aktuell auch eine OpenShift 3 \footnote{Software welche eine Cloud Umgebung für Container bereitstellt. Als Container Technologie wird Docker verwendet. Für die Orchestration der Container, wird Kubernetes von Google verwendet.} Installation im Gange, welche die Bereitstellung neuer Applikationen mit einem Cloud Ansatz noch weiter vereinfachen soll.
 Durch die Initiativen ändert sich auch der organisatorische Aspekt. So sollen Value Streams erschaffen werden, in welchen eine End-To-End Verantwortung für Applikation wahrgenommen wird und Entscheide dezentral gefällt werden können. Insbesondere das Change Management muss sich zur Zeit an die neuen Methoden gewöhnen und damit umgehen lernen.
 
 \section{Methoden}
 
 \subsection{Scrum}
 
-Für das Projekt Management der Masterthesis wird Scrum\footnote{Iteratives Entwicklungsverfahren welches sich auf das Agile Manifesto stützt und diesem diverse Rollen hinzufügt. } verwendet. Im Rahmen der Masterthesis wird jedoch nicht der ganze Werkzeugkasten der Methodik verwendet da dies zu viel Aufwand bedeuten würde. Wichtige Teile, wie das Planning, werden entsprechen kurz gehalten.
+Für das Projekt Management der Masterthesis wird Scrum\footnote{Iteratives Entwicklungsverfahren welches sich auf das Agile Manifesto stützt und diesem diverse Rollen hinzufügt.} verwendet. Im Rahmen der Masterthesis wird jedoch nicht der ganze Werkzeugkasten der Methodik verwendet da dies zu viel Aufwand bedeuten würde. Wichtige Teile, wie das Planning, werden entsprechen kurz gehalten.
 Scrum eignet sich gut für die Umsetzung der Arbeit da es implizit einen kurzen Feedbackzyklus vorschreibt. Da es sich beim Thema für SIX um Neuland handelt und daher keine Erfahrungen vorliegen, sind kleine iterative Schritte gut um Risiken früh zu erkennen und Anpassungen schnell umzusetzen.
 
 \subsection{Prototyping}
