@@ -31,12 +31,12 @@ Nach PCI Standard müssen Kartendaten geschützt werden und dürfen nicht unbere
 		\toprule
 		Geschäftsziel & Damit SIX Kartendaten verarbeiten kann müssen die PCI Standards eingehalten werden. Die Händler werden in einem System mit sensitiven Daten aufgesetzt, auf dieses System soll kein Zugriff möglich sein. \\ \hline
 		Auslöser & Ein Krimineller versucht an Kartendaten zu gelangen. \\ \hline
-		Reaktion & Der Zugriff über die Schnittstelle zum System ist nur schreibend und wird überwacht. Unregelmässigkeiten werden geloggt. \\
+		Reaktion & Der Zugriff über die Schnittstelle zum System ist nur schreibend und wird überwacht. Systeme auf welche lesend Zugegriffen wird, haben keinen Zugriff auf PCI relevante Systeme. Unregelmässigkeiten werden geloggt. \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-\subsection{Szenario: Anpassungen an der Software sollen einfach eingeführt werden können}
+\subsection{Szenario: Anpassungen an der Software sollen schnell eingeführt werden können}
 
 Es muss möglich sein neue Businessanforderungen und Fehlerbehebungen in der Software schnell nach der Umsetzung in der produktiven Plattform zu integrieren ohne das ein Unterbruch des Dienstes für den Benutzer ersichtlich wird.
 
@@ -64,7 +64,8 @@ Die Applikation soll sowohl intern für Tester als auch extern für Businessabna
 		\toprule
 		Geschäftsziel & Die Applikation ist standortunabhängig in verschiedenen Versionen verfügbar. \\ \hline
 		Auslöser & Ein Businessvertreter möchte die Applikation zur Abnahme zur Verfügung gestellt bekommen. \\ \hline
-		Reaktion & Die Applikation wird in einer neuen Umgebung dem Businessvertreter zugänglich gemacht. \\
+		Reaktion & Die Applikation wird in einer neuen Umgebung dem Businessvertreter zugänglich gemacht. \\ \hline
+		Zielwert & Eine neue Umgebung ist in weniger als 10min verfügbar. \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -97,7 +98,7 @@ Auf dem produktiven System können Konfigurationsänderungen an der Applikation 
 		Geschäftsziel & Eine Änderung an einer Einstellung muss geändert oder ein Feature aktiviert werden. \\ \hline
 		Auslöser & Der Entwickler macht einen Commit in das Konfigurationsrepository\\ \hline
 		Reaktion & Die Anwendungen werden via Message Bus benachrichtig und aktualisieren die Einstellungen \\ \hline
-		Zielwerte & Wurden übernommen und sind aktiv. \\
+		Zielwerte & Die Änderungen wurden ohne Neustart der Anwendung übernommen.\\
 		\bottomrule
 	\end{tabular}
 \end{table}
