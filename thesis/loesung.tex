@@ -26,7 +26,7 @@ Nach dem die Begrifflichkeiten klar waren, musste das generell zu lösende Probl
 \end{center}
 Daraus lässt sich schliessen, dass die neue Architektur den gleichzeitigen Betrieb von mehreren Versionen unterstützen muss. Dies gilt vor allem für die Schnittstellen und die Datenspeicherung. Da die Applikation nicht geschäftskritisch ist, könnte eine Aktualisierung auch in der Nacht durchgeführt werden wenn sich tendenziell kein Benutzer auf der Webseite befinden. So könnten die Probleme mit der Versionierung der Schnittstelle minimiert werden, für die Datenbank braucht es dennoch eine Lösung.	
 
-\section{Teilprobleme}
+	\section{Teilprobleme}
 
 Mit dem generellen Verständnis und den Anforderungen konnten nun Teilprobleme identifiziert und nach Lösungsvarianten gesucht werden. Dieses Vorgehen ist in der Arc42 Vorlage nicht explizit ausgewiesen, im Workshop des CAS Software Architektur hat es sich jedoch als hilfreiches Mittel erwiesen das Gesamtproblem in kleinere aufzuteilen und wenn möglich austauschbare Lösungsvarianten zu erarbeiten.
 
@@ -44,7 +44,7 @@ Soll der Benutzer sich auch bei der Aktualisierung der Applikation für TWINT re
 
 \subsection{Konfigurationsmanagement}
 
-Aktuell wird das Konfigurationsmanagement mit Hilfe von Docker und Docker Compose bewerkstelligt. Für die neuen Anforderungen muss die aktuelle Lösung geprüft und gegebenenfalls ein anderer Ansatz verfolgt werden. Die Änderung der Konfiguration zur Laufzeit, als neue Anforderung, ist bei einer Applikation die immer wieder ausgerollt werden soll zwingend notwendig um die einzelnen Funktionen besser steuern zu können.
+Aktuell wird das Konfigurationsmanagement {\color{red} und die Orchestration} mit Hilfe von Docker und Docker Compose bewerkstelligt. Für die neuen Anforderungen muss die aktuelle Lösung geprüft und gegebenenfalls ein anderer Ansatz verfolgt werden. Die Änderung der Konfiguration zur Laufzeit, als neue Anforderung, ist bei einer Applikation die immer wieder ausgerollt werden soll zwingend notwendig um die einzelnen Funktionen besser steuern zu können.
 
 \subsection{Deployment Pipeline}
 
@@ -87,7 +87,7 @@ Bei SIX wird Oracle seit langer Zeit eingesetzt und ist der Standard für Datens
 Die zweite Variante in der Liste ist die MySQL Datenbank. Diese wird aktuell in der produktiven Applikation verwendet was sie ebenfalls als Kandidaten für die Speicherung der Daten empfiehlt.
 MySQL bietet wie Oracle diverse Mechanismen welche für Geschäftsanwendungen unumgänglich sind. Das Know-how für den Betrieb ist jedoch nicht auf dem gleichen Stand wie bei Oracle.\newline
 Eine neue Möglichkeit der Datenspeicherung sind NoSQL\footnote{NoSQL steht für Not Only SQL und kategorisiert Datenbanken welche schemalos sind und nicht nach dem ACID Prinzip arbeiten.} Datenbanken. Die Idee für deren Verwendung stammt vom CAS Big Data und den dazu gehörenden Folien \cite{nosqlintro}. Daraus ergab sich die dritte Variante die Speicherung mit MongoDB zu realisieren. Die Datenbank arbeiten im Unterschied zu relationalen Datenbanken nicht mit Tabellen sondern mit Dokumenten. Diese sind schemalos und können deshalb gleichzeitig in mehreren Versionen vorliegen. Dadurch ist bei einem Update der Anwendung keine Schemamigration notwendig.\newline
-Als letzte Variante wurde Redis in Betracht gezogen. Es handelt sich dabei ebenfalls um eine NoSQL Datenbank welche jedoch ein Key-Value Store ist. Sie verfügt über eine Abfrage Sprache um Daten zu finden und wird auch bereits bei SIX verwendet. Im Bereicht der NoSQL Datenbanken gibt es noch zwei weitere Typen, Kolonnen und Graphen. Diese Varianten wurden nicht berücksichtigt weil sie nicht zum Anwendungsfall passen.
+Als letzte Variante wurde Redis in Betracht gezogen. Es handelt sich dabei ebenfalls um eine NoSQL Datenbank welche jedoch ein Key-Value Store ist. Sie verfügt über eine Abfrage Sprache um Daten zu finden und wird auch bereits bei SIX verwendet. Im Bereicht der NoSQL Datenbanken gibt es noch zwei weitere Typen, Kolonnen und Graphen Datenbanken. Diese Varianten wurden nicht berücksichtigt weil sie , aufgrund ihres Datenmodells, nicht zum Anwendungsfall passen.
 
 \subsection{Kommunikationsentkopplung}
 
@@ -368,7 +368,7 @@ Das Change Management hat durch die vielen Vorschriften und das Umfeld in welche
 	\item SOP's\footnote{Standart Operation Procedures oder Standartvorgehen ist ein definierter Ablauf welcher immer gleich durchgeführt wird.} könnten für die Ausrollung definiert werden da der Prozess automatisch und generell immer gleich abläuft. 
 \end{itemize}
 
-Eine voll automatische Installation ist aktuell auf Grund des Change Managements nicht möglich obschon die Architektur die Möglichkeit hat. Beim Übergang in die Produktion ist ein manueller klickt notwendig. Das Change Management sieht aber auch die Vorteile des Ansatzes benötigt aber einiges mehr an Zeit um die bestehenden Prozesse anzupassen. 
+Eine voll automatische Installation ist aktuell auf Grund des Change Managements nicht möglich obschon die Architektur die Möglichkeit hat. Beim Übergang in die Produktion ist ein manueller klickt notwendig. Das Change Management sieht aber auch die Vorteile des Ansatzes benötigt aber einiges mehr an Zeit um die bestehenden Prozesse anzupassen. Ein Beispiel Dokument 'SOP-209-Webservice-and-application-changes-of-the-merchant-onboarding.pdf' findet sich im Anhang 
 
 \subsection{Fazit}
 
