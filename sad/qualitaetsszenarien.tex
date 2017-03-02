@@ -31,7 +31,7 @@ Nach PCI Standard müssen Kartendaten geschützt werden und dürfen nicht unbere
 		\toprule
 		Geschäftsziel & Damit SIX Kartendaten verarbeiten kann müssen die PCI Standards eingehalten werden. Die Händler werden in einem System mit sensitiven Daten aufgesetzt, auf dieses System soll kein Zugriff möglich sein. \\ \hline
 		Auslöser & Ein Krimineller versucht an Kartendaten zu gelangen. \\ \hline
-		Reaktion & Der Zugriff über die Schnittstelle zum System ist nur schreibend und wird überwacht. Systeme auf welche lesend Zugegriffen wird, haben keinen Zugriff auf PCI relevante Systeme. Unregelmässigkeiten werden geloggt. \\
+		Reaktion & Der Zugriff über die Schnittstelle zum System ist nur schreibend und wird überwacht. Systeme, auf welche lesend zugegriffen wird, haben keinen Zugriff auf PCI relevante Systeme. Unregelmässigkeiten werden geloggt. \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -98,7 +98,7 @@ Auf dem produktiven System können Konfigurationsänderungen an der Applikation 
 		Geschäftsziel & Eine Änderung an einer Einstellung muss geändert oder ein Feature aktiviert werden. \\ \hline
 		Auslöser & Der Entwickler macht einen Commit in das Konfigurationsrepository\\ \hline
 		Reaktion & Die Anwendungen werden via Message Bus benachrichtig und aktualisieren die Einstellungen \\ \hline
-		Zielwerte & Die Änderungen wurden ohne Neustart der Anwendung übernommen.\\
+		Zielwerte & Die Änderungen werden ohne Neustart der Anwendung übernommen.\\
 		\bottomrule
 	\end{tabular}
 \end{table}
