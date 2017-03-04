@@ -361,16 +361,16 @@ Der Prototyp wurde aufgrund des Testserversetups im Vergleich zur Installation, 
 \subsection{Change Management}
 
 {\color{red} Review ganzes Kapitel}
-Das Change Management hat durch die vielen Vorschriften und das Umfeld in welchem SIX tätigt ist einen wichtigen Stellenwert. Das Change Management war als Stakeholder früh bekannt wurde aber nicht gleich in die Lösung einbezogen da ohne konkrete Ergebnisse eine Demonstration der Möglichkeiten und die damit zusammenhängenden Folgen schwer zu beschreiben sind. Nach dem Abschluss des finalen Prototypen wurde ein Treffen mit dem Change Management abgemacht um das weitere Vorgehen zu besprechen. Folgende Punkte wurden dabei festgestellt:
+Das Change Management hat durch die vielen Vorschriften und das Umfeld, in welchem SIX tätigt ist, einen wichtigen Stellenwert. Das Change Management war als Stakeholder früh bekannt wurde aber nicht gleich in die Lösung einbezogen da ohne konkrete Ergebnisse eine Demonstration der Möglichkeiten und die damit zusammenhängenden Folgen schwer zu beschreiben waren. Nach dem Abschluss des finalen Prototypen wurde ein Treffen mit dem Change Management abgehalten um das weitere Vorgehen zu besprechen. Folgende Punkte wurden dabei festgestellt:
 	
 \begin{itemize}
 	\item Das ITMS Tool dient nicht nur dem Aufzeichnen von Änderungen sondern ist auch ein Audit Werkzeug.
-	\item Anpassungen können schon heute über eine Jira Schnittstelle eingeliefert werden die Funktionalität ist jedoch noch ausbaufähig.
+	\item Anpassungen können schon heute über eine Jira Schnittstelle eingeliefert werden, die Funktionalität ist jedoch noch ausbaufähig.
 	\item Continuous Deployment generiert durch die Natur sehr viele Änderungen. Diese würden das System überladen und keinen Nutzen bringen.
 	\item SOP's\footnote{Standart Operation Procedures oder Standartvorgehen ist ein definierter Ablauf welcher immer gleich durchgeführt wird.} könnten für die Ausrollung definiert werden da der Prozess automatisch und generell immer gleich abläuft. 
 \end{itemize}
 
-Eine voll automatische Installation ist aktuell auf Grund des Change Managements nicht möglich obschon die Architektur die Möglichkeit hat. Beim Übergang in die Produktion ist ein manueller klickt notwendig. Das Change Management sieht aber auch die Vorteile des Ansatzes benötigt aber einiges mehr an Zeit um die bestehenden Prozesse anzupassen. Ein Beispiel Dokument 'SOP-209-Webservice-and-application-changes-of-the-merchant-onboarding.pdf' findet sich im Anhang 
+Eine vollautomatische Installation ist aktuell auf Grund des Change Managements nicht möglich obschon die Architektur die Möglichkeit hat. Beim Übergang in die Produktion ist ein manueller klickt notwendig. Das Change Management sieht aber auch die Vorteile des Ansatzes benötigt aber einige Zeit um die bestehenden Prozesse anzupassen. 
 
 \subsection{Fazit}
 
@@ -379,19 +379,19 @@ Das Software Architektur Dokument ist ein gutes Mittel und auch Leitfaden um ein
 \newpage
 \section{Architektur Bewertung}
 
-Mithilfe des finalen Prototyps konnte die Architektur nun anhand der Qualitätsziele und Szenarien bewertet werden.
+Mithilfe des finalen Prototyps konnte die Architektur anhand der Qualitätsziele und Szenarien bewertet werden.
 
 \subsubsection{Ziel: Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein}
 
-Neben dem schreibenden Zugriff auf die Workflow Engine kommen zwei lesende Zugriffe auf die Benachrichtigungsqueue und auf den Konfgurationsserver hinzu. Beide Komponenten haben keine Zugriff auf Systeme mit Kartendaten. Aus diesem Grund ist das Qualitätsziel erfüllt.
+Neben dem schreibenden Zugriff auf die Workflow Engine kommen zwei lesende Zugriffe, auf die Benachrichtigungsqueue und auf den Konfgurationsserver, hinzu. Beide Komponenten haben keinen Zugriff auf Systeme mit Kartendaten. Aus diesem Grund ist das Qualitätsziel erfüllt.
 
 \subsubsection{Ziel: Anpassungen an der Software sollen schnell eingeführt werden können}
 
-Ist die Applikation gebaut, getestet und für den produktiven Betrieb freigegeben, genügt ein Klick oder ein Kommandoaufruf um die Applikation zu installieren. Die OpenShift Container Plattform übernimmt bei sämtlichen weiteren Schritte. Damit ist das Qualitätsziel erfüllt.
+Ist die Applikation gebaut, getestet und für den produktiven Betrieb freigegeben, genügt ein Klick oder ein Kommandoaufruf um die Applikation zu installieren. Die OpenShift Container Plattform übernimmt dabei sämtliche weiteren Schritte. Damit ist das Qualitätsziel erfüllt.
 
 \subsubsection{Ziel: Die Applikation soll einfach auf unterschiedlichen Umgebungen installiert werden können}
 
-Die komplette Applikationskonfiguration kann aus OpenShift in ein Template exportiert werden. Diese Template kann angepasst und später wieder importiert werden. Es gibt auch die Möglichkeit der Variablen Konfiguration. Möchte ein Tester oder ein Entwickler die Anwendung testen kann er dieses Template verwendet. Das Ziel gilt generell als erfüllt. Eine Umsetzung bedarf jedoch noch eines gewissen Aufwandes um die Vorlagen entsprechend vorzubereiten.
+Die komplette Applikationskonfiguration kann aus OpenShift in ein Template exportiert werden. Dieses Template kann angepasst und später wieder importiert werden. Es gibt auch die Möglichkeit der variablen Konfiguration. Möchte ein Tester oder ein Entwickler die Anwendung testen kann er dieses Template verwendet. Das Ziel gilt generell als erfüllt, eine Umsetzung bedarf jedoch noch eines gewissen Aufwandes um die Vorlagen entsprechend vorzubereiten.
 
 \subsubsection{Ziel: Der Kunde soll bei korrektem Ausfüllen der Daten sich registrieren können}
 
@@ -400,9 +400,9 @@ der Applikation nicht verfügbar sind. Das Ziel gilt deshalb als erfüllt.
 
 \subsubsection{Ziel: Konfigurationsänderungen an der Applikation können ohne Unterbruch durchgeführt werden}
 
-Mit Spring Cloud Config und RabbitMQ lassen sich auf einfache Weise Konfigurationen aktualisieren. Dies kann wahlweise gleich durch einen Commit im Konfigurationsrepository oder mit einem manuellen URL Aufruf auf dem Configserver ausgelöst werden. Die Applikationen übernehmen die Änderung mit einer kleinen Zeitverzögerung. Damit ist auch das letzte Qualitätsziele erfüllt.
+Mit Spring Cloud Config und RabbitMQ lassen sich auf einfache Weise Konfigurationen aktualisieren. Dies kann wahlweise direkt durch einen Commit im Konfigurationsrepository oder mit einem manuellen URL Aufruf auf dem Configserver ausgelöst werden. Die Applikationen übernehmen die Änderung mit einer kleinen Zeitverzögerung. Damit ist auch das letzte Qualitätsziele erfüllt.
 \newpage
 \section{Ergebnis}
 
-Das Ergebnis der Thesis ist ein Software Architektur Dokument welches die neue Architektur auf einem Abstraktionslevel beschreibt damit ein Entwicklerteam die aktuelle Anwendung anpassen könnte. Die verschiedenen Sichten im Dokument illustrieren wie der Anwendungsfall in den einzelnen Teilen der Applikation umgesetzt werden muss. Das Dokument erklärt wie die verschiedenen Konzepte, vor allem Continuous Delivery, eingesetzt und was dabei beachtet werden muss. Schlussendlich sind sämtliche Entscheidungen, welche während der Erarbeitung getroffen wurden, dokumentiert und ermöglichen dadurch spätere Anpassungen.\newline
+Das Ergebnis der Thesis ist ein Software Architektur Dokument welches die neue Architektur auf einem Abstraktionslevel beschreibt damit ein Entwicklerteam die aktuelle Anwendung anpassen könnte. Die verschiedenen Sichten im Dokument illustrieren wie der Anwendungsfall in den einzelnen Teilen der Applikation umgesetzt werden muss. Das Dokument erklärt wie die verschiedenen Konzepte, vor allem Continuous Delivery, eingesetzt und was dabei beachtet werden muss. Schlussendlich sind sämtliche Entscheidungen, welche während der Erarbeitung getroffen wurden, dokumentiert. Durch diese Nachvollziehbarkeit ist es möglich Anpassungen an den Requirements nachträglich einfliessen zu lassen.\newline
 Die erstellten Prototypen können als Einstiegspunkt für die Entwicklung verwendet werden und dienen zusätzlich dazu, dass Verständnis für die Lösung besser darzustellen.
