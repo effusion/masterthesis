@@ -26,7 +26,7 @@ Nach dem die Begrifflichkeiten klar waren, musste das generell zu lösende Probl
 \end{center}
 Daraus lässt sich schliessen, dass die neue Architektur den gleichzeitigen Betrieb von mehreren Versionen unterstützen muss. Dies gilt vor allem für die Schnittstellen und die Datenspeicherung. Da die Applikation nicht geschäftskritisch ist, könnte eine Aktualisierung auch in der Nacht durchgeführt werden wenn sich tendenziell kein Benutzer auf der Webseite befinden. So könnten die Probleme mit der Versionierung der Schnittstelle minimiert werden, für die Datenbank braucht es dennoch eine Lösung.	
 
-\section{Teilprobleme}
+	\section{Teilprobleme}
 
 Mit dem generellen Verständnis und den Anforderungen konnten nun Teilprobleme identifiziert und nach Lösungsvarianten gesucht werden. Dieses Vorgehen ist in der Arc42 Vorlage nicht explizit ausgewiesen, im Workshop des CAS Software Architektur hat es sich jedoch als hilfreiches Mittel erwiesen das Gesamtproblem in kleinere aufzuteilen und wenn möglich austauschbare Lösungsvarianten zu erarbeiten.
 
@@ -44,7 +44,7 @@ Soll der Benutzer sich auch bei der Aktualisierung der Applikation für TWINT re
 
 \subsection{Konfigurationsmanagement}
 
-Aktuell wird das Konfigurationsmanagement mit Hilfe von Docker und Docker Compose bewerkstelligt. Für die neuen Anforderungen muss die aktuelle Lösung geprüft und gegebenenfalls ein anderer Ansatz verfolgt werden. Die Änderung der Konfiguration zur Laufzeit, als neue Anforderung, ist bei einer Applikation die immer wieder ausgerollt werden soll zwingend notwendig um die einzelnen Funktionen besser steuern zu können.
+Aktuell wird das Konfigurationsmanagement {\color{red} und die Orchestration} mit Hilfe von Docker und Docker Compose bewerkstelligt. Für die neuen Anforderungen muss die aktuelle Lösung geprüft und gegebenenfalls ein anderer Ansatz verfolgt werden. Die Änderung der Konfiguration zur Laufzeit, als neue Anforderung, ist bei einer Applikation die immer wieder ausgerollt werden soll zwingend notwendig um die einzelnen Funktionen besser steuern zu können.
 
 \subsection{Deployment Pipeline}
 
@@ -87,7 +87,7 @@ Bei SIX wird Oracle seit langer Zeit eingesetzt und ist der Standard für Datens
 Die zweite Variante in der Liste ist die MySQL Datenbank. Diese wird aktuell in der produktiven Applikation verwendet was sie ebenfalls als Kandidaten für die Speicherung der Daten empfiehlt.
 MySQL bietet wie Oracle diverse Mechanismen welche für Geschäftsanwendungen unumgänglich sind. Das Know-how für den Betrieb ist jedoch nicht auf dem gleichen Stand wie bei Oracle.\newline
 Eine neue Möglichkeit der Datenspeicherung sind NoSQL\footnote{NoSQL steht für Not Only SQL und kategorisiert Datenbanken welche schemalos sind und nicht nach dem ACID Prinzip arbeiten.} Datenbanken. Die Idee für deren Verwendung stammt vom CAS Big Data und den dazu gehörenden Folien \cite{nosqlintro}. Daraus ergab sich die dritte Variante die Speicherung mit MongoDB zu realisieren. Die Datenbank arbeiten im Unterschied zu relationalen Datenbanken nicht mit Tabellen sondern mit Dokumenten. Diese sind schemalos und können deshalb gleichzeitig in mehreren Versionen vorliegen. Dadurch ist bei einem Update der Anwendung keine Schemamigration notwendig.\newline
-Als letzte Variante wurde Redis in Betracht gezogen. Es handelt sich dabei ebenfalls um eine NoSQL Datenbank welche jedoch ein Key-Value Store ist. Sie verfügt über eine Abfrage Sprache um Daten zu finden und wird auch bereits bei SIX verwendet. Im Bereicht der NoSQL Datenbanken gibt es noch zwei weitere Typen, Kolonnen und Graphen. Diese Varianten wurden nicht berücksichtigt weil sie nicht zum Anwendungsfall passen.
+Als letzte Variante wurde Redis in Betracht gezogen. Es handelt sich dabei ebenfalls um eine NoSQL Datenbank welche jedoch ein Key-Value Store ist. Sie verfügt über eine Abfrage Sprache um Daten zu finden und wird auch bereits bei SIX verwendet. Im Bereicht der NoSQL Datenbanken gibt es noch zwei weitere Typen, Kolonnen und Graphen Datenbanken. Diese Varianten wurden nicht berücksichtigt weil sie , aufgrund ihres Datenmodells, nicht zum Anwendungsfall passen.
 
 \subsection{Kommunikationsentkopplung}
 
@@ -349,6 +349,8 @@ Als letzten Punkt ist es wichtig zu verstehen wie MongoDB mit Transaktionen umge
 
 \subsection{Finaler Prototyp}
 
+
+{\color{red} der ganze Ablauf fehlt. Erstellen von Images usw.}
 Die einzelnen Prototypen haben gezeigt, dass die Architektur in der vorgeschlagenen Form umgesetzt werden kann. Da vor allem die OpenShift Plattform für alle Entwickler neu ist, hat man sich entschieden die einzelnen Teilprototypen zu einem End-zu-End Beispiel zusammenzufügen. Dadurch kann ein vertiefter Einblick in Verwendung der Plattform gewonnen und eventuell bis jetzt übersehene Probleme aufgedeckt werden. Dies auch mit dem Hintergrund, dass die Plattform aktuell nur auf Testservern installiert ist und die finale Installation erst gemacht werden muss. Ein weiterer Punkt ist, dass auf höherer Ebene entschieden wurde die ganze MEON Applikation als erste Anwendung produktiv auf OpenShift auszurollen.\newline\newline
 Der Prototyp wurde aufgrund des Testserversetups im Vergleich zur Installation, welche im SAD Kapitel 8 beschrieben ist, vereinfacht. Das folgende Darstellung zeigt den Aufbau.
 
