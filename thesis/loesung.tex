@@ -347,20 +347,25 @@ Mit der Verwendung von MongoDB für die Speicherung der Daten auf dem Onboarding
 
 Als letzten Punkt ist es wichtig zu verstehen wie MongoDB mit Transaktionen umgeht und die Daten im Replica Set verteilt werden. Alle Angaben dazu finden sich in der Dokumentation \cite{wirteconcern} und wurden, zum Anwendungsfall passend, beschrieben.
 
-\subsection{Finaler Prototyp}
+\subsection{Proof of Concept}
 
-
-{\color{red} der ganze Ablauf fehlt. Erstellen von Images usw.}
-Die einzelnen Prototypen haben gezeigt, dass die Architektur in der vorgeschlagenen Form umgesetzt werden kann. Da vor allem die OpenShift Plattform für alle Entwickler neu ist, hat man sich entschieden die einzelnen Teilprototypen zu einem End-zu-End Beispiel zusammenzufügen. Dadurch kann ein vertiefter Einblick in Verwendung der Plattform gewonnen und eventuell bis jetzt übersehene Probleme aufgedeckt werden. Dies auch mit dem Hintergrund, dass die Plattform aktuell nur auf Testservern installiert ist und die finale Installation erst gemacht werden muss. Ein weiterer Punkt ist, dass auf höherer Ebene entschieden wurde die ganze MEON Applikation als erste Anwendung produktiv auf OpenShift auszurollen.\newline\newline
+Die einzelnen Prototypen haben gezeigt, dass die Architektur in der vorgeschlagenen Form umgesetzt werden kann. Da vor allem die OpenShift Plattform für alle Entwickler neu ist und die im Projektplan aufgeführte Reserve nicht gebraucht wurde, hat man sich entschieden, einen Proof of Concept zu machen. Dadurch konnte ein vertiefter Einblick in Verwendung der Plattform gewonnen und eventuell bis jetzt übersehene Probleme aufgedeckt werden. Dies auch mit dem Hintergrund, dass die Plattform aktuell nur auf Testservern installiert ist und die finale Installation erst gemacht werden muss. Ein weiterer Punkt ist, dass auf höherer Ebene entschieden wurde die ganze MEON Applikation als erste Anwendung produktiv auf OpenShift auszurollen.\newline\newline
 Der Prototyp wurde aufgrund des Testserversetups im Vergleich zur Installation, welche im SAD Kapitel 8 beschrieben ist, vereinfacht. Das folgende Darstellung zeigt den Aufbau.
 
 \begin{center}
 	\includegraphics[scale=0.60]{PrototypDeployment.png}
 \end{center}
 
+Die Prototypen wurden bis anhin ohne sehr einfach gehalten. Für den Proof of Concept war es nötig gewisse Vorarbeiten zu erledigen. Dafür für die Hilfe eines OpenShift Administrators in Anspruch genommen um erste Teile zu erledigen.\newline
+Zuerst musste ein neues OpenShift Projekt angelegt werden um die Container auszurollen. Dies wurde einfach über die Web Oberfläche der Plattform erledigt.
+Zweites brauchte es ein neues Docker Base Image welches auf Red Hat aufbaut, Java Installiert und die passenden Berechtigungen gesetzt hat. Das Image wurde direkt auf der OpenShift Plattform gebaut, da dort das Software Repository von Red Hat angehängt ist, und anschliessend in das Firmen Interne Image Repository gelegt.\newline
+Damit die Daten auch gespeichert werden können, wurde das Template 'MongoDB Persistent' mit allen vorgegebenen Parametern konfiguriert und installiert.
+Der Spring Boot Prototyp für MongoDB wurde mit einem zusätzlichen REST Controller erweitert, welche die Spring Cloud Config Annotation hat, die Verbindung zur MongoDB konfiguriert und ausgerollt . Die Anbindung an den Config Server wurde noch weg gelassen da dieser noch nicht umgestellt wurde.
+In einem nächsten Schritt musste der Config Server so angepasst werden, dass er die Daten vom GIT Repository lesen kann. Dafür mussten der SSH Key für den Zugriff auf den Server und die 'Known-hosts'\footnote{Datei welche die SSH Keys von anderen Systeme enthält welchen vertraut wird.} Datei im Docker Image abgelegt und zusätzlich die SshSessionFactory angepasst werden. Eine Lösung des Problems fand sich in \cite{sccssh}. Als Base Image wurde das gleiche verwendet wie für die Spring Boot Applikation.
+Mit dem Config Server in Betrieb konnten die ersten Einstellung im Repository hinterlegt und die Spring Boot Applikation mit dem Server konfiguriert werden. Der letzte fehlende Teil war die Message Queue, welche die am Config Server angehängten Applikationen bei einer Änderung benachrichtigt. Auf OpenShift war für RabbitMQ kein Template vorhanden weshalb ein eigenes gemacht werden musste. Auch eine Internet Suche ergab für Red Hat kein Dockerfile welches als Basis hätte verwendet werden können. Die Suche wurden dann auf CentOS\footnote{Ein Linux Variante welche auf dem Source Red Hat Enterprise Linux basiert und deshalb weitgehend kompatible ist.} erweitert. Die gefunden Vorlage aus \cite{rmcentos7} musste noch kurz angepasst werden, sprich das Base Image wurde ausgetauscht und anschliessend wieder auf OpenShift gebaut. Schlussendlich wurde die Konfiguration für die Spring Boot Applikation mit den neuen Einstellung für die RabbitMQ erweitert und installiert.
+
 \subsection{Change Management}
 
-{\color{red} Review ganzes Kapitel}
 Das Change Management hat durch die vielen Vorschriften und das Umfeld, in welchem SIX tätigt ist, einen wichtigen Stellenwert. Das Change Management war als Stakeholder früh bekannt wurde aber nicht gleich in die Lösung einbezogen da ohne konkrete Ergebnisse eine Demonstration der Möglichkeiten und die damit zusammenhängenden Folgen schwer zu beschreiben waren. Nach dem Abschluss des finalen Prototypen wurde ein Treffen mit dem Change Management abgehalten um das weitere Vorgehen zu besprechen. Folgende Punkte wurden dabei festgestellt:
 	
 \begin{itemize}
@@ -375,11 +380,10 @@ Eine vollautomatische Installation ist aktuell auf Grund des Change Managements 
 \subsection{Fazit}
 
 Das Software Architektur Dokument ist ein gutes Mittel und auch Leitfaden um ein System und seine Architektur zu beschreiben. Gernot Starke hat mit dem Arc42 eine gute Basis geschaffen, welche Architekten bei ihrer Arbeit hilft. Es hat sich aber auch gezeigt, dass es sich um ein Grundgerüst handelt, welches stellenweise erweitert werden muss. Das Kapitel Entwurfsentscheidung sei hier erwähnt, da es doch eine detaillierte Beschreibung der getroffenen Entscheidungen zeigt. Ohne diese ist eine spätere Anpassung der Architektur schwierig und mit Aufwand verbunden.
-{\color{red} Gibt hier vllt noch Anpassungen nach dem Feedback von Werni}
 \newpage
 \section{Architektur Bewertung}
 
-Mithilfe des finalen Prototyps konnte die Architektur anhand der Qualitätsziele und Szenarien bewertet werden.
+Mithilfe des Proof of Concept konnte die Architektur anhand der Qualitätsziele und Szenarien bewertet werden.
 
 \subsubsection{Ziel: Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein}
 
