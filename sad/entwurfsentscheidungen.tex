@@ -12,7 +12,7 @@ Die Versionierung der Schnittstelle zwischen der Webseite und dem Onboarding Ser
 
 \subsubsection{Versionierung mittels Pfad}
 
-Sollte es nötig sein eine neue Version der \Gls{REST} Schnittstelle zu veröffentlichen, kann dies über Versionsnummer im Pfad erreicht werden. Hierfür wird die URL für den Rest-Endpoint mit einer Versionsnummer versehen z.B 'servername/meon/api/v2/'.
+Sollte es nötig sein eine neue Version der \textit{\gls{REST}} Schnittstelle zu veröffentlichen, kann dies über Versionsnummer im Pfad erreicht werden. Hierfür wird die \textit{\gls{URL}} für den Rest-Endpoint mit einer Versionsnummer versehen z.B 'servername/meon/api/v2/'.
 \newline
 \newline
 \textbf{Vorteile}
@@ -21,11 +21,11 @@ Sollte es nötig sein eine neue Version der \Gls{REST} Schnittstelle zu veröffe
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
-	\item Für jede neue Version muss eine neuer Endpoint inklusive URI definiert werden welche der Client kennen muss.
+	\item Für jede neue Version muss eine neuer Endpoint inklusive \textit{\gls{URL}} definiert werden welche der Client kennen muss.
 	\item Domänenmodelle liegen unter Umständen in mehreren Versionen vor.
 	\item Verhältnismässig viel Aufwand für den Nutzen.
 \end{itemize}
-
+\newpage
 \subsubsection{Versionierung mittels Content-Negotiation}
 
 Mittels Accept-Header ist es möglich auf einem Endpoint zu definieren welche Version der Resource er akzeptiert. Dadurch kann auf Rest-Controller Ebene eine Art Routing gemacht werden welche Methode die Anfrage entgegen nimmt und so die Versionierung sichergestellt werden.
@@ -45,7 +45,7 @@ Mittels Accept-Header ist es möglich auf einem Endpoint zu definieren welche Ve
 
 \subsubsection{Versionierung mittels GraphQL}
 
-Anstelle der klassischen Ansätze der Versionierung über Pfade und Content-Negotiation, gibt es mit GraphQL eine Libary welche diese Probleme anders angeht. Anstelle einer Versionierung können die Attribute mittels einer Abfragesprache vom Server angefordert werden. Dadurch benötigt es auf Serverseite nur noch einen Endpoint.
+Anstelle der klassischen Ansätze der Versionierung über Pfade und Content-Negotiation, gibt es mit GraphQL\footnote{\url{http://graphql.org}} eine Libary welche diese Probleme anders angeht. Anstelle einer Versionierung können die Attribute mittels einer Abfragesprache vom Server angefordert werden. Dadurch benötigt es auf Serverseite nur noch einen Endpoint.
 \newline
 \newline
 \textbf{Vorteile}
@@ -64,11 +64,11 @@ Anstelle der klassischen Ansätze der Versionierung über Pfade und Content-Nego
 
 \subsection{Kommunikationsentkopplung}
 
-Durch die geänderten Anforderungen bezüglich Ausrollung der Software ist ein Unterbruch zwischen Server und der Workflow Engine unausweichlich. Damit keine Anfragen der Benutzer verloren gehen müssen die Nachrichten entweder gespeichert werden oder es braucht eine Asynchrone Kommunikation. Aktuell werden zwischen dem Server und der \Gls{BPM} Engine \gls{REST} Call mittels Hystrix abgesetzt.
+Durch die geänderten Anforderungen bezüglich Ausrollung der Software ist ein Unterbruch zwischen Server und der Workflow Engine unausweichlich. Damit keine Anfragen der Benutzer verloren gehen müssen die Nachrichten entweder gespeichert werden oder es braucht eine Asynchrone Kommunikation. Aktuell werden zwischen dem Server und der \textit{\gls{BPM}} Engine \textit{\gls{REST}} Call mittels Hystrix abgesetzt.
 
 \subsubsection{Message Queue mit JMS}
 
-Entkopplung kann generell über Messaging erreicht werden welches in der Java Welt mittels dem Java Messaging Service erreicht werden kann. Da an den Benutzer keine Antwort geschickt werden muss, braucht es nicht unbedingt eine. Die Zustellung der Nachricht muss jedoch sichergestellt werden. Des Weiteren dürfen die Nachrichten bei einem Kommunikationsunterbruch nicht verloren gehen.
+Entkopplung kann generell über Messaging erreicht werden welches in der Java Welt mittels dem Java Messaging Service erreicht werden kann. Da an den Benutzer keine Antwort geschickt werden muss, braucht es auch keine synchrone Antwort des \textit{\gls{BPM}} Engine. Die Zustellung der Nachricht muss jedoch sichergestellt werden. Des Weiteren dürfen die Nachrichten bei einem Kommunikationsunterbruch nicht verloren gehen.
 \newline
 \newline
 \textbf{Vorteile}
@@ -79,15 +79,14 @@ Entkopplung kann generell über Messaging erreicht werden welches in der Java We
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
-	\item Umbau der Schnittstelle zwischen Server und BPM Engine.
+	\item Umbau der Schnittstelle zwischen Server und \textit{\gls{BPM}} Engine.
 	\item Messaging Infrastruktur ist nicht vorhanden respektive verfügbar in der Zone. Diese wäre zusätzlich ein weitere Single Point of Failure.
 	\item Messaging Infrastruktur ist für den Use Case überdimensioniert.
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
-	\item Nicht sicher ob eine solche Middleware überhaupt verwendet werden darf respektive ob Know-how vorhanden ist.
+	\item Die Infrastruktur wird von anderen kritischen Diensten verwendet weshalb Änderungswünsche durch einen Prozess müssen.
 \end{itemize}
-
 Alternative könnte anstelle eine Messaging System auch eine Message Bridge verwendet werden. Hierzu verbindet sich der Server direkt auf die Queue welche sich auf der BPM Engine befindet.
 
 \subsubsection{Message Queue mit Kafka}
@@ -102,9 +101,10 @@ Eine weitere Möglichkeit wäre das Versenden von Nachrichten über Kafka\footno
 	\item Inhalt der Nachrichten frei wählbar.
 	\item Braucht keine zentrale Infrastruktur und kann selber aufgebaut werden.
 \end{itemize}
+\newpage
 \textbf{Nachteile}
 \begin{itemize}
-	\item Umbau der Schnittstelle zwischen Server und BPM Engine.
+	\item Umbau der Schnittstelle zwischen Server und \textit{\gls{BPM}} Engine.
 	\item Infrastruktur muss selber administriert werden.
 	\item Für den Use Case überdimensioniert da nie so viele Nachrichten über das System verschickt werden.
 \end{itemize}
@@ -135,7 +135,7 @@ Anstelle eines Messaging Systems, bietet sich die Möglichkeit an Redis als Mess
 
 \subsubsection{Spring Rest}
 
-Aktuell werden die Requests an die BPM Engine mittels Hystrix\footnote{https://github.com/Netflix/Hystrix} und \gls{REST} abgeschickt. Die Requests werden dabei gleich zur Workflow Engine geschickt oder im Fehlerfall als JSON in die Datenbank gespeichert. Mit einem Scheduler werden dann später die nicht gesendeten Requests nochmals verschickt. Die Datenbank hat deshalb eine Queue ähnliche Funktion.
+Aktuell werden die Requests an die BPM Engine mittels Hystrix\footnote{https://github.com/Netflix/Hystrix} und \textit{\gls{REST}} abgeschickt. Die Requests werden dabei gleich zur Workflow Engine geschickt oder im Fehlerfall als JSON in die Datenbank gespeichert. Mit einem Scheduler werden dann später die nicht gesendeten Requests nochmals verschickt. Die Datenbank hat deshalb eine Queue ähnliche Funktion.
 \newline
 \newline
 \textbf{Vorteile}
@@ -146,7 +146,6 @@ Aktuell werden die Requests an die BPM Engine mittels Hystrix\footnote{https://g
 \begin{itemize}
 	\item Keine wirkliche Entkopplung der Dienste.
 \end{itemize}
-\textbf{Risiken}
 
 \subsection{Datenspeicherung}
 \label{ent-db}
@@ -165,7 +164,7 @@ Oracle ist bei vielen Firmen die Standard Software für Datenbank. Sie bietet s�
 \textbf{Vorteile}
 \begin{itemize}
 	\item Sehr gutes und verbreitetes Know-how bezüglich Betrieb, erstellen von Anfragen, Optimierung usw.
-	\item Basiert auf \Gls{ACID} und gewährleistet deshalb die Datenkonsistenz.
+	\item Basiert auf \textit{\gls{ACID}} und gewährleistet deshalb die Datenkonsistenz.
 	\item Bietet Enterprise fähige Replikationsmechanismen.
 \end{itemize}
 \textbf{Nachteile}
@@ -188,7 +187,7 @@ MySQL wird bereits aktuell verwendet. Es bietet die klassischen Funktionen einer
 \textbf{Vorteile}
 \begin{itemize}
 	\item Wird bereits eingesetzt.
-	\item Basiert auf \gls{ACID} und gewährleistet deshalb die Datenkonsistenz.
+	\item Basiert auf \textit{\gls{ACID}} und gewährleistet deshalb die Datenkonsistenz.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
@@ -202,13 +201,13 @@ MySQL wird bereits aktuell verwendet. Es bietet die klassischen Funktionen einer
 
 \subsubsection{Dokumentenbasierte Datenbank}
 
-Als Alternative zu einer relationalen Datenbank kann eine dokumentenbasierte wie zum Beispiel MongoDB\footnote{https://www.mongodb.com} verwendet werden. Die Datenbank gehört zu Familie der \Gls{NoSQL} Speicher und ist deshalb schemalos. Von den \gls{NoSQL} Datenbanken besitzen die dokumentenbasierte die grösste Struktur im Sinn der Datenspeicherung.
+Als Alternative zu einer relationalen Datenbank kann eine dokumentenbasierte wie zum Beispiel MongoDB\footnote{https://www.mongodb.com} verwendet werden. Die Datenbank gehört zu Familie der \textit{\gls{NoSQL}} Speicher und ist deshalb schemalos. Von den \textit{\gls{NoSQL}} Datenbanken besitzen die dokumentenbasierte die grösste Struktur im Sinn der Datenspeicherung.
 \newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
 	\item Kein Schema vorhanden weshalb die Daten in verschiedenen Versionen gespeichert werden können.
-	\item Hierarchische Struktur von JSON passt gut zur Natur der Datenbank.
+	\item Hierarchische Struktur von \textit{\gls{JSON}} passt gut zur Natur der Datenbank.
 	\item Bietet Datenreplikation mittels Master/Slave und Replica Sets.
 \end{itemize}
 \textbf{Nachteile}
@@ -219,10 +218,10 @@ Als Alternative zu einer relationalen Datenbank kann eine dokumentenbasierte wie
 \begin{itemize}
 	\item Keine Erfahrung mit der Datenbank (Verwendung, Betrieb, Abfragen).
 \end{itemize}
-
+\newpage
 \subsubsection{Key-Value Datenbank}
 
-Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwenden. Es handelt sich dabei um eine \gls{NoSQL} Datenbank welche wie eine HashMap funktioniert. Daten können schnell gespeichert und mit dem Key wieder geholt werden. Gewisse Abfragemöglichkeiten sind ebenfalls gegeben. Des Weiteren ist die Datenbank schemalos was es erlaubt verschiedenste Strukturen zu speichern. In diesem konkreten Fall wird Redis\footnote{https://redis.io} als Lösung in Betracht gezogen. \newline
+Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwenden. Es handelt sich dabei um eine \textit{\gls{NoSQL}} Datenbank welche wie eine HashMap funktioniert. Daten können schnell gespeichert und mit dem Key wieder geholt werden. Gewisse Abfragemöglichkeiten sind ebenfalls gegeben. Des Weiteren ist die Datenbank schemalos was es erlaubt verschiedenste Strukturen zu speichern. In diesem konkreten Fall wird Redis\footnote{https://redis.io} als Lösung in Betracht gezogen. \newline
 \newline
 \textbf{Vorteile}
 \begin{itemize}
@@ -243,7 +242,7 @@ Eine weitere Möglichkeit ist ein Key-Value Store für die Speicherung zu verwen
 
 \subsection{Konfigurations Management}
 
-Soll die Applikation kontinuierlich ausgerollt werden, sind manuelle Anpassungen an Konfigurationsdateien hinderlich. Ob das nun Property Files, Dockerfiles oder andere Dateien sind. Gewisse Änderungen erfordern einen Neustart von Systemen falls für den Container eine neue Version gebaut wird. Für andere wäre es wünschenswert gäbe es einen Weg die Konfiguration ohne einen Neustart anzupassen. Hierzu einige Beispiele:\newline
+Soll die Applikation kontinuierlich ausgerollt werden, sind manuelle Anpassungen an Konfigurationsdateien hinderlich. Ob das nun Property Files, Dockerfiles oder andere Dateien sind. Gewisse Änderungen erfordern einen Neustart von Systemen falls für den Container eine neue Version gebaut wird. Für andere wäre es wünschenswert gäbe es einen Weg die Konfiguration ohne einen Neustart anzupassen. Hierzu einige Beispiele:
 \begin{itemize}
 	\item Hostnamen, Ports
 	\item Usernamen, Passwörter, Email-Adressen
@@ -274,8 +273,6 @@ Aktuell ist die Konfiguration der Container in einem Propertiesfile gespeichert.
 \subsubsection{Kubernetes}
 
 Kubernetes ist ein anderes Framework\footnote{http://kubernetes.io: Wurde von Google Entwickelt und beschränkt sich nicht nur auf Docker Container.} für die Konfiguration von Containern und deren Abhängigkeiten. Kubernetes verfolgt eine andere Philosophie und ist aus diesem Grund nicht kompatibel mit der Docker eigenen API.
-\newline
-\newline
 \textbf{Vorteile}
 \begin{itemize}
 	\item Ist die Basis von Openshift, welche als Standard Plattform für Container etabliert werden soll, und daher von strategischer Bedeutung.
@@ -291,9 +288,8 @@ Kubernetes ist ein anderes Framework\footnote{http://kubernetes.io: Wurde von Go
 \end{itemize}
 
 \subsubsection{Spring Cloud Config}
-
 Spring Cloud Config\footnote{https://cloud.spring.io/spring-cloud-config/} bietet die Möglichkeit Konfigurationen während dem laufend Betrieb zu ändern. Dadurch muss ein Applikation/Container bei Konfigurationsänderungen nicht neu gestartet werden. Änderungen am Deployment des Containers selber kann die Library jedoch nicht ändern.\newline
-\newline
+\newpage
 \textbf{Vorteile}
 \begin{itemize}
 	\item Integriert sich gut mit dem Spring Framework
@@ -368,24 +364,22 @@ Folgend die Prototypen welche erstellt wurden um die Risiken und Unsicherheiten 
 \subsection{MySQL, MongoDB Schema Migration}
 
 Um die Möglichkeiten einer Schema Migration ohne Unterbruch zu evaluieren, wurden folgende zwei Use Cases ausgewählt:
-\newline
 \begin{itemize}
 	\item Änderung einer Spalte
 	\item 'Split Table' bei welcher eine Tabelle in mehrere aufgeteilt werden.
 \end{itemize}
-
 Für beide Datenbanktypen ist einer Migration zweistufig da gleichzeitig mehrere Versionen der Applikationen auf die Datenbank zugreifen. Bei MySQL werden dabei Trigger verwendet welche die Daten zwischen den Kolonnen respektive den Tabellen hin- und herschieben. Sind mehrere Tabellen involviert, muss auf zirkuläre Trigger geachtet werden. Für die meisten Probleme gibt es Lösungen im Buch Database Refactoring \footnote{Database Refactoring: Evolutionary Database Design: Addison Wesley Signature Series: Scott J Ambler, Pramod J Sadalage: 2006}. Sobald alle Versionen der Applikation angehoben sind, können die Trigger und entsprechenden obsolete Kolonnen gelöscht werden. Der Entwickler sich bei einer Änderung um die entsprechenden Scripts kümmern und diese auch testen.\newline
 Im Gegensatz zu MySQL ist bei MongoDB keine Migrationsskript beim Ausrollen der neuen Version von Nöten. Die Datenbank kann mit mehreren Dokumentversionen gleichzeitig umgehen. Anstelle von Triggern muss die Migration im Code gemacht werden. Für den Entwickler bedeutet das nicht weniger Aufwand, der Ort ist schlicht ein anderer. Ein Vorteil ist, dass die Daten über Zeit migriert werden können und zu einem spätere Zeitpunkt die verbleibenden Daten nachgezogen werden können.\newline
-Beide Varianten bieten entsprechende Möglichkeiten dem Problem zu begegnen.
+Beide Varianten bieten entsprechende Möglichkeiten dem Problem zu lösen.
 
 \subsection{MySQL, MongoDB Replikation}
 
-Um Continuouse Delivery zu erreichen, müssen die Datenspeicher entsprechend hochverfügbar ausgelegt werden. MySQL als klassische \Gls{RDBMS} Datenbank bietet Replikation von Haus aus an. Gleiches gilt für MongoDB. Bei beiden kann ebenfalls der Grad der Replikation stückweit definiert werden. Die Daten werden bei beiden Datenbanken in der Standarteinstellung asynchron repliziert. Dies wird vor allem aus Performanz Gründen gemacht, da Two-Phase Commits\Gls{2PC} über mehrere Standorte die Performanz eines Systems stark beeinflussen kann. Es gibt dennoch bei beiden Datenbanken die Möglichkeit das Schreiben auf einen Slave zu verlagern. Unter MySQL heisst das Semisynchron, bei MongoDB geht das unter dem Namen WriteConcerns. Gemäss CAP-Theorem\Gls{CAP} ist MySQL als konsistent und verfügbar deklariert und MongoDB als konsistent und partitions tolerant. Die Replikation kann daher produktabhängig gewährleistet werden, wobei MongoDB durch die Architektur besser geeignet ist, da der Handover zwischen den Servern voll automatisch geschieht und nicht ein Umschaltung gemacht werden muss.
+Um Continuouse Delivery zu erreichen, müssen die Datenspeicher entsprechend hochverfügbar ausgelegt werden. MySQL als klassische \textit{\gls{RDBMS}} Datenbank bietet Replikation von Haus aus an. Gleiches gilt für MongoDB. Bei beiden kann ebenfalls der Grad der Replikation stückweit definiert werden. Die Daten werden bei beiden Datenbanken in der Standarteinstellung asynchron repliziert. Dies wird vor allem aus Performanz Gründen gemacht, da \textit{Two-Phase Commits\gls{2PC}} über mehrere Standorte die Performanz eines Systems stark beeinflussen kann. Es gibt dennoch bei beiden Datenbanken die Möglichkeit das Schreiben auf einen Slave zu verlagern. Unter MySQL heisst das Semisynchron, bei MongoDB geht das unter dem Namen WriteConcerns. Gemäss \textit{\gls{CAP}} ist MySQL als konsistent und verfügbar deklariert MongoDB hingegen als konsistent und partitionstolerant. Die Replikation kann daher produktabhängig gewährleistet werden, wobei MongoDB durch die Architektur besser geeignet ist, da der Handover zwischen den Servern vollautomatisch geschieht und nicht durch ein Umschaltung gemacht werden muss.
 
-\subsection{Graphql}
+\subsection{GraphQL}
 
-GraphQL ist eine Technologie welche von Facebook entwickelt wurde um mit mehreren Schnittstellenversionen für die verschiedenen Endgeräte besser umgehen zu können. Dabei wird eine Art Abfrage an den \gls{REST} Endpunkt gesendet welcher anschliessend die Daten dynamisch sammelt und an den Client sendet. Um die Funktionsweise der Bibliothek besser einschätzen zu können, wurde ein einfacher Prototyp gemacht welche die Use Cases von Lesen und Schreiben abbildet.\newline
-Der Prototyp konnte erfolgreich umgesetzt werden hat jedoch einige negative Erkenntnisse über die Bibliothek zu gezeigt. Folgend eine Auflistung der Probleme:\newline
+GraphQL ist eine Technologie welche von Facebook entwickelt wurde um mit mehreren Schnittstellenversionen für die verschiedenen Endgeräte besser umgehen zu können. Dabei wird eine Art Abfrage an den \textit{\gls{REST}} Endpunkt gesendet welcher anschliessend die Daten dynamisch sammelt und an den Client sendet. Um die Funktionsweise der Bibliothek besser einschätzen zu können, wurde ein einfacher Prototyp gemacht welche die Use Cases von Lesen und Schreiben abbildet.\newline
+Der Prototyp konnte erfolgreich umgesetzt werden hat jedoch einige negative Erkenntnisse über die Bibliothek zu gezeigt. Folgend eine Auflistung der Probleme:
 \begin{itemize}
 	\item Model für das Schreiben und Lesen müssen separat definiert werden was faktisch zum doppelten Code führt.
 	\item Viele Einstellungen müssen mit Stringvariablen angegeben werden und ist deshalb fehleranfällig.
@@ -395,7 +389,7 @@ Die Library wurde von Facebook für dynamische Sprachen entwickelt und ist für 
 
 \subsection{Spring Cloud Config}
 
-Spring Cloud Config erlaubt es, Änderungen an der Konfiguration der Applikation zu Lauftzeit durchzuführen. Auf der Clientseite werden Klassen welche Properties haben entsprechend annotiert und beim Start der Applikation oder wenn die entsprechende URL aufgerufen wird, aktualisiert. Der Server überprüft dabei regelmässig das Git Repository auf Änderungen und kann wahlweise auf mittels eines Hook auf dem Repositoryserver angestossen werden. Für kleinere Applikationen mag das Ausführen einer URL noch praktikabel sein, für grössere Deployments ist dies hingegen sehr umständlich. Deshalb kann durch hinzufügen von Spring Cloud Bus und einer Messagequeue, wie RabbitMQ, dieser Prozess vereinfacht werden. Die Clients und der Server verbinden sich auf den entsprechenden Message Server und erhalten bei einer Konfigurationsänderung eine Nachricht die entsprechenden Properties zu aktualisieren.
+Spring Cloud Config erlaubt es, Änderungen an der Konfiguration der Applikation zu Lauftzeit durchzuführen. Auf der Clientseite werden Klassen welche Properties haben entsprechend annotiert und beim Start der Applikation oder wenn die entsprechende \textit{\gls{URL}} aufgerufen wird, aktualisiert. Der Server überprüft dabei regelmässig das Git Repository auf Änderungen und kann wahlweise auf mittels eines Hook auf dem Repositoryserver angestossen werden. Für kleinere Applikationen mag das Ausführen einer \textit{\gls{URL}} noch praktikabel sein, für grössere Deployments ist dies hingegen sehr umständlich. Deshalb kann durch hinzufügen von Spring Cloud Bus und einer Messagequeue, wie RabbitMQ, dieser Prozess vereinfacht werden. Die Clients und der Server verbinden sich auf den entsprechenden Message Server und erhalten bei einer Konfigurationsänderung eine Nachricht die entsprechenden Properties zu aktualisieren.
 
 \subsection{OpenShift}
 
@@ -403,11 +397,11 @@ OpenShift ist eine Plattform as a Service Lösung welche es erlaubt Docker Conta
 
 \section{Bewertungen}
 
-Die Ausgefüllte Bewertungsmatrix findet sich im Anhang des Dokuments. Folgend die Begründungen für die einzelnen Bewertungen und deren Schlussfolgerungen
+Die Referenz zur ausgefüllten Bewertungsmatrix findet sich im Kapitel \ref{documents} 'D-6' des Dokuments. Folgend die Begründungen für die einzelnen Bewertungen und deren Schlussfolgerungen
 
 \subsection{Schnittstellen Versionierung}
 
-Die Methoden wie Content-Negotiation und Versionierung mittels Pfad sind bestens bekannt und wurden nicht evaluiert. Für GraphQL hat der Prototyp gezeigt, das die Bibliothek für den Gebrauch in einer Java Anwendung nicht sinnvoll ist.  Auf Grund von internen Richtlinien zu API Design wird die Versionierung mittels Pfand für die REST Schnittstellen verwendet.
+Die Methoden wie Content-Negotiation und Versionierung mittels Pfad sind bestens bekannt und wurden nicht evaluiert. Für GraphQL hat der Prototyp gezeigt, das die Bibliothek für den Gebrauch in einer Java Anwendung nicht sinnvoll ist.  Auf Grund von internen Richtlinien zu API Design wird die Versionierung mittels Pfand für die \textit{\gls{REST}} Schnittstellen verwendet.
 
 \subsection{Kommunikationsentkopplung}
 
@@ -416,9 +410,8 @@ Schlussendlich wird die aktuelle Lösung mittels Spring REST weiterverwendet wel
 
 \subsection{Datenspeicherung}
 
-Für die Datenspeicherung standen Oracle, Mysql, MongoDB und Redis zu Auswahl(Siehe Kapitel \ref{ent-db}). \newline
-Oracle hat die höchste Bewertung erhalten, da die Firma mit dieser Datenbank schon viele Jahre Erfahrung hat und dementsprechend die relationalen Konzepte bestens versteht. Auf Grund von Lizenzbestimmungen seitens Oracles hat SIX keine Lizenzen welche es erlaubt Oracle Instanzen auf einer virtualisierten Umgebung zu installieren. Oracle kann deshalb nicht als Datenspeicher berücksichtigt werden.\newline
-Redis wird teils in der Firma schon verwendet, jedoch ist die Datenbank nicht wirklich passend für den Use Case und die Lernkurve um alles nur in einer Map zu speichern macht die Datenbank zu der am wenigsten passenden Option. Auch deshalb, da für die Datenbank nur der Support der Community verfügbar ist.\newline
+Für die Datenspeicherung standen Oracle, Mysql, MongoDB und Redis zu Auswahl(Siehe Kapitel \ref{ent-db}). Oracle hat die höchste Bewertung erhalten, da SIX mit dieser Datenbank schon viele Jahre Erfahrung hat und dementsprechend die relationalen Konzepte bestens versteht. Auf Grund von Lizenzbestimmungen seitens Oracles hat SIX keine Lizenzen welche es erlaubt Oracle Instanzen auf einer virtualisierten Umgebung zu installieren. Oracle kann deshalb nicht als Datenspeicher berücksichtigt werden.\newline
+Redis wird teils in der Firma schon verwendet, jedoch ist die Datenbank nicht wirklich passend für den Use Case und die Lernkurve, um alles in einer Map Datenstruktur zu speichern ,macht die Datenbank zu der am wenigsten geeignetsten Option. Auch deshalb, da für die Datenbank nur der Support der Community verfügbar ist.\newline
 MySQL erhielt die zweitbeste Bewertung und liegt vor MongoDB. Obschon die relationalen Konzepte besser bekannt sind, wurde entschieden für beide einen Prototypen zu machen um den Umgang mit mehrere Schemaversionen zu evaluieren da. Für MongoDB müssen noch Themen wie Replikation und der Aufwand für die Umstellung der Repositories berücksichtigt werden.
 
 \subsection{Konfigurationsmanagement}

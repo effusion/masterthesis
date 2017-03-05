@@ -4,13 +4,15 @@
 
 \section{Fachlicher Kontext}
 
-\begin{center}
+\begin{figure}[H]
+	\centering
 	\includegraphics[scale=0.6]{Contextdiagramm.png}
-\end{center}
+	\caption{Fachliche Kontext}
+\end{figure}
 
 \section{Technischer Kontext}
 
-Die Applikation MEON basiert auf Spring Boot für den Onboarding Server, AngularJS als Frontend sowie Camunda als Workflow Engine. Die Anwendung wird mittels der Container Technologie Docker auf der OpenShift Plattform ausgerollt. 
+Der Onboarding Server verwendet Spring Boot, das Frontend AngularJS und die Workflow Engine Camunda zusammen mit Wildfly. Die Anwendung wird mittels der Container Technologie Docker auf der OpenShift Container Plattform ausgerollt. 
 
 \section{Externe Schnittstellen}
 
@@ -23,7 +25,7 @@ Die Applikation MEON basiert auf Spring Boot für den Onboarding Server, Angular
 		\toprule
 		{\textbf{Name}} & {\textbf{Beschreibung}} \\
 		\midrule
-		Identifikation & URL\\ \hline
+		Identifikation & \textit{\gls{URL}}\\ \hline
 		Bereitgestellte Resource & Erlaubt das Abfragen von Unternehmensdaten anhand der Unternehmensidentifikationsnummer. \\ \hline
 		Fehlerszenarien & Ist die Schnittstelle nicht verfügbar, muss der Händler die Daten selber eingeben welche falsch sein könnte.\\ \hline
 		Qualitätseigenschaften & Maximal 20 Anfragen pro Minuten sonst wird der sender geblockt.  Garantierte Verfügbarkeit von 362 Tagen \url{https://www.isb.admin.ch/isb/de/home/e-services-bund/services/uid-webservice.html}\\ \hline
@@ -32,7 +34,7 @@ Die Applikation MEON basiert auf Spring Boot für den Onboarding Server, Angular
 	\end{tabular}
 \end{table}
 
-Siehe Spezifikation im Anhang.
+Weitere Informationen zu Schnittstelle finden sich in Kapitel \ref{documents} D-1
 
 \subsection{ZEFIX Schnittstelle}
 
@@ -43,7 +45,7 @@ Siehe Spezifikation im Anhang.
 		\toprule
 		{\textbf{Name}} & {\textbf{Beschreibung}} \\
 		\midrule
-		Identifikation & URL\\ \hline
+		Identifikation & \textit{\gls{URL}}\\ \hline
 		Bereitgestellte Resource & Abfrage des Handelsregisterauszugs \\ \hline
 		Fehlerszenarien & Ist die Schnittstelle nicht verfügbar, muss der Händler den Auszugs selber hochladen.\\ \hline
 		Entwurfsentscheidungen & Falls die Schnittstelle nicht verfügbar ist, werden die Buttons im User Interface ausgeblendet.\\
@@ -51,7 +53,7 @@ Siehe Spezifikation im Anhang.
 	\end{tabular}
 \end{table}
 
-Siehe Spezifikation im Anhang.
+Weitere Informationen zu Schnittstelle finden sich in Kapitel \ref{documents} D-3
 
 \subsection{Adressen Schnittstelle}
 
@@ -62,7 +64,7 @@ Siehe Spezifikation im Anhang.
 		\toprule
 		{\textbf{Name}} & {\textbf{Beschreibung}} \\
 		\midrule
-		Identifikation & URL\\ \hline
+		Identifikation & \textit{\gls{URL}} \\ \hline
 		Bereitgestellte Resource & Plz/Ort und Strasse für die Autovervollständigung im XML Format \\ \hline
 		Fehlerszenarien & Ist die Schnittstelle nicht verfügbar, muss der Händler die Adressdaten selber eingeben.\\ \hline
 		Entwurfsentscheidungen & Falls die Schnittstelle nicht verfügbar ist, werden die Buttons im User Interface ausgeblendet.\\
@@ -70,7 +72,7 @@ Siehe Spezifikation im Anhang.
 	\end{tabular}
 \end{table}
 
-Siehe Dokument 'Benutzerhandbuch-Adresschecker-online-V4.pdf' im Anhang.
+Weitere Informationen zu Schnittstelle finden sich in Kapitel \ref{documents} D-2
 
 \subsection{Mail Schnittstelle}
 
@@ -81,10 +83,10 @@ Siehe Dokument 'Benutzerhandbuch-Adresschecker-online-V4.pdf' im Anhang.
 		\toprule
 		{\textbf{Name}} & {\textbf{Beschreibung}} \\
 		\midrule
-		Identifikation & URL\\ \hline
+		Identifikation & \textit{\gls{URL}} \\ \hline
 		Bereitgestellte Resource & Versenden von E-Mails\\ \hline
 		Fehlerszenarien & Server nicht erreichbar, wodurch die Mail später nochmals gesendet werden muss.\\ \hline
-		Entwurfsentscheidungen & Falls die Schnittstelle nicht verfügbar ist, werden die Buttons im User Interface ausgeblendet.\\
+		Entwurfsentscheidungen & \color {red} {Falls die Schnittstelle nicht verfügbar ist, werden die Buttons im User Interface ausgeblendet}.\\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -98,10 +100,12 @@ Siehe Dokument 'Benutzerhandbuch-Adresschecker-online-V4.pdf' im Anhang.
 		\toprule
 		{\textbf{Name}} & {\textbf{Beschreibung}} \\
 		\midrule
-		Identifikation & URL\\ \hline
+		Identifikation & \textit{\gls{URL}} \\ \hline
 		Bereitgestellte Resource & Versenden von E-Mails\\ \hline
 		Fehlerszenarien & Server nicht erreichbar, wodurch die Mail später nochmals gesendet werden muss.\\ \hline
-		Entwurfsentscheidungen & Falls die Schnittstelle nicht verfügbar ist, werden die Buttons im User Interface ausgeblendet.\\
+		Entwurfsentscheidungen & \color {red} {Falls die Schnittstelle nicht verfügbar ist, werden die Buttons im User Interface ausgeblendet.}\\
 		\bottomrule
 	\end{tabular}
 \end{table}
+
+Weitere Informationen zu Schnittstelle finden sich in Kapitel \ref{documents} D-4

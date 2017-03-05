@@ -6,9 +6,11 @@
 
 Wie in der Einführung schon erwähnt geht es bei der Applikation um das Registrieren neuer Händler für den TWINT Service. Die folgende Abbildung zeigt das Domänenmodell der Applikation. Ziel der Grafik ist es, die Struktur einfach darzustellen weshalb nicht alle Details aufgeführt sind. 
 
-\begin{center}
+\begin{figure}[H]
+	\centering
 	\includegraphics[scale=0.6]{DomainModel.png}
-\end{center}
+	\caption{Domänenmodell}
+\end{figure}
 
 \section{Software Aktualisierung}
 \label{software-update}
@@ -18,19 +20,20 @@ Die Aktualisierung der Software geschieht mit der neuen Architektur kontinuierli
 	\item Anpassungen müssen rückwärts kompatibel sein. Felder müssen deshalb als 'deprecated' gekennzeichnet werden und sind erst zu entfernen, wenn alle Teil der Applikation aktualisiert wurden.
 	\item Mappings auf andere Objekte, wie Datenbank oder Transferobjekte welche an umliegende System geschickt werden, müssen immer mit beiden Versionen funktionieren.
 \end{itemize}
-
-Für neue Features welche Änderungen auf mehreren Komponenten zur Folge hat, müssen Feature Toggels verwendet werden. Siehe dazu Kapitel \ref{toggles}.
+Für neue Funktionen welche Änderungen auf mehreren Komponenten zur Folge haben, müssen Feature Toggels verwendet werden. Siehe dazu Kapitel \ref{toggles}.
 
 \subsection{Schnittstellen}
 
-Schnittstellen müssen im Pfad die Versionsnummer enthalten damit der Client die richtigen Endpunkte ansprechen kann. Müssen Änderungen gemacht werden welche sich nicht in die aktuelle Implementierung kombinieren lassen, gilt es, einen neue URL mit neuer Version zu erstellen. Im Dokument '2014-01-23-Specification for Web Services-1.3.pdf' im Kapitel 4.3 finden sich mehr Informationen dazu.
+Schnittstellen müssen im Pfad die Versionsnummer enthalten damit der Client die richtigen Endpunkte ansprechen kann. Müssen Änderungen gemacht werden welche sich nicht in die aktuelle Implementierung kombinieren lassen, gilt es, einen neue \textit{\gls{URL}} mit neuer Version zu erstellen. Siehe dazu Kapitel \ref{documents} D-5
 
 \subsection{Persistenz}
 
 Datenbankobjekte müssen wie Schnittstellen ebenfalls rückwärts kompatibel sein, so dass eine kontinuierliche Aktualisierung erfolgen kann. Alte Versionen können nach Bedarf später mittels eines Migrationsskripts auf die neue Version angehoben werden. Das folgende Diagramm zeigt ein Beispiel von Persistenz Klassen wie sie überführt werden. 
-\begin{center}
-	\includegraphics[scale=0.6]{ClassMigration.png}\newline
-\end{center}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{ClassMigration.png}
+	\caption{Ablauf der Klassenmigration}
+\end{figure}
 Die Attribute müssen durch die Service Klassen korrekt abgefüllt werden, so dass während der Aktualisierung die Daten korrekt vorliegen. Weitere Informationen zur Persistenz finden sich in Kapitel \ref{persistenz}.
 
 \section{Typische Muster und Strukturen}
@@ -48,11 +51,11 @@ Repositories sind eine Abstraktionsschicht für die Business Logik welche den Zu
 
 \subsection{Controller}
 
-Controller dienen als Schnittstelle zwischen einem Web Framework und einer Server Applikation. Dabei werden URL Pfade auf einem Contollermethode abgebildet und können dadurch von einem Web Client angesprochen werden. Für moderne Applikationen wird als Transportformat JSON verwendet. Weitere Informationen unter \url{http://docs.spring.io/spring-restdocs/docs/current/reference/html5/}
+Controller dienen als Schnittstelle zwischen einem Web Framework und einer Server Applikation. Dabei werden \textit{\gls{URL}} Pfade auf einem Contollermethode abgebildet und können dadurch von einem Web Client angesprochen werden. Für moderne Applikationen wird als Transportformat \textit{\gls{JSON}} verwendet. Weitere Informationen unter \url{http://docs.spring.io/spring-restdocs/docs/current/reference/html5/}
 
 \subsection{Services}
 
-Serverseitig spricht man bei Services von Klassen welche Business Logik ausführen und somit die Fachlichkeit der Applikation abbilden. Sie befinden sich in einer Schichtenarchitektur zwischen den Controllern und den Repositories. Auf der Frontend Seite sind Services die Abstraktionsschicht welche den Zugriff auf die URL auf Serverseite kapselt. Siehe auch Kapitel \ref{hystrix}
+Serverseitig spricht man bei Services von Klassen welche Business Logik ausführen und somit die Fachlichkeit der Applikation abbilden. Sie befinden sich in einer Schichtenarchitektur zwischen den Controllern und den Repositories. Auf der Frontend Seite sind Services die Abstraktionsschicht welche den Zugriff auf die \textit{\gls{URL}} auf Serverseite kapselt. Siehe auch Kapitel \ref{hystrix}
 
 \subsection{Router}
 
@@ -77,12 +80,13 @@ Um die Applikation zu bauen und neue Funktionen ausrollen zu können, braucht es
 	\item develop: Startpunkt für den Build sowie für die Unit und Integrationstests
 	\item master: Enthält den produktiven Code
 \end{itemize}
-Sämtliche neuen Funktionen und Fehlerbehebungen werden auf einem separaten \Gls{FEBA}Feature Branch erledigt und erst nach Abschluss in den Development Branch gemerged. Dadurch können die Änderungen unabhängig voneinander durchgeführt werden. Die folgende Grafik zeigt den Ablauf.
-\begin{center}
-	\includegraphics[scale=0.6]{gitflow}\newline
-	Quelle: \url{https://blog.seibert-media.net/blog/2014/03/31/git-workflows-der-gitflow-workflow-teil-1/}
-\end{center}
-Der Build Job ist als Jenkinsfile eingecheckt und erhält die Beschreibung wie die Pipeline und Ihre Stages definiert sind. Siehe dazu auch \url{https://jenkins.io/doc/book/pipeline/}. Die Pipeline besteht aus verschiedenen Stages welche nacheinander durchlaufen werden so fern es keine Fehler gibt. Für jedes deployment stage gibt es auf OpenShift ein dazugehöriges Projekt in welche die Container ausgerollt werden. Für den finalen Übergang in die produktive Umgebung gibt es einen manuellen Schritt welches ausgeführt wird sobald das Change Management die Änderung bewilligt.
+Sämtliche neuen Funktionen und Fehlerbehebungen werden auf einem separaten \textit{\gls{FEBA}} erledigt und erst nach Abschluss in den Development Branch gemerged. Dadurch können die Änderungen unabhängig voneinander durchgeführt werden. Die folgende Grafik zeigt den Ablauf.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{gitflow}
+	\caption{GIT Flow Beispiel. Quelle: \url{https://blog.seibert-media.net/blog/2014/03/31/git-workflows-der-gitflow-workflow-teil-1/}}	
+\end{figure}
+Der Build Job ist als Jenkinsfile eingecheckt und erhält die Beschreibung wie die Pipeline und Ihre Stages definiert sind. Siehe dazu auch \url{https://jenkins.io/doc/book/pipeline/}. Die Pipeline besteht aus verschiedenen Stages welche nacheinander durchlaufen werden so fern es keine Fehler gibt. Für jeden deployment stage gibt es auf OpenShift ein dazugehöriges Projekt in welche die Container ausgerollt werden. Für den finalen Übergang in die produktive Umgebung gibt es einen manuellen Schritt welches ausgeführt wird sobald das Change Management die Änderung bewilligt.
 
 \section{Codegenerierung}
 
@@ -95,16 +99,16 @@ Bevor ein Container gestartet werden kann, muss zuerst eine Definition in Form e
 
 \section{Bedienoberfläche}
 
-Die Benutzeroberfläche wurde mittels des Single Page Application Frameworks Angularjs entwickelt um den Benutzer eine schnelle und einfach zu bedienende Oberfläche zur Verfügung zu stellen. 
+Die Benutzeroberfläche wurde mittels des Single Page Application Frameworks AngularJs entwickelt um den Benutzer eine schnelle und einfach zu bedienende Oberfläche zur Verfügung zu stellen. 
 
 \section{Feature Toggles}
 \label{toggles}
 
-Toggles erlaubt das Ein- und Ausschalten bestimmter Funktionalitäten einer Software. Ziel ist es, Änderungen welche an einer Anwendung gemacht wurden, erst zu einem späteren Zeitpunkt zu aktivieren. Für den Anwendungsfall von Continuous Deployment ist dies zwingend notwendig, da während der Installation verschieden Versionen der Software am Laufen sind. Neue Funktionen können daher erst aktiviert werden wenn alle Teil der Applikation entsprechend aktualisiert wurden.
+Toggles erlaubt das Ein- und Ausschalten bestimmter Funktionalitäten einer Software. Ziel ist es, Änderungen welche an einer Anwendung gemacht wurden, erst zu einem späteren Zeitpunkt zu aktivieren. Für den Anwendungsfall von Continuous Deployment ist dies zwingend notwendig, da während der Installation verschieden Versionen der Software am Laufen sind. Neue Funktionen können daher erst aktiviert werden wenn alle Teil der Applikation aktualisiert wurden.
 
 \section{Geschäftsregeln}
 
-Obschon der Serverteil gewisse Fachlogik beinhaltet, werden die Geschäftsregeln auf der Workflow Engine gemacht da nur diese auf die entsprechenden Systeme Zugriff hat. Die Engine basiert auf Camunda und wurde mit entsprechenden eigenen Klassen angereichert um den Prozess der Neuregistrierung für Händler durchzuführen. Der Prozess läuft aus Sicht des Benutzers asynchron ab. Je nach Ausgang sämtlicher Prüfungen und Registrierungen auf den entsprechenden Systemen, erhält der neue Händler den Vertrag zugeschickt. Der Anlageprozess läuft generell automatisch ab mit der einzigen Ausnahme, dass die \gls{PEP} Prüfung anschlägt. In diesem Fall muss die Risk-Abteilung eine Prüfung durchführen und eine Genehmigung erteilen. Eine weitere Prüfung des Riskbereichs klärt ab, ob der Händler in einem gültigen Geschäftsbereich tätig ist. Sofern dies der Fall ist wird in einem weiteren manuellen Schritt die Auszahlung freigeschaltet.
+Obschon der Serverteil gewisse Fachlogik beinhaltet, werden die Geschäftsregeln auf der Workflow Engine gemacht da nur diese auf die entsprechenden Systeme Zugriff hat. Die Engine basiert auf Camunda und wurde mit eigenen Klassen angereichert um den Prozess der Neuregistrierung für Händler durchzuführen. Der Prozess läuft aus Sicht des Benutzers asynchron ab. Je nach Ausgang sämtlicher Prüfungen und Registrierungen auf den beteiligten Systemen, erhält der neue Händler den Vertrag zugeschickt. Der Anlageprozess läuft generell automatisch ab mit der einzigen Ausnahme, dass die \textit{\gls{PEP}} Prüfung anschlägt. In diesem Fall muss die Risk-Abteilung eine Prüfung durchführen und eine Genehmigung erteilen. Eine weitere Prüfung des Riskbereichs klärt ab, ob der Händler in einem gültigen Geschäftsbereich tätig ist. Sofern dies der Fall ist wird in einem weiteren manuellen Schritt die Auszahlung freigeschaltet.
 
 \section{Internationalisierung}
 
@@ -112,19 +116,19 @@ Das Web Interface ist mehrsprachig ausgelegt und die Sprache kann durch den Benu
 
 \section{Kommunikation, Integration}
 
-Als Kommunikationsmittel zwischen den einzelnen Teilen der Applikation kommen \gls{REST} und Messaging zum Einsatz. REST ist eine Art um Daten zwischen zwei System auszutauschen. Dabei werden die gängigen HTTP Methoden GET, PUT, POST  verwendet um entsprechende Aktionen auf dem Schnittstelle des Zielsystems auszuführen. Als Übertragungsformat wirde JSON verwendet. Weitere Informationen finden sind unter \url{https://en.wikipedia.org/wiki/Representational_state_transfer}.\newline
-Das Konfigurationmanagement von Spring Cloud Config verwendet für die Benachrichtigung der Komponenten bei einer Konfigurationsänderung, das Messaging Protokoll \Gls{AMQP}. Die Queues werden dabei auf einem separaten RabbitMQ Server gehalten vorauf sich der Config Server und die Clients verbinden.
+Als Kommunikationsmittel zwischen den einzelnen Teilen der Applikation kommen \textit{\gls{REST}} und Messaging zum Einsatz.  \textit{\gls{REST}} ist eine Art um Daten zwischen zwei System auszutauschen. Dabei werden die gängigen HTTP Methoden GET, PUT, POST  verwendet um entsprechende Aktionen auf dem Schnittstelle des Zielsystems auszuführen. Als Übertragungsformat wird  \textit{\gls{JSON}} verwendet.\newline
+Das Konfigurationmanagement von Spring Cloud Config verwendet für die Benachrichtigung der Komponenten bei einer Konfigurationsänderung, das Messaging Protokoll  \textit{\gls{AMQP}}. Die Queues werden dabei auf einem separaten RabbitMQ\footnote{Messaging Queue: \url{https://www.rabbitmq.com}} Server gehalten worauf sich der Config Server und die Clients verbinden.
 
 \section{Hystrix}
 \label{hystrix}
 
-Hystrix ist eine Bibliothek der Firma Netflix welche für die Kontroller von Anfragen an andere Dienste(REST, SOAP usw,) verwendet wird. Die Library kümmert sich dabei um Fehlerbehandlung, Wiederholung und Fallback wenn ein Services nicht verfügbar sein sollte. Sämtliche Aufrufe von anderen Diensten innerhalb des Onboarding Server werden mit Hystrix abstrahiert und gekapselt. Siehe auch \url{https://github.com/Netflix/Hystrix/wiki}
+Hystrix ist eine Bibliothek der Firma Netflix welche für die Kontroller von Anfragen an andere Dienste(\textit{\gls{REST}}, SOAP usw,) verwendet wird. Die Library kümmert sich dabei um Fehlerbehandlung, Wiederholung und Fallback wenn ein Services nicht verfügbar sein sollte. Sämtliche Aufrufe von anderen Diensten innerhalb des Onboarding Server werden mit Hystrix abstrahiert und gekapselt. Siehe auch \url{https://github.com/Netflix/Hystrix/wiki}
 
 \section{Konfiguration}
 \label{config}
 
-Die Konfiguration der Applikation besteht aus zwei Teilen. Für die Orchestrierung der Anwendung ist gleichzeitig auch die Deployment Plattform OpenShift zuständig, welche bereits in Kapitel \ref{deploy} vorgestellt wurde. OpenShift verwendet intern Kubernetes für die Koordination der einzelnen Teile. Die sogenannte Deployment Konfiguration basiert auf einer yaml Datei, welche bei erstellen des Projekt eingelesen werden kann. 
-Um die Anwendung  auszurollen benötigt es neben Services und Containern eine Beschreibung wie die Komponenten zusammenhängen. Folgende Konfigurationen müssen gemacht werden:\newline
+Die Konfiguration der Applikation besteht aus zwei Teilen. Für die Orchestrierung der Anwendung ist gleichzeitig auch die Deployment Plattform OpenShift zuständig, welche bereits in Kapitel \ref{deploy} vorgestellt wurde. OpenShift verwendet intern Kubernetes für die Koordination der einzelnen Teile. Die sogenannte Deployment Konfiguration basiert auf einer \textit{\gls{YAML}} Datei, welche bei erstellen des Projekt eingelesen werden kann. 
+Um die Anwendung  auszurollen benötigt es neben Services und Containern eine Beschreibung wie die Komponenten zusammenhängen. Folgende Konfigurationen müssen gemacht werden:
 \begin{itemize}
 	\item Docker Image welches verwendet werden soll sowie die verfügbaren Ports und Protokoll.
 	\item Persistente Volumen für Datenbank oder Caches.
@@ -132,7 +136,6 @@ Um die Anwendung  auszurollen benötigt es neben Services und Containern eine Be
 	\item Strategien was bei Konfigurations- und Containeränderungen gemacht werden soll.
 	\item Einstellungen für den Gesundheitszustand respektive ob ein Pod noch aktiv ist.
 \end{itemize}
-
 Ist die Konfiguration erstellt und in einer Datei gespeichert, kann die Anwendung jederzeit in einem neuen Projekt mit angepassten Parametern ausgerollt werden.\newline
 Der zweite Teil bildet Spring Cloud Config womit Konfigurationsänderungen zu Laufzeit ohne Neustart der Applikation möglich sind. Dafür verwendet die Bibliothek einen zentralen Server welcher die Konfigurationen aus einem GIT Repository liest. Die Dateinamen sind nach dem Schema 'applicationname.properties' abgelegt und werden periodisch auf Änderungen überprüft. Die Client Applikation braucht eine Datei 'bootstrap.yml' im Klassenpfad wo der Name der Applikation steht, welche mit dem Namen des Propertyfiles übereinstimmen muss. Dadurch weiss der Config Server welche Einstellungen an die Anwendung zu übermitteln sind. Damit Properties aktualisiert werden, muss die Klasse die Annotation '@RefreshScope' haben. Zusätzlich wird noch ein Bus mittels Queue, basierend auf RabbitMQ, verwendet um die Anwendungen zu benachrichtigen, wenn eine Einstellung geändert hat.
 
@@ -142,43 +145,41 @@ Sämtliche Protokollierungsdaten, welche die Applikation generiert, werden auf d
 
 \section{Management und Administrierbarkeit}
 
-Das Deployment der Applikation kann wahlweise über das Web Interface oder die Konsolenapplikation durchgeführt werden. Die Anwendung selber verfügt über keine Möglichkeiten der Administration. Die Firma verfolgt mittlerweile den DevOps Ansatz weshalb die Administratoren nicht die Applikation direkt verwalten, sondern sich mehr um die Plattform selber kümmern.  Das Management fällt somit dem Entwickler zu. 
+Das Deployment der Applikation kann wahlweise über das Web Interface oder die Konsolenapplikation durchgeführt werden. Die Anwendung selber verfügt über keine Möglichkeiten der Administration. SIX verfolgt mittlerweile den DevOps Ansatz weshalb die Administratoren nicht die Applikation direkt verwalten, sondern sich mehr um die Plattform selber kümmern. Das Management fällt somit dem Entwickler zu. 
 
 \section{Monitoring / Diagnose}
 
-Die Applikation wird einerseits durch OpenShift überwacht mittels Abfragen der Schnittstellen(Liveness Probe) und die Fehlerhaften Teile Notfalls neu gestartet. Zusätzlich hat die Anwendung einen separaten REST Endpoint welcher Informationen über die einzelnen Dienste bereitstellt. Dies wird erreicht durch die Implementation eines Interfaces welches bei Aufruf zuvor programmierte Aktionen ausführt und via JSON 
+Die Applikation wird einerseits durch OpenShift überwacht mittels Abfragen der Schnittstellen(Liveness Probe) und die Fehlerhaften Teile Notfalls neu gestartet. Zusätzlich hat die Anwendung einen separaten \textit{\gls{REST}} Endpoint welcher Informationen über die einzelnen Dienste bereitstellt. Dies wird erreicht durch die Implementation eines Interfaces welches bei Aufruf zuvor programmierte Aktionen ausführt und die Daten im \textit{\gls{JSON}} Format zurück gibt.
 
 \section{Migration}
 
-Da aktuell als Datenbank MySQL verwendet wird, muss eine Migration nach MongoDB durchgeführt werden. Da die Daten von MEON durch den Wechsel von Paymit zu TWINT
-obsolet werden und nur wenig Laufdaten gespeichert sind, können die Daten relativ einfach übernommen werden.
+Da aktuell als Datenbank MySQL verwendet wird, muss eine Migration nach MongoDB durchgeführt werden. Da die Daten von MEON durch den Wechsel von Paymit zu TWINT obsolet werden und nur wenig Laufdaten gespeichert sind, können die Daten manuell übernommen werden.
 
 \section{Persistenz}
 \label{persistenz}
 
 \subsection{Datenspeicherung}
-Für die Speicherung der Daten wird die NoSQL Datenbank MongoDB eingesetzt. Anstelle von Tabellen mit einem definierten Schema, werden Dokumente verwendet welche schemalos sind. Dadurch können mehrere Versionen desselben Dokumentes in der Datenbank gespeichert werden. Der Treiber für MongoDB wird beim Mapping nicht vorhandener Attribute ,welche sich im Dokument, jedoch nicht auf der Klasse befinden, nicht umwandeln.\newline
-Dokumentenklasse in Java müssen ein Attribut haben welches die Version des Dokumentes widerspiegelt. Die Nummer ist bei jeder Änderung der Klasse anzupassen. Dadurch können bei einer Migration die entsprechenden Serviceklassen die Daten gemäss des neuen Dokumentes speichern.
-\textcolor{red}{TODO Dokumentedesign erklären}
-
+Für die Speicherung der Daten wird die \textit{\gls{NoSQL}} Datenbank MongoDB eingesetzt. Anstelle von Tabellen mit einem definierten Schema, werden Dokumente verwendet welche schemalos sind. Dadurch können mehrere Versionen desselben Dokumentes in der Datenbank gespeichert werden. Der Treiber für MongoDB wird beim Mapping nicht vorhandener Attribute, welche sich im Dokument, jedoch nicht auf der Klasse befinden, nicht umwandeln.\newline
+Dokumentenklassen in Java müssen ein Attribut haben welches die Version des Dokumentes widerspiegelt. Die Nummer ist bei jeder Änderung der Klasse anzupassen. Dadurch können bei einer Migration die entsprechenden Serviceklassen die Daten gemäss des neuen Dokumentes speichern.
 
 \subsection{Ausfallsicherheit}
 
 Um Ausfallsicherheit zu gewährleisten wird ein Replica Set für die MongoDB aufgebaut. Dabei werden alle Schreiboperationen an den Primary des Set delegiert. Die Replication auf die Secondaries geschieht asynchron. Die folgende Darstellung zeigt den Aufbau:
-\begin{center}
-	\includegraphics[scale=0.6]{mongodb-replicaset.png}\newline
-	Quelle: \url{https://docs.mongodb.com/manual/replication/}
-\end{center}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{mongodb-replicaset.png}
+	\caption{MongoDB ReplicaSet Aufbau. \\ Quelle: \url{https://docs.mongodb.com/manual/replication/}}	
+\end{figure}
 Im Falle eins Problems mit dem Primary initiieren die Secondaries eine Wahl wer zum neuen Primary wird. Die Instanz, welche einen Fehler hatte, kann neu gestartet werden und sich wieder in das Set einhängen. Sollte ein Knoten des Replica Set länger nicht aktiv sein, wird er 'stale' wodurch die Daten neu synchronisiert werden müssen. Im Kapitel \ref{transactions} finden sich weitere Information bezüglich Transaktionsbehandlung und WriteConcerns.
 
 \section{Plausibilisierung und Validierung}
 
-Auf dem Formular des Web Interfaces sollen Daten wie Händlername via des Unternehmensindentifikationservices des Bundes sowie die Adressen mittels der Services der Post überprüft werden. Angaben, welcher der Händler machen muss, sind entsprechend gekennzeichnet und führen zu einem Fehler falls sie nicht validiert werden können. Der hochgeladene Handelsregisterauszug wird auf der Workflow Engine nochmals geprüft.
+Auf dem Formular des Web Interfaces sollen Daten wie Händlername via des Unternehmensindentifikationservices des Bundes sowie die Adressen mittels der Services der Post überprüft werden. Angaben, welcher der Händler machen muss, sind entsprechend gekennzeichnet und führen zu einem Fehler falls sie nicht validiert werden können. Der hochgeladene Handelsregisterauszug wird auf der Workflow Engine nochmals mit den, vom Händler eingegebenen Daten abgeglichen.
 
 \section{Sessionbehandlung}
 
-Die Applikation hat ein einmaliges Sessionhandling während der Registrierung eines neuen Händlers. Nach dem ersten Schritt der Registrierung wird ein MTAN Code und eine Link mittels Mail an den Händer verschickt. Nach dem Klick auf den Link und er korrekten Eingabe des Codes hat der Händler 30 Minuten Zeit um den Prozess abzuschliessen.
-Tut er dies nicht, wird die Registrierung abgebrochen und er muss nochmals von vorne beginnen. Ziel der Zeitbegrenzung ist die Verhinderungen von \Gls{DDoS} Attacken.
+Die Applikation hat ein einmaliges Sessionhandling während der Registrierung eines neuen Händlers. Nach dem ersten Schritt der Registrierung wird ein \textit{\gls{MTAN}} Code und eine Link mittels Mail an den Händer verschickt. Nach dem Klick auf den Link und er korrekten Eingabe des Codes hat der Händler 30 Minuten Zeit um den Prozess abzuschliessen.
+Tut er dies nicht, wird die Registrierung abgebrochen und er muss nochmals von vorne beginnen. Ziel der Zeitbegrenzung ist die Verhinderungen von \textit{\gls{DDoS}} Attacken.
 
 \section{Sicherheit}
 
@@ -190,5 +191,5 @@ Wie bereits im Kapitel \ref{deploy} angesprochen, können auf der OpenShift Plat
 
 \section{Transaktionsbehandlung}
 \label{transactions}
-Im Vergleich zu klassischen \Gls{RDBMS} welche sich an die \Gls{ACID} Prinzipien halten, hat MongoDB andere Mechanismen wie Transaktionen gehandhabt werden. Schreiboperation welche nur ein einzelnes Dokument aktualisieren sind on MongoBD atomar. WriteConcerns definieren wann MongoDB eine erfolgreiche Speicherung der Daten quittiert. Die zwei vorhandenen Einstellungen sind On-Disk und In-Memory. Um keine Daten zu verlieren wird On-Disk aktiviert.\newline
+Im Vergleich zu klassischen \textit{\gls{RDBMS}} welche sich an die \textit{\gls{ACID}} Prinzipien halten, hat MongoDB andere Mechanismen wie Transaktionen gehandhabt werden. Schreiboperation welche nur ein einzelnes Dokument aktualisieren sind on MongoBD atomar. WriteConcerns definieren wann MongoDB eine erfolgreiche Speicherung der Daten quittiert. Die zwei vorhandenen Einstellungen sind On-Disk und In-Memory. Um keine Daten zu verlieren wird On-Disk aktiviert.\newline
 Da MongoDB als Replica Set aufgebaut wird um einen Ausfall des Primaries zu kompensieren gibt es eine weitere Einstellung mit welcher definiert werden kann, auf wie vielen Replicas der Datensatz ebenfalls gespeichert wird. Für den Anwendungsfall von MEON ist dies nicht notwendig da der Registrierungsprozess mit dem verschicken der SMS Nachricht und der Mail bereits Asynchronität beinhaltet welche genug Zeit für eine Synchronisation der Replicas ermöglicht. Weitere Informationen finden sich in der MongoDB Dokumentation unter \url{https://docs.mongodb.com/manual/reference/write-concern/}.

@@ -15,23 +15,24 @@ Neben den normalen Docker Container kennt OpenShift das Konzept von Pods. Pods\f
 
 Services\footnote{https://kubernetes.io/docs/user-guide/services/} sind eine weitere Abstraktion von OpenShift, welche Pods gruppiert. Wenn verschiedene Pods miteinander kommunizieren wollen, braucht es eine Möglichkeit den Netzwerkverkehr zu organisieren. Services sind die Schnittstelle zwischen einzelnen Pods, welche intern wie ein Loadbalancer funktionieren und eine Anfrage an einen Pod weiterleiten. Durch diesen Mechanismus wird es möglich dynamisch Pods hinzuzufügen oder zu entfernen.
 
-\section{Diagramm}
+\section{Verteilung auf OpenShift}
 \label{deploy-dia}
-\begin{center}
-	\includegraphics[scale=0.46]{OpenShiftDeployment.png}
-\end{center}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.44]{OpenShiftDeployment.png}
+	\caption{Verteilungssicht der Komponenten auf OpenShift}
+\end{figure}
 \newpage
 In der Verteilungssicht gibt es folgende Komponenten:\newline
 \begin{itemize}
-	\item Gelb sind die Teile welche den Use Case der Applikation abbilden und es dem Benutzer ermöglichen sich für TWINT anzumelden. Dazu gehören der WebServer mit dem statischen Inhalt für die WebPage, der Onboarding Server mit der Spring Boot Applikation sowie die Workflow Engine.
+	\item Gelb sind die Teile welche den Use Case der Applikation abbilden und es dem Benutzer ermöglichen sich für TWINT anzumelden. Dazu gehören der WebServer mit dem statischen Inhalt für die Webseite, der Onboarding Server mit der Spring Boot Applikation sowie die Workflow Engine.
 	\item Orange sind Komponenten welche für das Konfigurationsmanagement der Applikation verantwortlich sind. Hierzu gehört eine Spring Boot Anwendung, ein Message Bus für die Benachrichtigung der Server sowie ein GIT-Repository welches die Konfigurationen, gespeichert in Property Files, beinhaltet.
 	\item Grün sind OpenShift Services welche die Schnittstellen zwischen den einzelnen Teilen der gesamten Applikation verbinden.
 	\item Blau sind Teile welche für die Datenspeicherung verwendet werden. Es handelt sich dabei um ein Replica Set von MongoDB. Mehr Informationen zur Persistenz finden sich im Kapitel \ref{persistenz}.
 \end{itemize}
-
 Aus Compliance-Gründen befindet sich die Workflow Engine sowie die Config Server in einer separaten, durch eine Firewall getrennten Zone innerhalb des Clusters. Da die Workflow Engine auf Dienste mit Kreditkartendaten zugreifen muss, fällt die Komponente automatisch unter die gleichen PCI DSS Regeln. 
 
 \section{Installation}
 
-Die Anwendung wird mittels einer Jenkins Pipeline(Siehe Kapitel \ref{build} Build Management) gebaut und in Docker Images verpackt. OpenShift bietet die Möglichkeit mehrere getrennte Projekte voneinander zu verwalten. Dies wird genutzt um die verschiedenen Umgebungen Entwicklung, Integration und Produktion voneinander zu Trennen. Die Docker Images werden dann je in andere Repositories verschoben und auf den Umgebungen ausgerollt. {\color{red}Das Deployment auf OpenShift sind mit der Strategie 'Rolling' konfiguriert wodurch die einzelnen Container nacheinander aktualisiert werden. Damit dieser Prozess funktioniert, müssen für die Deployment Konfigurationen die HealthCheck eingeschaltet werden.}
+Die Anwendung wird mittels einer Jenkins Pipeline(Siehe Kapitel \ref{build} Build Management) gebaut und in Docker Images verpackt. OpenShift bietet die Möglichkeit mehrere getrennte Projekte voneinander zu verwalten. Dies wird genutzt um die verschiedenen Umgebungen Entwicklung, Integration und Produktion voneinander zu trennen. Die Docker Images werden durch den Build in andere Repositories verschoben und auf den Umgebungen ausgerollt. Das Deployment auf OpenShift ist mit der Strategie 'Rolling' konfiguriert wodurch die einzelnen Container nacheinander aktualisiert werden. Damit dieser Prozess funktioniert, müssen für die Deployment Konfigurationen die HealthCheck eingeschaltet werden.
 

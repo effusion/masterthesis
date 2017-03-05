@@ -8,19 +8,21 @@
 \section{Business Case}
 \label{businesscase}
 
-Die Applikation MEON dient der Registration neuer Händler für den mobilen Bezahldienst TWINT und zukünftig der Registrierung neuer Händler für Enabling(Terminal)/Acquiring Pakete. Der Geschäftsprozess läuft in zwei Teilen ab welche durch verschiedene Teile der Applikation durchgeführt werden.  Dabei soll es einem Händler möglich sein, sich ohne direkten Kontakt mit der SIX einen gültigen Vertrag für den Einsatz des Dienstes zu erwerben. Sollte ein Kontakt notwendig sein, wird dieser seitens SIX durch das Risk Management initiiert.\newline
+Die Applikation MEON (Merchant Onboarding) dient der Registration neuer Händler für den mobilen Bezahldienst TWINT und zukünftig der Registrierung neuer Händler für Enabling(Terminal)/Acquiring Pakete. Der Geschäftsprozess läuft in zwei Teilen ab welche durch verschiedene Teile der Applikation durchgeführt werden.  Dabei soll es einem Händler möglich sein, sich ohne direkten Kontakt mit der SIX einen gültigen Vertrag für den Einsatz des Dienstes zu erwerben. Sollte ein Kontakt notwendig sein, wird dieser seitens SIX durch das Risk Management initiiert.\newline
 Die Anwendung soll eine moderne und intuitive Web Applikation sein und dem Benutzer möglichst viele Hilfestellung bieten. Nach der erfolgreichen Registrierung und  eventuellen Prüfung soll der Dienst auf den notwendigen internen System der SIX automatisch aufgeschaltet werden. Hierzu zählen das System für die Verwaltung der Terminals (SCS) sowie das Transaktionsverarbeitungsystem(PASS).
 
-\begin{center}
+\begin{figure}[H]
+	\centering
 	\includegraphics[scale=0.25]{meon-use-case.png}
-\end{center}
-
+	\caption{MEON Business Case}
+\end{figure}
+\newpage
 \section{Aufgabenstellung}
 
-Die neu Architektur der Applikation soll die kontinuierliche Installation des Onboarding Servers erlauben ohne den Dienst zu unterbrechen(Continuous Deployment). Da die Anwendung bereits in Betrieb ist sollen Änderungen nur gemacht werden, wenn sie für die Umsetzung unumgänglich sind. \newline Die Workflow Engines ist ein Produkt der Firma Camuda wird jedoch in der Open Source version verwendet. Das Produkt hat bereits Mechanismen für Continuous Deployment, die SIX besitzt zur Zeit aber keinen Supportvertag um diese Feature in Betrieb zunehmen. Aus diesem Grund wird die Engine nicht in die Architektur aufgenommen der Onboarding Server muss jedoch den Umstand berücksichtigen um die Anforderungen zu erfüllen.
+Die neue Architektur der Applikation soll die unterbrechungsfrei Installation des Onboarding Servers erlauben(Continuous Deployment). Da die Anwendung bereits in Betrieb ist, sollen Änderungen nur gemacht werden, wenn sie für die Umsetzung unumgänglich sind. \newline Die Workflow Engines ist ein Produkt der Firma Camuda. Diese wird jedoch in der Open Source version verwendet. Das Produkt hat bereits Mechanismen für Continuous Deployment, SIX besitzt zur Zeit aber keinen Supportvertag um diese Feature in Betrieb zunehmen. Aus diesem Grund wird die Engine nicht in die Architektur aufgenommen was für den  Onboarding Server bedeutet, dass dieser Umstand berücksichtigen werden muss um die Anforderungen zu erfüllen.
 
 \section{Anforderungen}
-
+\label{requirements}
 Alle funktionalen Anforderungen sind bereits umgesetzt. Durch die Anpassung der Architektur in Richtung Continuous Deployment gibt es aktuell nur nicht funktionale Anforderungen.
 
 \begin{table}[H]
@@ -28,12 +30,12 @@ Alle funktionalen Anforderungen sind bereits umgesetzt. Durch die Anpassung der 
 	\caption{Nicht funktionale Anforderungen}
 	\begin{tabular}{ | p{2cm} | p{13cm} | }
 		\toprule
-		{\textbf{ID}} & {\textbf{Beschreibung}} \\
+		\textbf{ID} & \textbf{Beschreibung} \\
 		\midrule
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Kunde merkt nicht wenn neue Komponenten der Applikation ausgetauscht werden. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Verfügbarkeit der Frontend-Anwendung ist 24x7 (SLA). \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Einhaltung der PCI DSS Anforderung bezüglich Umgang mit Daten resp. deren Zugriffsschutz durch Authentifizierung, Autorisierung und Netzwerksegmentierung. \\ \hline
-		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Applikation muss einfach skalierbar sein. \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Applikation muss horizontal skalierbar sein. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Anwendung muss eine hohe Ausfallsicherheit für Server und die Datenbank aufweisen. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Bugfixing geschieht mittels vorwärts committen, anstelle von Hotfixes wird immer die ganze Applikation neu ausgerollt. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Anwendung lässt sich voll automatisch Ausrollen. \\ \hline
@@ -81,7 +83,7 @@ Die folgende Tabelle zeigt die wichtigsten Qualitätsziele. Die Szenarien zu den
 		Q-\arabic{quatar} \stepcounter{quatar} & Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein.\\ \hline
 		Q-\arabic{quatar} \stepcounter{quatar} & Anpassungen an der Software sollen schnell eingeführt werden können. \\ \hline
 		Q-\arabic{quatar} \stepcounter{quatar} & Die Applikation soll ohne Unterbrechung des Dienstes installiert werden können. \\ \hline
-		Q-\arabic{quatar} \stepcounter{quatar} & Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können.\\ \hline
+		Q-\arabic{quatar} \stepcounter{quatar} & Der Händler soll sich, bei korrektem Ausfüllen der Daten, registrieren können.\\ \hline
 		Q-\arabic{quatar} \stepcounter{quatar} & Konfigurationsänderungen an der Applikation können ohne Unterbruch durchgeführt werden. \\
 		\bottomrule
 	\end{tabular}

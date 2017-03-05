@@ -1,9 +1,18 @@
 \chapter{Qualitätsszenarien}
 \label{sec:qualityscenarios}
-
 \section{Qualitätsbaum}
+
+Der Qualitätsbaum und die Qualitätsziele wurden anhand der Anforderungen im Kapitel \ref{requirements} definiert.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{qualitytree.png}
+	\caption{Qualitätsbaum}
+\end{figure}
+
 \begin{table}[H]
 	\centering
+	\caption{Qualitätsziele}
 	\begin{tabular}{ | p{3cm} | p{3.5cm} | p{6.5cm} | p{1cm} | }
 		\toprule
 		{\textbf{Merkmal}} & {\textbf{Untermerkmal}} & {\textbf{Szenario}} & {\textbf{Prio}} \\
@@ -11,7 +20,7 @@
 		Funktionalität & Sicherheit & Q1: Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein & 1 \\ \hline
 		Änderbarkeit & Modifizierbarkeit & Q2: Anpassungen an der Software sollen einfach eingeführt werden können & 1 \\ \hline
 		Übertragbarkeit & Installierbarkeit & Q3: Die Applikation soll ohne Unterbrechung des Dienstes installiert werden können. & 2 \\ \hline
-		Zuverlässigkeit & Fehlertoleranz & Q4: Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können & 2 \\ \hline
+		Zuverlässigkeit & Fehlertoleranz & Q4: Der Händler soll sich, bei korrektem Ausfüllen der Daten, registrieren können & 2 \\ \hline
 		Funktionalität & Konfigurierbarkeit & Q5: Konfigurationsänderungen an der Applikation können ohne Unterbruch durchgeführt werden. & 2 \\
 		\bottomrule
 	\end{tabular}
@@ -23,11 +32,11 @@ Damit die angepasste Architektur bewertet werden kann, wurden folgenden Bewertun
 
 \subsection{Szenario: Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein}
 %% https://www.pcisecuritystandards.org/document_library
-Nach PCI Standard müssen Kartendaten geschützt werden und dürfen nicht unberechtigt zugegriffen werden. Die Applikation selber hält keine Kartendaten sondern hat Schnittstellen zu Systeme welche dies tun. Obschon diese Anwendungen in einer separat geschützten Zone stehen, ist die Firewall für einige Systeme geöffnet, welche es einem Angreifer ermöglichen könnten an Daten zu kommen.
+Nach PCI Standard müssen Kartendaten geschützt und unberechtigter zugegriffen verhindert werden. Die Applikation selber hält keine Kartendaten sondern hat Schnittstellen zu Systeme welche dies tun. Obschon diese Anwendungen in einer separat geschützten Zone stehen, ist die Firewall für einige Systeme geöffnet, welche es einem Angreifer ermöglichen könnten an Daten zu kommen.
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{ | p{3cm} | p{11cm} | }
+	\begin{tabular}{ | p{3cm} | p{12cm} | }
 		\toprule
 		Geschäftsziel & Damit SIX Kartendaten verarbeiten kann müssen die PCI Standards eingehalten werden. Die Händler werden in einem System mit sensitiven Daten aufgesetzt, auf dieses System soll kein Zugriff möglich sein. \\ \hline
 		Auslöser & Ein Krimineller versucht an Kartendaten zu gelangen. \\ \hline
@@ -42,7 +51,7 @@ Es muss möglich sein neue Businessanforderungen und Fehlerbehebungen in der Sof
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{ | p{3cm} | p{11cm} | }
+	\begin{tabular}{ | p{3cm} | p{12cm} | }
 		\toprule
 		Geschäftsziel & Die Anforderungen vom Business (z.B. Risk) oder Fehler in der Software muss möglichst zeitnah ausgerollt werden. \\ \hline
 		Auslöser & Eine Änderung oder ein Fehler führen zu rechtlich inkonsistentem Zustand. \\ \hline
@@ -60,7 +69,7 @@ Die Applikation soll sowohl intern für Tester als auch extern für Businessabna
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{ | p{3cm} | p{11cm} | }
+	\begin{tabular}{ | p{3cm} | p{12cm} | }
 		\toprule
 		Geschäftsziel & Die Applikation ist standortunabhängig in verschiedenen Versionen verfügbar. \\ \hline
 		Auslöser & Ein Businessvertreter möchte die Applikation zur Abnahme zur Verfügung gestellt bekommen. \\ \hline
@@ -70,13 +79,13 @@ Die Applikation soll sowohl intern für Tester als auch extern für Businessabna
 	\end{tabular}
 \end{table}
 
-\subsection{Szenario: Der Kunde soll bei korrektem Ausfüllen der Daten sich registrieren können}
+\subsection{Szenario: Der Kunde soll sich, bei korrektem Ausfüllen der Daten, registrieren können}
 
 Das Abschicken der Registrierungsdaten soll bei validem Inhalt jederzeit möglich sein auch wenn die Software gerade neu installiert wird oder eine Komponente einen Fehler/Ausfall hatte.
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{ | p{3cm} | p{11cm} | }
+	\begin{tabular}{ | p{3cm} | p{12cm} | }
 		\toprule
 		Geschäftsziel & Der Benutzer füllt das Formular korrekt aus und meldet sich damit bei der SIX als Kunde an. \\ \hline
 		Auslöser & Der \Gls{Kunde} drückt den Registrierungsknopf am Ende des Pagewizards \\  \hline
@@ -93,7 +102,7 @@ Auf dem produktiven System können Konfigurationsänderungen an der Applikation 
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{ | p{3cm} | p{11cm} | }
+	\begin{tabular}{ | p{3cm} | p{12cm} | }
 		\toprule
 		Geschäftsziel & Eine Änderung an einer Einstellung muss geändert oder ein Feature aktiviert werden. \\ \hline
 		Auslöser & Der Entwickler macht einen Commit in das Konfigurationsrepository\\ \hline
