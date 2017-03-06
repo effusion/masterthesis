@@ -25,6 +25,7 @@ Die neue Architektur der Applikation soll die unterbrechungsfrei Installation de
 \label{requirements}
 Alle funktionalen Anforderungen sind bereits umgesetzt. Durch die Anpassung der Architektur in Richtung Continuous Deployment gibt es aktuell nur nicht funktionale Anforderungen.
 
+\stepcounter{nonFuncReq}
 \begin{table}[H]
 	\centering
 	\caption{Nicht funktionale Anforderungen}
@@ -76,15 +77,16 @@ Die folgende Tabelle zeigt die wichtigsten Qualitätsziele. Die Szenarien zu den
 \begin{table}[H]
 	\centering
 	\caption{Qualitätsziele}
-	\begin{tabular}{ | p{3cm} | p{12cm} | }
+	\begin{tabular}{ | p{1cm} | p{11cm} | p{3cm} | }
 		\toprule
-		{\textbf{Name}} & {\textbf{Beschreibung}} \\
+		{\textbf{ID}} & {\textbf{Beschreibung}} & {\textbf{Anforderung}}\\
 		\midrule
-		Q-\arabic{quatar} \stepcounter{quatar} & Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein.\\ \hline
-		Q-\arabic{quatar} \stepcounter{quatar} & Anpassungen an der Software sollen schnell eingeführt werden können. \\ \hline
-		Q-\arabic{quatar} \stepcounter{quatar} & Die Applikation soll ohne Unterbrechung des Dienstes installiert werden können. \\ \hline
-		Q-\arabic{quatar} \stepcounter{quatar} & Der Händler soll sich, bei korrektem Ausfüllen der Daten, registrieren können.\\ \hline
-		Q-\arabic{quatar} \stepcounter{quatar} & Konfigurationsänderungen an der Applikation können ohne Unterbruch durchgeführt werden. \\
+		Q-\arabic{quatar} \stepcounter{quatar} & Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein. & NFA-3\\ \hline
+		Q-\arabic{quatar} \stepcounter{quatar} & Anpassungen an der Software sollen schnell eingeführt werden können. & NFA-6, NFA-7\\ \hline
+		Q-\arabic{quatar} \stepcounter{quatar} & Die Applikation soll ohne Unterbrechung des Dienstes installiert werden können. & NFA-1\\ \hline
+		Q-\arabic{quatar} \stepcounter{quatar} & Der Händler soll sich, bei korrektem Ausfüllen der Daten, registrieren können. & NFA-2, NFA-5 \\ \hline
+		Q-\arabic{quatar} \stepcounter{quatar} & Konfigurationsänderungen an der Applikation können ohne Unterbruch durchgeführt werden. & NFA-8 \\ \hline
+		Q-\arabic{quatar} \stepcounter{quatar} & Die Applikation soll schnell horizontal skaliert werden können. & NFA-4 \\
 		\bottomrule
 	\end{tabular}
 \end{table}

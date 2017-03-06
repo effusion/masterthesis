@@ -4,7 +4,7 @@
 
 \section{Ebene 1 : Sequenz Registrierung}
 
-Die Registrierungssequenz ist ein mehrstufiger Prozess. Hat der neue Händler ein Produkt ausgewählt und seine Kontaktdaten, Mobile-Nummer und Emailadresse, eingegeben, werden diese in der Datenbank gespeichert. Gleichzeitig wird eine Mail mit einem Registrierungslink verschickt. Sobald der Händler diese Daten erhalten hat, kann er den Prozess fortführen indem er den Link öffnet. Das Öffnen des Links löst eine SMS in Form einer \textit{\gls{MTAN}} aus. Mit Hilfe dieses \textit{\gls{MTAN}}'s verifiziert der Händler eine gültige Mobile-Nummer und ist damit berechtigt alle registrierungsrelevanten Daten auszufüllen und diese zu übermitteln. Die Übermittlung der Daten an die Workflow Engine erfolgt asynchron.
+Die Registrierungssequenz ist ein mehrstufiger Prozess. Hat der neue Händler ein Produkt ausgewählt und seine Kontaktdaten, Mobile-Nummer und Emailadresse, eingegeben, werden diese in der Datenbank gespeichert. Gleichzeitig wird eine Mail mit einem Registrierungslink verschickt. Sobald der Händler diese Daten erhalten hat, kann er den Prozess fortführen indem er den Link öffnet. Das Öffnen des Links löst eine SMS in Form einer \textit{\gls{MTAN}} aus. Mit Hilfe dieses \textit{\gls{MTAN}}'s verifiziert der Händler eine gültige Mobile-Nummer und ist damit berechtigt alle registrierungsrelevanten Daten auszufüllen und diese zu übermitteln. Die Übermittlung der Daten an die Workflow Engine erfolgt asynchron und kann über die Einstellungen, wie Anzahl zu sendender Anfragen und Zeitintervall, konfiguriert werden
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.44]{RegistrationSequenceLevel1.png}

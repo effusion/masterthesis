@@ -85,8 +85,8 @@ Weitere Informationen zu Schnittstelle finden sich in Kapitel \ref{documents} D-
 		\midrule
 		Identifikation & \textit{\gls{URL}} \\ \hline
 		Bereitgestellte Resource & Versenden von E-Mails\\ \hline
-		Fehlerszenarien & Server nicht erreichbar, wodurch die Mail später nochmals gesendet werden muss.\\ \hline
-		Entwurfsentscheidungen & \color {red} {Falls die Schnittstelle nicht verfügbar ist, werden die Buttons im User Interface ausgeblendet}.\\
+		Fehlerszenarien & Mail Server ist nicht erreichbar. Mail wurde an Mail Server verschickt welcher das Mail aber nicht weiter verschickt hat.\\ \hline
+		Entwurfsentscheidungen & Wenn die Verbindung zum Mailserver nicht funktioniert, wird eine Fehlermeldung angezeigt. Sollte der Mail Server die Mail nicht weiter schicken, soll die Mail an eine separate Mailbox gesendet werden damit der Fehler behandelt werden kann.\\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -102,8 +102,8 @@ Weitere Informationen zu Schnittstelle finden sich in Kapitel \ref{documents} D-
 		\midrule
 		Identifikation & \textit{\gls{URL}} \\ \hline
 		Bereitgestellte Resource & Versenden von E-Mails\\ \hline
-		Fehlerszenarien & Server nicht erreichbar, wodurch die Mail später nochmals gesendet werden muss.\\ \hline
-		Entwurfsentscheidungen & \color {red} {Falls die Schnittstelle nicht verfügbar ist, werden die Buttons im User Interface ausgeblendet.}\\
+		Fehlerszenarien & SMS Server nicht erreichbar oder Nummer ist falsch.\\ \hline
+		Entwurfsentscheidungen & Fehlermeldung wird dem Benutzer angezeigt, dass der Server nicht erreichbar ist respektive das SMS nicht gesendet werden konnte.\\
 		\bottomrule
 	\end{tabular}
 \end{table}

@@ -21,7 +21,8 @@ Der Qualitätsbaum und die Qualitätsziele wurden anhand der Anforderungen im Ka
 		Änderbarkeit & Modifizierbarkeit & Q2: Anpassungen an der Software sollen einfach eingeführt werden können & 1 \\ \hline
 		Übertragbarkeit & Installierbarkeit & Q3: Die Applikation soll ohne Unterbrechung des Dienstes installiert werden können. & 2 \\ \hline
 		Zuverlässigkeit & Fehlertoleranz & Q4: Der Händler soll sich, bei korrektem Ausfüllen der Daten, registrieren können & 2 \\ \hline
-		Funktionalität & Konfigurierbarkeit & Q5: Konfigurationsänderungen an der Applikation können ohne Unterbruch durchgeführt werden. & 2 \\
+		Funktionalität & Konfigurierbarkeit & Q5: Konfigurationsänderungen an der Applikation können ohne Unterbruch durchgeführt werden. & 2 \\ \hline
+		Funktionalität & Skalierbarkeit & Q6: Die Applikation soll schnell horizontal skaliert werden können. & 2 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -108,6 +109,24 @@ Auf dem produktiven System können Konfigurationsänderungen an der Applikation 
 		Auslöser & Der Entwickler macht einen Commit in das Konfigurationsrepository\\ \hline
 		Reaktion & Die Anwendungen werden via Message Bus benachrichtig und aktualisieren die Einstellungen \\ \hline
 		Zielwerte & Die Änderungen werden ohne Neustart der Anwendung übernommen.\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+\subsection{Szenario: Die Applikation soll schnell horizontal skaliert werden können.}
+
+Kommt das System durch eine hohe Anzahl sich registrierender Händler unter Last respektive erhören sich die Antwortzeiten, soll es möglich sein die Applikation horizontal zu skalieren um die Antwortzeiten zu senken.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ | p{3cm} | p{12cm} | }
+		\toprule
+		Geschäftsziel & Die Antwortzeiten der Applikation bleiben unter einer Sekunde \\ \hline
+		Auslöser & Mehrere gleichzeitige Benutzer belasten das System und erhöhen die Antwortzeiten. \\ \hline
+		Umgebung & Produktion\\ \hline
+		Reaktion & Die Applikation wird horizontal skaliert um die Antwortzeiten zu senken. \\ \hline
+		Zielwerte & Skalierung ist voll automatisch oder mit einem Konsolenbefehl möglich. \\
 		\bottomrule
 	\end{tabular}
 \end{table}

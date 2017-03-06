@@ -250,7 +250,8 @@ Soll die Applikation kontinuierlich ausgerollt werden, sind manuelle Anpassungen
 	\item Dateien welche Zertifikate beinhalten.
 \end{itemize}
 
-Auf Testumgebungen ist dies meistens kein Problem da entsprechende Konfigurationen mit abgelegt sind. Die Probleme treten aktuell hauptsächlich für produktive Systeme bei welchen keine Passwörter mit eingecheckt werden können.
+Auf Testumgebungen ist dies meistens kein Problem da entsprechende Konfigurationen mit abgelegt sind. Die Probleme treten aktuell hauptsächlich für produktive Systeme bei welchen keine Passwörter mit eingecheckt werden können.\newline
+Ein weiterer Punkt welcher mit dem Konfiguration abgedeckt werden soll, ist die Möglichkeit die Applikation horizontal zu skalieren um Lastspitzen abzufangen. Dies soll entweder vollautomatisch oder durch absetzen eines Konsolenbefehls machbar sein.
 
 \subsubsection{Docker Compose, Swarm}
 
@@ -260,6 +261,7 @@ Aktuell ist die Konfiguration der Container in einem Propertiesfile gespeichert.
 \begin{itemize}
 	\item Wird aktuell bereits eingesetzt.
 	\item Konfigurationen der Container können von aussen initiiert werden.
+	\item Möglichkeit die Applikation zu skalieren.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
@@ -267,24 +269,26 @@ Aktuell ist die Konfiguration der Container in einem Propertiesfile gespeichert.
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
-	\item Nicht kompatibel mit Kubernetes welche bei Openshift\footnote{https://www.openshift.org: Plattform welche das Ausrollen von Containers im Sinne einer Cloud Umgebung ermöglicht.}  verwendet wird. Die Plattform ist im Aufbau und wird die zukünftige Plattform.
+	\item Nicht kompatibel mit Kubernetes welche bei Openshift\footnote{\url{https://www.openshift.com/container-platform/}}  verwendet wird. Die Plattform ist im Aufbau und wird die zukünftige Plattform.
 \end{itemize}
 
-\subsubsection{Kubernetes}
+\subsubsection{OpenShift Container Plattform}
 
-Kubernetes ist ein anderes Framework\footnote{http://kubernetes.io: Wurde von Google Entwickelt und beschränkt sich nicht nur auf Docker Container.} für die Konfiguration von Containern und deren Abhängigkeiten. Kubernetes verfolgt eine andere Philosophie und ist aus diesem Grund nicht kompatibel mit der Docker eigenen API.
+OpenShift ist ein Produkt der Firma Red Hat welches eine Plattform as a Service Charakteristik hat und auf Kubernetes\footnote{\url{https://kubernetes.io}} von Google basiert.
 \textbf{Vorteile}
 \begin{itemize}
 	\item Ist die Basis von Openshift, welche als Standard Plattform für Container etabliert werden soll, und daher von strategischer Bedeutung.
+	\item Dockerfiles können wieder verwendet werden.
+	\item Erlaubt horizontale Skalierung vollautomatisch, via Befehl oder Manuell.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
-	\item Anpassungen an der Orchestrierung der Container.
+	\item Orchestierung muss von Docker Compose nach OpenShift migriert werden.
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
 	\item Plattform ist noch nicht wirklich in Betrieb sondern nur zu Testzwecken installiert.
-	\item Kein Know-how zu Kubernetes vorhanden.
+	\item Kein Know-how zu OpenShift vorhanden.
 \end{itemize}
 
 \subsubsection{Spring Cloud Config}
@@ -339,11 +343,10 @@ Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis
 		BK-\arabic{bk} \stepcounter{bk} & Ausfallsicherheit / Konsistenz & Die Komponente ermöglicht automatische Ausfallsicherheit ohne manuelle Interaktion eines Administrators.& 5 & Nicht-funktionale Anforderung an die Architektur. Notwendig dabei ist, dass bei kontinuierlicher Ausrollung keine Inkonsistenzen entstehen.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Reifegrad & Die Komponente wird aktuell von anderen Firmen in produktiven Umgebungen eingesetzt und hat eine ausführliche Dokumentation und Literatur. Für Opensource gilt, dass die Komponente eine entsprechende Community hat und aktive entwickelt wird.  & 4 & Der Einsatz von unreifer Software führt zu Mehraufwand in Fehlerfällen resp. falls Fehler auftreten die lange brauchen bis sie behoben werden.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Entkopplungsgrad & Die Komponente erlaubt die asynchrone Kommunikation.& 4 & Nicht-funktionale Anforderung welche wichtig ist damit der Benutzer von einem Unterbruch des Dienstes nichts merkt. \\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Skalierbarkeit & Die Komponente lässt sich durch Konfiguration resp. durch bereitstellen eines neuen Containers horizontal skalieren.& 5 & Nicht-funktionale Anforderungen an die Architektur. Während der Installation ist immer ein Teil der Applikation nicht erreichbar. Die Skalierbarkeit stellt deshalb sicher, dass in diesem Fall immer genug Resourcen vorhanden sind um die Anfragen zu bearbeiten. \\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Skalierbarkeit & Die Komponente lässt sich durch Konfiguration resp. durch bereitstellen eines neuen Containers horizontal skalieren.& 5 & Nicht-funktionale Anforderungen an die Architektur. Während der Installation ist immer ein Teil der Applikation nicht erreichbar. Die Skalierbarkeit stellt deshalb sicher, dass in diesem Fall immer genug Ressourcen vorhanden sind um die Anfragen zu bearbeiten oder das im Fall von hoher Last zusätzliche Ressourcen bereitgestellt werden können. \\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Wartbarkeit & Die eingesetzte Komponente ist wartungsfreundlich & 3 & Die Wartung der Software sollte in einem angemessenem Rahmen möglich sein.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Lizenzkosten & Die Komponente hat möglichst kleine, einmalig oder wiederkehrende, Kosten. & 3 & Die Kosten sind wichtig jedoch ist im Bereich der Finanzindustrie die Konsistenz weit höher gewichtet.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Testbarkeit & Die Komponente lässt sich einfach in einer Testumgebung oder für Unittests aufsetzten. &  3 & Die Komponente sollte sich gut testen lassen. Ein gewisser Aufwand wird jedoch in Kauf genommen.\\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Interportabilität & Die Komponente ist technologisch unabhängig und lässt sich einfach mit anderen integrieren. & 3 & Die Software sollte sich mit den wichtigsten Technologien verwenden lassen. Die Applikation selber ist jedoch sehr spezifisch weshalb dies weniger gewertet wird.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Lernkurve & Die Konzepte, API's, Konfigurationsmöglichkeiten sind einfach verständlich und sind für den Entwickler und Administrator schnell erlernbar. & 4 & Die neue Architektur besitzt als ganzes bereits eine gewisse Komplexität. Sind die neuen Teile selber komplex wird dadurch das ganze System automatisch schwerer zu verstehen.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Strategisch & Der Einsatz der Software/Plattform wurde auf Firmenebene als strategisch definiert. & 5 & Der Einsatz einer anderen Lösung ist nach wie vor gestattet, muss jedoch begründet werden und fällt in die Kategorie 'Special Solutions', für welche die verantwortliche Abteilung später die Kosten tragen muss.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Know-How & Wissen was bereits über die Technologie vorhanden ist respektive wie diese eingesetzt werden kann & 2 & Obschon dadurch Kosten und Zeit gespart werden können, ist es auch ein Hindernis bei der Suche einer passender Lösung. Vor allem in Anbetracht der Anforderungen welche neue Denkansätze verlangt.\\ \hline
