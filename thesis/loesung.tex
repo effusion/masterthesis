@@ -44,7 +44,7 @@ Soll der Benutzer sich auch bei der Aktualisierung der Applikation für TWINT re
 
 \subsection{Konfigurationsmanagement}
 
-Aktuell wird das Konfigurationsmanagement {\color{red} und die Orchestration} mit Hilfe von Docker und Docker Compose bewerkstelligt. Für die neuen Anforderungen muss die aktuelle Lösung geprüft und gegebenenfalls ein anderer Ansatz verfolgt werden. Die Änderung der Konfiguration zur Laufzeit, als neue Anforderung, ist bei einer Applikation die immer wieder ausgerollt werden soll zwingend notwendig um die einzelnen Funktionen besser steuern zu können.
+Aktuell wird das Konfigurationsmanagement und die Orchestration mit Hilfe von Docker und Docker Compose bewerkstelligt. Für die neuen Anforderungen muss die aktuelle Lösung geprüft und gegebenenfalls ein anderer Ansatz verfolgt werden. Dabei ist es auch wichtig, dass die Anwendung horizontal skaliert werden kann. Die Änderung der Konfiguration zur Laufzeit, als neue Anforderung, ist bei einer Applikation die immer wieder ausgerollt werden soll zwingend notwendig um die einzelnen Funktionen besser steuern zu können.
 
 \subsection{Deployment Pipeline}
 
@@ -406,6 +406,11 @@ der Applikation nicht verfügbar sind. Das Ziel gilt deshalb als erfüllt.
 
 Mit Spring Cloud Config und RabbitMQ lassen sich auf einfache Weise Konfigurationen aktualisieren. Dies kann wahlweise direkt durch einen Commit im Konfigurationsrepository oder mit einem manuellen URL Aufruf auf dem Configserver ausgelöst werden. Die Applikationen übernehmen die Änderung mit einer kleinen Zeitverzögerung. Damit ist auch das letzte Qualitätsziele erfüllt.
 \newpage
+
+\subsubsection{Ziel: Die Applikation soll schnell horizontal skaliert werden können.}
+
+OpenShift erlaubt das horizontale Skalieren der Applikation auf mehrere Arten. Der Entwickler oder Betrieb kann direkt über das Web Interface neue Instanzen hinzufügen. Es gibt auch die Möglichkeit dies mittels eines Konsolenbefehl zu machen. Schlussendlich bietet OpenShift auch die Möglichkeit der Autoskalierung anhand von CPU werten. Das Ziel ist damit erfüllt.
+
 \section{Ergebnis}
 
 Das Ergebnis der Thesis ist ein Software Architektur Dokument welches die neue Architektur auf einem Abstraktionslevel beschreibt damit ein Entwicklerteam die aktuelle Anwendung anpassen könnte. Die verschiedenen Sichten im Dokument illustrieren wie der Anwendungsfall in den einzelnen Teilen der Applikation umgesetzt werden muss. Das Dokument erklärt wie die verschiedenen Konzepte, vor allem Continuous Delivery, eingesetzt und was dabei beachtet werden muss. Schlussendlich sind sämtliche Entscheidungen, welche während der Erarbeitung getroffen wurden, dokumentiert. Durch diese Nachvollziehbarkeit ist es möglich Anpassungen an den Requirements nachträglich einfliessen zu lassen.\newline
