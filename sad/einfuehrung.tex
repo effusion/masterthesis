@@ -1,6 +1,7 @@
 \graphicspath{{./images/}}
 
 \newcounter{nonFuncReq} %Non functinal requiremet counter
+\newcounter{impFuncReq} %Non functinal requiremet counter
 \newcounter{quatar} %Quality target counter
 
 \chapter{Einführung und Ziele}
@@ -23,7 +24,7 @@ Die neue Architektur der Applikation soll die unterbrechungsfrei Installation de
 
 \section{Anforderungen}
 \label{requirements}
-Alle funktionalen Anforderungen sind bereits umgesetzt. Durch die Anpassung der Architektur in Richtung Continuous Deployment gibt es aktuell nur nicht funktionale Anforderungen.
+Die Anpassung der Architektur in Richtung Continuous Deployment hat nur nicht funktionale Anforderungen zu Folge. Die bereits umgesetzten Anforderungen sollten sich durch die neuen nicht ändern.
 
 \stepcounter{nonFuncReq}
 \begin{table}[H]
@@ -45,6 +46,24 @@ Alle funktionalen Anforderungen sind bereits umgesetzt. Durch die Anpassung der 
 	\end{tabular}
 \end{table}
 
+\stepcounter{impFuncReq}
+\begin{table}[H]
+	\centering
+	\caption{Umgesetzte Anforderungen}
+	\begin{tabular}{ | p{2cm} | p{13cm} | }
+		\toprule
+		\textbf{ID} & \textbf{Beschreibung} \\
+		\midrule
+		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Das Web Interface hat eine einfache zu bedienende Oberfläche welche in bei der Eingabe der geforderten Daten, Adresse, Unternehmensidentifikation, Handelsregisterauszug, unterstützt. \\ \hline
+		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Der neue Händler kann zwischen mehreren TWINT Varianten wählen.\\ \hline
+		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Der Registrierungsprozess hat zwei Stati. Im ersten Schritt gibt der neue Händler seine Kontaktdaten an worauf eine Mail mit einem Link verschickt wird. Der Link ist vier Wochen gültig damit der Händler die geforderten Dokumente liefern kann. Nach dem Klick auf den Link wird mittels MTAN verifiziert, dass es sich um den Händler handelt welche sich zuvor schon angemeldet hat. Nach Eingabe der MTAN hat der Händler weitere 30 Minuten Zeit die Registration abzuschliessen.\\ \hline
+		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Nach erfolgter Registrierung, erstellt die Applikation alle nötigen Einträge auf den Umsystemen welche für die Verarbeitung von Zahlungen des neuen Händlers notwendig sind.\\ \hline
+		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Die Anwendung verfügt über Mechanismen zu Ausfallsicherheit.\\ \hline
+		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Politisch exponierte Personen (PEP) müssen geprüft werden. Sollte es sich bei einem neuen Händler um eine solche Person handeln, ist der Prozess zu unterbrechen bis das Risk Management die Weiterverarbeitung genehmigt oder abbricht.\\ 
+		\bottomrule
+	\end{tabular}
+\end{table}
+
 \subsection{Kernaufgabe}
 
 Ziel ist die Akquirierung neuer Händler für das mobile Bezahlsystem TWINT.
@@ -56,7 +75,7 @@ Die Applikation MEON besteht aus zwei Teilen. Der Onboarding Server ist ein inte
 \subsection{Datenhaltung}
 
 Die Datenhaltung wird mittels MongoDB für den Onboarding Server und Oracle für die Workflow Engine sichergestellt.
-
+\newpage
 \subsection{Schnittstellen}
 
 MEON hat folgende Schnittstellen zu Umsystemen welche lesend(ro) oder schreiben(w) sein können.
