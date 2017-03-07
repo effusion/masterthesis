@@ -250,8 +250,8 @@ Soll die Applikation kontinuierlich ausgerollt werden, sind manuelle Anpassungen
 	\item Dateien welche Zertifikate beinhalten.
 \end{itemize}
 
-Auf Testumgebungen ist dies meistens kein Problem da entsprechende Konfigurationen mit abgelegt sind. Die Probleme treten aktuell hauptsächlich für produktive Systeme bei welchen keine Passwörter mit eingecheckt werden können.\newline
-Ein weiterer Punkt welcher mit dem Konfiguration abgedeckt werden soll, ist die Möglichkeit die Applikation horizontal zu skalieren um Lastspitzen abzufangen. Dies soll entweder vollautomatisch oder durch absetzen eines Konsolenbefehls machbar sein.
+Auf Testumgebungen ist dies meistens kein Problem da entsprechende Konfigurationen mit abgelegt sind. Die Probleme treten aktuell hauptsächlich in produktiven Systemen auf, bei welchen keine Passwörter mit eingecheckt werden können.\newline
+Ein weiterer Punkt, welcher mit dem Konfiguration abgedeckt werden soll, ist die Möglichkeit die Applikation horizontal zu skalieren um Lastspitzen abzufangen. Dies soll entweder vollautomatisch oder durch absetzen eines Konsolenbefehls machbar sein.
 
 \subsubsection{Docker Compose, Swarm}
 
@@ -278,12 +278,12 @@ OpenShift ist ein Produkt der Firma Red Hat welches eine Plattform as a Service 
 \textbf{Vorteile}
 \begin{itemize}
 	\item Ist die Basis von Openshift, welche als Standard Plattform für Container etabliert werden soll, und daher von strategischer Bedeutung.
-	\item Dockerfiles können wieder verwendet werden.
-	\item Erlaubt horizontale Skalierung vollautomatisch, via Befehl oder Manuell.
+	\item Dockerfiles können wiederverwendet werden.
+	\item Erlaubt horizontale Skalierung vollautomatisch, via Befehl oder manuell.
 \end{itemize}
 \textbf{Nachteile}
 \begin{itemize}
-	\item Orchestierung muss von Docker Compose nach OpenShift migriert werden.
+	\item Orchestrierung muss von Docker Compose nach OpenShift migriert werden.
 \end{itemize}
 \textbf{Risiken}
 \begin{itemize}
@@ -331,7 +331,7 @@ Saltstack ist ein Konfigurationsmanagement mit welchem sich Server und deren App
 
 \section{Bewertungskriterienkatalog}
 
-Mit Hilfe der Bewertungskriteren sollen die einzelne Teillösungen bewertet werden um daraus Lösungsvarianten zu definieren. Für die Varianten oder Teillösungen werden dann Prototypen entwickelt um deren Umsetzbarkeit zu verifizieren. Die Bewertungskriterien mögen sich stellenweise mit den Qualitätszielen überschneiden, betrachten die Lösungen jedoch auf einen anderen Ebene. Nicht alle Kriterien sind auf alle Teillösungen anwendbar und werden in der Matrix später nicht ausgefüllt.\newline
+Mit Hilfe der Bewertungskriterien sollen die einzelne Teillösungen bewertet werden um daraus Lösungsvarianten zu definieren. Für die Varianten oder Teillösungen werden dann Prototypen entwickelt um deren Umsetzbarkeit zu verifizieren. Die Bewertungskriterien mögen sich stellenweise mit den Qualitätszielen überschneiden, betrachten die Lösungen jedoch auf einen anderen Ebene. Nicht alle Kriterien sind auf alle Teillösungen anwendbar und werden in der Matrix später nicht ausgefüllt.\newline
 Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis Fünf verwendet mit Eins als schwache Gewichtung/Bewertung und Fünf als starte Gewichtung/Bewertung.
 
 \newgeometry{left=2.5cm, right=2.5cm, bottom=2.5cm, top=2.5cm}
@@ -343,7 +343,7 @@ Für die Gewichtung als auch die für die Bewertung wird eine Skala von Eins bis
 		BK-\arabic{bk} \stepcounter{bk} & Ausfallsicherheit / Konsistenz & Die Komponente ermöglicht automatische Ausfallsicherheit ohne manuelle Interaktion eines Administrators.& 5 & Nicht-funktionale Anforderung an die Architektur. Notwendig dabei ist, dass bei kontinuierlicher Ausrollung keine Inkonsistenzen entstehen.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Reifegrad & Die Komponente wird aktuell von anderen Firmen in produktiven Umgebungen eingesetzt und hat eine ausführliche Dokumentation und Literatur. Für Opensource gilt, dass die Komponente eine entsprechende Community hat und aktive entwickelt wird.  & 4 & Der Einsatz von unreifer Software führt zu Mehraufwand in Fehlerfällen resp. falls Fehler auftreten die lange brauchen bis sie behoben werden.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Entkopplungsgrad & Die Komponente erlaubt die asynchrone Kommunikation.& 4 & Nicht-funktionale Anforderung welche wichtig ist damit der Benutzer von einem Unterbruch des Dienstes nichts merkt. \\ \hline
-		BK-\arabic{bk} \stepcounter{bk} & Skalierbarkeit & Die Komponente lässt sich durch Konfiguration resp. durch bereitstellen eines neuen Containers horizontal skalieren.& 5 & Nicht-funktionale Anforderungen an die Architektur. Während der Installation ist immer ein Teil der Applikation nicht erreichbar. Die Skalierbarkeit stellt deshalb sicher, dass in diesem Fall immer genug Ressourcen vorhanden sind um die Anfragen zu bearbeiten oder das im Fall von hoher Last zusätzliche Ressourcen bereitgestellt werden können. \\ \hline
+		BK-\arabic{bk} \stepcounter{bk} & Skalierbarkeit & Die Komponente lässt sich durch Konfiguration respektive durch Bereitstellen eines neuen Containers horizontal skalieren.& 5 & Nicht-funktionale Anforderungen an die Architektur. Während der Installation ist immer ein Teil der Applikation nicht erreichbar. Die Skalierbarkeit stellt deshalb sicher, dass in diesem Fall immer genügend Ressourcen vorhanden sind um die Anfragen zu bearbeiten oder im Fall von hoher Last zusätzliche Ressourcen bereitgestellt werden können. \\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Wartbarkeit & Die eingesetzte Komponente ist wartungsfreundlich & 3 & Die Wartung der Software sollte in einem angemessenem Rahmen möglich sein.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Lizenzkosten & Die Komponente hat möglichst kleine, einmalig oder wiederkehrende, Kosten. & 3 & Die Kosten sind wichtig jedoch ist im Bereich der Finanzindustrie die Konsistenz weit höher gewichtet.\\ \hline
 		BK-\arabic{bk} \stepcounter{bk} & Testbarkeit & Die Komponente lässt sich einfach in einer Testumgebung oder für Unittests aufsetzten. &  3 & Die Komponente sollte sich gut testen lassen. Ein gewisser Aufwand wird jedoch in Kauf genommen.\\ \hline
