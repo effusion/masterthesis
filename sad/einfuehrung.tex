@@ -9,7 +9,7 @@
 \section{Business Case}
 \label{businesscase}
 
-Die Applikation MEON (Merchant Onboarding) dient der Registration neuer Händler für den mobilen Bezahldienst TWINT und zukünftig der Registrierung neuer Händler für Enabling(Terminal)/Acquiring Pakete. Der Geschäftsprozess läuft in zwei Teilen ab welche durch verschiedene Teile der Applikation durchgeführt werden.  Dabei soll es einem Händler möglich sein, sich ohne direkten Kontakt mit der SIX einen gültigen Vertrag für den Einsatz des Dienstes zu erwerben. Sollte ein Kontakt notwendig sein, wird dieser seitens SIX durch das Risk Management initiiert.\newline
+Die Applikation MEON (Merchant Onboarding) dient der Registrierung neuer Händler für Enabling(Terminal)/Acquiring Pakete damit deren Kunden mit Karten(VISA, Mastercard, Maestro uws.) zahlen können. Der Geschäftsprozess läuft in zwei Teilen ab welche durch verschiedene Teile der Applikation durchgeführt werden.  Dabei soll es einem Händler möglich sein, sich ohne direkten Kontakt mit der SIX einen gültigen Vertrag für den Einsatz des Dienstes zu erwerben. Sollte ein Kontakt notwendig sein, wird dieser seitens SIX durch das Risk Management initiiert.\newline
 Die Anwendung soll eine moderne und intuitive Web Applikation sein und dem Benutzer möglichst viele Hilfestellung bieten. Nach der erfolgreichen Registrierung und  eventuellen Prüfung soll der Dienst auf den notwendigen internen System der SIX automatisch aufgeschaltet werden. Hierzu zählen das System für die Verwaltung der Terminals (SCS) sowie das Transaktionsverarbeitungsystem(PASS).
 
 \begin{figure}[H]
@@ -34,7 +34,7 @@ Die Anpassung der Architektur in Richtung Continuous Deployment hat nur nicht fu
 		\toprule
 		\textbf{ID} & \textbf{Beschreibung} \\
 		\midrule
-		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Kunde merkt nicht wenn neue Komponenten der Applikation ausgetauscht werden. \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Händler merkt nicht wenn neue Komponenten der Applikation ausgetauscht werden. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Verfügbarkeit der Frontend-Anwendung ist 24x7 (SLA). \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Einhaltung der PCI DSS Anforderung bezüglich Umgang mit Daten resp. deren Zugriffsschutz durch Authentifizierung, Autorisierung und Netzwerksegmentierung. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Applikation muss horizontal skalierbar sein. \\ \hline
@@ -55,7 +55,7 @@ Die Anpassung der Architektur in Richtung Continuous Deployment hat nur nicht fu
 		\textbf{ID} & \textbf{Beschreibung} \\
 		\midrule
 		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Das Web Interface hat eine einfache zu bedienende Oberfläche welche in bei der Eingabe der geforderten Daten, Adresse, Unternehmensidentifikation, Handelsregisterauszug, unterstützt. \\ \hline
-		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Der neue Händler kann zwischen mehreren TWINT Varianten wählen.\\ \hline
+		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Der neue Händler kann zwischen mehreren Terminal Varianten wählen.\\ \hline
 		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Der Registrierungsprozess hat zwei Stati. Im ersten Schritt gibt der neue Händler seine Kontaktdaten an worauf eine Mail mit einem Link verschickt wird. Der Link ist vier Wochen gültig damit der Händler die geforderten Dokumente liefern kann. Nach dem Klick auf den Link wird mittels MTAN verifiziert, dass es sich um den Händler handelt welche sich zuvor schon angemeldet hat. Nach Eingabe der MTAN hat der Händler weitere 30 Minuten Zeit die Registration abzuschliessen.\\ \hline
 		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Nach erfolgter Registrierung, erstellt die Applikation alle nötigen Einträge auf den Umsystemen welche für die Verarbeitung von Zahlungen des neuen Händlers notwendig sind.\\ \hline
 		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Die Anwendung verfügt über Mechanismen zu Ausfallsicherheit.\\ \hline
@@ -66,7 +66,7 @@ Die Anpassung der Architektur in Richtung Continuous Deployment hat nur nicht fu
 
 \subsection{Kernaufgabe}
 
-Ziel ist die Akquirierung neuer Händler für das mobile Bezahlsystem TWINT.
+Ziel ist die Akquirierung neuer Händler für welche es Kunden erlauben wollen mit Karten(VISA, Mastercard, Maestro, usw.) zu zahlen.
 
 \subsection{Art des Systems}
 
@@ -120,10 +120,10 @@ Die folgende Tabelle zeigt die wichtigsten Qualitätsziele. Die Szenarien zu den
 		{\textbf{Name}} & {\textbf{Beschreibung}} \\
 		\midrule
 		Business & Repräsentiert die Geschäftstätigkeit der Firma.\\ \hline
-		Kunde & Benutzer der Webapplikation. \\ \hline
-		Support-Kunde & Support welcher den Kunden bei Problemen unterstützt. \\ \hline
+		Händler & Benutzer der Webapplikation welcher eine Geschäftsbeziehung mit SIX eingehen will. \\ \hline
+		Support & Support welcher den Händler bei Problemen unterstützt. \\ \hline
 		Legal &  Verantwortlich für die Richtigkeit der Vertragsabschlüsse. \\ \hline
-		Risk & Sorgt für die Überprüfung der Personen und der Geschäftstätigkeiten. \\ \hline
+		Risk Management & Sorgt für die Überprüfung der Personen und der Geschäftstätigkeiten. \\ \hline
 		Marketing & Abteilung für den Vertrieb, Werbung, Design. \\ \hline
 		Betrieb & Betreibt die Webapplikation auf der Infrastruktur der SIX \\ \hline
 		Change Management & Genehmigt Änderungen an der Applikation. \\ \hline

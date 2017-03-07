@@ -4,7 +4,7 @@
 
 \section{Fachliche Strukturen}
 
-Wie in der Einführung schon erwähnt geht es bei der Applikation um das Registrieren neuer Händler für den TWINT Service. Die folgende Abbildung zeigt das Domänenmodell der Applikation. Ziel der Grafik ist es, die Struktur einfach darzustellen weshalb nicht alle Details aufgeführt sind. 
+Wie in der Einführung schon erwähnt, geht es bei der Applikation um das Registrieren neuer Händler. Die folgende Abbildung zeigt das Domänenmodell der Applikation. Ziel der Grafik ist es, die Struktur einfach darzustellen weshalb nicht alle Details aufgeführt sind. 
 
 \begin{figure}[H]
 	\centering
@@ -153,7 +153,7 @@ Die Applikation wird einerseits durch OpenShift überwacht mittels Abfragen der 
 
 \section{Migration}
 
-Da aktuell als Datenbank MySQL verwendet wird, muss eine Migration nach MongoDB durchgeführt werden. Da die Daten von MEON durch den Wechsel von Paymit zu TWINT obsolet werden und nur wenig Laufdaten gespeichert sind, können die Daten manuell übernommen werden.
+Da aktuell als Datenbank MySQL verwendet wird, muss eine Migration nach MongoDB durchgeführt werden. Da die Datenbank nur ein zwischen Speicher ist, müssen nur die Daten der offenen Registrierungen übernommen werden. Da es sich um sechs Tabellen handelt, kann dies mit einem selber geschrieben Tool gemacht werden. MongoDB Inc. bietet dazu einen Guide an wie dies am besten gemacht werden kann. Siehe dazu \url{https://www.mongodb.com/scale/migrate-from-mysql-to-mongodb}.
 
 \section{Persistenz}
 \label{persistenz}
