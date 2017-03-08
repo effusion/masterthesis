@@ -10,7 +10,7 @@ Als erster Schritt musste der Umfang der Arbeit definiert werden. Die Applikatio
 
 \section{Anforderungen}
 
-Bevor eine Lösung erarbeitet werden konnte, mussten die Anforderungen an die neue Software Architektur definiert werden. Leider waren die aktuellen Anforderungen ebenfalls nicht in schriftlicher Form vorhanden wodurch diese zusätzlich erfasst werden mussten. Da die Funktionen der Applikation hauptsächlich durch die Software Entwicklung getrieben wurden, konnte der Product Owner des Projektes direkt zu den Anforderungen befragt werden. Bei der Ausarbeitung der Anforderungen hat sich gezeigt, dass die Applikation funktional unverändert bleibt und der Schwerpunkt auf den nicht funktionalen Anforderungen liegt. Durch die Problemstellung resultiert daraus die Hauptanforderung, dass der Benutzer von einer Aktualisierung der Anwendung nichts merkt und dadurch der Dienst selber verfügbar bleibt. Aufgrund von Wartungsarbeiten an Netzwerkkomponenten, Datenbanken, oder an Betriebssystemen kann es dennoch zu Unterbrüchen kommen welche jedoch nicht Gegenstand der Lösung sind. Alle Anforderungen finden sich im SAD im Kapitel 1.3
+Bevor eine Lösung erarbeitet werden konnte, mussten die Anforderungen an die neue Software Architektur definiert werden. Leider waren die aktuellen Anforderungen ebenfalls nicht in schriftlicher Form vorhanden wodurch diese zusätzlich erfasst werden mussten. Da die Funktionen der Applikation hauptsächlich durch die Software Entwicklung getrieben wurden, konnte der Product Owner des Projektes direkt zu den Anforderungen befragt werden. Bei der Ausarbeitung der Anforderungen hat sich gezeigt, dass die Applikation funktional unverändert bleibt und der Schwerpunkt auf den nicht funktionalen Anforderungen liegt. Alle Anforderungen finden sich im SAD im Kapitel 1.3
 
 \section{Qualitätsziele}
 
@@ -20,13 +20,14 @@ Anhand der Anforderungen haben der Product Owner und der Systemverantwortliche m
 
 Schon während die Anforderungen und Qualitätsziele in der Ausarbeitung waren, musste ein Verständnis für die Probleme, welche sich mit Continuous Deployment ergeben, erworben werden. Als Startpunkt wurde \cite{cd} verwendet. Die Begrifflichkeiten haben sich in der Zwischenzeit geändert und neue Technologien, wie die der Docker Container, erlauben heute andere Lösungsansätze. Daher galt es als erstes zu definieren was Continuous Deployment ist. Um sich ein Bild zu machen wurde dafür mittels Internet Recherche nach dem Begriff gesucht. Eine erste gute Definition fand sich unter \cite{atlassiancd} welche zusätzlich diverse Vorschläge für die Umsetzung enthielt. Auch der Blogeintrag von Thoughtworks \cite{thoughtcd} hatte wertvolle und zeitgemässere Informationen zum Thema. Nach gründlicher Studie der Einträge konnte die generelle Definition auf 'Software jederzeit und ohne Unterbruch des Diensts aktualisieren zu können' festgelegt werden. Für die Umwälzung auf eine Lösung ist die Definition sehr weit gefasst und wird teils verschieden verwendet wie die Internet Recherche gezeigt hat. Ein weiterer Begriff, welcher man im Zusammenhang mit Continuous Deployment antrifft, ist 'Zero Down Time' \footnote{Kann teils als Synonym für Continuous Deployment gesehen werden wobei der Begriff je nach Betrachtungsweise andere Implikationen hat.}. Das Erreichen einer hundertprozentigen Verfügbarkeit kann nicht alleine durch eine passende Software Architektur erreicht werden, da diese immer Abhängigkeiten zu anderen Komponenten wie Betriebssystem, Netzwerk etc. hat. Dafür muss die komplette Infrastruktur dementsprechend ausgelegt werden und auch dann ist der aktuelle Standard 'five nine', was einer Verfügbarkeit von 99.999\%, also einem jährlichen Unterbruch von ungefähr 10 Minuten, entspricht. Dies hat entsprechend hohe Kosten zur Folge welche sich nicht jede Firma leisten kann und auch nicht muss.\newline
 Nach dem die Begrifflichkeiten klar waren, musste das generell zu lösende Problem identifiziert werden. Bei der fortlaufenden Aktualisierung von Software gibt es immer einen Zeitpunkt bei welchem mehrere Versionen der Anwendung in Betrieb sind. Das folgende Diagramm veranschaulicht das Problem.
-
-\begin{center}
+\begin{figure}[H]
+	\centering
 	\includegraphics[scale=0.55]{MultiVersion.png}
-\end{center}
+	\caption{Aktualisierungsprozess}
+\end{figure}
 Daraus lässt sich schliessen, dass die neue Architektur den gleichzeitigen Betrieb von mehreren Versionen unterstützen muss. Dies gilt vor allem für die Schnittstellen und die Datenspeicherung. Da die Applikation nicht geschäftskritisch ist, könnte eine Aktualisierung auch in der Nacht durchgeführt werden wenn sich tendenziell kein Benutzer auf der Webseite befinden. So könnten die Probleme mit der Versionierung der Schnittstelle minimiert werden, für die Datenbank braucht es dennoch eine Lösung.	
 
-	\section{Teilprobleme}
+\section{Teilprobleme}
 
 Mit dem generellen Verständnis und den Anforderungen konnten nun Teilprobleme identifiziert und nach Lösungsvarianten gesucht werden. Dieses Vorgehen ist in der Arc42 Vorlage nicht explizit ausgewiesen, im Workshop des CAS Software Architektur hat es sich jedoch als hilfreiches Mittel erwiesen das Gesamtproblem in kleinere aufzuteilen und wenn möglich austauschbare Lösungsvarianten zu erarbeiten.
 
@@ -48,7 +49,7 @@ Aktuell wird das Konfigurationsmanagement und die Orchestration mit Hilfe von Do
 
 \subsection{Deployment Pipeline}
 
-Die Build Pipeline\footnote{Eine Pipeline ist eine Abfolge von Buildäufträgen(Stages) welche parallel und sequenziell ablaufen können. }, welche im Antrag erwähnt wurde auf Grund ihrer Wichtigkeit für das Bauen und Installieren der Applikation, wurde nicht weiterverfolgt. Der Grund dafür liegt in dem Fortschritt der Methodik, welche das Projekt seit dem Antrag gemacht hat. Wie in \cite{atlassiancd} beschrieben, sind verschieden Stages in der Pipeline sowie Feature Branchens in GIT eine Voraussetzung um eine Applikation zeitnahe in Betrieb zu bringen. Diese Praktiken werden aktuell im normalen Arbeitstag verwendet und müssen deshalb nicht nochmals evaluiert werden.
+Die Build Pipeline\footnote{Eine Pipeline ist eine Abfolge von Buildäufträgen(Stages) welche parallel und sequenziell ablaufen können. }, wurde zu Beginn als Teilproblem angesehen jedoch nicht weiterverfolgt. Der Grund dafür liegt in dem Fortschritt der Methodik, welche das Projekt während der Thesis gemacht hat. Wie in \cite{atlassiancd} beschrieben, sind verschieden Stages in der Pipeline sowie Feature Branches in GIT eine Voraussetzung um eine Applikation zeitnahe in Betrieb zu bringen. Diese Praktiken werden aktuell im normalen Arbeitstag verwendet und müssen deshalb nicht nochmals evaluiert werden.
 
 \subsection{Fazit}
 
@@ -69,29 +70,31 @@ Mit den definierten Kriterien sollten verschiedene Varianten für die einzelnen 
 
 \subsection{Versionierung}
 
-Damit die Schnittstellen mehrere Versionen anbieten können, muss ein Weg gefunden werden dies in einer Art zu definieren. \newline Eine erste Variante ist die URL mit einer Versionsvariable zu versehen. Dadurch kann der Client den passenden Endpunkt ansprechen welche die gewünschte Funktionalität bereitstellt. Dies ist ein Standardansatz welcher oft verwendet wird. Die zweite Möglichkeit ist die in \cite{contneg} beschriebene Variante. Dabei wird mittels des Accept-Headers im HTTP-Request die Version mitgegeben. Diese kann auf der REST Schnittstelle als Routinginformation verwendet werden um den Aufruf an eine bestimmte Methode weiterzuleiten. Dieser Ansatz ist ebenfalls ein gängiges Mittel um einen Endpunkt zu versionieren. Als letzte Variante wäre die Verwendung der \cite{gq} Bibliothek, welche von Facebook entwickelt wurde, um das Problem mit verschiedenen Client Versionen zu lösen. Es gibt mehrere Implementation von GraphQL für diverse Sprachen, darunter JavaScript und Java, welche im Projekt verwendet wurden. Die Library wird in einem anderen Projekt bei SIX, welches vom gleichen Team entwickelt wird wie MEON, bereits eingesetzt.
+Damit die Schnittstellen mehrere Versionen anbieten können, muss ein Weg gefunden werden dies in einer Art zu definieren. Eine erste Variante ist die URL mit einer Versionsvariable zu versehen. Dadurch kann der Client den passenden Endpunkt ansprechen welche die gewünschte Funktionalität bereitstellt. Dies ist ein Standardansatz welcher oft verwendet wird. Die zweite Möglichkeit ist die in \cite{contneg} beschriebene Variante. Dabei wird mittels des Accept-Headers im HTTP-Request die Version mitgegeben. Diese kann auf der REST Schnittstelle als Routinginformation verwendet werden um den Aufruf an eine bestimmte Methode weiterzuleiten. Dieser Ansatz ist ebenfalls ein gängiges Mittel um einen Endpunkt zu versionieren. Als letzte Variante wäre die Verwendung der \cite{gq} Bibliothek, welche von Facebook entwickelt wurde, um das Problem mit verschiedenen Client Versionen zu lösen. Es gibt mehrere Implementation von GraphQL für diverse Sprachen, darunter JavaScript und Java, welche im Projekt verwendet wurden. Die Library wird in einem anderen Projekt bei SIX, welches vom gleichen Team entwickelt wird wie MEON, bereits eingesetzt.
 
 \subsection{Datenspeicherung}
 
 \subsubsection{CAP-Theorem}
-Die Anforderungen an die Applikation fordern, dass für die Datenspeicherung Replikation verwendet wird. Im Zusammenhang von verteilten System hört man immer wieder vom CAP-Theorem welches 1998 von Eric Brewer definiert wurde. Es besagt, dass Systeme nur zwei der drei Eigenschaften, Konsistenz, Verfügbarkeit und Partitions Toleranz haben können. Das Theorem wurde vor allem durch die NoSQL Datenbanken wieder aktuell, da diese auf andere Weise funktionieren wie relationale Datenbanken. Die folgende Grafik zeigt wie die Datenbanken kategorisiert sind.
-\begin{center}
+Die Anforderungen an die Applikation fordern, dass für die Datenspeicherung Replikation verwendet wird. Im Zusammenhang von verteilten System hört man immer wieder vom CAP-Theorem welches in \cite{brewcap} das erste Mal in Erscheinung trat. Es besagt, dass Systeme nur zwei der drei Eigenschaften, Konsistenz, Verfügbarkeit und Partitions Toleranz haben können. Das Theorem wurde vor allem durch die NoSQL Datenbanken wieder aktuell, da diese auf andere Weise funktionieren wie relationale Datenbanken. Die folgende Grafik zeigt wie die Datenbanken kategorisiert sind.
+\begin{figure}[H]
+	\centering
 	\includegraphics[scale=0.60]{cap.png}\newline
+	\caption{CAP-Theorem}
 	\cite{cap}
-\end{center}
+\end{figure}
 Für einfache Kategorisierung ist diese Grafik hilfreich, jedoch hat sich die Technologie in der Zwischenzeit weiterentwickelt, was Eric Brewer selber in \cite{capnew} mit diversen Beispielen beschreibt. Gewisse Produkte, welche auf dem Markt sind, lassen sich je nach Bedarf anders konfigurieren und können so andere Eigenschaften annehmen. Ein Beispiel hierfür ist die Oracle Datenbank. Oracle RAC zielt auf Verfügbarkeit und Konsistenz und hat entsprechende Anforderungen an die Hardware. Es gibt aber auch die Möglichkeit die Replikation asynchron zu konfigurieren, wodurch sich die Eigenschaften nach Konsistenz und Paritions Toleranz verschieben. 
 
 \subsubsection{Varianten}
-Bei der Datenspeicherung war die Frage ob der aktuelle Ansatz mit einer relationalen Datenbank der richtige Weg ist oder ob sich die neuen schemalosen NoSQL Datenbank für die Lösung des Problems besser eignen.\newline
+Bei der Datenspeicherung war die Frage ob der aktuelle Ansatz mit einer relationalen Datenbank der richtige Weg ist oder ob sich die neuen schemalosen NoSQL\footnote{NoSQL steht für Not Only SQL und kategorisiert Datenbanken welche schemalos sind und nicht nach dem ACID Prinzip arbeiten.} Datenbank für die Lösung des Problems besser eignen.\newline
 Bei SIX wird Oracle seit langer Zeit eingesetzt und ist der Standard für Datenspeicherung jeglicher Art. Aus diesem Grund wurde dies logischerweise als Variante in Betracht gezogen. Sie bietet alle Features um Anwendungen im Geschäftsbereich zu betreiben.\newline
 Die zweite Variante in der Liste ist die MySQL Datenbank. Diese wird aktuell in der produktiven Applikation verwendet was sie ebenfalls als Kandidaten für die Speicherung der Daten empfiehlt.
 MySQL bietet wie Oracle diverse Mechanismen welche für Geschäftsanwendungen unumgänglich sind. Das Know-how für den Betrieb ist jedoch nicht auf dem gleichen Stand wie bei Oracle.\newline
-Eine neue Möglichkeit der Datenspeicherung sind NoSQL\footnote{NoSQL steht für Not Only SQL und kategorisiert Datenbanken welche schemalos sind und nicht nach dem ACID Prinzip arbeiten.} Datenbanken. Die Idee für deren Verwendung stammt vom CAS Big Data und den dazu gehörenden Folien \cite{nosqlintro}. Daraus ergab sich die dritte Variante die Speicherung mit MongoDB zu realisieren. Die Datenbank arbeiten im Unterschied zu relationalen Datenbanken nicht mit Tabellen sondern mit Dokumenten. Diese sind schemalos und können deshalb gleichzeitig in mehreren Versionen vorliegen. Dadurch ist bei einem Update der Anwendung keine Schemamigration notwendig.\newline
-Als letzte Variante wurde Redis in Betracht gezogen. Es handelt sich dabei ebenfalls um eine NoSQL Datenbank welche jedoch ein Key-Value Store ist. Sie verfügt über eine Abfrage Sprache um Daten zu finden und wird auch bereits bei SIX verwendet. Im Bereicht der NoSQL Datenbanken gibt es noch zwei weitere Typen, Kolonnen und Graphen Datenbanken. Diese Varianten wurden nicht berücksichtigt weil sie , aufgrund ihres Datenmodells, nicht zum Anwendungsfall passen.
+Eine neue Möglichkeit der Datenspeicherung sind NoSQL Datenbanken. Die Idee für deren Verwendung stammt vom CAS Big Data und den dazu gehörenden Folien \cite{nosqlintro}. Daraus ergab sich die dritte Variante die Speicherung mit MongoDB zu realisieren. Die Datenbank arbeiten im Unterschied zu relationalen Datenbanken nicht mit Tabellen sondern mit Dokumenten. Diese sind schemalos und können deshalb gleichzeitig in mehreren Versionen vorliegen. Dadurch ist bei einem Update der Anwendung keine Schemamigration notwendig.\newline
+Als letzte Variante wurde Redis in Betracht gezogen. Es handelt sich dabei ebenfalls um eine NoSQL Datenbank welche jedoch ein Key-Value Store ist. Sie verfügt über eine Abfrage Sprache um Daten zu finden und wird auch bereits bei SIX verwendet. Im Bereicht der NoSQL Datenbanken gibt es noch zwei weitere Typen, Kolonnen und Graphen Datenbanken. Diese Varianten wurden nicht berücksichtigt weil sie, aufgrund ihres Datenmodells, nicht zum Anwendungsfall passen.
 
 \subsection{Kommunikationsentkopplung}
 
-Damit Anfragen nicht verloren gehen, muss eine Art der Zwischenspeicherung oder der asynchronen Kommunikation gefunden werden. In der Java Welt existieren diverse Technologien dies zu erreichen.\newline
+Damit Anfragen nicht verloren gehen, muss eine Art der Zwischenspeicherung oder ein Weg für asynchronen Kommunikation gefunden werden. In der Java Welt existieren diverse Technologien dies zu erreichen.\newline
 Die Entkopplung zwischen dem Onboarding Server und der Workflow Engine könnte via JMS erreicht werden. Hierzu wird auf dem Server eine Queue angelegt welche auf dem Dateisystem gespeichert und vor der Workflow Engine regelmässig abgefragt wird. Eine Option wäre die zentrale Messaging Infrastruktur der SIX zu verwendent. JMS wird in diversen Projekten verwendet und ist deshalb in seiner Verwendung bekannt.\newline
 Im CAS Big Data wurde Kafka vorgestellt welche als weitere Lösung in Betracht kommt. Ursprünglich bei LinkedIn entwickelt, wurde der Source Code 2011 veröffentlicht und wird mittlerweile von der Apache Foundation verwaltet. Kafka wurde für High Performance Messaging entwickelt und ist bei diversen anderen Internetfirmen in Betrieb.\newline
 Eine weitere Variante ist die Verwendung von Redis als Queue für die Kommunikation. Die Datenbank hat spezifische Kommandos für die Funktion wie in \cite{redisqueue} beschrieben. Da sie ebenfalls als Datenspeicher eine Variante ist, könnten hier Synergien genutzt werden.\newline
@@ -106,11 +109,11 @@ Saltstack als letzte Variante wird aktuell bei SIX für das Konfigurationsmanage
 
 \subsection{Fazit}
 
-Ein möglichst grosser Lösungsraum an Varianten, wie er durch Recherchen, persönliche und Erfahrungen von Dritten erschaffen wurde, hilft die Ideen mittels verschiedenen Perspektiven zu beleuchten. Dadurch können Vor- und Nachteile besser bewertet werden und verhindern falsche Schlüsse. Die Methode bedarf aber einer gewissen Reife und Kenntnisse diverser Konzepte. Ohne diese Voraussetzung besteht die Gefahr das der Lösungsraum zu klein wird oder man Technologien und Methoden verwendet welche einem am besten vertraut sind.
+Ein möglichst grosser Lösungsraum an Varianten, wie er durch Recherchen, persönliche und Erfahrungen von Dritten erschaffen wurde, hilft die Ideen mittels verschiedenen Perspektiven zu beleuchten. Dadurch können Vor- und Nachteile besser bewertet werden und verhindern falsche Schlüsse. Die Methode bedarf aber einer gewissen Reife und Kenntnisse diverser Konzepte. Ohne diese Voraussetzung besteht die Gefahr, dass der Lösungsraum zu klein wird oder man Technologien und Methoden verwendet welche einem am besten vertraut sind.
 
 \section{Erste Bewertung der Varianten}
 
-Nachdem für alle Teilprobleme verschiedene Lösungsvariaten definiert wurden, galt es diese zu bewerten um zu entscheiden für welche Prototypen erstellt werden sollten. Die Bewertung wurde zusammen mit dem Product Owner durchgeführt um eine zu einseitige Bewertung zu verhindern. Dabei wurde vor allem auf persönliche Erfahrung mit Technologien und logische Abschätzung gesetzt. Die Entscheidung einen Prototypen zu erstellen war einerseits die Verifikation ob die Lösungsvariante die Richtige ist respektive um Unklarheiten aus dem Weg zu räumen. Die Bewertungen finden sich in der Datei 'Bewertungsmatrix.xslx'. 
+Nachdem für alle Teilprobleme verschiedene Lösungsvariaten definiert wurden, galt es diese zu bewerten um zu entscheiden für welche Prototypen erstellt werden sollten. Die Bewertung wurde zusammen mit dem Product Owner durchgeführt um eine zu einseitige Bewertung zu verhindern. Dabei wurde vor allem auf persönliche Erfahrung mit Technologien und logische Abschätzung gesetzt. Die Entscheidung einen Prototypen zu erstellen war einerseits die Verifikation ob die Lösungsvariante die Richtige ist respektive um Unklarheiten aus dem Weg zu räumen. Die Bewertungen finden sich in der Datei 'Bewertungsmatrix-v1.xslx'. 
 
 \subsection{Versionierung}
 
@@ -243,7 +246,7 @@ Da MongoDB noch nicht im Einsatz war wurde auch hier eine Recherche zu Replikati
 
 \subsection{GraphQL}
 
-Um GraphQL besser verifizieren zu können, wurden ebenfalls einige Anwendungsfälle mittels eines einfachen Prototypen umgesetzt. Der Source Code dazu findet sich unter \url{https://github.com/effusion/prototyps/tree/master/graphql}. Die Use Cases wurden in JUnit definiert und gegen das erstellte GraphQL Schema getestet, welches mit Hilfe der Beispiele von \url{https://github.com/graphql-java/graphql-java/blob/master/src/test/groovy/graphql/StarWarsSchema.java} erstellt wurde. Dabei hat sich herausgestellt, dass vor allem die Konvertierung der Daten beim Schreiben einen hohen Aufwand und viel Typen Casting benötigt. Je verschachtelter die Datenstruktur ist, desto mehr muss auch für die Konvertierung gemacht werden. Dies kann durch eine geschickte Definition der REST Schnittstelle teilweise kompensiert werden, verschiebt das Problem jedoch nur. Der folgende Codeauschnitt zeigt die Problematik:
+Um GraphQL besser verifizieren zu können, wurden ebenfalls einige Anwendungsfälle mittels eines einfachen Prototypen umgesetzt. Der Source Code dazu findet sich unter \url{https://github.com/effusion/prototyps/tree/master/graphql}. Die Use Cases wurden in JUnit definiert und gegen das erstellte GraphQL Schema getestet, welches mit Hilfe der GraphQL\footnote{\url{https://github.com/graphql-java/graphql-java/blob/master/src/test/groovy/graphql/StarWarsSchema.java}} Beispielen erstellt wurde. Dabei hat sich herausgestellt, dass vor allem die Konvertierung der Daten beim Schreiben einen hohen Aufwand und viel Typen Casting benötigt. Je verschachtelter die Datenstruktur ist, desto mehr muss auch für die Konvertierung gemacht werden. Dies kann durch eine geschickte Definition der REST Schnittstelle teilweise kompensiert werden, verschiebt das Problem jedoch nur. Der folgende Codeauschnitt zeigt die Problematik:
 
 \begin{lstlisting}[language=Java, showspaces=false, basicstyle=\ttfamily, numbers=left, numberstyle=\tiny, commentstyle=\color{gray}]
 /*Converter methods to fetch all the data out of the map*/
@@ -312,11 +315,11 @@ Das Software Architektur Dokument wurde schon während den Evaluationen und dem 
 
 \subsection{Bausteinsicht}
 
-Von Vorarbeiten her war bekannt, dass die Applikation mit einer Schichtenarchitektur umgesetzt wurde und wie die Schichten auf die einzelnen Komponenten verteilt sind. Der interne Aufbau war hingegen nicht bekannt und musste deshalb zuerst herausgefunden werden. Hierfür wurde einerseits der Sourcecode verwendet und andererseits die beteiligten Entwickler direkt befragt. Eine Schwierigkeit war es die Komponenten der Ebene entsprechend zu kategorisieren und zusammenzufassen. Zusätzlich musste der neue Teil mit der Konfiguration vermerkt werden. Um die Übersicht auf der ersten Ebene zu wahren, wurden auf der zweiten Ebene die wichtigsten Teile genauer ausgearbeitet und mit den Entwicklern verifiziert. Auf eine noch genauere Ebene wurde verzichtet, da die gelieferten Informationen die wichtigsten Aspekte beschreiben. Die Bausteinsicht befindet sich im SAD im Kapitel 6.
+Von Vorarbeiten her war bekannt, dass die Applikation mit einer Schichtenarchitektur umgesetzt wurde und wie die Schichten auf die einzelnen Komponenten verteilt sind. Der interne Aufbau war hingegen nicht bekannt und musste deshalb zuerst herausgefunden werden. Hierfür wurde einerseits der Source Code verwendet und andererseits die beteiligten Entwickler direkt befragt. Eine Schwierigkeit war es die Komponenten der Ebene entsprechend zu kategorisieren und zusammenzufassen. Zusätzlich musste der neue Teil mit der Konfiguration vermerkt werden. Um die Übersicht auf der ersten Ebene zu wahren, wurden auf der zweiten Ebene die wichtigsten Teile genauer ausgearbeitet und mit den Entwicklern verifiziert. Auf eine noch genauere Ebene wurde verzichtet, da die gelieferten Informationen die wichtigsten Aspekte beschreiben. Die Bausteinsicht befindet sich im SAD im Kapitel 6.
 
 \subsection{Laufzeitsicht}
 
-Wie bereits bei der Bausteinsicht, musste auch die Laufzeitsicht nachdokumentiert werden. Der Geschäftsfall war vom Ablauf her klar, nicht jedoch wie die einzelnen Systeme daran beteiligt waren. Um die Informationen zu bekommen, mussten wieder die Entwickler befragt werden, da der Ablauf schwieriger aus dem Sourcecode herauszulesen war. Diese Informationen wurden dann in der ersten Ebene der Sicht aufgezeichnet. Diese war aber noch zu generell weshalb ein weiteres Sequenzdiagramm gezeichnet wurde, welches die Komponenten der einzelnen Schichten enthält. Die Laufzeitsicht für die Registrierung konnte nicht alle Aspekte darstellen weshalb zusätzlich, erneut durch Befragung, ein Aktivitätsdiagramm erstellt wurde. Damit konnte eine komplette Sicht auf den Prozess des Registrierens gewonnen werden.\newline\newline
+Wie bereits bei der Bausteinsicht, musste auch die Laufzeitsicht nachdokumentiert werden. Der Geschäftsfall war vom Ablauf her klar, nicht jedoch wie die einzelnen Systeme daran beteiligt waren. Um die Informationen zu bekommen, mussten wieder die Entwickler befragt werden, da der Ablauf schwieriger aus dem Source Code herauszulesen war. Diese Informationen wurden dann in der ersten Ebene der Sicht aufgezeichnet. Diese war aber noch zu generell weshalb ein weiteres Sequenzdiagramm gezeichnet wurde, welches die Komponenten der einzelnen Schichten enthält. Die Laufzeitsicht für die Registrierung konnte nicht alle Aspekte darstellen weshalb zusätzlich, erneut durch Befragung, ein Aktivitätsdiagramm erstellt wurde. Damit konnte eine komplette Sicht auf den Prozess des Registrierens gewonnen werden.\newline\newline
 Durch die Verwendung von Spring Cloud Config ist der Ablauf der Konfigurationsänderung hinzugekommen. Der Prozess ist durch die gute Abstraktion seitens der Bibliothek sehr einfach zu verstehen und benötigt vom Entwickler keinen Programmieraufwand, sondern beschränkt sich auf die Konfiguration. Die Laufzeitsicht befindet sich im SAD im Kapitel 7.
 
 \subsection{Verteilungssicht}
@@ -351,11 +354,11 @@ Als letzten Punkt ist es wichtig zu verstehen wie MongoDB mit Transaktionen umge
 
 Die einzelnen Prototypen haben gezeigt, dass die Architektur in der vorgeschlagenen Form umgesetzt werden kann. Da vor allem die OpenShift Plattform für alle Entwickler neu ist und die im Projektplan aufgeführte Reserve nicht gebraucht wurde, hat man sich entschieden, einen Proof of Concept zu machen. Dadurch konnte ein vertiefter Einblick in Verwendung der Plattform gewonnen und eventuell bis jetzt übersehene Probleme aufgedeckt werden. Dies auch mit dem Hintergrund, dass die Plattform aktuell nur auf Testservern installiert ist und die finale Installation noch ausstehend ist. Ein weiterer Punkt ist, dass auf höherer Ebene entschieden wurde die ganze MEON Applikation als erste Anwendung produktiv auf OpenShift auszurollen.\newline\newline
 Der Prototyp wurde aufgrund des Testserversetups im Vergleich zur Installation, welche im SAD Kapitel 8 beschrieben ist, vereinfacht. Die folgende Darstellung zeigt den Aufbau.
-
-\begin{center}
+\begin{figure}[H]
+	\centering
 	\includegraphics[scale=0.60]{PrototypDeployment.png}
-\end{center}
-
+	\caption{Verteilungssicht Proof of Concept}
+\end{figure}
 Die Prototypen wurden bis anhin sehr einfach gehalten. Für den Proof of Concept war es nötig gewisse Vorarbeiten zu erledigen. Dafür wurde die Hilfe eines OpenShift Administrators in Anspruch genommen um erste Teile zu erledigen.\newline
 Zuerst musste ein neues OpenShift Projekt angelegt werden um die Container auszurollen. Dies wurde einfach über die Web Oberfläche der Plattform erledigt.
 Zweitens brauchte es ein neues Docker Base Image, welches auf Red Hat aufbaut, Java installiert und die passenden Berechtigungen gesetzt hat. Das Image wurde direkt auf der OpenShift Plattform gebaut, da dort das Software Repository von Red Hat angehängt ist. Anschliessend wurde dieses in das firmeneigene Image Repository gelegt.\newline
@@ -366,7 +369,7 @@ Nachdem der Config Server in Betrieb war, konnten die ersten Einstellungen im Re
 
 \subsection{Change Management}
 
-Das Change Management hat durch die vielen Vorschriften und das Umfeld, in welchem SIX tätigt ist, einen wichtigen Stellenwert. Das Change Management war als Stakeholder früh bekannt wurde aber nicht gleich in die Lösung einbezogen da ohne konkrete Ergebnisse eine Demonstration der Möglichkeiten und die damit zusammenhängenden Folgen schwer zu beschreiben waren. Nach dem Abschluss des finalen Prototypen wurde ein Treffen mit dem Change Management abgehalten um das weitere Vorgehen zu besprechen. Folgende Punkte wurden dabei festgestellt:
+Das Change Management hat durch die vielen Vorschriften und das Umfeld, in welchem SIX tätigt ist, einen wichtigen Stellenwert. Das Change Management war als Stakeholder früh bekannt wurde aber nicht gleich in die Lösung einbezogen da ohne konkrete Ergebnisse eine Demonstration der Möglichkeiten und die damit zusammenhängenden Folgen schwer zu beschreiben waren. Nach dem Abschluss des Proof of Concept wurde ein Treffen mit dem Change Management abgehalten um das weitere Vorgehen zu besprechen. Folgende Punkte wurden dabei festgestellt:
 	
 \begin{itemize}
 	\item Das ITMS Tool dient nicht nur dem Aufzeichnen von Änderungen sondern ist auch ein Audit Werkzeug.
@@ -397,21 +400,21 @@ Ist die Applikation gebaut, getestet und für den produktiven Betrieb freigegebe
 
 Die komplette Applikationskonfiguration kann aus OpenShift in ein Template exportiert werden. Dieses Template kann angepasst und später wieder importiert werden. Es gibt auch die Möglichkeit der variablen Konfiguration. Möchte ein Tester oder ein Entwickler die Anwendung testen kann er dieses Template verwendet. Das Ziel gilt generell als erfüllt, eine Umsetzung bedarf jedoch noch eines gewissen Aufwandes um die Vorlagen entsprechend vorzubereiten.
 
-\subsubsection{Ziel: Der Händler soll bei korrektem Ausfüllen der Daten sich registrieren können}
+\subsubsection{Ziel: Der Händler soll sich, bei korrektem Ausfüllen der Daten, registrieren können}
 
 Durch die Möglichkeit mehrere Instanzen eines Containers zu betreiben, die Funktion der rollenden Aktualisierung durch OpenShift und die Kommunikationsentkopplung zwischen dem Onboarding Server und der Workflow Engine, kann sich ein neue Händler jederzeit registrieren auch wenn Teile
 der Applikation nicht verfügbar sind. Das Ziel gilt deshalb als erfüllt.
 
 \subsubsection{Ziel: Konfigurationsänderungen an der Applikation können ohne Unterbruch durchgeführt werden}
 
-Mit Spring Cloud Config und RabbitMQ lassen sich auf einfache Weise Konfigurationen aktualisieren. Dies kann wahlweise direkt durch einen Commit im Konfigurationsrepository oder mit einem manuellen URL Aufruf auf dem Configserver ausgelöst werden. Die Applikationen übernehmen die Änderung mit einer kleinen Zeitverzögerung. Damit ist auch das letzte Qualitätsziele erfüllt.
+Mit Spring Cloud Config und RabbitMQ lassen sich auf einfache Weise Konfigurationen aktualisieren. Dies kann wahlweise direkt durch einen Commit im Konfigurationsrepository oder mit einem manuellen URL Aufruf auf dem Configserver ausgelöst werden. Die Applikationen übernehmen die Änderung mit einer kleinen Zeitverzögerung. Das Ziel ist damit erfüllt.
 \newpage
 
 \subsubsection{Ziel: Die Applikation soll schnell horizontal skaliert werden können.}
 
-OpenShift erlaubt das horizontale Skalieren der Applikation auf mehrere Arten. Der Entwickler oder Betrieb kann direkt über das Web Interface neue Instanzen hinzufügen. Es gibt auch die Möglichkeit dies mittels eines Konsolenbefehl zu machen. Schlussendlich bietet OpenShift auch die Möglichkeit der Autoskalierung anhand von CPU werten. Das Ziel ist damit erfüllt.
+OpenShift erlaubt das horizontale Skalieren der Applikation auf mehrere Arten. Der Entwickler oder Betrieb kann direkt über das Web Interface neue Instanzen hinzufügen. Es gibt auch die Möglichkeit dies mittels eines Konsolenbefehl zu machen. Schlussendlich bietet OpenShift auch die Möglichkeit der Autoskalierung anhand von CPU werten. Damit ist auch das letzte Qualitätsziele erfüllt.
 
 \section{Ergebnis}
 
-Das Ergebnis der Thesis ist ein Software Architektur Dokument welches die neue Architektur auf einem Abstraktionslevel beschreibt damit ein Entwicklerteam die aktuelle Anwendung anpassen könnte. Die verschiedenen Sichten im Dokument illustrieren wie der Anwendungsfall in den einzelnen Teilen der Applikation umgesetzt werden muss. Das Dokument erklärt wie die verschiedenen Konzepte, vor allem Continuous Delivery, eingesetzt und was dabei beachtet werden muss. Schlussendlich sind sämtliche Entscheidungen, welche während der Erarbeitung getroffen wurden, dokumentiert. Durch diese Nachvollziehbarkeit ist es möglich Anpassungen an den Requirements nachträglich einfliessen zu lassen.\newline
+Das Ergebnis der Thesis ist ein Software Architektur Dokument welches die neue Architektur auf einem Abstraktionslevel beschreibt damit ein Entwicklerteam die aktuelle Anwendung anpassen könnte. Die verschiedenen Sichten im Dokument illustrieren wie der Anwendungsfall in den einzelnen Teilen der Applikation umgesetzt werden muss. Das Dokument erklärt wie die verschiedenen Konzepte, vor allem Continuous Deployment, eingesetzt und was dabei beachtet werden muss. Schlussendlich sind sämtliche Entscheidungen, welche während der Erarbeitung getroffen wurden, dokumentiert. Durch diese Nachvollziehbarkeit ist es möglich Anpassungen an den Requirements nachträglich einfliessen zu lassen.\newline
 Die erstellten Prototypen können als Einstiegspunkt für die Entwicklung verwendet werden und dienen zusätzlich dazu, dass Verständnis für die Lösung besser darzustellen.

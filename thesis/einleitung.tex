@@ -2,17 +2,16 @@
 
 \section{Problemstellung}
 
-Im Zuge der Digitalisierung ist es für Finanzdienstleister unerlässlich die angebotenen Dienstleistungen schneller weiterzuentwickeln und der Kundschaft bereitzustellen. Vor allem bei Online-Diensten wird dies immer wichtiger. Mit der Entwicklung von Paymit war eine Lösung notwendig welche es potenziell neuen Händler einfach erlaubt sich für den neuen Dienst anzumelden. Aus dieser Anforderung ist die Applikation Merchant Onboarding entstanden, welches einem neuen Kunde erlaubt sich einfach über eine Web-Oberfläche zu registrieren. Während der Thesis haben die zwei mobilen Bezahldienste Paymit(SIX) und TWINT(Postfinance) fusioniert und wurden in eine eigene Firma ausgelagert. Das Merchant Onboarding für Paymit wurde deshalb auf Seiten SIX abgestellt. Mittlerweile wurde die Applikation angepasst, sodass neuen Händler Terminals für die Kartenzahlung bestellen können. An der Fachlichkeit hat sich derweil nichts geändert sondern das angebotene Produkt.\newline
+Im Zuge der Digitalisierung ist es für Finanzdienstleister unerlässlich die angebotenen Dienstleistungen schneller weiterzuentwickeln und der Kundschaft bereitzustellen. Vor allem bei Online-Diensten wird dies immer wichtiger. Mit der Entwicklung von Paymit war eine Lösung notwendig welche es potenziell neuen Händler einfach erlaubt sich für den neuen Dienst anzumelden. Aus dieser Anforderung ist die Applikation Merchant Onboarding entstanden, welches einem neuen Kunde erlaubt sich einfach über eine Web-Oberfläche zu registrieren. \newline
 Die Applikation wurde basierend auf aktuellen Technologien und Methoden entwickelt, welche es erlauben die Applikation schneller von der Entwicklung in die Produktion zu bringen. Im Vergleich zu den aktuell üblichen Releasezyklen von drei Monaten ist dies ein grosser Schritt vorwärts.\newline
 Obschon die Applikation mittlerweile innert Tagesfrist ausgerollt werden kann, soll mit der Anpassung der Architektur auf Continuous Deployment \footnote{Methode welche es der Entwicklung und dem Betrieb erlaubt eine Applikation automatisch nach jedem Codecommit neu auf den produktiven Systemen zu installieren.} noch einen Schritt weiter gegangen werden. Um dieses Ziel zu erreichen muss die Architektur der Applikation, mit dem Schwerpunkt Kommunikation zwischen den Diensten, angepasst werden. Des Weiteren sind gegebenenfalls Änderungen an Prozessen, wie zum Beispiel im Change Management, notwendig.
-Der Vorteil dieses Ansatzes erlaubt es, Fehler oder Erweiterungen nach einem standardisierten und automatischen Prozess ohne menschliche Intervention zu installieren. Dadurch kann die Firma sehr schnell auf sich ändernde Anforderungen reagieren.
-
+Der Vorteil dieses Ansatzes erlaubt es, Fehler oder Erweiterungen nach einem standardisierten und automatischen Prozess ohne menschliche Intervention zu installieren. Dadurch kann die Firma sehr schnell auf sich ändernde Anforderungen reagieren.\newline
+Während der Thesis haben die zwei mobilen Bezahldienste Paymit(SIX) und TWINT(Postfinance) fusioniert und wurden in eine eigene Firma ausgelagert. Das Merchant Onboarding für Paymit wurde deshalb auf Seiten SIX abgestellt. Mittlerweile wurde die Applikation angepasst, sodass neuen Händler Terminals für die Kartenzahlung bestellen können. An der Fachlichkeit hat sich derweil nichts geändert sondern das angebotene Produkt.\newline
 
 \section{Systemabgrenzung}
 \label{Abgrenzung}
 
 Finanzdienstleiter wie SIX haben für die Abwicklung ihres Geschäfts eine grosse Anzahl Applikation welche verschiedene Geschäftstätigkeiten abdecken. Auch das Merchant Onboarding ist ein Teil dieser Landschaft und kann nur durch Interaktion mit einigen dieser Systeme seine Aufgabe erledigen. In der folgenden Tabelle sind die internen Systeme aufgeführt welche Merchant Onboaring verwendet, jedoch nicht Teil der Problemstellung und Lösung sind.
-
 \begin{table}[H]
 	\centering
 	\caption{Verwendete Applikationen}
@@ -27,7 +26,6 @@ Finanzdienstleiter wie SIX haben für die Abwicklung ihres Geschäfts eine gross
 		\bottomrule
 	\end{tabular}
 \end{table}
-
 Des Weiteren gibt es Teile der Infrastruktur, welche die Lösung im Hinblick auf deren Aktualisierung tangieren, hier aber nicht Berücksichtigt werden, da es sich beim Thema um die Architektur der Anwendung geht. Diese sind in der folgenden Tabelle kurz aufgeführt.
 
 \begin{table}[H]
