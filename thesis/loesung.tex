@@ -2,7 +2,7 @@
 
 \chapter{Lösung}
 
-Wie bereits in der Ausgangslage beschrieben wurde für die Lösungsfindung Scrum und Prototyping verwendet. Trotz der iterativen Natur zieht sich ein roter Faden durch den Ablauf der Arbeit. Gewisse Teile wurden gleichzeitig bearbeitet, werden im Text jedoch aufeinanderfolgend beschrieben.
+Wie bereits in der Ausgangslage beschrieben, wurde für die Lösungsfindung Scrum und Prototyping verwendet. Trotz der iterativen Natur zieht sich ein roter Faden durch den Ablauf der Arbeit. Gewisse Teile wurden gleichzeitig bearbeitet, werden im Text jedoch aufeinanderfolgend beschrieben. Die Anhänge befinden sich im Kapitel \ref{documents} und werden im Text mit der ID referenziert.
 
 \section{Kontextabgrenzung}
 
@@ -10,7 +10,7 @@ Als erster Schritt musste der Umfang der Arbeit definiert werden. Die Applikatio
 
 \section{Anforderungen}
 
-Bevor eine Lösung erarbeitet werden konnte, mussten die Anforderungen an die neue Software Architektur definiert werden. Leider waren die aktuellen Anforderungen ebenfalls nicht in schriftlicher Form vorhanden wodurch diese zusätzlich erfasst werden mussten. Da die Funktionen der Applikation hauptsächlich durch die Software Entwicklung getrieben wurden, konnte der Product Owner des Projektes direkt zu den Anforderungen befragt werden. Bei der Ausarbeitung der Anforderungen hat sich gezeigt, dass die Applikation funktional unverändert bleibt und der Schwerpunkt auf den nicht funktionalen Anforderungen liegt. Alle Anforderungen finden sich im SAD im Kapitel 1.3
+Bevor eine Lösung erarbeitet werden konnte, mussten die Anforderungen an die neue Software Architektur definiert werden. Leider waren die aktuellen Anforderungen ebenfalls nicht in schriftlicher Form vorhanden wodurch diese zusätzlich erfasst werden mussten. Da die Funktionen der Applikation hauptsächlich durch die Software Entwicklung getrieben wurden, konnte der Product Owner des Projektes direkt zu den Anforderungen befragt werden. Bei der Ausarbeitung der Anforderungen hat sich gezeigt, dass die Applikation funktional unverändert bleibt und der Schwerpunkt auf den nicht funktionalen Anforderungen liegt. Alle Anforderungen finden sich im SAD im Kapitel 1.3.
 
 \section{Qualitätsziele}
 
@@ -18,7 +18,7 @@ Anhand der Anforderungen haben der Product Owner und der Systemverantwortliche m
 
 \section{Problematik}
 
-Schon während die Anforderungen und Qualitätsziele in der Ausarbeitung waren, musste ein Verständnis für die Probleme, welche sich mit Continuous Deployment ergeben, erworben werden. Als Startpunkt wurde \cite{cd} verwendet. Die Begrifflichkeiten haben sich in der Zwischenzeit geändert und neue Technologien, wie die der Docker Container, erlauben heute andere Lösungsansätze. Daher galt es als erstes zu definieren was Continuous Deployment ist. Um sich ein Bild zu machen wurde dafür mittels Internet Recherche nach dem Begriff gesucht. Eine erste gute Definition fand sich unter \cite{atlassiancd} welche zusätzlich diverse Vorschläge für die Umsetzung enthielt. Auch der Blogeintrag von Thoughtworks \cite{thoughtcd} hatte wertvolle und zeitgemässere Informationen zum Thema. Nach gründlicher Studie der Einträge konnte die generelle Definition auf 'Software jederzeit und ohne Unterbruch des Diensts aktualisieren zu können' festgelegt werden. Für die Umwälzung auf eine Lösung ist die Definition sehr weit gefasst und wird teils verschieden verwendet wie die Internet Recherche gezeigt hat. Ein weiterer Begriff, welcher man im Zusammenhang mit Continuous Deployment antrifft, ist 'Zero Down Time' \footnote{Kann teils als Synonym für Continuous Deployment gesehen werden wobei der Begriff je nach Betrachtungsweise andere Implikationen hat.}. Das Erreichen einer hundertprozentigen Verfügbarkeit kann nicht alleine durch eine passende Software Architektur erreicht werden, da diese immer Abhängigkeiten zu anderen Komponenten wie Betriebssystem, Netzwerk etc. hat. Dafür muss die komplette Infrastruktur dementsprechend ausgelegt werden und auch dann ist der aktuelle Standard 'five nine', was einer Verfügbarkeit von 99.999\%, also einem jährlichen Unterbruch von ungefähr 10 Minuten, entspricht. Dies hat entsprechend hohe Kosten zur Folge welche sich nicht jede Firma leisten kann und auch nicht muss.\newline
+Schon während die Anforderungen und Qualitätsziele in der Ausarbeitung waren, musste ein Verständnis für die Probleme, welche sich mit Continuous Deployment ergeben, erworben werden. Als Startpunkt wurde \cite{cd} verwendet. Die Begrifflichkeiten haben sich in der Zwischenzeit geändert und neue Technologien, wie die der Docker Container, erlauben heute andere Lösungsansätze. Daher galt es als erstes zu definieren was Continuous Deployment ist. Um sich ein Bild zu machen wurde dafür mittels Internet Recherche nach dem Begriff gesucht. Eine erste gute Definition fand sich unter \cite{atlassiancd} welche zusätzlich diverse Vorschläge für die Umsetzung enthielt. Auch der Blogeintrag von Thoughtworks \cite{thoughtcd} hatte wertvolle und zeitgemässere Informationen zum Thema. Nach gründlicher Studie der Einträge konnte die generelle Definition auf, \textbf{Software jederzeit und ohne Unterbruch des Diensts aktualisieren zu können}, festgelegt werden. Für die Umwälzung auf eine Lösung ist die Definition sehr weit gefasst und wird teils verschieden verwendet wie die Internet Recherche gezeigt hat. Ein weiterer Begriff, welcher man im Zusammenhang mit Continuous Deployment antrifft, ist 'Zero Down Time' \footnote{Kann teils als Synonym für Continuous Deployment gesehen werden wobei der Begriff je nach Betrachtungsweise andere Implikationen hat.}. Das Erreichen einer hundertprozentigen Verfügbarkeit\footnote{Die \url{https://en.wikipedia.org/wiki/High_availability\#Percentage_calculation} zeigt die erlaubten Ausfallzeiten der einzelnen Verfügbarkeiten.}kann nicht alleine durch eine passende Software Architektur erreicht werden, da diese immer Abhängigkeiten zu anderen Komponenten wie Betriebssystem, Netzwerk etc. hat. Dies hat hohe Kosten zur Folge welche sich nicht jede Firma leisten kann respektive muss.\newline
 Nach dem die Begrifflichkeiten klar waren, musste das generell zu lösende Problem identifiziert werden. Bei der fortlaufenden Aktualisierung von Software gibt es immer einen Zeitpunkt bei welchem mehrere Versionen der Anwendung in Betrieb sind. Das folgende Diagramm veranschaulicht das Problem.
 \begin{figure}[H]
 	\centering
@@ -113,11 +113,11 @@ Ein möglichst grosser Lösungsraum an Varianten, wie er durch Recherchen, pers�
 
 \section{Erste Bewertung der Varianten}
 
-Nachdem für alle Teilprobleme verschiedene Lösungsvariaten definiert wurden, galt es diese zu bewerten um zu entscheiden für welche Prototypen erstellt werden sollten. Die Bewertung wurde zusammen mit dem Product Owner durchgeführt um eine zu einseitige Bewertung zu verhindern. Dabei wurde vor allem auf persönliche Erfahrung mit Technologien und logische Abschätzung gesetzt. Die Entscheidung einen Prototypen zu erstellen war einerseits die Verifikation ob die Lösungsvariante die Richtige ist respektive um Unklarheiten aus dem Weg zu räumen. Die Bewertungen finden sich in der Datei 'Bewertungsmatrix-v1.xslx'. 
+Nachdem für alle Teilprobleme verschiedene Lösungsvariaten definiert wurden, galt es diese zu bewerten um zu entscheiden für welche Prototypen erstellt werden sollten. Die Bewertung wurde zusammen mit dem Product Owner durchgeführt um eine zu einseitige Bewertung zu verhindern. Dabei wurde vor allem auf persönliche Erfahrung mit Technologien und logische Abschätzung gesetzt. Die Entscheidung einen Prototypen zu erstellen war einerseits die Verifikation ob die Lösungsvariante die Richtige ist respektive um Unklarheiten aus dem Weg zu räumen. Siehe dazu im Anhang MATRIX1.
 
 \subsection{Versionierung}
 
-Bei der Versionierung haben sich Content-Negotiation und die Versionierung mittels Pfad als gleichwertig herausgestellt. GraphQL als Variante konnte nur schwer bewertet werden, da der existierende Prototyp nicht wirklich aussagekräftig war. Aus diesem Grund wurde entschieden für GraphQL einen Prototypen zu erstellen um die Angemessenheit zu beweisen.
+Bei der Versionierung haben sich Content-Negotiation und die Versionierung mittels Pfad als gleichwertig herausgestellt. GraphQL als Variante konnte nur schwer bewertet werden, da der existierende Prototyp nicht wirklich aussagekräftig war. Aus diesem Grund wurde entschieden für GraphQL einen neuen Prototypen zu erstellen um die Angemessenheit zu beweisen.
 
 \subsection{Datenspeicherung}
 
@@ -128,7 +128,7 @@ Durch die Bewertung blieben nur MySQL und MongoDB übrig. Leider konnten für be
 
 \subsection{Konfigurationsmanagement}
 
-Docker Compose wurde bei einem Interview mit den Entwicklern als ungenügend dokumentiert und schwerfällig bezeichnet, weshalb es als künftige Variante nicht in Frage kommt. Die Docker Container selber wurden als angemessene Lösung empfunden und sollten deshalb, wenn möglich, weiterverwendet werden. Saltstack arbeitet generell mit anderen Konzepten als die jetzt verwendeten Container, was einen Einsatz nicht sinnvoll macht, obschon die Bewertung eher hoch ausgefallen ist. OpenShift, als Variante, hat eine schlechtere Bewertung als SaltStack, ist für die Firma mittlerweile aber von strategischer Bedeutung was Aussagen des Product Owner auch belegen. Daher ist eine Verwendung unumgänglich weil anderenfalls die Lösung unter die Kategorie 'Special Solutions' fällt und die Kosten dadurch selber getragen werden müssen. Für OpenShift mussten jedoch weitere Recherchen gemacht werden um den Einsatz besser abzuschätzen zu können. Die beste Bewertung hat Spring Cloud Config erhalten vor allem wegen des guten Know-hows und der Bekanntheit von Spring. Nichtsdestotrotz wurde entschieden ein Prototypen zu machen um die Funktionsweise verifizieren zu können.
+Docker Compose wurde bei einem Interview mit den Entwicklern als ungenügend dokumentiert und schwerfällig bezeichnet, weshalb es als künftige Variante nicht mehr verwendet werden soll. Die Docker Container selber wurden als angemessene Lösung empfunden und sollten deshalb, wenn möglich, weiterverwendet werden. Saltstack arbeitet generell mit anderen Konzepten als die jetzt verwendeten Container, was einen Einsatz nicht sinnvoll macht, obschon die Bewertung eher hoch ausgefallen ist. OpenShift, als Variante, hat eine schlechtere Bewertung als SaltStack, ist für die Firma mittlerweile aber von strategischer Bedeutung was Aussagen des Product Owner auch belegen. Daher ist eine Verwendung unumgänglich weil anderenfalls die Lösung unter die Kategorie 'Special Solutions' fällt und die Kosten dadurch selber getragen werden müssen. Für OpenShift mussten jedoch weitere Recherchen gemacht werden um den Einsatz besser abzuschätzen zu können. Die beste Bewertung hat Spring Cloud Config erhalten vor allem wegen des guten Know-hows und der Bekanntheit von Spring. Nichtsdestotrotz wurde entschieden ein Prototypen zu machen um die Funktionsweise verifizieren zu können.
 
 \subsection{Kommunikationsentkopplung}
 
@@ -158,7 +158,7 @@ Das folgenden Diagramm soll den Fall von 'Split Table' anhand von Klassen illust
 \newpage
 \subsubsection{MySQL}
 
-Das Team, welches bis jetzt die MEON Applikation entwickelt, hatte letztes Jahr ein Kurs zu FlywayDB mit deren Erfinder Axel Fontaine  welcher das Thema Continuous Deployment damals schon ansprach. Er hat dabei auf \cite{rd} verwiesen welche für alle Fälle eine passende Lösung hat. Darin sind die ausgewählten Fälle auf den Seiten 109-113 und 145-151 beschrieben. Das Beispiele Rename Column wurde kurzerhand umgesetzt um zu sehen wie dies bei MySQL funktioniert. Hierfür wird auf den Tabelle die Daten mittels Trigger in die jeweils andere kopiert und so sicher gestellt die Applikation mit verschiedenen Versionen zugreifen kann. Der folgende Codeausschnitt illustriert das Beispiel, welches mit Hilfe von \cite{mysqltrigger} erstellt wurde.
+Das Team, welches bis jetzt die MEON Applikation entwickelt, hatte letztes Jahr ein Kurs zu FlywayDB\footnote{Java Bibliothek welche das inkrementelle aktualisieren der Datenbank erlaubt. \url{https://flywaydb.org}} mit deren Erfinder Axel Fontaine  welcher das Thema Continuous Deployment damals schon ansprach. Er hat dabei auf \cite{rd} verwiesen welche für alle Fälle eine passende Lösung hat. Darin sind die ausgewählten Fälle auf den Seiten 109-113 und 145-151 beschrieben. Das Beispiele Rename Column wurde kurzerhand umgesetzt um zu sehen wie dies bei MySQL funktioniert. Hierfür wird auf den Tabelle die Daten mittels Trigger in die jeweils andere kopiert und so sicher gestellt die Applikation mit verschiedenen Versionen zugreifen kann. Der folgende Codeausschnitt illustriert das Beispiel, welches mit Hilfe von \cite{mysqltrigger} erstellt wurde.
 
 \begin{lstlisting}[language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=left, numberstyle=\tiny, commentstyle=\color{gray}]
 
@@ -167,7 +167,7 @@ DROP TRIGGER IF EXISTS up_lastname;
 
 DELIMITER $$
 
-create trigger ins_lastname BEFORE INSERT on t_person 
+create trigger ins_lastname BEFORE INSERT on T_PERSON
 	for EACH ROW
 	BEGIN
 		IF new.last_name is not null then
@@ -177,7 +177,7 @@ create trigger ins_lastname BEFORE INSERT on t_person
 		end if;
 	END $$
 
-create trigger up_lastname BEFORE UPDATE on t_person
+create trigger up_lastname BEFORE UPDATE on T_PERSON
 	for EACH ROW
 	BEGIN
 		IF new.last_name is not null then
@@ -356,14 +356,14 @@ Mit der Verwendung von MongoDB für die Speicherung der Daten auf dem Onboarding
 
 Als letzten Punkt ist es wichtig zu verstehen wie MongoDB mit Transaktionen umgeht und die Daten im Replica Set verteilt werden. Alle Angaben dazu finden sich in der Dokumentation \cite{wirteconcern} und wurden, zum Anwendungsfall passend, beschrieben.
 
-\subsection{Proof of Concept}
+\subsection{Finaler Prototyp}
 
 Die einzelnen Prototypen haben gezeigt, dass die Architektur in der vorgeschlagenen Form umgesetzt werden kann. Da vor allem die OpenShift Plattform für alle Entwickler neu ist und die im Projektplan aufgeführte Reserve nicht gebraucht wurde, hat man sich entschieden, einen Proof of Concept zu machen. Dadurch konnte ein vertiefter Einblick in Verwendung der Plattform gewonnen und eventuell bis jetzt übersehene Probleme aufgedeckt werden. Dies auch mit dem Hintergrund, dass die Plattform aktuell nur auf Testservern installiert ist und die finale Installation noch ausstehend ist. Ein weiterer Punkt ist, dass auf höherer Ebene entschieden wurde die ganze MEON Applikation als erste Anwendung produktiv auf OpenShift auszurollen.\newline\newline
 Der Prototyp wurde aufgrund des Testserversetups im Vergleich zur Installation, welche im SAD Kapitel 8 beschrieben ist, vereinfacht. Die folgende Darstellung zeigt den Aufbau.
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.60]{PrototypDeployment.png}
-	\caption{Verteilungssicht Proof of Concept}
+	\includegraphics[scale=0.52]{PrototypDeployment.png}
+	\caption{Verteilungssicht finaler Prototyp}
 \end{figure}
 Die Prototypen wurden bis anhin sehr einfach gehalten. Für den Proof of Concept war es nötig gewisse Vorarbeiten zu erledigen. Dafür wurde die Hilfe eines OpenShift Administrators in Anspruch genommen um erste Teile zu erledigen.\newline
 Zuerst musste ein neues OpenShift Projekt angelegt werden um die Container auszurollen. Dies wurde einfach über die Web Oberfläche der Plattform erledigt.

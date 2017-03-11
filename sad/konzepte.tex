@@ -60,7 +60,7 @@ Serverseitig spricht man bei Services von Klassen welche Business Logik ausführ
 \subsection{Router}
 
 Für die Navigation zwischen den verschiedenen Web Interface Teilen, wird in AngularJS das Konzept der Router verwendet. Sie definieren die Übergänge zwischen den einzelnen Seiten.
-
+\newpage
 \section{Ausnahme- und Fehlerbehandlung}
 
 Das Applikation hat diverse Schnittstellen zu internen und externen System. Generell wird dabei zwischen zwei Fehlern unterschieden:
@@ -161,9 +161,8 @@ Da aktuell als Datenbank MySQL verwendet wird, muss eine Migration nach MongoDB 
 \subsection{Datenspeicherung}
 Für die Speicherung der Daten wird die \textit{\gls{NoSQL}} Datenbank MongoDB eingesetzt. Anstelle von Tabellen mit einem definierten Schema, werden Dokumente verwendet welche schemalos sind. Dadurch können mehrere Versionen desselben Dokumentes in der Datenbank gespeichert werden. Der Treiber für MongoDB wird beim Mapping nicht vorhandener Attribute, welche sich im Dokument, jedoch nicht auf der Klasse befinden, nicht umwandeln.\newline
 Dokumentenklassen in Java müssen ein Attribut haben welches die Version des Dokumentes widerspiegelt. Die Nummer ist bei jeder Änderung der Klasse anzupassen. Dadurch können bei einer Migration die entsprechenden Serviceklassen die Daten gemäss des neuen Dokumentes speichern.
-
+\newpage
 \subsection{Ausfallsicherheit}
-
 Um Ausfallsicherheit zu gewährleisten wird ein Replica Set für die MongoDB aufgebaut. Dabei werden alle Schreiboperationen an den Primary des Set delegiert. Die Replication auf die Secondaries geschieht asynchron. Die folgende Darstellung zeigt den Aufbau:
 \begin{figure}[H]
 	\centering
@@ -175,7 +174,7 @@ Im Falle eins Problems mit dem Primary initiieren die Secondaries eine Wahl wer 
 \section{Plausibilisierung und Validierung}
 
 Auf dem Formular des Web Interfaces sollen Daten wie Händlername via des Unternehmensindentifikationservices des Bundes sowie die Adressen mittels der Services der Post überprüft werden. Angaben, welcher der Händler machen muss, sind entsprechend gekennzeichnet und führen zu einem Fehler falls sie nicht validiert werden können. Der hochgeladene Handelsregisterauszug wird auf der Workflow Engine nochmals mit den, vom Händler eingegebenen Daten abgeglichen.
-
+\newpage
 \section{Sessionbehandlung}
 
 Die Applikation hat ein einmaliges Sessionhandling während der Registrierung eines neuen Händlers. Nach dem ersten Schritt der Registrierung wird ein \textit{\gls{MTAN}} Code und eine Link mittels Mail an den Händer verschickt. Nach dem Klick auf den Link und er korrekten Eingabe des Codes hat der Händler 30 Minuten Zeit um den Prozess abzuschliessen.

@@ -106,7 +106,7 @@ Anhand des Registrierungsintefaces soll der generelle Aufbau illustriert werden.
 \section{Ebene 2 : RegistrationServices}
 \label{reg-service}
 
-Der Registrierungsservice kümmert sich um die Aufbereitung der Daten für die Workflow Engine sowie die Übertragung der Daten. Er verwendet den SMS- und dem MailService um Nachrichten an den Händler zu schicken. Nach der Bestätigung des Benutzers, durch den \textit{\gls{MTAN}} Code, speichert er die Daten in der Datenbank. Der SchedulerService prüft regelmässig, ob neue Registierungen pendent sind, und sendet sie an die \textit{\gls{BPM}} Engine. Sollte bei der Kommunikation ein Fehler auftreten, wird zu einem späteren Zeitpunkt nochmals versucht die Daten an den Workflow zu schicken. {\color{red} Wie lange geht das ?}
+Der Registrierungsservice kümmert sich um die Aufbereitung der Daten für die Workflow Engine sowie die Übertragung der Daten. Er verwendet den SMS- und dem MailService um Nachrichten an den Händler zu schicken. Nach der Bestätigung des Benutzers, durch den \textit{\gls{MTAN}} Code, speichert er die Daten in der Datenbank. Der SchedulerService prüft regelmässig, ob neue Registierungen pendent sind, und sendet sie an die \textit{\gls{BPM}} Engine. Sollte bei der Kommunikation ein Fehler auftreten, wird zu einem späteren Zeitpunkt nochmals versucht die Daten an den Workflow zu schicken. Das Zeitintervall und die Anzahl der gesendeten Anfragen kann konfiguriert werden.
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.65]{RegistrationServicesLevel2.png}
