@@ -35,8 +35,8 @@ Die Anpassung der Architektur in Richtung Continuous Deployment hat nur nicht fu
 		\textbf{ID} & \textbf{Beschreibung} \\
 		\midrule
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Händler merkt nicht wenn neue Komponenten der Applikation ausgetauscht werden. \\ \hline
-		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Verfügbarkeit der Frontend-Anwendung ist 24x7 (SLA). \\ \hline
-		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Einhaltung der PCI DSS Anforderung bezüglich Umgang mit Daten resp. deren Zugriffsschutz durch Authentifizierung, Autorisierung und Netzwerksegmentierung. \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Verfügbarkeit der Frontend-Anwendung ist 24x7. \\ \hline
+		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Einhaltung der \textit{\gls{PCI}} Anforderung bezüglich Umgang mit Daten resp. deren Zugriffsschutz durch Authentifizierung, Autorisierung und Netzwerksegmentierung. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Applikation muss horizontal skalierbar sein. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Die Anwendung muss eine hohe Ausfallsicherheit für Server und die Datenbank aufweisen. \\ \hline
 		NFA-\arabic{nonFuncReq} \stepcounter{nonFuncReq} & Bugfixing geschieht mittels vorwärts committen, anstelle von Hotfixes wird immer die ganze Applikation neu ausgerollt. \\ \hline
@@ -56,10 +56,10 @@ Die Anpassung der Architektur in Richtung Continuous Deployment hat nur nicht fu
 		\midrule
 		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Das Web Interface hat eine einfache zu bedienende Oberfläche welche in bei der Eingabe der geforderten Daten, Adresse, Unternehmensidentifikation, Handelsregisterauszug, unterstützt. \\ \hline
 		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Der neue Händler kann zwischen mehreren Terminal Varianten wählen.\\ \hline
-		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Der Registrierungsprozess hat zwei Stati. Im ersten Schritt gibt der neue Händler seine Kontaktdaten an worauf eine Mail mit einem Link verschickt wird. Der Link ist vier Wochen gültig damit der Händler die geforderten Dokumente liefern kann. Nach dem Klick auf den Link wird mittels MTAN verifiziert, dass es sich um den Händler handelt welche sich zuvor schon angemeldet hat. Nach Eingabe der MTAN hat der Händler weitere 30 Minuten Zeit die Registration abzuschliessen.\\ \hline
+		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Der Registrierungsprozess hat zwei Stati. Im ersten Schritt gibt der neue Händler seine Kontaktdaten an worauf eine Mail mit einem Link verschickt wird. Der Link ist vier Wochen gültig damit der Händler die geforderten Dokumente liefern kann. Nach dem Klick auf den Link wird mittels \textit{\gls{MTAN}} verifiziert, dass es sich um den Händler handelt welche sich zuvor schon angemeldet hat. Nach Eingabe der \textit{\gls{MTAN}} hat der Händler weitere 30 Minuten Zeit die Registration abzuschliessen.\\ \hline
 		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Nach erfolgter Registrierung, erstellt die Applikation alle nötigen Einträge auf den Umsystemen welche für die Verarbeitung von Zahlungen des neuen Händlers notwendig sind.\\ \hline
 		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Die Anwendung verfügt über Mechanismen zu Ausfallsicherheit.\\ \hline
-		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Politisch exponierte Personen (PEP) müssen geprüft werden. Sollte es sich bei einem neuen Händler um eine solche Person handeln, ist der Prozess zu unterbrechen bis das Risk Management die Weiterverarbeitung genehmigt oder abbricht.\\ 
+		UFA-\arabic{impFuncReq} \stepcounter{impFuncReq} & Politisch exponierte Personen (\textit{\gls{PEP}}) müssen geprüft werden. Sollte es sich bei einem neuen Händler um eine solche Person handeln, ist der Prozess zu unterbrechen bis das Risk Management die Weiterverarbeitung genehmigt oder abbricht.\\ 
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -100,7 +100,7 @@ Die folgende Tabelle zeigt die wichtigsten Qualitätsziele. Die Szenarien zu den
 		\toprule
 		{\textbf{ID}} & {\textbf{Beschreibung}} & {\textbf{Anforderung}}\\
 		\midrule
-		Q-\arabic{quatar} \stepcounter{quatar} & Der Zugriff auf sensitive Daten (PCI) darf nicht möglich sein. & NFA-3\\ \hline
+		Q-\arabic{quatar} \stepcounter{quatar} & Der Zugriff auf sensitive Daten (\textit{\gls{PCI}}) darf nicht möglich sein. & NFA-3\\ \hline
 		Q-\arabic{quatar} \stepcounter{quatar} & Anpassungen an der Software sollen schnell eingeführt werden können. & NFA-6, NFA-7\\ \hline
 		Q-\arabic{quatar} \stepcounter{quatar} & Die Applikation soll ohne Unterbrechung des Dienstes installiert werden können. & NFA-1\\ \hline
 		Q-\arabic{quatar} \stepcounter{quatar} & Der Händler soll sich, bei korrektem Ausfüllen der Daten, registrieren können. & NFA-2, NFA-5 \\ \hline

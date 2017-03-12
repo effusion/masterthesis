@@ -4,7 +4,7 @@
 \label{deploy}
 
 \section{Aufbau}
-Die Software wird auf der neu, aktuell im Aufbau befindenden, Containerplattform OpenShift installiert. Das genaue Deployment des Clusters ist aufgrund von Abklärungen betreffend PCI DSS Compliance noch nicht abschliessend definiert. Konzeptionell ändert sich jedoch für die Applikation nichts, da der Aufbau der Umgebung für diese transparent ist.
+Die Software wird auf der neu, aktuell im Aufbau befindenden, Containerplattform OpenShift installiert. Das genaue Deployment des Clusters ist aufgrund von Abklärungen betreffend \textit{\gls{PCI}} DSS Compliance noch nicht abschliessend definiert. Konzeptionell ändert sich jedoch für die Applikation nichts, da der Aufbau der Umgebung für diese transparent ist.
 OpenShift verwendet diverse Konzepte welche kurz erläutert werden und sich im Diagramm im Kapitel \ref{deploy-dia} wieder finden. Im Kapitel \ref{config} finden sich sämtliche Informationen im Bezug auf die Konfiguration.
 
 \subsection{Container und Pods}
@@ -30,7 +30,7 @@ In der Verteilungssicht gibt es folgende Komponenten:\newline
 	\item Grün sind OpenShift Services welche die Schnittstellen zwischen den einzelnen Teilen der gesamten Applikation verbinden.
 	\item Blau sind Teile welche für die Datenspeicherung verwendet werden. Es handelt sich dabei um ein Replica Set von MongoDB. Mehr Informationen zur Persistenz finden sich im Kapitel \ref{persistenz}.
 \end{itemize}
-Aus Compliance-Gründen befindet sich die Workflow Engine sowie die Config Server in einer separaten, durch eine Firewall getrennten Zone innerhalb des Clusters. Da die Workflow Engine auf Dienste mit Kreditkartendaten zugreifen muss, fällt die Komponente automatisch unter die gleichen PCI DSS Regeln. 
+Aus Compliance-Gründen befindet sich die Workflow Engine sowie die Config Server in einer separaten, durch eine Firewall getrennten Zone innerhalb des Clusters. Da die Workflow Engine auf Dienste mit Kreditkartendaten zugreifen muss, fällt die Komponente automatisch unter die gleichen \textit{\gls{PCI}} DSS Regeln. 
 
 \section{Installation}
 
